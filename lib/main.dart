@@ -1,24 +1,25 @@
+import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/screen/home.dart';
 import 'package:app_well_mate/screen/login.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+ColorScheme colorScheme = ColorScheme(
+    brightness: Brightness.light,
+    primary: const Color(0xFF6B94FF),
+    onPrimary: const Color(0xFFFFFFFF),
+    secondary: const Color(0xFFA8C5FD),
+    onSecondary: const Color(0xFF000000),
+    error: AppColor.red,  
+    onError: const Color(0xFF000000),
+    surface: const Color(0xFFFFFFFF),
+    onSurface: const Color(0xFF000000),
+    surfaceDim: const Color(0xFFF2F2F2));
 
 void main() {
   runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {
-  final ColorScheme colorScheme = const ColorScheme(
-      brightness: Brightness.light,
-      primary: Color(0xFF6B94FF),
-      onPrimary: Color(0xFFFFFFFF),
-      secondary: Color(0xFFA8C5FD),
-      onSecondary: Color(0xFF000000),
-      error: Color(0xFFFF7D7D),
-      onError: Color(0xFF000000),
-      surface: Color(0xFFFFFFFF),
-      onSurface: Color(0xFF000000),
-      surfaceDim: Color(0xFFF2F2F2));
   const MainApp({super.key});
   @override
   Widget build(BuildContext context) {
