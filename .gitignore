@@ -1,0 +1,142 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+
+# Miscellaneous
+*.class
+*.lock
+*.log
+*.pyc
+*.swp
+*.DS_Store
+*.swo
+*.swn
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# VS Code related
+.vscode/
+*.code-workspace
+
+# Flutter/Dart/Pub related
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+build/
+coverage/
+.idea/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+build/
+coverage/
+.melos_tool/
+.melody.json
+.melody.yaml
+android/key.properties
+ios/Flutter/Generated.xcconfig
+macos/Flutter/Generated.xcconfig
+windows/Flutter/GeneratedPluginRegistrant.h
+windows/Flutter/GeneratedPluginRegistrant.cpp
+
+# Firebase related
+ios/Runner/GoogleService-Info.plist
+android/app/google-services.json
+
+# Web related
+web/manifest.json
+web/firebase-messaging-sw.js
+
+# Ignore these files for Android builds
+android/.gradle
+android/app/build
+android/local.properties
+android/app/proguard-rules.pro
+android/gradle/wrapper/gradle-wrapper.properties
+
+# Ignore these files for iOS builds
+ios/Flutter/Flutter.podspec
+ios/Flutter/App.framework
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Pods/
+ios/Runner.xcworkspace
+ios/build/
+
+# Ignore these files for MacOS builds
+macos/Flutter/ephemeral
+macos/build/
+
+# Ignore these files for Windows builds
+windows/Flutter/ephemeral
+windows/build/
+
+# Ignore these files for Linux builds
+linux/Flutter/ephemeral
+linux/build/
+
+# Ignore these files for Web builds
+web/.dart_tool/
+web/build/
+
+# Package-specific ignores
+.pump/
+.melody.yaml
+
+# User-specific files
+.user/
+*.user
+
+# Flutter assets
+.asset/
+
+# Ignore test coverage reports
+coverage/
