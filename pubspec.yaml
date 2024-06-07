@@ -10,6 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^1.0.0
+  google_fonts: ^6.2.1
+  material_symbols_icons: ^4.2758.0
   smooth_page_indicator: ^1.1.0
 
 dev_dependencies:
