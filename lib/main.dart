@@ -3,6 +3,7 @@ import 'package:app_well_mate/screen/home.dart';
 import 'package:app_well_mate/screen/login.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:material_symbols_icons/symbols.dart';
 ColorScheme colorScheme = ColorScheme(
     brightness: Brightness.light,
     primary: const Color(0xFF6B94FF),
@@ -109,12 +110,26 @@ class MainApp extends StatelessWidget {
             elevation: 5,
             iconSize: 32,
             shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(60)))
+          ),
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            unselectedIconTheme: IconThemeData(color: colorScheme.onSurface),
+            selectedIconTheme: IconThemeData(color: colorScheme.primary),
+            showUnselectedLabels: false,
+            showSelectedLabels: false,
+            type: BottomNavigationBarType.fixed
           )
           ),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: () {}, child: Icon(Icons.add),),
-        appBar: AppBar(title: Text("Home"), scrolledUnderElevation: 0,),
+        bottomNavigationBar: BottomNavigationBar(
+          items: [
+            BottomNavigationBarItem(icon: Icon(Symbols.home_rounded), label: "Trang chủ"),
+            BottomNavigationBarItem(icon: Icon(Symbols.search_rounded), label: "Tìm kiếm"),
+            BottomNavigationBarItem(icon: Icon(Symbols.camera_alt_rounded), label: "Tìm kiếm", ),
+            BottomNavigationBarItem(icon: Icon(Symbols.pill), label: "Tìm kiếm"),
+            BottomNavigationBarItem(icon: Icon(Symbols.face_6), label: "Tìm kiếm"),
+          ],
+        ),
         body: Center(
           child: Home(),
         ),
