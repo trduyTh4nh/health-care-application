@@ -33,6 +33,94 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        theme: ThemeData(
+            colorScheme: colorScheme,
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all(colorScheme.primary),
+                  foregroundColor:
+                      WidgetStateProperty.all(colorScheme.onPrimary),
+                  shape: WidgetStateProperty.all(const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16)))),
+                  minimumSize: WidgetStateProperty.all(Size(40, 50)),
+                  elevation: WidgetStateProperty.resolveWith((state) {
+                    if (state.contains(WidgetState.pressed)) {
+                      return 5;
+                    }
+                    return 0;
+                  })),
+            ),
+            filledButtonTheme: FilledButtonThemeData(
+                style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all(colorScheme.surfaceDim),
+              foregroundColor: WidgetStateProperty.all(colorScheme.onSurface),
+              minimumSize: WidgetStateProperty.all(const Size(40, 50)),
+              shape: WidgetStateProperty.all(const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16)))),
+            )),
+            textButtonTheme: TextButtonThemeData(
+                style: ButtonStyle(
+              shape: WidgetStateProperty.all(const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(16)))),
+              minimumSize: WidgetStateProperty.all(const Size(40, 50)),
+            )),
+            textTheme: TextTheme(
+                bodyLarge: GoogleFonts.inter(fontSize: 16),
+                bodyMedium: GoogleFonts.inter(fontSize: 14),
+                bodySmall: GoogleFonts.inter(fontSize: 12),
+                displayLarge: GoogleFonts.inter(
+                    fontSize: 54, fontWeight: FontWeight.bold),
+                displayMedium: GoogleFonts.inter(
+                    fontSize: 46, fontWeight: FontWeight.bold),
+                displaySmall: GoogleFonts.inter(
+                    fontSize: 32, fontWeight: FontWeight.bold),
+                headlineLarge: GoogleFonts.inter(
+                    fontSize: 28, fontWeight: FontWeight.bold),
+                headlineMedium: GoogleFonts.inter(
+                  fontSize: 24,
+                ),
+                headlineSmall: GoogleFonts.inter(
+                  fontSize: 20,
+                ),
+                labelLarge: GoogleFonts.inter(fontSize: 16),
+                labelMedium: GoogleFonts.inter(fontSize: 14),
+                labelSmall: GoogleFonts.inter(fontSize: 12),
+                titleLarge: GoogleFonts.inter(fontWeight: FontWeight.bold),
+                titleMedium: GoogleFonts.inter(fontWeight: FontWeight.bold),
+                titleSmall: GoogleFonts.inter(fontWeight: FontWeight.bold)),
+            floatingActionButtonTheme: FloatingActionButtonThemeData(
+                backgroundColor: colorScheme.surface,
+                foregroundColor: colorScheme.onSurface,
+                elevation: 5,
+                iconSize: 32,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(60)))),
+            bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                unselectedIconTheme:
+                    IconThemeData(color: colorScheme.onSurface),
+                selectedIconTheme: IconThemeData(color: colorScheme.primary),
+                showUnselectedLabels: false,
+                showSelectedLabels: false,
+                type: BottomNavigationBarType.fixed),
+            actionIconTheme: ActionIconThemeData(
+              backButtonIconBuilder: (context) => const Icon(Icons.arrow_back_ios_new, size: 16,),
+            )),
+        debugShowCheckedModeBanner: false,
+        home: const Login());
+  }
+}
+
+class AppPage extends StatefulWidget {
+  const AppPage({super.key});
+
+  @override
+  State<AppPage> createState() => _AppPageState();
+}
+
+class _AppPageState extends State<AppPage> {
   int _selectedPage = 1;
   final List<Widget> _pages = [
     const Home(),
@@ -50,76 +138,9 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-          colorScheme: colorScheme,
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(colorScheme.primary),
-                foregroundColor: WidgetStateProperty.all(colorScheme.onPrimary),
-                shape: WidgetStateProperty.all(const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16)))),
-                minimumSize: WidgetStateProperty.all(Size(40, 50)),
-                elevation: WidgetStateProperty.resolveWith((state) {
-                  if (state.contains(WidgetState.pressed)) {
-                    return 5;
-                  }
-                  return 0;
-                })),
-          ),
-          filledButtonTheme: FilledButtonThemeData(
-              style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(colorScheme.surfaceDim),
-            foregroundColor: WidgetStateProperty.all(colorScheme.onSurface),
-            minimumSize: WidgetStateProperty.all(const Size(40, 50)),
-            shape: WidgetStateProperty.all(const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16)))),
-          )),
-          textButtonTheme: TextButtonThemeData(
-              style: ButtonStyle(
-            shape: WidgetStateProperty.all(const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16)))),
-            minimumSize: WidgetStateProperty.all(const Size(40, 50)),
-          )),
-          textTheme: TextTheme(
-              bodyLarge: GoogleFonts.inter(fontSize: 16),
-              bodyMedium: GoogleFonts.inter(fontSize: 14),
-              bodySmall: GoogleFonts.inter(fontSize: 12),
-              displayLarge:
-                  GoogleFonts.inter(fontSize: 54, fontWeight: FontWeight.bold),
-              displayMedium:
-                  GoogleFonts.inter(fontSize: 46, fontWeight: FontWeight.bold),
-              displaySmall:
-                  GoogleFonts.inter(fontSize: 32, fontWeight: FontWeight.bold),
-              headlineLarge:
-                  GoogleFonts.inter(fontSize: 28, fontWeight: FontWeight.bold),
-              headlineMedium: GoogleFonts.inter(
-                fontSize: 24,
-              ),
-              headlineSmall: GoogleFonts.inter(
-                fontSize: 20,
-              ),
-              labelLarge: GoogleFonts.inter(fontSize: 16),
-              labelMedium: GoogleFonts.inter(fontSize: 14),
-              labelSmall: GoogleFonts.inter(fontSize: 12),
-              titleLarge: GoogleFonts.inter(fontWeight: FontWeight.bold),
-              titleMedium: GoogleFonts.inter(fontWeight: FontWeight.bold),
-              titleSmall: GoogleFonts.inter(fontWeight: FontWeight.bold)),
-          floatingActionButtonTheme: FloatingActionButtonThemeData(
-              backgroundColor: colorScheme.surface,
-              foregroundColor: colorScheme.onSurface,
-              elevation: 5,
-              iconSize: 32,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(60)))),
-          bottomNavigationBarTheme: BottomNavigationBarThemeData(
-              unselectedIconTheme: IconThemeData(color: colorScheme.onSurface),
-              selectedIconTheme: IconThemeData(color: colorScheme.primary),
-              showUnselectedLabels: false,
-              showSelectedLabels: false,
-              type: BottomNavigationBarType.fixed)),
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
