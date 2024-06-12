@@ -139,7 +139,7 @@ class _SearchPageState extends State<SearchPage> {
                         child: TextButton(
                           child: Text(
                             recentDisease[index],
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            style: Theme.of(context).textTheme.bodyMedium!,
                           ),
                           onPressed: () {
                             setState(() {
