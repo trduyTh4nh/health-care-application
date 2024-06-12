@@ -4,6 +4,7 @@ import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug.dart';
+import 'package:app_well_mate/screen/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -28,6 +29,10 @@ class _HomeState extends State<Home> {
           quantity: Random().nextInt(100),
           userQuantity: Random().nextInt(100)));
   @override
+  void initState() {
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     List<Drug> expiredDrugs =
         mockData.where((e) => e.dueTime!.hour >= TimeOfDay.now().hour).toList();
@@ -36,6 +41,19 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         //IMPORTANT: Tắt nút back cho appBar
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const NotificationPage()));
+              },
+              icon: const Icon(
+                Symbols.notifications,
+                size: 24,
+              ))
+        ],
         automaticallyImplyLeading: false,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
