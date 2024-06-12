@@ -47,7 +47,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               height: 10,
             ),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: InkWell(
@@ -79,7 +79,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                         ),
                         Padding(
                             padding: EdgeInsets.zero,
-                            child: Text("Gọi điện bác sĩ khẩn cấp",
+                            child: Text("Gọi điện khẩn cấp",
                                 textAlign: TextAlign.center,
                                 style: Theme.of(context).textTheme.labelSmall))
                       ],
@@ -188,85 +188,103 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
             SizedBox(
               height: 12,
             ),
-            Expanded(
+            Container(
                 child: InkWell(
               onTap: () {},
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(Symbols.pill),
-                  SizedBox(width: 16),
-                  Text("Quản lý thuốc "),
-                ],
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(Symbols.pill),
+                    SizedBox(width: 16),
+                    Text("Quản lý thuốc "),
+                  ],
+                ),
+              ),
+            )),
+            const Divider(),
+            Container(
+                child: InkWell(
+              onTap: () {},
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset('assets/images/settings_alert.svg'),
+                    const SizedBox(width: 16),
+                    const Text("Chỉnh sửa tài khoản"),
+                  ],
+                ),
+              ),
+            )),
+            const Divider(),
+            Container(
+                child: InkWell(
+              onTap: () {},
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset('assets/images/encrypted.svg'),
+                    const SizedBox(width: 16),
+                    const Text("Đổi mật khẩu"),
+                  ],
+                ),
               ),
             )),
             Divider(),
-            Expanded(
+            Container(
                 child: InkWell(
               onTap: () {},
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SvgPicture.asset('assets/images/settings_alert.svg'),
-                  SizedBox(width: 16),
-                  Text("Chỉnh sửa tài khoản"),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset('assets/images/delete.svg'),
+                    const SizedBox(width: 16),
+                    const Text("Xóa tài khoản"),
+                  ],
+                ),
               ),
             )),
             Divider(),
-            Expanded(
+            Container(
                 child: InkWell(
               onTap: () {},
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SvgPicture.asset('assets/images/encrypted.svg'),
-                  SizedBox(width: 16),
-                  Text("Đổi mật khẩu"),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset('assets/images/policy.svg'),
+                    const SizedBox(width: 16),
+                    const Text("Chính sách và hỗ trợ"),
+                  ],
+                ),
               ),
             )),
-            Divider(),
-            Expanded(
+            const Divider(),
+            Container(
                 child: InkWell(
               onTap: () {},
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SvgPicture.asset('assets/images/delete.svg'),
-                  SizedBox(width: 16),
-                  Text("Xóa tài khoản"),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset('assets/images/info.svg'),
+                    const SizedBox(width: 16),
+                    const Text("Thông tin ứng dụng"),
+                  ],
+                ),
               ),
             )),
-            Divider(),
-            Expanded(
-                child: InkWell(
-              onTap: () {},
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SvgPicture.asset('assets/images/policy.svg'),
-                  SizedBox(width: 16),
-                  Text("Chính sách và hỗ trợ"),
-                ],
-              ),
-            )),
-            Divider(),
-            Expanded(
-                child: InkWell(
-              onTap: () {},
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SvgPicture.asset('assets/images/info.svg'),
-                  SizedBox(width: 16),
-                  Text("Thông tin ứng dụng"),
-                ],
-              ),
-            )),
-            Divider(),
-            Expanded(
+            const Divider(),
+            Container(
                 child: InkWell(
               onTap: () {
                 Navigator.push(
@@ -275,13 +293,16 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                       builder: (context) => const Login(),
                     ));
               },
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SvgPicture.asset('assets/images/move_item.svg'),
-                  SizedBox(width: 16),
-                  Text("Đăng xuất"),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset('assets/images/move_item.svg'),
+                    const SizedBox(width: 16),
+                    const Text("Đăng xuất"),
+                  ],
+                ),
               ),
             )),
           ],
