@@ -5,6 +5,7 @@ import 'package:app_well_mate/screen/medication.dart';
 import 'package:app_well_mate/screen/profile.dart';
 import 'package:app_well_mate/screen/scan.dart';
 import 'package:app_well_mate/screen/search.dart';
+import 'package:app_well_mate/screen/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -53,6 +54,9 @@ class _MainAppState extends State<MainApp> {
                     return 0;
                   })),
             ),
+            iconButtonTheme: IconButtonThemeData(
+                style: ButtonStyle(
+                    padding: WidgetStateProperty.all(EdgeInsets.all(16)))),
             filledButtonTheme: FilledButtonThemeData(
                 style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(colorScheme.surfaceDim),
@@ -68,7 +72,10 @@ class _MainAppState extends State<MainApp> {
               minimumSize: WidgetStateProperty.all(const Size(40, 50)),
             )),
             textTheme: TextTheme(
-                bodyLarge: GoogleFonts.inter(fontSize: 16),
+                bodyLarge: GoogleFonts.inter(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0),
                 bodyMedium: GoogleFonts.inter(fontSize: 14),
                 bodySmall: GoogleFonts.inter(fontSize: 12),
                 displayLarge: GoogleFonts.inter(
@@ -130,7 +137,8 @@ class _AppPageState extends State<AppPage> {
     const SearchPage(),
     const ScanPage(),
     const MedicationPage(),
-    const ProfilePage(),
+    const Thongtincanhan(),
+    const ThemeScreen()
   ];
 
   void _onTap(index) {
@@ -152,12 +160,14 @@ class _AppPageState extends State<AppPage> {
                 icon: Icon(Symbols.search_rounded), label: "Tìm kiếm"),
             BottomNavigationBarItem(
               icon: Icon(Symbols.camera_alt_rounded),
-              label: "Tìm kiếm",
+              label: "Quét QR",
             ),
             BottomNavigationBarItem(
-                icon: Icon(Symbols.pill), label: "Tìm kiếm"),
+                icon: Icon(Symbols.pill), label: "Lịch uống thuốc"),
             BottomNavigationBarItem(
-                icon: Icon(Symbols.face_6), label: "Tìm kiếm"),
+                icon: Icon(Symbols.face_6), label: "Cài đặt"),
+            // BottomNavigationBarItem(
+            //     icon: Icon(Symbols.brush), label: "debug"),
           ],
           currentIndex: _selectedPage,
           onTap: _onTap,

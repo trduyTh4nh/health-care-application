@@ -40,7 +40,6 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
             Container(
               child: SvgPicture.asset('assets/images/login_picture.svg'),
               alignment: Alignment.center,
-              width: double.infinity,
               padding: const EdgeInsets.fromLTRB(0, 48, 0, 0),
             ),
             const SizedBox(
