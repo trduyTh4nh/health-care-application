@@ -53,6 +53,9 @@ class _MainAppState extends State<MainApp> {
                     return 0;
                   })),
             ),
+            iconButtonTheme: IconButtonThemeData(style: ButtonStyle(
+              padding: WidgetStateProperty.all(EdgeInsets.all(16))
+            )),
             filledButtonTheme: FilledButtonThemeData(
                 style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(colorScheme.surfaceDim),

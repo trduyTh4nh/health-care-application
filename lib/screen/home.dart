@@ -1,4 +1,5 @@
 import 'package:app_well_mate/components/shotcut.dart';
+import 'package:app_well_mate/screen/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -11,10 +12,27 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   @override
+  void initState() {
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         //IMPORTANT: Tắt nút back cho appBar
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const NotificationPage()));
+              },
+              icon: const Icon(
+                Symbols.notifications,
+                size: 24,
+              ))
+        ],
         automaticallyImplyLeading: false,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,7 +56,6 @@ class _HomeState extends State<Home> {
             )
           ],
         ),
-        
       ),
       body: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
