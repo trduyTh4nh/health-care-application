@@ -106,7 +106,10 @@ class _MainAppState extends State<MainApp> {
                 showSelectedLabels: false,
                 type: BottomNavigationBarType.fixed),
             actionIconTheme: ActionIconThemeData(
-              backButtonIconBuilder: (context) => const Icon(Icons.arrow_back_ios_new, size: 16,),
+              backButtonIconBuilder: (context) => const Icon(
+                Icons.arrow_back_ios_new,
+                size: 16,
+              ),
             )),
         debugShowCheckedModeBanner: false,
         home: const Login());
@@ -127,7 +130,7 @@ class _AppPageState extends State<AppPage> {
     const SearchPage(),
     const ScanPage(),
     const MedicationPage(),
-    const ProfilePage(),
+    const Thongtincanhan(),
   ];
 
   void _onTap(index) {
