@@ -12,6 +12,7 @@ class _UserManagementAdminState extends State<UserManagementAdmin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text("Quản lý người dùng"),
       ),
     );

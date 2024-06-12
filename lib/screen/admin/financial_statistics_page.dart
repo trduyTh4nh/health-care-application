@@ -13,6 +13,7 @@ class _financial_statisticsPageState extends State<FinancialStatisticsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text("Thống kê tài chính"),
       ),
     );
