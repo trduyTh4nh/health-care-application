@@ -117,6 +117,7 @@ class _MainAppState extends State<MainApp> {
                 Icons.arrow_back_ios_new,
                 size: 16,
               ),
+
             ),
             popupMenuTheme: const PopupMenuThemeData(
               elevation: 50,
@@ -147,7 +148,7 @@ class _AppPageState extends State<AppPage> {
     const SearchPage(),
     const ScanPage(),
     const MedicationPage(),
-    const ProfilePage(),
+    const Thongtincanhan(),
     const ThemeScreen()
   ];
 
