@@ -81,10 +81,10 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
                 );
               }).toList(),
               onChanged: (String? value) {
-                setState(() {
-                  dropdownValue = value!; // Cập nhật biến trạng thái
-                  print(dropdownValue);
-                });
+                  setState(() {
+                    dropdownValue = value!; // Cập nhật biến trạng thái
+                    print(dropdownValue);
+                  });
               },
             ),
           ),
