@@ -21,3 +21,6 @@
 
 ## Figma
 Sau đây là file Figma của chúng mình, có thể được tìm thấy ở [đây](https://www.figma.com/design/rWcX3Sy87v9jv1OAfI6Wps/WellMate-6AnhTai?node-id=0-1&t=roSQmmE5ALo8q02G-1)
+
+## Phiên bản mới nhất
+(internal alpha coming soon)
