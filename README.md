@@ -14,7 +14,7 @@
 - Trần Duy Thanh (trDuyTh4nh)
 - Nguyễn Đức Vinh (BlackHerro)
 - Tiêu Trí Quang (wu4ngg)
-- Nguyễn Thành Duy (???)
+- Nguyễn Thành Duy (NguyenexDuy)
 - Huỳnh Vũ Anh Tuấn (tuanhuynh0209)
 - Ngô Trần Hoàng Phát (PhatNgo03)
 
