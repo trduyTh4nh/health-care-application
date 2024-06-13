@@ -54,9 +54,9 @@ class _MainAppState extends State<MainApp> {
                     return 0;
                   })),
             ),
-            iconButtonTheme: IconButtonThemeData(style: ButtonStyle(
-              padding: WidgetStateProperty.all(EdgeInsets.all(16))
-            )),
+            iconButtonTheme: IconButtonThemeData(
+                style: ButtonStyle(
+                    padding: WidgetStateProperty.all(EdgeInsets.all(16)))),
             filledButtonTheme: FilledButtonThemeData(
                 style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(colorScheme.surfaceDim),
@@ -117,18 +117,7 @@ class _MainAppState extends State<MainApp> {
                 Icons.arrow_back_ios_new,
                 size: 16,
               ),
-
-            ),
-            popupMenuTheme: const PopupMenuThemeData(
-              elevation: 50,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16)))
-            ),
-            iconTheme: IconThemeData(
-              color: colorScheme.onSurface,
-              fill: 0,
-              weight: 600
-            )
-            ),
+            )),
         debugShowCheckedModeBanner: false,
         home: const Login());
   }
