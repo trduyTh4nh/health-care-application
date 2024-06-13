@@ -9,6 +9,7 @@
 </div>
 
 ## Tiến độ
+![](https://geps.dev/progress/1)\
 1% - Đang xây dựng các màn hình
 ## Credits
 - Trần Duy Thanh (trDuyTh4nh)
