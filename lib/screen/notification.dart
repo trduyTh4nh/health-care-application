@@ -1,3 +1,9 @@
+import 'dart:collection';
+import 'dart:convert';
+
+import 'package:app_well_mate/components/notification_item.dart';
+import 'package:app_well_mate/model/notification_model.dart';
+import 'package:app_well_mate/model/user.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 
@@ -9,18 +15,134 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
+  List<NotificationModel> notifications = [];
+  List<NotificationModel> _listRed = [];
+  List<NotificationModel> _listBlue = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+  
+
+    if (listNotification != null) {
+      notifications = listNotification;
+
+      _listRed = notifications
+          .where((e) => e.priority! == 'overdue' || e.priority! == 'runoutof')
+          .toList();
+      _listBlue = notifications.where((e) => !_listRed.contains(e)).toList();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Thông báo'),
         actions: [
-          TextButton(onPressed: () {}, child: Text("Xóa tất cả"))
+          TextButton(
+              onPressed: () {},
+              child: const Text(
+                "Xóa tất cả",
+                style: TextStyle(
+                    color: AppColors.primaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
+              )),
+          const SizedBox(
+            width: 16,
+          ),
         ],
       ),
       body: Container(
-        child: Column(
-          children: [const Text('Thông báo')],
+        padding: const EdgeInsets.only(left: 24),
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Text(
+                'Quan trọng',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  // var priority = _listRed[index].priority;
+                  return NotifyComponent(
+                    notifiItem: _listRed[index],
+                    isImportant: true,
+                  );
+                },
+                childCount: _listRed.length,
+              ),
+            ),
+            const SliverToBoxAdapter(
+              child: Divider(
+                height: 16,
+              ),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  var now = DateTime.now();
+                  var timeOfNotifi = now.difference(_listBlue[index].time!);
+
+                  List<NotificationModel> arrRecently = [];
+                  List<NotificationModel> arrYesterday = [];
+                  List<NotificationModel> arrFurther = [];
+
+                  for (var notification in _listBlue) {
+                    var timeOfNotifi = now.difference(notification.time!);
+
+                    if (timeOfNotifi.inMinutes < 60 ||
+                        timeOfNotifi.inHours < 24) {
+                      arrRecently.add(notification);
+                    } else if (timeOfNotifi.inDays < 7) {
+                      arrYesterday.add(notification);
+                    } else {
+                      arrFurther.add(notification);
+                    }
+                  }
+
+                  List<Widget> children = [];
+
+                  if (arrRecently.isNotEmpty) {
+                    children.add(Text('Gần đây',
+                        style: Theme.of(context).textTheme.bodyLarge));
+                    children.addAll(arrRecently.map((notification) {
+                      return NotifyComponent(
+                          notifiItem: notification, isImportant: false);
+                    }).toList());
+                  }
+
+                  if (arrYesterday.isNotEmpty) {
+                    children.add(Text('Hôm qua',
+                        style: Theme.of(context).textTheme.bodyLarge));
+                    children.addAll(arrYesterday.map((notification) {
+                      return NotifyComponent(
+                          notifiItem: notification, isImportant: false);
+                    }).toList());
+                  }
+
+                  if (arrFurther.isNotEmpty) {
+                    children.add(Text('Xa hơn',
+                        style: Theme.of(context).textTheme.bodyLarge));
+                    children.addAll(arrFurther.map((notification) {
+                      return NotifyComponent(
+                          notifiItem: notification, isImportant: false);
+                    }).toList());
+                  }
+
+                  return Column(
+                    children: children,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                  );
+                },
+                childCount: 1,
+              ),
+            )
+          ],
         ),
       ),
     );

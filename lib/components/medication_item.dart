@@ -133,7 +133,7 @@ class _MedicationItemState extends State<MedicationItem> {
                 width: 15,
               ),
               //đừng có const :)
-              Expanded(
+              const Expanded(
                 child: Row(
                   children: [
                     Icon(Symbols.local_dining),

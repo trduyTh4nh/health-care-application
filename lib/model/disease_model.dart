@@ -1,4 +1,8 @@
-class Disease {
+import 'package:json_annotation/json_annotation.dart';
+
+
+@JsonSerializable()
+class DiseaseModel {
   int? id;
   String? doctor;
   String? title;
@@ -8,7 +12,7 @@ class Disease {
   List<DiseaseDetail>? details;
   String? reason;
 
-  Disease(
+  DiseaseModel(
       {this.id,
       this.doctor,
       this.title,
@@ -17,7 +21,37 @@ class Disease {
       this.overview,
       this.details,
       this.reason});
+
+  factory DiseaseModel.fromJson(Map<String, dynamic> json) => _$DiseaseModelFromJson(json);
+  Map<String, dynamic> toJson() => _$DiseaseModelToJson(this);
+
+
+ 
 }
+
+DiseaseModel _$DiseaseModelFromJson(Map<String, dynamic> json) => DiseaseModel(
+  id: (json['id'] as num?)?.toInt(),
+  doctor: (json['doctor'] as String?),
+  title: (json['title'] as String?),
+  description: (json['description'] as String?),
+  time: (json['time'] as DateTime?),
+  overview: (json['overview'] as String?),
+  details: (json['details'] as List<dynamic>?)?.map((e) => DiseaseDetail.fromJson(e as Map<String, dynamic>)).toList(),
+  reason: (json['reason'] as String)
+);
+
+Map<String, dynamic> _$DiseaseModelToJson(DiseaseModel instance) => 
+  <String, dynamic> {
+    'id': instance.id,
+    'doctor': instance.doctor,
+    'title': instance.doctor,
+    'description': instance.description,
+    'time': instance.time,
+    'overview': instance.overview,
+    'reason': instance.reason,
+    'details': instance.details?.map((e) => e.toJson()).toList()
+  };
+
 
 class DiseaseDetail {
   int? idDetail;
@@ -27,6 +61,26 @@ class DiseaseDetail {
 
   DiseaseDetail(
       {this.idDetail, this.titleDetail, this.contentDetail, this.imageDetail});
+
+
+factory DiseaseDetail.fromJson(Map<String, dynamic> json) {
+    return DiseaseDetail(
+      idDetail: json['idDetail'] as int?,
+      titleDetail: json['titleDetail'] as String?,
+      contentDetail: json['contentDetail'] as String?,
+      imageDetail: json['imageDetail'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'idDetail': idDetail,
+      'titleDetail': titleDetail,
+      'contentDetail': contentDetail,
+      'imageDetail': imageDetail,
+    };
+  }
+  
 }
 
 List<DiseaseDetail> diseaseArr = [
@@ -71,8 +125,8 @@ List<DiseaseDetail> diseaseArr2 = [
       imageDetail: 'Image detail 3')
 ];
 
-List<Disease> allDisease = [
-  Disease(
+List<DiseaseModel> allDisease = [
+  DiseaseModel(
       id: 1,
       doctor: 'ThS.BS.CKI Phan Lương Huy',
       title: 'Cancer',
@@ -87,7 +141,7 @@ List<Disease> allDisease = [
           "3. Tư thế xấu. \n"
           "4. Bỏ bữa. \n"
           "5. Căng thẳng. \n"),
-  Disease(
+  DiseaseModel(
       id: 1,
       doctor: 'ThS.BS.CKI Phan Lương Huy',
       title: 'Cancer 2',
@@ -102,7 +156,7 @@ List<Disease> allDisease = [
           "3. Tư thế xấu. \n"
           "4. Bỏ bữa. \n"
           "5. Căng thẳng. \n"),
-  Disease(
+  DiseaseModel(
       id: 2,
       doctor: 'Mr. Sam',
       title: 'Hurt heart',

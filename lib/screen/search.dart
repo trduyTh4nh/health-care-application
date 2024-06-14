@@ -1,5 +1,5 @@
 import 'package:app_well_mate/main.dart';
-import 'package:app_well_mate/model/disease.dart';
+import 'package:app_well_mate/model/disease_model.dart';
 import 'package:app_well_mate/screen/search/search_detail.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +15,8 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   TextEditingController _searchController = TextEditingController();
   int countResultSearch = 0;
-  List<Disease> _listDisease = [];
-  List<Disease> _originalList = [];
+  List<DiseaseModel> _listDisease = [];
+  List<DiseaseModel> _originalList = [];
   bool check_flash_option = true;
   @override
   void initState() {
