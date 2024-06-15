@@ -1,17 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:app_well_mate/style/style.dart';
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: FFMIPage(),
-    );
-  }
-}
 
 class FFMIPage extends StatefulWidget {
   @override
@@ -65,9 +53,9 @@ class _FFMIPageState extends State<FFMIPage> {
         child: ListView(
           children: <Widget>[
             Padding(
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: Text("Hệ đo lường",
-                        style: Theme.of(context).textTheme.titleMedium)),
+                padding: EdgeInsets.only(bottom: 10),
+                child: Text("Hệ đo lường",
+                    style: Theme.of(context).textTheme.titleMedium)),
             // const Text('Hệ đo lường',
             // style: TextStyle(fontWeight: FontWeight.w900),),
             // ToggleButtons(
@@ -81,7 +69,7 @@ class _FFMIPageState extends State<FFMIPage> {
             //     Padding(
             //       padding: const EdgeInsets.symmetric(horizontal: 16.0),
             //       child: Text('Mét mét'),
-                  
+
             //     ),
             //     Padding(
             //       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -89,8 +77,8 @@ class _FFMIPageState extends State<FFMIPage> {
             //     ),
             //   ],
             // ),
-            
-             SegmentedButton(
+
+            SegmentedButton(
               segments: [
                 ButtonSegment(
                   value: 'Hệ Mét',
@@ -161,16 +149,25 @@ class _FFMIPageState extends State<FFMIPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Kết quả', style: Theme.of(context).textTheme.titleLarge),
-                  Text('FFMI: ',style: Theme.of(context).textTheme.titleSmall),
-                  Text('${_ffmi.toStringAsFixed(1)} kg/m²',style: Theme.of(context).textTheme.titleMedium),
-                  Text('Trên trung bình',style: Theme.of(context).textTheme.titleSmall),
-                  Text('FFMI Bình thường hoá: ',style: Theme.of(context).textTheme.titleSmall),
-                  Text('${_ffmiNormalized.toStringAsFixed(1)} kg/m²',style: Theme.of(context).textTheme.titleMedium),
-                  Text('Khối lượng khi loại trừ mỡ: ',style: Theme.of(context).textTheme.titleSmall),
-                  Text('${_leanBodyMass.toStringAsFixed(1)} kg',style: Theme.of(context).textTheme.titleMedium),
-                  Text('Tổng khối lượng mỡ: ',style: Theme.of(context).textTheme.titleSmall),
-                  Text('${_fatController.text} %',style: Theme.of(context).textTheme.titleMedium)
+                  Text('Kết quả',
+                      style: Theme.of(context).textTheme.titleLarge),
+                  Text('FFMI: ', style: Theme.of(context).textTheme.titleSmall),
+                  Text('${_ffmi.toStringAsFixed(1)} kg/m²',
+                      style: Theme.of(context).textTheme.titleMedium),
+                  Text('Trên trung bình',
+                      style: Theme.of(context).textTheme.titleSmall),
+                  Text('FFMI Bình thường hoá: ',
+                      style: Theme.of(context).textTheme.titleSmall),
+                  Text('${_ffmiNormalized.toStringAsFixed(1)} kg/m²',
+                      style: Theme.of(context).textTheme.titleMedium),
+                  Text('Khối lượng khi loại trừ mỡ: ',
+                      style: Theme.of(context).textTheme.titleSmall),
+                  Text('${_leanBodyMass.toStringAsFixed(1)} kg',
+                      style: Theme.of(context).textTheme.titleMedium),
+                  Text('Tổng khối lượng mỡ: ',
+                      style: Theme.of(context).textTheme.titleSmall),
+                  Text('${_fatController.text} %',
+                      style: Theme.of(context).textTheme.titleMedium)
                 ],
               ),
           ],

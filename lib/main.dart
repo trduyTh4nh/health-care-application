@@ -1,5 +1,5 @@
 import 'package:app_well_mate/const/color_scheme.dart';
-import 'package:app_well_mate/screen/FFMI.dart';
+import 'package:app_well_mate/screen/ffmi.dart';
 import 'package:app_well_mate/screen/home.dart';
 import 'package:app_well_mate/screen/login.dart';
 import 'package:app_well_mate/screen/medication.dart';
@@ -79,7 +79,7 @@ class _MainAppState extends State<MainApp> {
             textTheme: TextTheme(
                 bodyLarge: GoogleFonts.inter(
                     fontSize: 18,
-                    fontWeight: FontWeight.normal,
+                    fontWeight: FontWeight.bold,
                     letterSpacing: 0),
                 bodyMedium: GoogleFonts.inter(fontSize: 16),
                 bodySmall: GoogleFonts.inter(fontSize: 12),
