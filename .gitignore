@@ -143,3 +143,6 @@ coverage/
 
 # Ignore current_page.dart
 lib/const/current_page.dart
+
+#
+pubspec.lock
