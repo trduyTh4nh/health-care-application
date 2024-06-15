@@ -18,6 +18,7 @@ dependencies:
   provider: ^6.1.2
   json_annotation: ^4.9.0
   
+  syncfusion_flutter_gauges: ^21.2.4
 
 flutter_launcher_icons:
   android: true
