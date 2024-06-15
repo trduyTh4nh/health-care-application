@@ -19,13 +19,14 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(children: [
-          CircleAvatar(
+          const CircleAvatar(
             radius: 20,
             backgroundImage:
                 NetworkImage('https://i.giphy.com/BSx6mzbW1ew7K.webp'),
           ),
-          SizedBox(
+          const SizedBox(
             width: 12,
           ),
           Text("Nguyễn Duy", style: Theme.of(context).textTheme.titleMedium),
@@ -37,6 +38,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
           )
         ],
       ),
+
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15),
@@ -67,6 +69,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Color(0xffFF7D7D),
+
                             ),
                             child: Center(
                               child: Text(
@@ -87,6 +90,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                       ),
                     ),
                   ),
+
                   Expanded(
                     child: InkWell(
                       onTap: () {},
@@ -107,6 +111,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                                 width: 62,
                                 height: 62,
                               ),
+
                             ),
                           ),
                           Padding(
@@ -118,6 +123,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                       ),
                     ),
                   ),
+
                   Expanded(
                     child: InkWell(
                       onTap: () {},
@@ -138,6 +144,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                                 width: 62,
                                 height: 62,
                               ),
+
                             ),
                           ),
                           Padding(
@@ -149,6 +156,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                       ),
                     ),
                   ),
+
                   Expanded(
                     child: InkWell(
                       onTap: () {},
@@ -169,6 +177,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                                 width: 62,
                                 height: 62,
                               ),
+
                             ),
                           ),
                           Padding(
@@ -308,6 +317,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               )),
             ],
           ),
+
         ),
       ),
     );

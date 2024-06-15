@@ -204,7 +204,9 @@ class _MedicationItemState extends State<MedicationItem> {
                   ),
                 ],
               ),
+
             ),
+
           ),
         ],
       ),

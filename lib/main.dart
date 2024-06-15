@@ -158,7 +158,7 @@ class AppPage extends StatefulWidget {
 }
 
 class _AppPageState extends State<AppPage> {
-  int _selectedPage = 1;
+  int _selectedPage = 0;
   final List<Widget> _pages = [
     const Home(),
     const SearchPage(),
