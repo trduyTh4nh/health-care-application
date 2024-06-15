@@ -62,7 +62,7 @@ class _NotificationPageState extends State<NotificationPage> {
         ],
       ),
       body: Container(
-        padding: const EdgeInsets.only(left: 24),
+        padding: const EdgeInsets.only(left: 24, right: 24),
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
@@ -85,7 +85,6 @@ class _NotificationPageState extends State<NotificationPage> {
             ),
             const SliverToBoxAdapter(
               child: Divider(
-                
               ),
             ),
             SliverList(

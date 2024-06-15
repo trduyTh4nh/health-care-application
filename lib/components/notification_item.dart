@@ -24,72 +24,76 @@ class _NotifyComponentState extends State<NotifyComponent> {
         widget.isImportant ? colorScheme.error : colorScheme.primary;
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const DrugInfoPage()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const DrugInfoPage()));
       },
       child: Padding(
           padding: const EdgeInsets.only(top: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        color: colorBox,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(50))),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: checkPriorityForIcon(widget.notifiItem.priority!),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: colorBox,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(50))),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child:
+                            checkPriorityForIcon(widget.notifiItem.priority!),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 6,),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      widget.isImportant
-                          ? Text(
-                              'Quan trọng',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                      color: colorScheme.error,
-                                      fontWeight: FontWeight.bold),
-                            )
-                          : const SizedBox(),
-                      Container(
-                        padding: const EdgeInsets.only(right: 8),
-                        width: 220, // MÁ NÓ CỨNG NGẮT
-                        child: Row(
-                          children: [
-                            Flexible(
-                              child: Text(
-                                widget.notifiItem.content!,
-                                style: Theme.of(context).textTheme.bodyLarge,
-                                softWrap: true,
-                                overflow: TextOverflow.visible,
-                              ),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          widget.isImportant
+                              ? Text(
+                                  'Quan trọng',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                          color: colorScheme.error,
+                                          fontWeight: FontWeight.bold),
+                                )
+                              : const SizedBox(),
+                          Text(
+                            widget.notifiItem.content!,
+                            style: Theme.of(context).textTheme.bodyLarge,
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
+                          ),
+                          Text(
+                            widget.notifiItem
+                                .convertTime(widget.notifiItem.time!),
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 2,
+                    ),
+                    widget.notifiItem.status!
+                        ? const SizedBox()
+                        : CustomElevatedBtnCheck(
+                            onTap: () {},
+                            child: const Icon(
+                              Symbols.check,
+                              color: Colors.white,
                             ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        widget.notifiItem.convertTime(widget.notifiItem.time!),
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
-                  ),
-                  widget.notifiItem.status!
-                      ? const SizedBox()
-                      : CustomElevatedBtnCheck(
-                          onTap: () {},
-                          child: const Icon(
-                            Symbols.check,
-                            color: Colors.white,
-                          ))
-                ],
+                            color: colorBox,)
+                          
+                  ],
+                ),
               ),
               PopupMenuButton(
                 itemBuilder: (context) => const [

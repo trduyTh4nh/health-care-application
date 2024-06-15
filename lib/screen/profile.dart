@@ -19,13 +19,14 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(children: [
-          CircleAvatar(
+          const CircleAvatar(
             radius: 20,
             backgroundImage:
                 NetworkImage('https://i.giphy.com/BSx6mzbW1ew7K.webp'),
           ),
-          SizedBox(
+          const SizedBox(
             width: 12,
           ),
           Text("Nguyễn Duy", style: Theme.of(context).textTheme.titleMedium),
@@ -38,12 +39,12 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Tiện ích", style: Theme.of(context).textTheme.titleMedium),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Row(
@@ -63,11 +64,11 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                         Container(
                           width: 62,
                           height: 62,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Color(0xffFF7D7D),
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               "SOS",
                               style: TextStyle(
@@ -94,7 +95,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                         Container(
                           width: 62,
                           height: 62,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Color(0xff6B94FF),
                           ),
@@ -125,7 +126,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                         Container(
                           width: 62,
                           height: 62,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Color(0xff6B94FF),
                           ),
@@ -156,7 +157,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                         Container(
                           width: 62,
                           height: 62,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Color(0xff6B94FF),
                           ),
@@ -181,15 +182,14 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
             Text("Cài đặt", style: Theme.of(context).textTheme.titleMedium),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
-            Container(
-                child: InkWell(
+            InkWell(
               onTap: () {},
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 16),
@@ -202,10 +202,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                   ],
                 ),
               ),
-            )),
+            ),
             const Divider(),
-            Container(
-                child: InkWell(
+            InkWell(
               onTap: () {},
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -218,10 +217,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                   ],
                 ),
               ),
-            )),
+            ),
             const Divider(),
-            Container(
-                child: InkWell(
+            InkWell(
               onTap: () {},
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -234,10 +232,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                   ],
                 ),
               ),
-            )),
-            Divider(),
-            Container(
-                child: InkWell(
+            ),
+            const Divider(),
+            InkWell(
               onTap: () {},
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -250,10 +247,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                   ],
                 ),
               ),
-            )),
-            Divider(),
-            Container(
-                child: InkWell(
+            ),
+            const Divider(),
+            InkWell(
               onTap: () {},
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -266,10 +262,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                   ],
                 ),
               ),
-            )),
+            ),
             const Divider(),
-            Container(
-                child: InkWell(
+            InkWell(
               onTap: () {},
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -282,10 +277,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                   ],
                 ),
               ),
-            )),
+            ),
             const Divider(),
-            Container(
-                child: InkWell(
+            InkWell(
               onTap: () {
                 Navigator.push(
                     context,
@@ -304,7 +298,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                   ],
                 ),
               ),
-            )),
+            ),
           ],
         ),
       ),
