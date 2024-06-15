@@ -1,9 +1,11 @@
+import 'package:app_well_mate/screen/changeRePassword.dart';
+import 'package:app_well_mate/screen/ffmi.dart';
+import 'package:app_well_mate/screen/imergencycall.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:app_well_mate/screen/imergencycall.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'login.dart';
 import 'package:app_well_mate/components/shotcut.dart';
@@ -129,7 +131,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
 
                   Expanded(
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => FFMIPage()));
+                      },
                       child: Column(
                         children: [
                           Container(
@@ -235,7 +239,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               const Divider(),
               Container(
                   child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const Changerepassword()));
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   child: Row(
