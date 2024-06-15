@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:app_well_mate/providers/add_page_provider.dart';
 import 'package:app_well_mate/screen/drug/add_drug_pages/add_drug_habit.dart';
 import 'package:app_well_mate/screen/drug/add_drug_pages/add_drug_info.dart';
+import 'package:app_well_mate/screen/drug/add_drug_pages/add_drug_schedule.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +22,7 @@ class _AddDrugPageState extends State<AddDrugPage> {
   List<Widget> pages = [
     AddDrugInfoPage(),
     AddDrugHabitPage(),
-    AddDrugInfoPage(),
+    AddDrugSchedulePage(),
     AddDrugInfoPage()
   ];
   @override
