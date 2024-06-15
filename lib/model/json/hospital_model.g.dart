@@ -27,3 +27,7 @@ Map<String, dynamic> _$HospitalModelToJson(HospitalModel instance) =>
       'createdDate': instance.createdDate?.toIso8601String(),
       'contactInformation': instance.contactInformation,
     };
+
+
+// Hàm fromJson: Dùng để tạo một đối tượng từ JSON.
+// Hàm toJson: Dùng để chuyển đổi một đối tượng thành JSON.

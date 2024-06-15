@@ -23,15 +23,21 @@ class _NotificationPageState extends State<NotificationPage> {
   void initState() {
     super.initState();
 
-  
-
     if (listNotification != null) {
       notifications = listNotification;
 
       _listRed = notifications
-          .where((e) => e.priority! == 'overdue' || e.priority! == 'runoutof')
+          .where((e) =>
+              (e.priority! == 'overdue' || e.priority! == 'runoutof') &&
+              checkExpire(e.time!))
           .toList();
-      _listBlue = notifications.where((e) => !_listRed.contains(e)).toList();
+      // sort
+      _listRed.sort((a, b) => b.time!.compareTo(a.time!));
+
+      _listBlue = notifications
+          .where((e) => (!_listRed.contains(e)) && checkExpire(e.time!))
+          .toList();
+      _listBlue.sort((a, b) => b.time!.compareTo(a.time!));
     }
   }
 
@@ -79,14 +85,15 @@ class _NotificationPageState extends State<NotificationPage> {
             ),
             const SliverToBoxAdapter(
               child: Divider(
-                height: 16,
+                
               ),
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   var now = DateTime.now();
-                  var timeOfNotifi = now.difference(_listBlue[index].time!);
+                  var difference = now.difference(_listBlue[index].time!);
+                  //var timeOfNotifi = now.difference(_listBlue[index].time!);
 
                   List<NotificationModel> arrRecently = [];
                   List<NotificationModel> arrYesterday = [];
@@ -147,4 +154,11 @@ class _NotificationPageState extends State<NotificationPage> {
       ),
     );
   }
+}
+
+bool checkExpire(DateTime time) {
+  var now = DateTime.now();
+  var difference = now.difference(time);
+
+  return difference.inDays <= 100 ? true : false;
 }

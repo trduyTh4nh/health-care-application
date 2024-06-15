@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 
-part 'notification_model.g.dart';
+part 'json/notification_model.g.dart';
 @JsonSerializable()
 class NotificationModel {
   int? id;
@@ -30,7 +30,7 @@ class NotificationModel {
 
   String convertTime(DateTime time) {
     final now = DateTime.now();
-    final difference = now.difference(time!);
+    final difference = now.difference(time);
 
     if (difference.inMinutes < 1) {
       return "Vừa xong";
@@ -77,15 +77,36 @@ var listNotification = [
   NotificationModel(
       id: 3,
       content: "Đã đến giờ uống Paracetamol 30mg",
-      time: dateFormat.parse("2024-06-12 8:40:23"),
+      time: dateFormat.parse("2024-03-12 8:40:23"),
       priority: enumPriority[Random().nextInt(enumPriority.length)],
       status: true,
       userId: 1),
   NotificationModel(
       id: 4,
       content: "Đơn thuốc #2491 của bạn đang được giao",
-      time: dateFormat.parse("2024-06-12 8:40:23"),
+      time: dateFormat.parse("2024-01-12 8:40:23"),
       priority: enumPriority[Random().nextInt(enumPriority.length)],
       status: false,
+      userId: 1),
+  NotificationModel(
+      id: 5,
+      content: "Đã đến giờ sử dụng thuốc Nhỏ mắt 1 giọt",
+      time: dateFormat.parse("2024-06-14 2:40:23"),
+      priority: enumPriority[Random().nextInt(enumPriority.length)],
+      status: true,
+      userId: 1),
+  NotificationModel(
+      id: 6,
+      content: "Đơn thuốc #3002 của bạn đang được giao",
+      time: dateFormat.parse("2023-12-12 1:40:23"),
+      priority: enumPriority[Random().nextInt(enumPriority.length)],
+      status: false,
+      userId: 1),
+  NotificationModel(
+      id: 7,
+      content: "Đơn thuốc #333301 của bạn đang được giao",
+      time: dateFormat.parse("2023-01-11 8:40:23"),
+      priority: enumPriority[Random().nextInt(enumPriority.length)],
+      status: true,
       userId: 1),
 ];

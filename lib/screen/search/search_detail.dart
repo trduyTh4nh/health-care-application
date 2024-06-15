@@ -1,4 +1,4 @@
-import 'package:app_well_mate/model/disease.dart';
+import 'package:app_well_mate/model/disease_model.dart';
 import 'package:app_well_mate/style/style.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -6,7 +6,7 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 class SearchDetailPage extends StatefulWidget {
   const SearchDetailPage({super.key, required this.disease});
-  final Disease disease;
+  final DiseaseModel disease;
 
   @override
   State<SearchDetailPage> createState() => _SearchDetailPageState();
