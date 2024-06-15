@@ -127,21 +127,20 @@ class _MainAppState extends State<MainApp> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16)))),
             dropdownMenuTheme: DropdownMenuThemeData(
-              textStyle: Theme.of(context).textTheme.bodyMedium,
-              menuStyle: MenuStyle(
-                shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16)))),)
-            ),
+                textStyle: Theme.of(context).textTheme.bodyMedium,
+                menuStyle: MenuStyle(
+                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16)))),
+                )),
             iconTheme: IconThemeData(
                 color: colorScheme.onSurface, fill: 0, weight: 600),
             appBarTheme: AppBarTheme(
                 scrolledUnderElevation: 0, titleSpacing: 20, toolbarHeight: 75),
             inputDecorationTheme: InputDecorationTheme(
                 labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontFamily: GoogleFonts.inter(
-                            wordSpacing: 0,
-                            color: AppColor.gray)
-                        .fontFamily,
+                    fontFamily:
+                        GoogleFonts.inter(wordSpacing: 0, color: AppColor.gray)
+                            .fontFamily,
                     color: AppColor.darkerGray),
                 border: UnderlineInputBorder(
                     borderSide: BorderSide(color: AppColor.darkerGray)))),
