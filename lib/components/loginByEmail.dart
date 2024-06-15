@@ -97,10 +97,7 @@ class _LoginByEmailState extends State<LoginByEmail> {
                         height: 48,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => currentpage));
+                            Navigator.push(context, MaterialPageRoute(builder:(context) => const AppPage()));
                           },
                           child: const Text(
                             'Đăng nhập',
