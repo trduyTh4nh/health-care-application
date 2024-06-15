@@ -43,7 +43,19 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         //IMPORTANT: Tắt nút back cho appBar
-
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const NotificationPage()));
+              },
+              icon: const Icon(
+                Symbols.notifications,
+                size: 24,
+              ))
+        ],
         automaticallyImplyLeading: false,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,27 +79,6 @@ class _HomeState extends State<Home> {
             )
           ],
         ),
-        actions: [
-          //KHÔNG ĐƯỢC CONST!!!!!
-          IconButton(
-              onPressed: () {},
-              icon: Badge(
-                  child: Icon(Symbols.deployed_code),
-                  smallSize: 0 /*và 5*/,
-                  largeSize: 0)),
-
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const NotificationPage()));
-              },
-              icon: const Icon(
-                Symbols.notifications,
-                size: 24,
-              ))
-        ],
       ),
       body: ListView.separated(
           padding: EdgeInsets.only(bottom: 20),
