@@ -1,3 +1,5 @@
+import 'package:app_well_mate/const/color_scheme.dart';
+import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/disease_model.dart';
 import 'package:app_well_mate/style/style.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +17,12 @@ class SearchDetailReWritePage extends StatefulWidget {
 
 class _SearchDetailReWritePageState extends State<SearchDetailReWritePage> {
   bool isShowInfo = false;
+  bool isSave = false;
   @override
   void initState() {
     super.initState();
     isShowInfo = true;
+    isSave = false;
   }
 
   @override
@@ -34,8 +38,12 @@ class _SearchDetailReWritePageState extends State<SearchDetailReWritePage> {
         title: Text(disease.title!),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: const Icon(Symbols.bookmark),
+            onPressed: () {
+                setState(() {
+                isSave = !isSave;
+                });
+            },
+            icon:  isSave ? Icon(Icons.bookmark, color: AppColor.cam,) : const Icon(Symbols.bookmark),
           ),
         ],
       ),
@@ -184,6 +192,11 @@ class _SearchDetailReWritePageState extends State<SearchDetailReWritePage> {
                         ),
                 ),
               ),
+              const SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 8,
+                ),
+              ),
               SliverToBoxAdapter(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -206,8 +219,8 @@ class _SearchDetailReWritePageState extends State<SearchDetailReWritePage> {
                     ),
                   ],
                 ),
-              )
-              ,SliverList(
+              ),
+              SliverList(
                 delegate: SliverChildBuilderDelegate((context, index) {
                   DiseaseDetail result = disease.details![index];
                   return Column(
@@ -241,8 +254,7 @@ class _SearchDetailReWritePageState extends State<SearchDetailReWritePage> {
                           : const SizedBox(),
                     ],
                   );
-                },
-                childCount: disease.details!.length),
+                }, childCount: disease.details!.length),
               )
             ],
           )),
@@ -256,9 +268,7 @@ class _SearchDetailReWritePageState extends State<SearchDetailReWritePage> {
 //           crossAxisAlignment: CrossAxisAlignment.start,
 //           children: [
             
-//             const SizedBox(
-//               height: 8,
-//             ),
+
 
 //             Expanded(
 //               child: ListView.builder(
