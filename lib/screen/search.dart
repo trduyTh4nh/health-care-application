@@ -1,6 +1,7 @@
 import 'package:app_well_mate/main.dart';
-import 'package:app_well_mate/model/disease.dart';
+import 'package:app_well_mate/model/disease_model.dart';
 import 'package:app_well_mate/screen/search/search_detail.dart';
+import 'package:app_well_mate/screen/search/search_detail_rewrite.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -15,8 +16,8 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   TextEditingController _searchController = TextEditingController();
   int countResultSearch = 0;
-  List<Disease> _listDisease = [];
-  List<Disease> _originalList = [];
+  List<DiseaseModel> _listDisease = [];
+  List<DiseaseModel> _originalList = [];
   bool check_flash_option = true;
   @override
   void initState() {
@@ -139,7 +140,10 @@ class _SearchPageState extends State<SearchPage> {
                         child: TextButton(
                           child: Text(
                             recentDisease[index],
-                            style: Theme.of(context).textTheme.bodyMedium,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(),
                           ),
                           onPressed: () {
                             setState(() {
@@ -163,7 +167,8 @@ class _SearchPageState extends State<SearchPage> {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SearchDetailPage(disease: disease),
+                      builder: (context) =>
+                          SearchDetailReWritePage(disease: disease),
                     ),
                   ),
                 );
