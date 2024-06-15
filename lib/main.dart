@@ -48,7 +48,7 @@ class _MainAppState extends State<MainApp> {
                       WidgetStateProperty.all(colorScheme.onPrimary),
                   shape: WidgetStateProperty.all(const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(16)))),
-                  minimumSize: WidgetStateProperty.all(Size(40, 50)),
+                  minimumSize: WidgetStateProperty.all(const Size(40, 50)),
                   elevation: WidgetStateProperty.resolveWith((state) {
                     if (state.contains(WidgetState.pressed)) {
                       return 5;
@@ -129,12 +129,12 @@ class _MainAppState extends State<MainApp> {
             dropdownMenuTheme: DropdownMenuThemeData(
                 textStyle: Theme.of(context).textTheme.bodyMedium,
                 menuStyle: MenuStyle(
-                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                  shape: WidgetStateProperty.all(const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(16)))),
                 )),
             iconTheme: IconThemeData(
                 color: colorScheme.onSurface, fill: 0, weight: 600),
-            appBarTheme: AppBarTheme(
+            appBarTheme: const AppBarTheme(
                 scrolledUnderElevation: 0, titleSpacing: 20, toolbarHeight: 75),
             inputDecorationTheme: InputDecorationTheme(
                 labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
