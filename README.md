@@ -9,14 +9,21 @@
 </div>
 
 ## Tiến độ
+
+![](https://geps.dev/progress/1)\
+
 1% - Đang xây dựng các màn hình
 ## Credits
 - Trần Duy Thanh (trDuyTh4nh)
 - Nguyễn Đức Vinh (BlackHerro)
 - Tiêu Trí Quang (wu4ngg)
-- Nguyễn Thành Duy (???)
+- Nguyễn Thành Duy (NguyenexDuy)
 - Huỳnh Vũ Anh Tuấn (tuanhuynh0209)
 - Ngô Trần Hoàng Phát (PhatNgo03)
 
 ## Figma
 Sau đây là file Figma của chúng mình, có thể được tìm thấy ở [đây](https://www.figma.com/design/rWcX3Sy87v9jv1OAfI6Wps/WellMate-6AnhTai?node-id=0-1&t=roSQmmE5ALo8q02G-1)
+
+## Phiên bản mới nhất
+(internal alpha coming soon)
+

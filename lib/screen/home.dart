@@ -5,7 +5,6 @@ import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug.dart';
 import 'package:app_well_mate/screen/notification.dart';
-import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -75,7 +74,7 @@ class _HomeState extends State<Home> {
                   child: Icon(Symbols.deployed_code),
                   smallSize: 0 /*và 5*/,
                   largeSize: 0)),
-
+       
           IconButton(
               onPressed: () {
                 Navigator.push(
@@ -113,7 +112,7 @@ class _HomeState extends State<Home> {
                       const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           child: Text("Tác vụ nhanh")),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,31 +121,21 @@ class _HomeState extends State<Home> {
                                 child: Shortcut(
                               icon: Icons.monitor_weight_outlined,
                               text: "Tính BMI",
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => BmiPage(),
-                                    ));
-                              },
                             )),
                             Expanded(
                                 child: Shortcut(
                               icon: Icons.leaderboard_outlined,
                               text: "Theo dõi",
-                              onTap: () {},
                             )),
                             Expanded(
                                 child: Shortcut(
                               icon: Icons.camera_alt_outlined,
                               text: "Quét mã QR",
-                              onTap: () {},
                             )),
                             Expanded(
                                 child: Shortcut(
                               icon: Symbols.pill,
                               text: "Xem toa thuốc",
-                              onTap: () {},
                             )),
                           ],
                         ),
