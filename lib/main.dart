@@ -1,4 +1,5 @@
 import 'package:app_well_mate/const/color_scheme.dart';
+import 'package:app_well_mate/screen/ffmi.dart';
 import 'package:app_well_mate/screen/home.dart';
 import 'package:app_well_mate/screen/login.dart';
 import 'package:app_well_mate/screen/medication.dart';
@@ -48,7 +49,7 @@ class _MainAppState extends State<MainApp> {
                       WidgetStateProperty.all(colorScheme.onPrimary),
                   shape: WidgetStateProperty.all(const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(16)))),
-                  minimumSize: WidgetStateProperty.all(Size(40, 50)),
+                  minimumSize: WidgetStateProperty.all(const Size(40, 50)),
                   elevation: WidgetStateProperty.resolveWith((state) {
                     if (state.contains(WidgetState.pressed)) {
                       return 5;
@@ -78,7 +79,7 @@ class _MainAppState extends State<MainApp> {
             textTheme: TextTheme(
                 bodyLarge: GoogleFonts.inter(
                     fontSize: 18,
-                    fontWeight: FontWeight.normal,
+                    fontWeight: FontWeight.bold,
                     letterSpacing: 0),
                 bodyMedium: GoogleFonts.inter(fontSize: 16),
                 bodySmall: GoogleFonts.inter(fontSize: 12),
@@ -127,26 +128,26 @@ class _MainAppState extends State<MainApp> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16)))),
             dropdownMenuTheme: DropdownMenuThemeData(
-              textStyle: Theme.of(context).textTheme.bodyMedium,
-              menuStyle: MenuStyle(
-                shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16)))),)
-            ),
+                textStyle: Theme.of(context).textTheme.bodyMedium,
+                menuStyle: MenuStyle(
+                  shape: WidgetStateProperty.all(const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16)))),
+                )),
             iconTheme: IconThemeData(
                 color: colorScheme.onSurface, fill: 0, weight: 600),
-            appBarTheme: AppBarTheme(
+            appBarTheme: const AppBarTheme(
                 scrolledUnderElevation: 0, titleSpacing: 20, toolbarHeight: 75),
             inputDecorationTheme: InputDecorationTheme(
                 labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontFamily: GoogleFonts.inter(
-                            wordSpacing: 0,
-                            color: AppColor.gray)
-                        .fontFamily,
+                    fontFamily:
+                        GoogleFonts.inter(wordSpacing: 0, color: AppColor.gray)
+                            .fontFamily,
                     color: AppColor.darkerGray),
                 border: UnderlineInputBorder(
                     borderSide: BorderSide(color: AppColor.darkerGray)))),
         debugShowCheckedModeBanner: false,
         home: const Login());
+        // home: FFMIPage());
   }
 }
 

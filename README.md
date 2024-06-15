@@ -9,7 +9,9 @@
 </div>
 
 ## Tiến độ
+
 ![](https://geps.dev/progress/1)\
+
 1% - Đang xây dựng các màn hình
 ## Credits
 - Trần Duy Thanh (trDuyTh4nh)
@@ -24,3 +26,4 @@ Sau đây là file Figma của chúng mình, có thể được tìm thấy ở 
 
 ## Phiên bản mới nhất
 (internal alpha coming soon)
+
