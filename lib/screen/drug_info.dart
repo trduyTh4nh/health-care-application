@@ -39,16 +39,65 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                     ),
                   ),
                 ),
-                Text('Paracetamol 5mg'),
+                Text(
+                  'Paracetamol 5mg',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(fontSize: 32),
+                ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Symbols.pill),
-                    const SizedBox(width: 16,),
-                    Text('Số lượng: 40/40')
+                    const Icon(Symbols.pill),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    Text(
+                      'Số lượng: 40/40',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Symbols.alarm),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          '1 lần 3 viên',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Row(
+                      children: [
+                        const Icon(Symbols.local_dining_rounded),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          'Trước khi ăn',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        )
+                      ],
+                    ),
                   ],
                 )
-                
               ],
+            ),
+            const SizedBox(
+              height: 16,
             ),
             Expanded(
               child: CustomScrollView(
@@ -56,7 +105,10 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                   SliverToBoxAdapter(
                     child: Text(
                       'Lịch uống thuốc',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontSize: 18),
                     ),
                   ),
                   // khứa này chắc xếp 3 mảng sáng trưa chiều xong tạo thành 1 mảng ủi vô column
@@ -64,27 +116,56 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                       delegate: SliverChildBuilderDelegate((context, index) {
                     return Text('Chi tiết lịch $index');
                   }, childCount: 5)),
-                  SliverToBoxAdapter(
-                    child: const Divider(),
+                  const SliverToBoxAdapter(
+                    child: Divider(),
                   ),
                   SliverToBoxAdapter(
-                    child: Text('More time'),
+                    child: InkWell(
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Row(
+                          children: [
+                            const Icon(Symbols.add),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
+                              'Thêm thời gian',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                   SliverToBoxAdapter(
-                    child: Text('Thông tin thuốc'),
+                    child: Text(
+                      'Thông tin thuốc',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontSize: 18),
+                    ),
                   ),
-                  SliverToBoxAdapter(
+                  const SliverToBoxAdapter(
                     child: const Divider(),
                   ),
                   SliverList(
                       delegate: SliverChildBuilderDelegate((context, index) {
                     return Text('Thuốc chi tiết $index');
                   }, childCount: 3)),
-                  SliverToBoxAdapter(
-                    child: const Divider(),
+                  const SliverToBoxAdapter(
+                    child: Divider(),
                   ),
                   SliverToBoxAdapter(
-                    child: Text('Toa thuốc'),
+                    child: Text(
+                      'Toa thuốc',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(fontSize: 18),
+                    ),
                   ),
                   SliverToBoxAdapter(
                     child: Text('Component toa thuốc'),
@@ -141,4 +222,20 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
           ),
         ));
   }
+}
+
+Widget timerWidget() {
+  return Container(
+    padding: const EdgeInsets.all(4),
+    decoration: BoxDecoration(),
+    child: InkWell(
+      onTap: () {},
+      child: Row(
+        children: [
+          const Icon(Symbols.alarm),
+          
+        ],
+      ),
+    ),
+  );
 }
