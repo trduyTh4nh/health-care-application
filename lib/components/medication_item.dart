@@ -3,6 +3,7 @@ import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug.dart';
 import 'package:app_well_mate/screen/drug/drug_info.dart';
+import 'package:app_well_mate/screen/drug_info.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -44,7 +45,7 @@ class _MedicationItemState extends State<MedicationItem> {
           
           InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder:(context) => DrugInfo(drug: widget.drug,),));
+              Navigator.push(context, MaterialPageRoute(builder:(context) => const DrugInfoPage(),));
             },
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),

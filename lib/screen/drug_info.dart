@@ -42,6 +42,7 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
   PrescriptionDetailModel? prescriptionDetail;
   List<ScheduleDetailModel>? listScheduleDetail;
   double _opacity = 1.0;
+  int idScheSelected = 0;
   @override
   void initState() {
     // idDonThuocCT(notification) => idPre chi tiết (Predetail modele) "lúc đang ở đây sẵn lấy thông tin thuốc"
@@ -70,17 +71,22 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
     // _timesNight = times.where((e) => e.hour > 18 && e.hour <= 24).toList();
     // _timesNight.sort((a, b) => a.hour.compareTo(b.hour));
 
-
-
     List<ScheduleDetailModel> times1 =
         listScheduleDetail?.map((element) => element).toList() ?? [];
 
-    _timesMorning1 = times1.where((e) => e.timeOfUse!.hour >= 0 && e.timeOfUse!.hour <= 12).toList();
-    _timesMorning1.sort((a, b) => a.timeOfUse!.hour.compareTo(b.timeOfUse!.hour));
-    _timesAfternoon1 =
-        times1.where((e) => e.timeOfUse!.hour > 12 && e.timeOfUse!.hour <= 18).toList();
-    _timesAfternoon1.sort((a, b) => a.timeOfUse!.hour.compareTo(b.timeOfUse!.hour));
-    _timesNight1 = times1.where((e) => e.timeOfUse!.hour > 18 && e.timeOfUse!.hour <= 24).toList();
+    _timesMorning1 = times1
+        .where((e) => e.timeOfUse!.hour >= 0 && e.timeOfUse!.hour <= 12)
+        .toList();
+    _timesMorning1
+        .sort((a, b) => a.timeOfUse!.hour.compareTo(b.timeOfUse!.hour));
+    _timesAfternoon1 = times1
+        .where((e) => e.timeOfUse!.hour > 12 && e.timeOfUse!.hour <= 18)
+        .toList();
+    _timesAfternoon1
+        .sort((a, b) => a.timeOfUse!.hour.compareTo(b.timeOfUse!.hour));
+    _timesNight1 = times1
+        .where((e) => e.timeOfUse!.hour > 18 && e.timeOfUse!.hour <= 24)
+        .toList();
     _timesNight1.sort((a, b) => a.timeOfUse!.hour.compareTo(b.timeOfUse!.hour));
 
     // handle controller
@@ -104,7 +110,9 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
             child: Text(drugModel!.name ?? "null"),
           ),
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Symbols.more_horiz))
+            PopupMenuButton(itemBuilder: (context) => const [
+              
+            ])
           ],
         ),
         body: Padding(
@@ -205,12 +213,19 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                           .copyWith(fontSize: 18),
                     ),
                   ),
-
                   SliverList.separated(
                     itemCount: _timesMorning1.length,
                     itemBuilder: (context, index) {
                       return _timesMorning1.isNotEmpty
                           ? TimeItem(
+                              scheDetail: _timesMorning1[index],
+                              onDataChanged: (index) {
+                                setState(() {
+                                  idScheSelected = index;
+                                });
+                              },
+                              isSelected: idScheSelected ==
+                                  _timesMorning1[index].idScheduleDetail,
                               time: _timesMorning1[index].timeOfUse!,
                               title: index == 0
                                   ? Text(
@@ -230,8 +245,17 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                   SliverList.separated(
                     itemCount: _timesAfternoon1.length,
                     itemBuilder: (context, index) {
+                      //print(_timesMorning1[index].idScheduleDetail == _timesMorning1[idScheSelected].idScheduleDetail);
                       return _timesAfternoon1.isNotEmpty
                           ? TimeItem(
+                              scheDetail: _timesAfternoon1[index],
+                              onDataChanged: (id) {
+                                setState(() {
+                                  idScheSelected = id;
+                                });
+                              },
+                              isSelected: idScheSelected ==
+                                  _timesAfternoon1[index].idScheduleDetail,
                               time: _timesAfternoon1[index].timeOfUse!,
                               title: index == 0
                                   ? Text(
@@ -248,12 +272,19 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                       height: 10,
                     ),
                   ),
-
                   SliverList.separated(
                     itemCount: _timesNight1.length,
                     itemBuilder: (context, index) {
                       return _timesNight1.isNotEmpty
                           ? TimeItem(
+                              scheDetail: _timesNight1[index],
+                              onDataChanged: (index) {
+                                setState(() {
+                                  idScheSelected = index;
+                                });
+                              },
+                              isSelected: idScheSelected ==
+                                  _timesNight1[index].idScheduleDetail,
                               time: _timesNight1[index].timeOfUse!,
                               title: index == 0
                                   ? Text(
@@ -270,45 +301,6 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                       height: 10,
                     ),
                   ),
-
-                  // SliverList(
-                  //     delegate: SliverChildBuilderDelegate((context, index) {
-                  //   List<Widget> timer = [];
-
-                  //   if (_timesMorning.isNotEmpty) {
-                  //     timer.add(Text(
-                  //       'Sáng',
-                  //       style: Theme.of(context).textTheme.bodyLarge,
-                  //     ));
-                  //     timer.addAll(_timesMorning.map((timeElement) {
-                  //       return timeComponent(timeElement.hour, 'sáng', context);
-                  //     }).toList());
-                  //   }
-                  //   if (_timesAfternoon.isNotEmpty) {
-                  //     timer.add(Text(
-                  //       'Trưa',
-                  //       style: Theme.of(context).textTheme.bodyLarge,
-                  //     ));
-                  //     timer.addAll(_timesAfternoon.map((timeElement) {
-                  //       return timeComponent(timeElement.hour, 'trưa', context);
-                  //     }).toList());
-                  //   }
-                  //   if (_timesNight.isNotEmpty) {
-                  //     timer.add(Text(
-                  //       'Tối',
-                  //       style: Theme.of(context).textTheme.bodyLarge,
-                  //     ));
-                  //     timer.addAll(_timesNight.map((timeElement) {
-                  //       return timeComponent(timeElement.hour, 'tối', context);
-                  //     }).toList());
-                  //   }
-
-                  //   return Column(
-                  //     children: timer,
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //   );
-                  // }, childCount: 1)),
-
                   const SliverToBoxAdapter(
                     child: Divider(),
                   ),
@@ -360,7 +352,7 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                           .copyWith(fontSize: 18),
                     ),
                   ),
-                  SliverToBoxAdapter(
+                  const SliverToBoxAdapter(
                     child: Text('Component toa thuốc'),
                   ),
                 ],
@@ -408,7 +400,11 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                   icon: const Icon(
                     Symbols.check,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    // ngay chỗ này cần 
+                    List<ScheduleDetailModel> _listFetch =
+                        generateSampleScheduleDetails();
+                  },
                 ),
               )
             ],
@@ -417,6 +413,19 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
   }
 }
 
+void updateElement(int id, ScheduleDetailModel updatedModel) {
+  List<ScheduleDetailModel> _listFetch = generateSampleScheduleDetails();
+
+  int index = _listFetch.indexWhere((element) => element.idScheduleDetail == id);
+  if (index != -1) {
+    _listFetch[index] = updatedModel;
+    // Notify listeners about the change (if applicable)
+   // notifyListeners();
+  } else {
+    // Handle the case where the element with the ID is not found
+    print("Element with ID $id not found in the list.");
+  }
+}
 // Widget timeComponent(int hour, BuildContext context) {
 //   return Padding(
 //     padding: const EdgeInsets.symmetric(vertical: 8),
@@ -454,12 +463,12 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
 Widget timerWidget() {
   return Container(
     padding: const EdgeInsets.all(4),
-    decoration: BoxDecoration(),
+    decoration: const BoxDecoration(),
     child: InkWell(
       onTap: () {},
-      child: Row(
+      child: const Row(
         children: [
-          const Icon(Symbols.alarm),
+          Icon(Symbols.alarm),
         ],
       ),
     ),

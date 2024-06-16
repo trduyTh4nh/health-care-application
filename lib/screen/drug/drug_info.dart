@@ -190,46 +190,47 @@ class _DrugInfoState extends State<DrugInfo> {
                     itemCount: _timesMorning.length,
                     itemBuilder: (c, i) {
                       int nextIndex = i == _timesMorning.length ? i : i+1;
-                      return TimeItem(
-                        time: _timesMorning[i],
-                        title: i == 0
-                            ? Text(
-                                "Sáng",
-                                style: GoogleFonts.inter(
-                                    fontWeight: FontWeight.bold),
-                              )
-                            : null,
-                      );
+                      // return TimeItem(
+
+                      //   time: _timesMorning[i],
+                      //   title: i == 0
+                      //       ? Text(
+                      //           "Sáng",
+                      //           style: GoogleFonts.inter(
+                      //               fontWeight: FontWeight.bold),
+                      //         )
+                      //       : null,
+                      // );
                     },
                     separatorBuilder: (c, i) => const SizedBox(height: 10)),
                 SliverList.separated(
                     itemCount: _timesAfternoon.length,
                     itemBuilder: (c, i) {
-                      return TimeItem(
-                        time: _timesAfternoon[i],
-                        title: i == 0
-                            ? Text(
-                                "Chiều",
-                                style: GoogleFonts.inter(
-                                    fontWeight: FontWeight.bold),
-                              )
-                            : null,
-                      );
+                      // return TimeItem(
+                      //   time: _timesAfternoon[i],
+                      //   title: i == 0
+                      //       ? Text(
+                      //           "Chiều",
+                      //           style: GoogleFonts.inter(
+                      //               fontWeight: FontWeight.bold),
+                      //         )
+                      //       : null,
+                      // );
                     },
                     separatorBuilder: (c, i) => const SizedBox(height: 10)),
                 SliverList.separated(
                     itemCount: _timesNight.length,
                     itemBuilder: (c, i) {
-                      return TimeItem(
-                        time: _timesNight[i],
-                        title: i == 0
-                            ? Text(
-                                "Tối",
-                                style: GoogleFonts.inter(
-                                    fontWeight: FontWeight.bold),
-                              )
-                            : null,
-                      );
+                      // return TimeItem(
+                      //   time: _timesNight[i],
+                      //   title: i == 0
+                      //       ? Text(
+                      //           "Tối",
+                      //           style: GoogleFonts.inter(
+                      //               fontWeight: FontWeight.bold),
+                      //         )
+                      //       : null,
+                      // );
                     },
                     separatorBuilder: (c, i) => const SizedBox(height: 10))
               ],

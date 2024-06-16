@@ -43,7 +43,7 @@ List<ScheduleDetailModel> generateSampleScheduleDetails() {
       idScheduleDetail: 3,
       idPreDetail: 1001,
       idSchedule: 203,
-      status: "Missed",
+      status: "Pending",
       timeOfUse: const TimeOfDay(hour: 18, minute: 0),
     ),
       ScheduleDetailModel(
@@ -57,7 +57,7 @@ List<ScheduleDetailModel> generateSampleScheduleDetails() {
       idScheduleDetail: 5,
       idPreDetail: 1001,
       idSchedule: 203,
-      status: "Missed",
+      status: "Pending",
       timeOfUse: const TimeOfDay(hour: 14, minute: 0),
     ),
       ScheduleDetailModel(
@@ -71,8 +71,8 @@ List<ScheduleDetailModel> generateSampleScheduleDetails() {
       idScheduleDetail: 7,
       idPreDetail: 1001,
       idSchedule: 203,
-      status: "Missed",
-      timeOfUse: const TimeOfDay(hour: 17, minute: 50),
+      status: "Pending",
+      timeOfUse: const TimeOfDay(hour: 20, minute: 50),
     ),
 
      ScheduleDetailModel(
