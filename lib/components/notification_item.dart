@@ -25,7 +25,7 @@ class _NotifyComponentState extends State<NotifyComponent> {
     return InkWell(
       onTap: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const DrugInfoPage()));
+            MaterialPageRoute(builder: (context) =>  DrugInfoPage(notifiItem: widget.notifiItem)));
       },
       child: Padding(
           padding: const EdgeInsets.only(top: 16),

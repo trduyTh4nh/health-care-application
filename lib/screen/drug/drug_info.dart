@@ -25,13 +25,15 @@ class _DrugInfoState extends State<DrugInfo> {
   List<TimeOfDay> _timesNight = [];
   final ScrollController _controller = ScrollController();
   double _opacity = 0.0;
+
   @override
   void initState() {
-    // TODO: implement initState
     _timesMorning = _times.where((e) => e.hour >= 0 && e.hour <= 12).toList();
     _timesAfternoon =
         _times.where((e) => e.hour >= 12 && e.hour <= 18).toList();
     _timesNight = _times.where((e) => e.hour >= 18).toList();
+    
+
     super.initState();
     _controller.addListener(() {
       _opacity = (_controller.offset / 150).clamp(0, 1);

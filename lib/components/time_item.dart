@@ -2,57 +2,102 @@ import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
-class TimeItem extends StatelessWidget {
-  const TimeItem({super.key, required this.time, this.title});
+class TimeItem extends StatefulWidget {
+  const TimeItem({super.key, required this.time, this.title, this.sIndex});
   final TimeOfDay time;
   final Widget? title;
+  final int? sIndex;
+  @override
+  State<TimeItem> createState() => _TimeItemState();
+}
 
-  String getPeriodOfDay(int h){
-    if(h >= 18){
+class _TimeItemState extends State<TimeItem> {
+  bool checkCurrentTime = false;
+
+  String getPeriodOfDay(int h) {
+    if (h > 18) {
       return "tối";
     }
-    if(h >= 12){
+    if (h > 12) {
       return "chiều";
     }
     return "sáng";
   }
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    print(widget.sIndex);
+
+    TimeOfDay currentTime = TimeOfDay.now();
+    // print("Current time ${currentTime.hour} time ${widget.time.hour}");
+    if (widget.time.hour == currentTime.hour) {
+      setState(() {
+        checkCurrentTime = true;
+      });
+
+      // print(checkCurrentTime);
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        title != null ? 
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-          child: Column(
-            children: [
-              title!,
-            ],
-          ),
-        )
-        : const SizedBox(),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Material(
-            color: AppColor.gray,
-            borderRadius: const BorderRadius.all(Radius.circular(16)),
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                children: [
-                  Row(
+    return InkWell(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          widget.title != null
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Column(
                     children: [
-                      Icon(Symbols.alarm),
-                      SizedBox(width: 10,),
-                      Text("${time.hourOfPeriod.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')} ${getPeriodOfDay(time.hour)}")
+                      widget.title!,
                     ],
-                  )
-                ],
+                  ),
+                )
+              : const SizedBox(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6),
+            child: Material(
+              color: AppColor.gray,
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+              child: InkWell(
+                onTap: () {
+                  print(widget.sIndex);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 16, right: 2, top: 2, bottom: 2),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(Symbols.alarm),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                              "${widget.time.hourOfPeriod.toString().padLeft(2, '0')}:${widget.time.minute.toString().padLeft(2, '0')} ${getPeriodOfDay(widget.time.hour)}"),
+
+                          const SizedBox(width: 10,),
+                          checkCurrentTime ? Text("(Tiếp theo)") : const SizedBox()
+                        ],
+                      ),
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Symbols.more_horiz))
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }
