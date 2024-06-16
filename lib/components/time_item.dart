@@ -1,3 +1,4 @@
+import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
@@ -80,12 +81,11 @@ class _TimeItemState extends State<TimeItem> {
             padding: const EdgeInsets.symmetric(vertical: 6),
             child: Container(
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(4)),
-                border: widget.isSelected == true
-                    ? Border.all(color: Colors.white, width: 0)
-                    : null,
-                color: widget.isSelected! ? AppColors.primaryColor : null
-              ),
+                  borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  border: widget.isSelected == true
+                      ? Border.all(color: Colors.white, width: 0)
+                      : null,
+                  color: widget.isSelected! ? AppColors.primaryColor : null),
               child: Material(
                 borderOnForeground: true,
                 color: colorBackground,
@@ -115,13 +115,20 @@ class _TimeItemState extends State<TimeItem> {
                               width: 10,
                             ),
                             checkCurrentTime
-                                ? Text("(Tiếp theo)")
+                                ? const Text("(Tiếp theo)")
                                 : const SizedBox()
                           ],
                         ),
-                        IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Symbols.more_horiz))
+                        PopupMenuButton(
+                            itemBuilder: (context) => [
+                                  PopupMenuItem(
+                                    value: MedicationItemAction.delete,
+                                    child: ListTile(
+                                      leading: Icon(Symbols.delete),
+                                      title: Text('Xóa lịch'),
+                                    ),
+                                  )
+                                ])
                       ],
                     ),
                   ),

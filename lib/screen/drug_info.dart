@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/components/time_item.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/model/drug_model.dart';
@@ -111,7 +112,41 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
           ),
           actions: [
             PopupMenuButton(itemBuilder: (context) => const [
-              
+                PopupMenuItem(
+                  value: MedicationItemAction.confirm,
+                  child: ListTile(
+                    leading: Icon(Symbols.check),
+                    title: Text("Xác nhận"),
+                  ),
+                ),
+                 PopupMenuItem(
+                  value: MedicationItemAction.snooze,
+                  child: ListTile(
+                    leading: Icon(Symbols.snooze),
+                    title: Text("Nhặc tôi sau 10p nữa"),
+                  ),
+                ),
+                 PopupMenuItem(
+                  value: MedicationItemAction.buy,
+                  child: ListTile(
+                    leading: Icon(Symbols.shopping_bag),
+                    title: Text("Mua thuốc này"),
+                  ),
+                ),
+                 PopupMenuItem(
+                  value: MedicationItemAction.edit,
+                  child: ListTile(
+                    leading: Icon(Symbols.edit),
+                    title: Text("Sửa thuốc này"),
+                  ),
+                ),
+                 PopupMenuItem(
+                  value: MedicationItemAction.delete,
+                  child: ListTile(
+                    leading: Icon(Symbols.delete),
+                    title: Text("Xóa thuốc này"),
+                  ),
+                ),
             ])
           ],
         ),
