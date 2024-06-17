@@ -6,9 +6,11 @@ import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug.dart';
 import 'package:app_well_mate/screen/notification.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -116,9 +118,9 @@ class _HomeState extends State<Home> {
                               onTap: () {
                                 Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                      builder: (context) => BmiPage(),
-                                    ));
+                                    PageTransition(
+                                        child: BmiPage(),
+                                        type: PageTransitionType.rightToLeft));
                               },
                             )),
                             Expanded(
