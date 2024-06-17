@@ -11,24 +11,32 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(children: [
-          CircleAvatar(
-            radius: 20,
-            backgroundImage:
-                NetworkImage('https://i.giphy.com/BSx6mzbW1ew7K.webp'),
-          ),
-          SizedBox(
-            width: 12,
-          ),
-          Text("Nguyễn Duy", style: Theme.of(context).textTheme.titleMedium),
-        ]),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.notifications_none),
-          )
-        ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Icon(Icons.ac_unit_outlined),
+                SizedBox(
+                  width: 15,
+                ),
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    child: Text(
+                      "Đơn thuốc đang được chuẩn bị bởi nhà thuốc",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge!
+                          .copyWith(fontSize: 24),
+                    ),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

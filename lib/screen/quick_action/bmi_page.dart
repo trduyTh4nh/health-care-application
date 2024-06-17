@@ -1,3 +1,4 @@
+import 'package:app_well_mate/components/thuoc_do.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
@@ -11,6 +12,7 @@ class BmiPage extends StatefulWidget {
 class _BmiPageState extends State<BmiPage> {
   Set<String> _selectedItem = {'Hệ mét'};
   String dropdownValue = 'Nam';
+  String result = "Bình thường";
   var resultBmi = 0.0;
   var weighController = TextEditingController();
   var heightController = TextEditingController();
@@ -19,6 +21,31 @@ class _BmiPageState extends State<BmiPage> {
     setState(() {
       _selectedItem = newSelection;
     });
+  }
+
+  String getResult() {
+    if (resultBmi < 18.5) {
+      setState(() {
+        result = "Thiếu cân";
+      });
+    }
+    if (resultBmi > 18.5 && resultBmi < 24.9) {
+      setState(() {
+        result = "Bình thường";
+      });
+    }
+
+    if (resultBmi > 24.9 && resultBmi < 29.9) {
+      setState(() {
+        result = "Thừa cân";
+      });
+    }
+    if (resultBmi > 29.9) {
+      setState(() {
+        result = "Béo phì";
+      });
+    }
+    return result;
   }
 
   @override
@@ -94,12 +121,13 @@ class _BmiPageState extends State<BmiPage> {
               TextField(
                 controller: weighController,
                 decoration: InputDecoration(
+                  hintStyle: const TextStyle(color: Color(0xFF807D7D)),
                   hintText: "Điền cân nặng",
-                  suffixText: "kg",
+                  suffixText: _selectedItem.contains("Hệ mét") ? "kg" : "pound",
                 ),
                 keyboardType: TextInputType.number,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
@@ -113,11 +141,12 @@ class _BmiPageState extends State<BmiPage> {
                 controller: heightController,
                 decoration: InputDecoration(
                   hintText: "Điền chiều cao",
-                  suffixText: "cm",
+                  suffixText: _selectedItem.contains("Hệ mét") ? "cm" : "inch",
+                  hintStyle: const TextStyle(color: Color(0xFF807D7D)),
                 ),
                 keyboardType: TextInputType.number,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
@@ -168,9 +197,15 @@ class _BmiPageState extends State<BmiPage> {
                       Icons.monitor_weight_outlined,
                       size: 30,
                     ),
-                    Text(
-                      resultBmi.toString(),
-                      style: Theme.of(context).textTheme.displayMedium,
+                    TweenAnimationBuilder(
+                      tween: Tween<double>(begin: resultBmi, end: resultBmi),
+                      duration: const Duration(milliseconds: 1000),
+                      builder: (context, value, child) {
+                        return Text(
+                          value.toStringAsFixed(2),
+                          style: Theme.of(context).textTheme.displayMedium,
+                        );
+                      },
                     ),
                     Text(
                       "BMI",
@@ -183,7 +218,7 @@ class _BmiPageState extends State<BmiPage> {
                 height: 10,
               ),
               Text(
-                "Bình thường",
+                getResult(),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               SizedBox(
@@ -192,6 +227,46 @@ class _BmiPageState extends State<BmiPage> {
               Text(
                 "Thước đo",
                 style: Theme.of(context).textTheme.titleSmall,
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Expanded(
+                    child: thuocdo_widget(
+                      color: Color(0xff6B94FF),
+                      title: "Thiếu cân",
+                    ),
+                  ),
+                  Expanded(
+                    child: thuocdo_widget(
+                      color: Color(0xffACFF6B),
+                      title: "Bình thường",
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: thuocdo_widget(
+                      color: Color(0xffFFBB6B),
+                      title: "Thừa cân",
+                    ),
+                  ),
+                  Expanded(
+                    child: thuocdo_widget(
+                      color: Color(0xffFF6B6B),
+                      title: "Béo phì",
+                    ),
+                  ),
+                ],
               ),
               Container(
                 child: SfLinearGauge(
@@ -235,25 +310,31 @@ class _BmiPageState extends State<BmiPage> {
                 margin: const EdgeInsets.all(10),
               ),
               Center(
-                  child: ElevatedButton(
-                onPressed: () {
-                  var we = weighController.text.toString();
-                  var he = heightController.text.toString();
+                  child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: ElevatedButton(
+                  onPressed: () {
+                    var we = weighController.text.toString();
+                    var he = heightController.text.toString();
 
-                  var iWe = int.parse(we);
-                  var iHe = int.parse(he) * 0.01;
+                    var iWe = int.parse(we);
+                    var iHe = int.parse(he) * 0.01;
 
-                  var result = (iWe / (iHe * iHe)).toStringAsFixed(2);
+                    var result = (iWe / (iHe * iHe)).toStringAsFixed(2);
 
-                  print("can nang ${iWe}");
-                  print("chieu cao ${iHe}");
-                  print("chieu cao ${result}");
-                  setState(() {
-                    resultBmi = double.parse(result);
-                  });
-                },
-                child: Text("Tính"),
-              ))
+                    print("can nang ${iWe}");
+                    print("chieu cao ${iHe}");
+                    print("chieu cao ${result}");
+                    setState(() {
+                      resultBmi = double.parse(result);
+                    });
+                  },
+                  child: const Text("Tính"),
+                ),
+              )),
+              // SizedBox(
+              //   height: 20,
+              // )
             ],
           ),
         ),
