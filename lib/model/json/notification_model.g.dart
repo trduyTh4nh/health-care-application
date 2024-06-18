@@ -15,9 +15,12 @@ NotificationModel _$NotificationModelFromJson(Map<String, dynamic> json) =>
       priority: json['priority'] as String?,
       status: json['status'] as bool?,
       userId: (json['userId'] as num?)?.toInt(),
+      idOrder: (json['idOrder'] as num?)?.toInt(),
+      idPayment: (json['idPayment'] as num?)?.toInt(),
+      idDonThuocCT: (json['idOrder'] as num?)?.toInt(),
     )
       ..isComfirmed = json['isComfirmed'] as bool?
-      ..idDonThuoc = (json['idDonThuoc'] as num?)?.toInt();
+      ..idDonThuocCT = (json['idDonThuocCT'] as num?)?.toInt();
 
 Map<String, dynamic> _$NotificationModelToJson(NotificationModel instance) =>
     <String, dynamic>{
@@ -28,5 +31,7 @@ Map<String, dynamic> _$NotificationModelToJson(NotificationModel instance) =>
       'status': instance.status,
       'isComfirmed': instance.isComfirmed,
       'userId': instance.userId,
-      'idDonThuoc': instance.idDonThuoc,
+      'idDonThuocCT': instance.idDonThuocCT,
+      'idOrder': instance.idOrder,
+      'idPayment': instance.idPayment
     };

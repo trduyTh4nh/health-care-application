@@ -2,6 +2,7 @@ import 'package:app_well_mate/components/custom_elevated_check_btn.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/notification_model.dart';
 import 'package:app_well_mate/screen/drug_info.dart';
+import 'package:app_well_mate/screen/order/order_status.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -18,17 +19,28 @@ class NotifyComponent extends StatefulWidget {
 }
 
 class _NotifyComponentState extends State<NotifyComponent> {
+  Widget checkWidgetReturn(String cateWidget) {
+    if (cateWidget == 'delivery' || cateWidget == 'confirm') {
+      return OrderStatus();
+    } else {
+      return DrugInfoPage(notifiItem: widget.notifiItem);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Color colorBox =
         widget.isImportant ? colorScheme.error : colorScheme.primary;
     return InkWell(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const DrugInfoPage()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    checkWidgetReturn(widget.notifiItem.priority!)));
       },
       child: Padding(
-          padding: const EdgeInsets.only(top: 16),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -90,8 +102,8 @@ class _NotifyComponentState extends State<NotifyComponent> {
                               Symbols.check,
                               color: Colors.white,
                             ),
-                            color: colorBox,)
-                          
+                            color: colorBox,
+                          )
                   ],
                 ),
               ),
