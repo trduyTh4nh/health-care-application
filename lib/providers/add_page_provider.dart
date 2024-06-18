@@ -36,7 +36,7 @@ class AddPageProvider extends ChangeNotifier {
         if (i != 0) {
           time += toSecond(_sDate);
         }
-        _scheduleDetailModel.add(ScheduleDetailModel(time: toTime(time)));
+        _scheduleDetailModel.add(ScheduleDetailModel(timeOfUse: toTime(time)));
       }
     }
   }
