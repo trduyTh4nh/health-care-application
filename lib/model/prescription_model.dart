@@ -1,4 +1,3 @@
-import 'package:app_well_mate/model/hospital.dart';
 import 'package:app_well_mate/model/hospital_model.dart';
 import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:json_annotation/json_annotation.dart';

@@ -25,7 +25,7 @@ class _AddDrugHabitPageState extends State<AddDrugHabitPage> {
             Center(
                 child: SvgPicture.asset(
               'assets/images/undraw_time_management.svg',
-              width: 185,
+              height: 125,
             )),
             const SizedBox(height: 20),
             Center(

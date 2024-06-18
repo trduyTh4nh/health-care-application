@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:app_well_mate/providers/add_page_provider.dart';
+import 'package:app_well_mate/screen/drug/add_drug_pages/add_drug_dosage.dart';
 import 'package:app_well_mate/screen/drug/add_drug_pages/add_drug_habit.dart';
 import 'package:app_well_mate/screen/drug/add_drug_pages/add_drug_info.dart';
 import 'package:app_well_mate/screen/drug/add_drug_pages/add_drug_schedule.dart';
@@ -23,7 +24,7 @@ class _AddDrugPageState extends State<AddDrugPage> {
     AddDrugInfoPage(),
     AddDrugHabitPage(),
     AddDrugSchedulePage(),
-    AddDrugInfoPage()
+    AddDrugPageDosage()
   ];
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class _AddDrugPageState extends State<AddDrugPage> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Text("Thêm thuốc"),
+          title: const Text("Thêm thuốc"),
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -42,7 +43,7 @@ class _AddDrugPageState extends State<AddDrugPage> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("Huỷ")),
+                  child: const Text("Huỷ")),
             )
           ],
         ),
@@ -52,19 +53,19 @@ class _AddDrugPageState extends State<AddDrugPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
               child: SmoothPageIndicator(
-                  controller: _pageController,
-                  count: pages.length,
-                  axisDirection: Axis.horizontal,
-                  effect: const SlideEffect(
-                    spacing: 8.0,
-                    radius: 4.0,
-                    dotWidth: 36.0,
-                    dotHeight: 10.0,
-                    strokeWidth: 1,
-                    dotColor: AppColors.greyColor,
-                    activeDotColor: AppColors.primaryColor,
-                  ),
+                controller: _pageController,
+                count: pages.length,
+                axisDirection: Axis.horizontal,
+                effect: const SlideEffect(
+                  spacing: 8.0,
+                  radius: 4.0,
+                  dotWidth: 36.0,
+                  dotHeight: 10.0,
+                  strokeWidth: 1,
+                  dotColor: AppColors.greyColor,
+                  activeDotColor: AppColors.primaryColor,
                 ),
+              ),
             ),
             Expanded(
               child: PageView(
@@ -73,39 +74,68 @@ class _AddDrugPageState extends State<AddDrugPage> {
                 children: pages,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
-                children: [
-                  _currentPageIndex != 0 ?
-                  Expanded(
-                    child: FilledButton(onPressed: () {
-                      if(_currentPageIndex == 0){
-                        _currentPageIndex = -1;
-                      }
-                      _currentPageIndex--;
-                      _pageController.animateToPage(_currentPageIndex, duration: Duration(milliseconds: 500), curve: Curves.easeInOutCubicEmphasized);
-                      setState(() {
-                        
-                      });
-                    }, child: Text("Trước")),
-                  ) : const SizedBox(),
-                  SizedBox(width: _currentPageIndex == 0 ? 0 : 10,),
-                  Expanded(
-                    child: ElevatedButton(onPressed: () {
-                      if(_currentPageIndex >= pages.length - 1){
-                        return;
-                      }
-                      _currentPageIndex++;
-                      _pageController.animateToPage(_currentPageIndex, duration: Duration(milliseconds: 500), curve: Curves.easeInOutCubicEmphasized);
-                      setState(() {
-                        
-                      });
-                    }, child: Text(_currentPageIndex == pages.length - 1 ? "Thêm" : "Tiếp")),
-                  ),
-                ],
-              ),
-            )
+            Consumer<AddPageProvider>(builder: (context, value, child) {
+              void checkIsPageValid() {
+                if (_currentPageIndex == 2) {
+                  value.isValid = value.scheduleDetailModel.isNotEmpty || value.habit != 0;
+                }
+                if(_currentPageIndex == 1){
+                  value.isValid = true;
+                }
+                FocusManager.instance.primaryFocus?.unfocus();
+              }
+              return Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  children: [
+                    _currentPageIndex != 0
+                        ? Expanded(
+                            child: FilledButton(
+                                onPressed: () {
+                                  if (_currentPageIndex == 0) {
+                                    _currentPageIndex = -1;
+                                  }
+                                  _currentPageIndex--;
+                                  _pageController.animateToPage(
+                                      _currentPageIndex,
+                                      duration: Duration(milliseconds: 500),
+                                      curve: Curves.easeInOutCubicEmphasized);
+                                  checkIsPageValid();
+                                  setState(() {});
+                                },
+                                child: const Text("Trước")),
+                          )
+                        : const SizedBox(),
+                    SizedBox(
+                      width: _currentPageIndex == 0 ? 0 : 10,
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                          onPressed: value.isValid
+                              ? () {
+                                  if (_currentPageIndex >= pages.length - 1) {
+                                    Navigator.pop(context);
+                                    //TODO: Add thuốc khi có back-end.
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Đã thêm thuốc.")));
+                                    return;
+                                  }
+                                  _currentPageIndex++;
+                                  _pageController.animateToPage(
+                                      _currentPageIndex,
+                                      duration: Duration(milliseconds: 500),
+                                      curve: Curves.easeInOutCubicEmphasized);
+                                  checkIsPageValid();
+                                  setState(() {});
+                                }
+                              : null,
+                          child: Text(_currentPageIndex == pages.length - 1
+                              ? "Thêm"
+                              : "Tiếp")),
+                    ),
+                  ],
+                ),
+              );
+            })
           ],
         ),
       ),

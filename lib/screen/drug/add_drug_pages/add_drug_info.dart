@@ -24,8 +24,8 @@ class _AddDrugInfoPageState extends State<AddDrugInfoPage> {
     (Symbols.pill, "Gói"),
     (Symbols.pill, "Lần"),
   ];
-  TextEditingController nameController = TextEditingController(), 
-  quantityController = TextEditingController();
+  TextEditingController nameController = TextEditingController(),
+      quantityController = TextEditingController();
   late (IconData, String) selection = units[0];
   List<DropdownMenuItem<(IconData, String)>> options = [];
   @override
@@ -50,37 +50,42 @@ class _AddDrugInfoPageState extends State<AddDrugInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AddPageProvider>(
-      builder: (context, value, child) {
-        nameController.text = value.prescriptionDetail!.drug!.name ?? "";
-        quantityController.text = value.prescriptionDetail!.quantity.toString() == "null" ? "" : value.prescriptionDetail!.quantity.toString();
-        selection = (Symbols.pill, value.prescriptionDetail!.drug!.unit ?? "Viên");
-        PrescriptionDetailModel model = PrescriptionDetailModel();
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                    child: SvgPicture.asset(
-                        'assets/images/undraw_add_information.svg')),
-                const SizedBox(height: 20),
-                Center(
-                  child: Text("Thuốc của bạn là gì?",
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.displaySmall),
-                ),
-                TextField(
-                  controller: nameController,
-                  decoration: InputDecoration(label: const Text("Nhập tên thuốc")),
-                  onChanged: (val) {
-                    value.prescriptionDetail!.drug!.name = nameController.text;
-                  },
-                ),
-                const SizedBox(height: 20),
-                const Text("Đơn vị"),
-                DropdownButton<(IconData, String)>(
+    return Consumer<AddPageProvider>(builder: (context, value, child) {
+      nameController.text = value.prescriptionDetail!.drug!.name ?? "";
+      quantityController.text =
+          value.prescriptionDetail!.quantity.toString() == "null"
+              ? ""
+              : value.prescriptionDetail!.quantity.toString();
+      selection =
+          (Symbols.pill, value.prescriptionDetail!.drug!.unit ?? "Viên");
+      PrescriptionDetailModel model = PrescriptionDetailModel();
+      return SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                  child: SvgPicture.asset(
+                      'assets/images/undraw_add_information.svg', height: 125,)),
+              const SizedBox(height: 20),
+              Center(
+                child: Text("Thuốc của bạn là gì?",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.displaySmall),
+              ),
+              TextField(
+                controller: nameController,
+                decoration:
+                    InputDecoration(label: const Text("Nhập tên thuốc")),
+                onChanged: (val) {
+                  value.prescriptionDetail!.drug!.name = nameController.text;
+                  value.checkIsDrugValid();
+                },
+              ),
+              const SizedBox(height: 20),
+              const Text("Đơn vị"),
+              DropdownButton<(IconData, String)>(
                   isExpanded: true,
                   value: selection,
                   items: options,
@@ -89,24 +94,29 @@ class _AddDrugInfoPageState extends State<AddDrugInfoPage> {
                     setState(() {
                       selection = i;
                     });
-                  }
-                ),
-                TextField(
-                  controller: quantityController,
-                  decoration: const InputDecoration(label: Text("Nhập số lượng thuốc bạn đang có")), keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
-                  onChanged: (val) {
-                    model.quantity = int.parse(quantityController.text);
-                  },
-                ),
-                const SizedBox(height: 20),
-                const Text("Toa thuốc"),
-                const SizedBox(height: 20),
-                PrescriptionItem(model: value.prescriptionModel!),
-              ],
-            ),
+                    value.checkIsDrugValid();
+                  }),
+              TextField(
+                controller: quantityController,
+                decoration: const InputDecoration(
+                    label: Text("Nhập số lượng thuốc bạn đang có")),
+                keyboardType: const TextInputType.numberWithOptions(
+                    decimal: false, signed: false),
+                onChanged: (v) {
+                  value.prescriptionDetail!.quantity =
+                      int.tryParse(quantityController.text);
+
+                  value.checkIsDrugValid();
+                },
+              ),
+              const SizedBox(height: 20),
+              const Text("Toa thuốc"),
+              const SizedBox(height: 20),
+              PrescriptionItem(model: value.prescriptionModel!),
+            ],
           ),
-        );
-      }
-    );
+        ),
+      );
+    });
   }
 }
