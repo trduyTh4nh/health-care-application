@@ -63,10 +63,13 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
               ),
             ),
             Expanded(
-              child: PageView(
-                physics: NeverScrollableScrollPhysics(),
-                controller: _pageController,
-                children: _pages,
+              child: Padding(
+                padding: EdgeInsets.only(top: 20),
+                child: PageView(
+                  physics: NeverScrollableScrollPhysics(),
+                  controller: _pageController,
+                  children: _pages,
+                ),
               ),
             ),
             Text(

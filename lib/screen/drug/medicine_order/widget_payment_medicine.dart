@@ -1,3 +1,4 @@
+import 'package:app_well_mate/main.dart';
 import 'package:flutter/material.dart';
 
 class WidgetPaymentMedicine extends StatefulWidget {
@@ -10,6 +11,8 @@ class WidgetPaymentMedicine extends StatefulWidget {
 class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
   String paymentMethod = 'Momo';
   String diaChi = "DiaChi1";
+  final _userName = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final sizeWight = MediaQuery.of(context).size.width;
@@ -67,9 +70,74 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
             child: InkWell(
               onTap: () {
                 showModalBottomSheet(
+                  backgroundColor: Colors.grey[300],
                   context: context,
                   builder: (context) {
-                    return showBottomSheet(sizeHeight: sizeHeight);
+                    // return showBottomSheet(sizeHeight: sizeHeight);
+                    return Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Container(
+                        height: 0.80 * sizeHeight,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Center(
+                                child: Text("Thêm địa chỉ mới"),
+                              ),
+                              Text("Thông tin liên hệ"),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Column(
+                                children: [
+                                  TextFormField(
+                                    controller: _userName,
+                                    decoration: InputDecoration(
+                                      hintText: "Họ và tên",
+                                    ),
+                                  ),
+                                  TextField(
+                                    decoration: InputDecoration(
+                                        hintText: "Số điện thoại"),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Text("Thông tin địa chỉ"),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    hintText:
+                                        "Tỉnh/Thành phố, Quận/Huyện, Phường/Xã"),
+                              ),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                    hintText: "Tên đường, Tòa nhà, Số nhà"),
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              Text("Đặt làm mặc định"),
+                              SwitchExample(),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              SizedBox(
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("Xong"),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
                   },
                 );
               },
@@ -126,64 +194,28 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
   }
 }
 
-class showBottomSheet extends StatelessWidget {
-  const showBottomSheet({
-    super.key,
-    required this.sizeHeight,
-  });
+class SwitchExample extends StatefulWidget {
+  const SwitchExample({super.key});
 
-  final double sizeHeight;
+  @override
+  State<SwitchExample> createState() => _SwitchExampleState();
+}
+
+class _SwitchExampleState extends State<SwitchExample> {
+  bool light = true;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: Container(
-        height: 0.65 * sizeHeight,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Text("Thêm địa chỉ mới"),
-              ),
-              Text("Thông tin liên hệ"),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: 120,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 7),
-                      ),
-                    ]),
-                child: Column(
-                  children: [
-                    TextField(
-                      decoration: InputDecoration(hintText: "Họ và tên"),
-                    ),
-                    TextField(
-                      decoration: InputDecoration(hintText: "Số điện thoại"),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Text("Thông tin địa chỉ")
-            ],
-          ),
-        ),
-      ),
+    return Switch(
+      // This bool value toggles the switch.
+      value: light,
+      activeColor: colorScheme.primary,
+      onChanged: (bool value) {
+        // This is called when the user toggles the switch.
+        setState(() {
+          light = value;
+        });
+      },
     );
   }
 }
