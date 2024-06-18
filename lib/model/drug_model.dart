@@ -19,6 +19,7 @@ class DrugModel {
   String? unit;
   int? idBrand;
   int? idDrugCate;
+  String? drugImage;
 
   DrugModel({this.idDrug, this.name, this.ingredients, 
   this.indication,
@@ -32,7 +33,8 @@ class DrugModel {
   this.code,
   this.unit,
   this.idBrand,
-  this.idDrugCate});
+  this.idDrugCate,
+  this.drugImage});
 
   factory DrugModel.fromJson(Map<String, dynamic> json) => _$DrugModelFromJson(json);
   Map<String, dynamic> toJson() => _$DrugModelToJson(this);
@@ -65,6 +67,7 @@ List<DrugModel> generateSampleDrugs() {
       unit: "mg",
       idBrand: 1,
       idDrugCate: 1,
+      drugImage: ""
     ),
     DrugModel(
       idDrug: 102,
@@ -82,6 +85,7 @@ List<DrugModel> generateSampleDrugs() {
       unit: "ml",
       idBrand: 2,
       idDrugCate: 2,
+      drugImage: ""
     ),
     // Add more sample data as needed
   ];

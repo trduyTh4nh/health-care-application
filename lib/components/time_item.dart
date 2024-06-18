@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 typedef void DataCallback(int index);
+typedef void DeleteScheduleById(int id);
 
 class TimeItem extends StatefulWidget {
   const TimeItem(
@@ -15,7 +16,9 @@ class TimeItem extends StatefulWidget {
       this.sIndex,
       required this.onDataChanged,
       this.isSelected,
-      required this.scheDetail});
+      required this.scheDetail,
+      required this.deleteScheduleById});
+  final DeleteScheduleById deleteScheduleById;
   final bool? isSelected;
   final DataCallback onDataChanged;
   final TimeOfDay time;
@@ -39,26 +42,32 @@ class _TimeItemState extends State<TimeItem> {
     return "sáng";
   }
 
-  @override
-  void initState() {
-    super.initState();
+  void checkState() {
     TimeOfDay currentTime = TimeOfDay.now();
     // print("Current time ${currentTime.hour} time ${widget.time.hour}");
     if (widget.time.hour == currentTime.hour) {
       setState(() {
         checkCurrentTime = true;
       });
-      // print(checkCurrentTime);
     }
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    checkState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    checkState();
+
     Color colorBackground = (!checkCurrentTime)
         ? widget.scheDetail.status == 'Pending'
             ? AppColor.primaryGrayTinted
             : widget.isSelected!
-                ? AppColor.primaryGrayTinted
+                ? AppColor.gray
                 : AppColor.gray
         : AppColor.red;
 
@@ -122,8 +131,13 @@ class _TimeItemState extends State<TimeItem> {
                         PopupMenuButton(
                             itemBuilder: (context) => [
                                   PopupMenuItem(
+                                    onTap: () {
+                                        widget.deleteScheduleById(widget.sIndex!);
+                                      setState(() {
+                                      });
+                                    },
                                     value: MedicationItemAction.delete,
-                                    child: ListTile(
+                                    child: const ListTile(
                                       leading: Icon(Symbols.delete),
                                       title: Text('Xóa lịch'),
                                     ),
