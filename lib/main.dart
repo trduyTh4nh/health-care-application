@@ -44,9 +44,19 @@ class _MainAppState extends State<MainApp> {
               style: ButtonStyle(
                   textStyle: WidgetStateProperty.all(
                       GoogleFonts.inter(fontWeight: FontWeight.bold)),
-                  backgroundColor: WidgetStateProperty.all(colorScheme.primary),
+                  backgroundColor: WidgetStateProperty.resolveWith((e) {
+                    if(e.contains(WidgetState.disabled)){
+                      return AppColor.gray;
+                    }
+                    return colorScheme.primary;
+                  }),
                   foregroundColor:
-                      WidgetStateProperty.all(colorScheme.onPrimary),
+                      WidgetStateProperty.resolveWith((e) {
+                    if(e.contains(WidgetState.disabled)){
+                      return AppColor.darkerGray;
+                    }
+                    return colorScheme.onPrimary;
+                  }),
                   shape: WidgetStateProperty.all(const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(16)))),
                   minimumSize: WidgetStateProperty.all(const Size(40, 50)),

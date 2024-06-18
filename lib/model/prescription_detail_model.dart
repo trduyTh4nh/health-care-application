@@ -1,3 +1,5 @@
+import 'package:app_well_mate/model/drug_model.dart';
+import 'package:app_well_mate/model/prescription_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'json/prescription_detail_model.g.dart';
@@ -10,6 +12,9 @@ class PrescriptionDetailModel {
   String? timeToUse;
   double? quantityUsed;
   int? idDrug; // khóa ngoại
+// khóa ngoại
+  DrugModel? drug;
+  PrescriptionModel? prescription;
   int? idPre; // khóa ngoại // id của đơn thuốc
   String? amount; // ví dụ 1 lần 3 viên
 
@@ -21,7 +26,10 @@ class PrescriptionDetailModel {
       this.quantity,
       this.quantityUsed,
       this.timeToUse,
-      this.amount});
+      this.amount,
+      this.drug,
+       this.prescription
+      });
 
   factory PrescriptionDetailModel.fromJson(Map<String, dynamic> json) =>
       _$PrescriptionDetailModelFromJson(json);

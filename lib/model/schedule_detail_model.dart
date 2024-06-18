@@ -1,3 +1,5 @@
+import 'package:app_well_mate/model/prescription_detail_model.dart';
+
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -6,17 +8,24 @@ part 'json/schedule_detail_model.g.dart';
 @JsonSerializable()
 class ScheduleDetailModel {
   int? idScheduleDetail;
+
   int? idPreDetail; // khóa ngoại
   int? idSchedule; // khóa ngoại
   String? status;
   TimeOfDay? timeOfUse; // thời gian sử dụng ví dụ thuốc Hapacol dùng [2:00, 3:30, 10:20]
+  int? quantityUsed;
+  PrescriptionDetailModel? detail;
+  TimeOfDay? time;
 
   ScheduleDetailModel(
       {this.idScheduleDetail,
       this.idPreDetail,
       this.idSchedule,
       this.status,
-      this.timeOfUse});
+      this.timeOfUse,
+      this.detail,
+      this.quantityUsed,
+      this.time});
 
   factory ScheduleDetailModel.fromJson(Map<String, dynamic> json) =>
       _$ScheduleDetailModelFromJson(json);

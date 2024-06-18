@@ -9,6 +9,7 @@ part of '../schedule_detail_model.dart';
 ScheduleDetailModel _$ScheduleDetailModelFromJson(Map<String, dynamic> json) =>
     ScheduleDetailModel(
       idScheduleDetail: (json['idScheduleDetail'] as num?)?.toInt(),
+
       idPreDetail: (json['idPreDetail'] as num?)?.toInt(),
       idSchedule: (json['idSchedule'] as num?)?.toInt(),
       status: json['status'] as String?,
@@ -19,6 +20,7 @@ Map<String, dynamic> _$ScheduleDetailModelToJson(
         ScheduleDetailModel instance) =>
     <String, dynamic>{
       'idScheduleDetail': instance.idScheduleDetail,
+      'quantityUsed': instance.quantityUsed,
       'idPreDetail': instance.idPreDetail,
       'idSchedule': instance.idSchedule,
       'status': instance.status,
