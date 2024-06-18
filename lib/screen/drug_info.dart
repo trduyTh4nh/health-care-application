@@ -62,33 +62,9 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
     listScheduleDetail = prescriptionDetail!.idPreDetail != null
         ? findScheduleDetail(prescriptionDetail!.idPreDetail!)
         : null;
-    // List<TimeOfDay> times =
-    //     listScheduleDetail?.map((element) => element.timeOfUse!).toList() ?? [];
-
-    // _timesMorning = times.where((e) => e.hour >= 0 && e.hour <= 12).toList();
-    // _timesMorning.sort((a, b) => a.hour.compareTo(b.hour));
-    // _timesAfternoon = times.where((e) => e.hour > 12 && e.hour <= 18).toList();
-    // _timesAfternoon.sort((a, b) => a.hour.compareTo(b.hour));
-    // _timesNight = times.where((e) => e.hour > 18 && e.hour <= 24).toList();
-    // _timesNight.sort((a, b) => a.hour.compareTo(b.hour));
+  
     renderListSchedule();
-    // List<ScheduleDetailModel> times1 =
-    //     listScheduleDetail?.map((element) => element).toList() ?? [];
-
-    // _timesMorning1 = times1
-    //     .where((e) => e.timeOfUse!.hour >= 0 && e.timeOfUse!.hour <= 12)
-    //     .toList();
-    // _timesMorning1
-    //     .sort((a, b) => a.timeOfUse!.hour.compareTo(b.timeOfUse!.hour));
-    // _timesAfternoon1 = times1
-    //     .where((e) => e.timeOfUse!.hour > 12 && e.timeOfUse!.hour <= 18)
-    //     .toList();
-    // _timesAfternoon1
-    //     .sort((a, b) => a.timeOfUse!.hour.compareTo(b.timeOfUse!.hour));
-    // _timesNight1 = times1
-    //     .where((e) => e.timeOfUse!.hour > 18 && e.timeOfUse!.hour <= 24)
-    //     .toList();
-    // _timesNight1.sort((a, b) => a.timeOfUse!.hour.compareTo(b.timeOfUse!.hour));
+    
 
     // handle controller
     _controller.addListener(() {
@@ -106,6 +82,7 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
     _timesMorning1 = times1
         .where((e) => e.timeOfUse!.hour >= 0 && e.timeOfUse!.hour <= 12)
         .toList();
+
     _timesMorning1
         .sort((a, b) => a.timeOfUse!.hour.compareTo(b.timeOfUse!.hour));
 
@@ -585,39 +562,7 @@ void updateElement(int id, ScheduleDetailModel updatedModel) {
     print("Element with ID $id not found in the list.");
   }
 }
-// Widget timeComponent(int hour, BuildContext context) {
-//   return Padding(
-//     padding: const EdgeInsets.symmetric(vertical: 8),
-//     child: Material(
-//       color: AppColor.gray,
-//       borderRadius: BorderRadius.all(Radius.circular(20)),
-//       child: InkWell(
-//         onTap: () {},
-//         child: Padding(
-//           padding: const EdgeInsets.only(left: 16),
-//           child: Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: [
-//               Row(
-//                 children: [
-//                   const Icon(Symbols.alarm),
-//                   const SizedBox(
-//                     width: 8,
-//                   ),
-//                   Text(
-//                     '$hour:00 $session',
-//                     style: Theme.of(context).textTheme.bodyMedium,
-//                   ),
-//                 ],
-//               ),
-//               IconButton(onPressed: () {}, icon: const Icon(Symbols.more_horiz))
-//             ],
-//           ),
-//         ),
-//       ),
-//     ),
-//   );
-// }
+
 
 Widget timerWidget() {
   return Container(

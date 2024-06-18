@@ -20,8 +20,9 @@ class _AddDrugPageDosageState extends State<AddDrugPageDosage> {
   Widget build(BuildContext context) {
     return Consumer<AddPageProvider>(
       builder: (context, value, child) {
-        int quantityToUse = value.prescriptionDetail!.quantityToUse!.toInt();
-        if (value.prescriptionDetail!.quantityToUse != null) {
+        int? quantityToUse = -1;
+        if (value.prescriptionDetail!.quantityUsed != null) {
+          quantityToUse = value.prescriptionDetail!.quantityUsed!.toInt();
           selectedDosage = quantityToUse;
         }
         customValueController.text = quantityToUse == -1 ? "" : quantityToUse.toString();
@@ -66,9 +67,9 @@ class _AddDrugPageDosageState extends State<AddDrugPageDosage> {
                         onTap: () {
                           setState(() {
                             selectedDosage = dosages[index];
-                            value.prescriptionDetail!.quantityToUse =
+                            value.prescriptionDetail!.quantityUsed =
                                 selectedDosage.toDouble();
-                            if(value.prescriptionDetail!.quantityToUse == -1){
+                            if(value.prescriptionDetail!.quantityUsed == -1){
                               value.isValid = false;
                             } else {
                               value.isValid = true;
@@ -131,11 +132,11 @@ class _AddDrugPageDosageState extends State<AddDrugPageDosage> {
                               const InputDecoration(label: Text("Số lượng")),
                           onChanged: (val) {
                             setState(() {});
-                            value.prescriptionDetail!.quantityToUse =
+                            value.prescriptionDetail!.quantityUsed =
                                 (int.tryParse(customValueController.text) ??
                                         -1)
                                     .toDouble();
-                            if(value.prescriptionDetail!.quantityToUse == -1){
+                            if(value.prescriptionDetail!.quantityUsed == -1){
                               value.isValid = false;
                             } else {
                               value.isValid = true;

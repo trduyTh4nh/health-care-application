@@ -198,7 +198,7 @@ class _AddDrugSchedulePageState extends State<AddDrugSchedulePage> {
                               width: 10,
                             ),
                             Text(
-                                "${value.scheduleDetailModel[index]!.time!.hour.toString().padLeft(2, '0')}:${value.scheduleDetailModel[index]!.time!.minute.toString().padLeft(2, '0')}"),
+                                "${value.scheduleDetailModel[index]!.timeOfUse!.hour.toString().padLeft(2, '0')}:${value.scheduleDetailModel[index]!.timeOfUse!.minute.toString().padLeft(2, '0')}"),
                           ]),
                           Icon(Icons.edit_outlined)
                         ],
@@ -235,7 +235,7 @@ class _AddDrugSchedulePageState extends State<AddDrugSchedulePage> {
                         ) ??
                         t;
                     value
-                        .addToScheduleDetailModel(ScheduleDetailModel(time: t));
+                        .addToScheduleDetailModel(ScheduleDetailModel(timeOfUse: t));
                     value.habit = 0;
                   },
                   child: const Padding(

@@ -24,8 +24,7 @@ class ScheduleDetailModel {
       this.status,
       this.timeOfUse,
       this.detail,
-      this.quantityUsed,
-      this.time});
+      this.quantityUsed,});
 
   factory ScheduleDetailModel.fromJson(Map<String, dynamic> json) =>
       _$ScheduleDetailModelFromJson(json);
