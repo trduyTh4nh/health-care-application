@@ -81,7 +81,9 @@ var listNotification = [
       priority: enumPriority[2],
       status: false,
       userId: 1,
-      idDonThuocCT: 1001),
+      idDonThuocCT: 1001,
+      idOrder: 1),
+      
   NotificationModel(
       id: 3,
       content: "Đã đến giờ uống Paracetamol 30mg",

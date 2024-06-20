@@ -21,7 +21,7 @@ class NotifyComponent extends StatefulWidget {
 class _NotifyComponentState extends State<NotifyComponent> {
   Widget checkWidgetReturn(String cateWidget) {
     if (cateWidget == 'delivery' || cateWidget == 'confirm') {
-      return OrderStatus();
+      return OrderStatus(notifiItem: widget.notifiItem,);
     } else {
       return DrugInfoPage(notifiItem: widget.notifiItem);
     }

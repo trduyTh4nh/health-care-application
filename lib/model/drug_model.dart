@@ -67,7 +67,7 @@ List<DrugModel> generateSampleDrugs() {
       unit: "mg",
       idBrand: 1,
       idDrugCate: 1,
-      drugImage: ""
+      drugImage: "https://www.imexpharm.com/Data/Sites/1/Product/8809/Paracetamol-IMEX-500mg-hop-100v.png"
     ),
     DrugModel(
       idDrug: 102,
@@ -82,10 +82,64 @@ List<DrugModel> generateSampleDrugs() {
       price: 30000.0,
       description: "This is a description of Drug B",
       code: "B002",
+      unit: "Gói",
+      idBrand: 2,
+      idDrugCate: 2,
+      drugImage: "https://hapacol.vn/wp-content/uploads/2016/04/21.png"
+    ),
+    DrugModel(
+      idDrug: 103,
+      name: "Doraemon",
+      ingredients: [4, 5, 6],
+      indication: "For treating condition B",
+      contraindication: "Do not use if condition C is present",
+      uses: "Take one pill daily",
+      sideEffect: "May cause side effect B",
+      productionDate: DateTime(2022, 6, 15),
+      expirationDate: DateTime(2023, 6, 15),
+      price: 6000.0,
+      description: "This is a description of Drug B",
+      code: "B002",
       unit: "ml",
       idBrand: 2,
       idDrugCate: 2,
-      drugImage: ""
+      drugImage: "https://thuocgiaphuc.vn/Uploads/HinhSP/com_plusvitca_c40gr_tung_lam_tcplc.jpg"
+    ),
+    DrugModel(
+      idDrug: 104,
+      name: "Thuốc nhỏ mắt OSLA",
+      ingredients: [4, 5, 6],
+      indication: "For treating condition B",
+      contraindication: "Do not use if condition C is present",
+      uses: "Take one pill daily",
+      sideEffect: "May cause side effect B",
+      productionDate: DateTime(2022, 6, 15),
+      expirationDate: DateTime(2023, 6, 15),
+      price: 1200.0,
+      description: "This is a description of Drug B",
+      code: "B002",
+      unit: "Vỉ",
+      idBrand: 2,
+      idDrugCate: 2,
+      drugImage: "https://eoffice.meraplion.com/admincp/api/storage/images/webhub/products/yo8c21nlowlphzb-29-11-2023-11-52-18.png"
+    ),
+     DrugModel(
+      idDrug: 105,
+      name: "Thuốc ho Prospan",
+      ingredients: [4, 5, 6],
+      indication: "For treating condition B",
+      contraindication: "Do not use if condition C is present",
+      uses: "Take one pill daily",
+      sideEffect: "May cause side effect B",
+      productionDate: DateTime(2022, 6, 15),
+      expirationDate: DateTime(2023, 6, 15),
+      price: 230000.0,
+      description: "This is a description of Drug B",
+      code: "B002",
+      unit: "Hộp",
+      idBrand: 2,
+      idDrugCate: 2,
+      drugImage: "https://prospan.com.vn/wp-content/uploads/2017/04/03-vo-hop-vi.png"
     ),
     // Add more sample data as needed
   ];
