@@ -33,7 +33,7 @@ class _LoginByEmailState extends State<LoginByEmail> {
                   ),
                 ),
                 const SizedBox(
-                  height: 32,
+                  height: 8,
                 ),
                 Container(
                   padding:
@@ -151,7 +151,7 @@ class _LoginByEmailState extends State<LoginByEmail> {
                         ),
                       ),
                       const SizedBox(
-                        height: 100,
+                        height: 8,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

@@ -1,3 +1,8 @@
+import 'package:app_well_mate/components/medication_fab.dart';
+import 'package:app_well_mate/const/color_scheme.dart';
+import 'package:app_well_mate/screen/drug/add_drug.dart';
+import 'package:app_well_mate/screen/drug/schedule_pages/drug_done.dart';
+import 'package:app_well_mate/screen/drug/schedule_pages/drug_today.dart';
 import 'package:flutter/material.dart';
 import 'package:app_well_mate/model/prescription_model.dart';
 import 'medicationDetail.dart';
@@ -12,87 +17,31 @@ class _MedicationPageState extends State<MedicationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text('Đơn thuốc'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () {
-              setState(() {
-                prescriptions.clear();
-              });
-            },
-          ),
-        ],
-      ),
-      body: ListView.builder(
-        itemCount: prescriptions.length,
-        itemBuilder: (context, index) {
-          final prescription = prescriptions[index];
-
-          return Column(
-            children: [
-              Dismissible(
-                key: Key(prescription.idPre.toString()),
-                direction: DismissDirection.endToStart,
-                onDismissed: (direction) {
-                  setState(() {
-                    prescriptions.removeAt(index);
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('${prescription.doctorName} đã bị xóa'),
-                    ),
-                  );
-                },
-                background: Container(
-                  color: Colors.red,
-                  alignment: Alignment.centerRight,
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                  ),
-                ),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    child: Icon(Icons.local_hospital),
-                  ),
-                  title: Text(
-                    prescription.createdDate != null
-                        ? "Đơn ngày ${prescription.createdDate!.day}/${prescription.createdDate!.month}/${prescription.createdDate!.year}"
-                        : '',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(prescription.hospital?.name ?? ''),
-                      Text(prescription.convertTime(prescription.createdDate!)),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                       MaterialPageRoute(
-                        builder: (context) => PrescriptionDetailPage(prescription: prescription),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Divider(),
-            ],
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Add your navigation logic here
-        },
-        child: Icon(Icons.add),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text("Lịch uống thuốc"),
+          bottom: TabBar(
+            dividerColor: AppColor.gray,
+            tabs: const [
+            Tab(text: "Thuốc chưa uống",),
+            Tab(text: "Thuốc đã uống",),
+            Tab(text: "Tất cả thuốc")
+          ]),
+        ),
+        floatingActionButton: const Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            MedicationFab()
+          ],
+        ),
+        body: const TabBarView(children: [
+          DrugToday(),
+          DrugDone(),
+          DrugDone()
+        ]),
       ),
     );
   }
