@@ -1,35 +1,35 @@
 import 'package:app_well_mate/model/drug_model.dart';
-import 'package:app_well_mate/model/prescription_model.dart';
 import 'package:json_annotation/json_annotation.dart';
-
+import 'package:app_well_mate/model/prescription_model.dart';
 part 'json/prescription_detail_model.g.dart';
 
 @JsonSerializable()
 class PrescriptionDetailModel {
   int? idPreDetail;
+  int? idDrug;
+  int? idPre;
   String? notes;
   int? quantity;
-  String? timeToUse;
   int? quantityUsed;
-  int? idDrug; // khóa ngoại
-// khóa ngoại
+  String? timeToUse;
+  String? amount;
+  int? amountPerConsumption;
   DrugModel? drug;
   PrescriptionModel? prescription;
-  int? idPre; // khóa ngoại // id của đơn thuốc
-  String? amount; // ví dụ 1 lần 3 viên
-  int? amountPerConsumption;
-  PrescriptionDetailModel(
-      {this.idPreDetail,
-      this.idDrug,
-      this.idPre,
-      this.notes,
-      this.quantity,
-      this.quantityUsed,
-      this.timeToUse,
-      this.amount,
-      this.drug,
-      this.prescription,
-      this.amountPerConsumption});
+
+  PrescriptionDetailModel({
+    this.idPreDetail,
+    this.idDrug,
+    this.idPre,
+    this.notes,
+    this.quantity,
+    this.quantityUsed,
+    this.timeToUse,
+    this.amount,
+    this.amountPerConsumption,
+    this.drug,
+    this.prescription,
+  });
 
   factory PrescriptionDetailModel.fromJson(Map<String, dynamic> json) =>
       _$PrescriptionDetailModelFromJson(json);
@@ -45,12 +45,48 @@ List<PrescriptionDetailModel> generateSamplePrescriptionDetails() {
         timeToUse: "Sáng",
         quantityUsed: 10,
         idDrug: 101,
-        idPre: 1001, //id của đơn thuốc
+        idPre: 1001, //id của đơn thuốc''
+        drug: DrugModel(
+            idDrug: 105,
+            name: "Thuốc ho Prospan",
+            ingredients: [4, 5, 6],
+            indication: "For treating condition B",
+            contraindication: "Do not use if condition C is present",
+            uses: "Take one pill daily",
+            sideEffect: "May cause side effect B",
+            productionDate: DateTime(2022, 6, 15),
+            expirationDate: DateTime(2023, 6, 15),
+            price: 230000.0,
+            description: "This is a description of Drug B",
+            code: "B002",
+            unit: "Hộp",
+            idBrand: 2,
+            idDrugCate: 2,
+            drugImage:
+                "https://nhathuocmedcare.vn/media/catalog/product/cache/7012753609bdb66174cd6f40c1c8efc9/5/_/5.3.png"),
         amount: "1 lần 3 viên"),
     PrescriptionDetailModel(
         idPreDetail: 1002,
         notes: "Sau bửa tối",
         quantity: 60,
+        drug: DrugModel(
+            idDrug: 105,
+            name: "Thuốc ho Prospan",
+            ingredients: [4, 5, 6],
+            indication: "For treating condition B",
+            contraindication: "Do not use if condition C is present",
+            uses: "Take one pill daily",
+            sideEffect: "May cause side effect B",
+            productionDate: DateTime(2022, 6, 15),
+            expirationDate: DateTime(2023, 6, 15),
+            price: 230000.0,
+            description: "This is a description of Drug B",
+            code: "B002",
+            unit: "Hộp",
+            idBrand: 2,
+            idDrugCate: 2,
+            drugImage:
+                "https://nhathuocmedcare.vn/media/catalog/product/cache/7012753609bdb66174cd6f40c1c8efc9/5/_/5.3.png"),
         timeToUse: "Tối",
         quantityUsed: 10,
         idDrug: 102,
@@ -58,3 +94,4 @@ List<PrescriptionDetailModel> generateSamplePrescriptionDetails() {
         amount: "1 lần 1/2 viên"),
   ];
 }
+

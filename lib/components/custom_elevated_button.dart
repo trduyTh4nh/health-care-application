@@ -17,7 +17,7 @@ class _CustomElevatedButtonState extends State<CustomElevatedButton> {
     return Material(
       color: widget.color != null ? widget.color : colorScheme.primary,
       borderRadius: const BorderRadius.all(Radius.circular(30)),
-      child: InkWell( 
+      child: InkWell(
         onTap: widget.onTap,
         borderRadius: const BorderRadius.all(Radius.circular(30)),
         child: Padding(

@@ -20,4 +20,33 @@ class HospitalModel {
       this.avatars});
 factory HospitalModel.fromJson(Map<String, dynamic> json) => _$HospitalModelFromJson(json);
   Map<String, dynamic> toJson() => _$HospitalModelToJson(this);
+
+// static List<HospitalModel> getData() {
+//     return [
+//       HospitalModel(
+//         idHospital: 1,
+//         name: "Bệnh viện Đại Học Y Dược",
+//         address: "123 ABC Street",
+//         phone: "0123456789",
+//         createdDate: DateTime.now(),
+//         contactInformation: "rintuan@gmail.com",
+//       ),
+//       HospitalModel(
+//         idHospital: 2,
+//         name: "Bệnh viện Hùng Vương",
+//         address: "456 DEF Street",
+//         phone: "0987654321",
+//         createdDate: DateTime.now(),
+//         contactInformation: "rintuan@gmail.com",
+//       ),
+//       HospitalModel(
+//         idHospital: 3,
+//         name: "Bệnh viện Trung Tâm",
+//         address: "789 GHI Street",
+//         phone: "1234567890",
+//         createdDate: DateTime.now(),
+//         contactInformation: "rintuan@gmail.com",
+//       ),
+//     ];
+//   }
 }
