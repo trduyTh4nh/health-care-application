@@ -4,6 +4,7 @@ import 'package:app_well_mate/screen/drug/medicine_order/widget_payment_medicine
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:app_well_mate/screen/drug/medicine_order/widget_prescriptionstatus_medicine.dart';
 
 class MedicinesOrder extends StatefulWidget {
   const MedicinesOrder({super.key});
@@ -123,7 +124,14 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                       : Expanded(
                           child: SizedBox(
                               child: ElevatedButton(
-                                  onPressed: () {}, child: Text("Hoàn thành"))),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                WidgetPrescriptionstatusMedicine()));
+                                  },
+                                  child: Text("Hoàn thành"))),
                         )
                 ],
               ),

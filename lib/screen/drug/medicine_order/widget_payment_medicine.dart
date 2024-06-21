@@ -94,6 +94,141 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                             top: 12,
                           ),
                           child: Container(
+                            height: 0.3 * sizeHeight,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Center(
+                                    child: Text("Thêm địa chỉ mới"),
+                                  ),
+                                  Text("Thông tin liên hệ"),
+                                  // SizedBox(
+                                  //   height: 20,
+                                  // ),
+                                  Column(
+                                    children: [
+                                      TextFormField(
+                                        controller: _userName,
+                                        decoration: InputDecoration(
+                                          hintText: "Tên thẻ ngân hàng",
+                                        ),
+                                      ),
+                                      TextField(
+                                        decoration: InputDecoration(
+                                            hintText: "Số thẻ ngân hàng"),
+                                      )
+                                    ],
+                                  ),
+
+                                  SizedBox(
+                                    height: 12,
+                                  ),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("Xong"),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: Row(
+                  children: [
+                    Icon(Icons.add),
+                    Text("Thêm thẻ ngân hàng",
+                        style: Theme.of(context).textTheme.titleMedium),
+                  ],
+                ),
+              ),
+            ),
+            Text("Địa chỉ giao hàng"),
+            Container(
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [SwitchExample(), Text("Giao hàng tận nơi")],
+                )
+              ],
+            )),
+            Container(
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Radio<String>(
+                        value: "Diachi1",
+                        groupValue: diaChi,
+                        onChanged: (String? value) {
+                          setState(() {
+                            diaChi = value!;
+                            // if (value == diaChi) {
+                            //   diaChi = null;
+                            // } else {
+                            //   diaChi = value;
+                            // }
+                          });
+                        },
+                      ),
+                      Container(
+                        width: sizeWight * 1.9 / 3,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "100 đường Example, Thành phố Hồ Chí Minh, Việt Nam",
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            Text("Địa chỉ 1"),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  PopupMenuButton(
+                    style: Theme.of(context).iconButtonTheme.style,
+                    itemBuilder: (context) => const [
+                      PopupMenuItem(
+                          value: MedicationItemAction.delete,
+                          child: ListTile(
+                              leading: Icon(Symbols.delete),
+                              title: Text("Xoá địa chỉ này"))),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: InkWell(
+                onTap: () {
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                    backgroundColor: Colors.grey[300],
+                    context: context,
+                    builder: (context) {
+                      // return showBottomSheet(sizeHeight: sizeHeight);
+                      return SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                            left: 12,
+                            right: 12,
+                            top: 12,
+                          ),
+                          child: Container(
                             height: 0.51 * sizeHeight,
                             child: SingleChildScrollView(
                               child: Column(
@@ -168,65 +303,6 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                 ),
               ),
             ),
-            Text("Địa chỉ giao hàng"),
-            Container(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [SwitchExample(), Text("Giao hàng tận nơi")],
-                )
-              ],
-            )),
-            Container(
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Radio<String>(
-                        value: "Diachi1",
-                        groupValue: diaChi,
-                        onChanged: (String? value) {
-                          setState(() {
-                            diaChi = value!;
-                            // if (value == diaChi) {
-                            //   diaChi = null;
-                            // } else {
-                            //   diaChi = value;
-                            // }
-                          });
-                        },
-                      ),
-                      Container(
-                        width: sizeWight * 1.9 / 3,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "100 đường Example, Thành phố Hồ Chí Minh, Việt Nam",
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            Text("Địa chỉ 1"),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  PopupMenuButton(
-                    style: Theme.of(context).iconButtonTheme.style,
-                    itemBuilder: (context) => const [
-                      PopupMenuItem(
-                          value: MedicationItemAction.delete,
-                          child: ListTile(
-                              leading: Icon(Symbols.delete),
-                              title: Text("Xoá địa chỉ này"))),
-                    ],
-                  ),
-                ],
-              ),
-            )
           ],
         ),
       ),
