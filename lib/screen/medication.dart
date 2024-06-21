@@ -20,12 +20,13 @@ class _MedicationPageState extends State<MedicationPage> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text("Thuốc hôm nay"),
+          title: const Text("Lịch uống thuốc"),
           bottom: TabBar(
             dividerColor: AppColor.gray,
             tabs: const [
-            Tab(text: "Thuốc hôm nay",),
-            Tab(text: "Thuốc đã uống",)
+            Tab(text: "Thuốc chưa uống",),
+            Tab(text: "Thuốc đã uống",),
+            Tab(text: "Tất cả thuốc")
           ]),
         ),
         floatingActionButton: const Column(
@@ -36,6 +37,7 @@ class _MedicationPageState extends State<MedicationPage> {
         ),
         body: const TabBarView(children: [
           DrugToday(),
+          DrugDone(),
           DrugDone()
         ]),
       ),
