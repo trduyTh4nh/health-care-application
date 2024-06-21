@@ -12,6 +12,7 @@ class HospitalManagementAdminPage extends StatefulWidget {
 
 class _HospitalManagementAdminPageState
     extends State<HospitalManagementAdminPage> {
+  final TextEditingController searchController = TextEditingController();
   void onPressed() {}
   //Day la cho lay data
   List<Hospital> listHos = Data().listHos;
@@ -32,7 +33,11 @@ class _HospitalManagementAdminPageState
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: TextField(
               decoration: InputDecoration(
-                  labelText: "Tìm kiếm", icon: Icon(Icons.search)),
+                  labelText: "Tìm kiếm",
+                  suffixIcon: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.search),
+                  )),
             ),
           ),
           Expanded(

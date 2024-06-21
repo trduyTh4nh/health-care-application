@@ -180,11 +180,15 @@ class _HomeState extends State<Home> {
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const Text("Hãy giữ gìn sức khoẻ nhé!"),
-                        const SizedBox(height: 10),
-                        SvgPicture.asset(
-                          "assets/images/undraw_medical_research_qg4d1.svg",
-                          height: 200,
-                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              "assets/images/prevent_gif.gif",
+                              height: 280,
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),

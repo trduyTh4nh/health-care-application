@@ -3,6 +3,7 @@ import 'package:app_well_mate/components/loginBypPhone.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Login extends StatefulWidget {
@@ -38,12 +39,12 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
         child: Column(
           children: [
             Container(
-              child: SvgPicture.asset('assets/images/login_picture.svg'),
+              child: Lottie.asset('assets/images/dotorjson.json'),
               alignment: Alignment.center,
-              padding: const EdgeInsets.fromLTRB(0, 48, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
             ),
             const SizedBox(
-              height: 64,
+              height: 0,
             ),
             SmoothPageIndicator(
               controller: _pageViewController,
@@ -60,7 +61,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
               ),
             ),
             const SizedBox(
-              height: 32,
+              height: 28,
             ),
             Expanded(
                 child: PageView(

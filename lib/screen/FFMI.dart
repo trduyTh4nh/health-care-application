@@ -78,14 +78,27 @@ class _FFMIPageState extends State<FFMIPage> {
             // ),
 
             SegmentedButton(
+              style: ButtonStyle(
+                        iconColor: MaterialStateProperty.all(Colors.white)),
               segments: [
                 ButtonSegment(
                   value: 'Hệ Mét',
-                  label: Text('Mét mét'),
+                  label: Text('Mét Mét',
+                  style: TextStyle(
+                            color: _metricMeasurement.contains("Hệ Mét")
+                                ? Colors.white
+                                : Colors.black,
+                          ),),
+                  
                 ),
                 ButtonSegment(
                   value: 'Hệ Mỹ',
-                  label: Text('Hệ Mỹ'),
+                  label: Text('Hệ Mỹ',
+                  style: TextStyle(
+                            color: _metricMeasurement.contains("Hệ Mỹ")
+                                ? Colors.white
+                                : Colors.black,
+                          ),),
                 ),
               ],
               selected: {_metricMeasurement},
@@ -124,6 +137,7 @@ class _FFMIPageState extends State<FFMIPage> {
             ),
             SizedBox(height: 16),
             DropdownButton<String>(
+              isExpanded: true,
               value: _gender,
               onChanged: (String? newValue) {
                 setState(() {
@@ -152,7 +166,7 @@ class _FFMIPageState extends State<FFMIPage> {
                       style: Theme.of(context).textTheme.titleLarge),
                   Text('FFMI: ', style: Theme.of(context).textTheme.titleSmall),
                   Text('${_ffmi.toStringAsFixed(1)} kg/m²',
-                      style: Theme.of(context).textTheme.titleMedium),
+                      style: Theme.of(context).textTheme.displayMedium),
                   Text('Trên trung bình',
                       style: Theme.of(context).textTheme.titleSmall),
                   Text('FFMI Bình thường hoá: ',

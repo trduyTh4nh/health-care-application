@@ -22,7 +22,10 @@ ColorScheme colorScheme = ColorScheme(
     onError: const Color(0xFF000000),
     surface: const Color(0xFFFFFFFF),
     onSurface: const Color(0xFF000000),
-    surfaceDim: const Color(0xFFF2F2F2));
+    surfaceDim: const Color(0xFFF2F2F2),
+    errorContainer: const Color(0xFFFFF4F4)
+    );
+    
 
 void main() {
   runApp(const MainApp());
@@ -46,14 +49,13 @@ class _MainAppState extends State<MainApp> {
                   textStyle: WidgetStateProperty.all(
                       GoogleFonts.inter(fontWeight: FontWeight.bold)),
                   backgroundColor: WidgetStateProperty.resolveWith((e) {
-                    if(e.contains(WidgetState.disabled)){
+                    if (e.contains(WidgetState.disabled)) {
                       return AppColor.gray;
                     }
                     return colorScheme.primary;
                   }),
-                  foregroundColor:
-                      WidgetStateProperty.resolveWith((e) {
-                    if(e.contains(WidgetState.disabled)){
+                  foregroundColor: WidgetStateProperty.resolveWith((e) {
+                    if (e.contains(WidgetState.disabled)) {
                       return AppColor.darkerGray;
                     }
                     return colorScheme.onPrimary;
@@ -157,7 +159,7 @@ class _MainAppState extends State<MainApp> {
                 border: UnderlineInputBorder(
                     borderSide: BorderSide(color: AppColor.darkerGray)))),
         debugShowCheckedModeBanner: false,
-        home: Login());
+        home: const Login());
     // home: FFMIPage());
   }
 }
@@ -175,7 +177,7 @@ class _AppPageState extends State<AppPage> {
     const Home(),
     const SearchPage(),
     const ScanPage(),
-    const MedicationPage(),
+     MedicationPage(),
     const Thongtincanhan(),
     const ThemeScreen()
   ];
