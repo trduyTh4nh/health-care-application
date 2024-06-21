@@ -42,6 +42,12 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
             key: ValueKey(_tittle[_currentPageIndex]),
           ),
         ),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.notifications_none),
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),

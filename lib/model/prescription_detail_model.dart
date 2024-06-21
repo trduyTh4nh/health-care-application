@@ -1,7 +1,7 @@
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/prescription_model.dart';
 import 'package:json_annotation/json_annotation.dart';
-
+import 'dart:math';
 part 'json/prescription_detail_model.g.dart';
 
 @JsonSerializable()
@@ -10,7 +10,7 @@ class PrescriptionDetailModel {
   String? notes;
   int? quantity;
   String? timeToUse;
-  int? quantityUsed;
+  double? quantityUsed;
   int? idDrug; // khóa ngoại
 // khóa ngoại
   DrugModel? drug;

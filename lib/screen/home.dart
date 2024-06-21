@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
             detail: PrescriptionDetailModel(
                 drug: DrugModel(name: "Paracetamol"),
                 quantity: Random().nextInt(100),
-                quantityUsed: Random().nextInt(100),
+                quantityUsed: Random().nextDouble(),
                 amountPerConsumption: Random().nextInt(10),
                 notes: "Trước khi ăn"),
           ));
@@ -45,8 +45,9 @@ class _HomeState extends State<Home> {
         .where((e) => toSecond(e.timeOfUse!) < toSecond(TimeOfDay.now()))
         .toList();
     upcomingData = mockData
-        .where(
-            (e) => toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) > -3600 && toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) < 0 )
+        .where((e) =>
+            toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) > -3600 &&
+            toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) < 0)
         .toList();
     super.initState();
   }
