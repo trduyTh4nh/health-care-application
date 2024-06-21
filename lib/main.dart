@@ -1,4 +1,5 @@
 import 'package:app_well_mate/const/color_scheme.dart';
+import 'package:app_well_mate/const/current_page.dart';
 import 'package:app_well_mate/screen/ffmi.dart';
 import 'package:app_well_mate/screen/home.dart';
 import 'package:app_well_mate/screen/login.dart';
@@ -44,9 +45,19 @@ class _MainAppState extends State<MainApp> {
               style: ButtonStyle(
                   textStyle: WidgetStateProperty.all(
                       GoogleFonts.inter(fontWeight: FontWeight.bold)),
-                  backgroundColor: WidgetStateProperty.all(colorScheme.primary),
+                  backgroundColor: WidgetStateProperty.resolveWith((e) {
+                    if(e.contains(WidgetState.disabled)){
+                      return AppColor.gray;
+                    }
+                    return colorScheme.primary;
+                  }),
                   foregroundColor:
-                      WidgetStateProperty.all(colorScheme.onPrimary),
+                      WidgetStateProperty.resolveWith((e) {
+                    if(e.contains(WidgetState.disabled)){
+                      return AppColor.darkerGray;
+                    }
+                    return colorScheme.onPrimary;
+                  }),
                   shape: WidgetStateProperty.all(const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(16)))),
                   minimumSize: WidgetStateProperty.all(const Size(40, 50)),
@@ -146,8 +157,8 @@ class _MainAppState extends State<MainApp> {
                 border: UnderlineInputBorder(
                     borderSide: BorderSide(color: AppColor.darkerGray)))),
         debugShowCheckedModeBanner: false,
-        home: const Login());
-        // home: FFMIPage());
+        home: Login());
+    // home: FFMIPage());
   }
 }
 

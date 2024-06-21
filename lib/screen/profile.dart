@@ -9,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'login.dart';
 import 'package:app_well_mate/components/shotcut.dart';
+import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
 
 class Thongtincanhan extends StatefulWidget {
   const Thongtincanhan({super.key});
@@ -41,7 +42,6 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
           )
         ],
       ),
-
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(15),
@@ -72,7 +72,6 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: Color(0xffFF7D7D),
-
                             ),
                             child: const Center(
                               child: Text(
@@ -88,16 +87,19 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                               padding: EdgeInsets.zero,
                               child: Text("Gọi điện khẩn cấp",
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.labelSmall))
+                                  style:
+                                      Theme.of(context).textTheme.labelSmall))
                         ],
                       ),
                     ),
                   ),
-
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const BmiPage()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const BmiPage()));
                       },
                       child: Column(
                         children: [
@@ -116,23 +118,25 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                                 width: 62,
                                 height: 62,
                               ),
-
                             ),
                           ),
                           Padding(
                               padding: EdgeInsets.zero,
                               child: Text("Tính chỉ số BMI",
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.labelSmall))
+                                  style:
+                                      Theme.of(context).textTheme.labelSmall))
                         ],
                       ),
                     ),
                   ),
-
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => FFMIPage()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FFMIPage()));
                       },
                       child: Column(
                         children: [
@@ -151,19 +155,18 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                                 width: 62,
                                 height: 62,
                               ),
-
                             ),
                           ),
                           Padding(
                               padding: EdgeInsets.zero,
                               child: Text("Tính chỉ số FFMI",
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.labelSmall))
+                                  style:
+                                      Theme.of(context).textTheme.labelSmall))
                         ],
                       ),
                     ),
                   ),
-
                   Expanded(
                     child: InkWell(
                       onTap: () {},
@@ -184,14 +187,14 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                                 width: 62,
                                 height: 62,
                               ),
-
                             ),
                           ),
                           Padding(
                               padding: EdgeInsets.zero,
                               child: Text("Thông báo uống thuốc",
                                   textAlign: TextAlign.center,
-                                  style: Theme.of(context).textTheme.labelSmall))
+                                  style:
+                                      Theme.of(context).textTheme.labelSmall))
                         ],
                       ),
                     ),
@@ -207,7 +210,12 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               ),
               Container(
                   child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MedicinesOrder()));
+                },
                 child: const Padding(
                   padding: EdgeInsets.symmetric(vertical: 16),
                   child: Row(
@@ -240,7 +248,10 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               Container(
                   child: InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const Changerepassword()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Changerepassword()));
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -326,7 +337,6 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               )),
             ],
           ),
-
         ),
       ),
     );
