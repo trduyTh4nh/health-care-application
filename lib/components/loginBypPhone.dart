@@ -31,7 +31,7 @@ class _LoginByPhoneState extends State<LoginByPhone> {
                   ),
                 ),
                 const SizedBox(
-                  height: 32,
+                  height: 8,
                 ),
                 Container(
                   padding:
@@ -144,7 +144,7 @@ class _LoginByPhoneState extends State<LoginByPhone> {
                         ),
                       ),
                       const SizedBox(
-                        height: 100,
+                        height: 8,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

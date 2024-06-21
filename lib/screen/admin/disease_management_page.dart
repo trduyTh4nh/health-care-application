@@ -1,4 +1,7 @@
+import 'package:app_well_mate/components/bieudodichte.dart';
+import 'package:app_well_mate/components/danhsachdichbenh.dart';
 import 'package:app_well_mate/components/item_sick.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class DiseaseManagementAdminPage extends StatefulWidget {
@@ -11,8 +14,12 @@ class DiseaseManagementAdminPage extends StatefulWidget {
 
 class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
     with TickerProviderStateMixin {
-  String dropdownValue = 'Quý 1';
+  String dropdownValue = 'Năm nay';
   String dropdownValue01 = 'Sốt xuất huyết';
+  List<Color> gradientColors = [
+    Colors.blue,
+    Colors.green,
+  ];
 
   late final TabController _tabController;
 
@@ -34,7 +41,7 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
     final sizeHeight = MediaQuery.of(context).size.height;
     final sizeWidht = MediaQuery.of(context).size.width;
 
-    const List<String> list = <String>['Quý 1', 'Quý 2', 'Quý 3', 'Quý 4'];
+    const List<String> list = <String>['Năm nay', '2023', '2022', '2021'];
     const List<String> list01 = <String>[
       'Sốt xuất huyết',
       'Cảm',
@@ -55,7 +62,7 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
             child: Text(
               "Hiển thị thống kê cho",
               style: Theme.of(context).textTheme.labelLarge,
@@ -71,8 +78,8 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
                   value: value,
                   child: Row(
                     children: [
-                      Icon(Icons.calendar_today),
-                      SizedBox(
+                      const Icon(Icons.calendar_today),
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(value)
@@ -81,14 +88,14 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
                 );
               }).toList(),
               onChanged: (String? value) {
-                  setState(() {
-                    dropdownValue = value!; // Cập nhật biến trạng thái
-                    print(dropdownValue);
-                  });
+                setState(() {
+                  dropdownValue = value!;
+                  print(dropdownValue);
+                });
               },
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
@@ -113,7 +120,7 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 height: 121,
                 width: sizeWidht * 1 / 2,
                 child: Padding(
@@ -136,19 +143,17 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
               )
             ],
           ),
-          Container(
-            child: TabBar(
-              controller: _tabController,
-              labelColor: Colors.black,
-              tabs: [
-                Tab(
-                  text: "Biểu đồ dịch tễ",
-                ),
-                Tab(
-                  text: "Biểu đồ dịch tễ",
-                ),
-              ],
-            ),
+          TabBar(
+            controller: _tabController,
+            labelColor: Colors.black,
+            tabs: const [
+              Tab(
+                text: "Biểu đồ dịch tễ",
+              ),
+              Tab(
+                text: "Danh sách dịch bệnh",
+              ),
+            ],
           ),
           Expanded(
             child: Container(
@@ -156,61 +161,9 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
               height: 400,
               child: TabBarView(
                 controller: _tabController,
-                children: [
-                  Column(
-                    children: [
-                      DropdownButton<String>(
-                        isExpanded: true,
-                        value: dropdownValue01, // Sử dụng biến trạng thái ở đây
-                        items: list01
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Row(
-                              children: [
-                                Icon(Icons.coronavirus_outlined),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(value)
-                              ],
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (String? value) {
-                          setState(() {
-                            dropdownValue01 =
-                                value!; // Cập nhật biến trạng thái
-                            print(dropdownValue01);
-                          });
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: Container(
-                          width: sizeWidht,
-                          height: sizeHeight * 0.35,
-                          color: Colors.red,
-                        ),
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      children: [
-                        TextField(
-                          decoration: InputDecoration(hintText: "Tìm kiếm"),
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        ItemSick(sizeWidht: sizeWidht),
-                        ItemSick(sizeWidht: sizeWidht),
-                        ItemSick(sizeWidht: sizeWidht),
-                      ],
-                    ),
-                  )
+                children: const [
+                   Bieudodichte(),
+                   Danhsachdichbenh(),
                 ],
               ),
             ),

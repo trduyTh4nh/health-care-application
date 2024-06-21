@@ -26,8 +26,8 @@ class PrescriptionModel {
       this.doctorName,
       this.status,
       this.prescriptionDetails,
-      this.hospital,
-      });
+
+      this.hospital});
 
   factory PrescriptionModel.fromJson(Map<String, dynamic> json) =>
       _$PrescriptionModelFromJson(json);
@@ -171,6 +171,7 @@ class PrescriptionModel {
     }
   }
 }
+
 
 List<PrescriptionModel> generateSamplePrescriptions() {
   return [

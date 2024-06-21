@@ -3,16 +3,13 @@ import 'package:flutter/material.dart';
 class ItemSick extends StatelessWidget {
   const ItemSick({
     super.key,
-    required this.sizeWidht,
   });
-
-  final double sizeWidht;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 92,
-      width: sizeWidht,
+      width: double.infinity,
       child: Column(
         children: [
           Expanded(

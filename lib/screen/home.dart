@@ -45,8 +45,9 @@ class _HomeState extends State<Home> {
         .where((e) => toSecond(e.timeOfUse!) < toSecond(TimeOfDay.now()))
         .toList();
     upcomingData = mockData
-        .where(
-            (e) => toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) > -3600 && toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) < 0 )
+        .where((e) =>
+            toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) > -3600 &&
+            toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) < 0)
         .toList();
     super.initState();
   }
@@ -179,11 +180,15 @@ class _HomeState extends State<Home> {
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const Text("Hãy giữ gìn sức khoẻ nhé!"),
-                        const SizedBox(height: 10),
-                        SvgPicture.asset(
-                          "assets/images/undraw_medical_research_qg4d1.svg",
-                          height: 200,
-                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              "assets/images/prevent_gif.gif",
+                              height: 280,
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
