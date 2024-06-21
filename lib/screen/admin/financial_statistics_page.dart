@@ -1,3 +1,5 @@
+import 'package:app_well_mate/components/admin_component/income.dart';
+import 'package:app_well_mate/components/admin_component/return.dart';
 import 'package:flutter/material.dart';
 
 class FinancialStatisticsPage extends StatefulWidget {
@@ -28,8 +30,8 @@ class _financial_statisticsPageState extends State<FinancialStatisticsPage>
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text("Thống kê tài chính"),
-        bottom: TabBar(controller: _tabController, tabs: [
+        title: const Text("Thống kê tài chính"),
+        bottom: TabBar(controller: _tabController, tabs: const [
           Tab(
             text: "Doanh thu",
           ),
@@ -40,15 +42,12 @@ class _financial_statisticsPageState extends State<FinancialStatisticsPage>
       ),
       body: TabBarView(
         controller: _tabController,
-        children: <Widget>[
+        children: const <Widget>[
           Center(
-            child: Text("It's cloudy here"),
+            child: IncomePage(),
           ),
           Center(
-            child: Text("It's rainy here"),
-          ),
-          Center(
-            child: Text("It's sunny here"),
+            child: ReturnPage(),
           ),
         ],
       ),

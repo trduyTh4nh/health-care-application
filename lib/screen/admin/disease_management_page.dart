@@ -62,7 +62,7 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
             child: Text(
               "Hiển thị thống kê cho",
               style: Theme.of(context).textTheme.labelLarge,
@@ -78,8 +78,8 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
                   value: value,
                   child: Row(
                     children: [
-                      Icon(Icons.calendar_today),
-                      SizedBox(
+                      const Icon(Icons.calendar_today),
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(value)
@@ -89,13 +89,13 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
               }).toList(),
               onChanged: (String? value) {
                 setState(() {
-                  dropdownValue = value!; // Cập nhật biến trạng thái
+                  dropdownValue = value!;
                   print(dropdownValue);
                 });
               },
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
@@ -120,7 +120,7 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 height: 121,
                 width: sizeWidht * 1 / 2,
                 child: Padding(
@@ -143,19 +143,17 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
               )
             ],
           ),
-          Container(
-            child: TabBar(
-              controller: _tabController,
-              labelColor: Colors.black,
-              tabs: const [
-                Tab(
-                  text: "Biểu đồ dịch tễ",
-                ),
-                Tab(
-                  text: "Danh sách dịch bệnh",
-                ),
-              ],
-            ),
+          TabBar(
+            controller: _tabController,
+            labelColor: Colors.black,
+            tabs: const [
+              Tab(
+                text: "Biểu đồ dịch tễ",
+              ),
+              Tab(
+                text: "Danh sách dịch bệnh",
+              ),
+            ],
           ),
           Expanded(
             child: Container(
@@ -163,9 +161,9 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
               height: 400,
               child: TabBarView(
                 controller: _tabController,
-                children: [
-                  const Bieudodichte(),
-                  const Danhsachdichbenh(),
+                children: const [
+                   Bieudodichte(),
+                   Danhsachdichbenh(),
                 ],
               ),
             ),
