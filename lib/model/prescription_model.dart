@@ -15,7 +15,6 @@ class PrescriptionModel {
   int? idUser;
   int? idHospital;
   HospitalModel? hospital;
-  DrugModel? drug;
   List<PrescriptionDetailModel>?
       prescriptionDetails; // List of PrescriptionDetailModel
 
@@ -28,7 +27,6 @@ class PrescriptionModel {
       this.status,
       this.prescriptionDetails,
       this.hospital,
-      this.drug,
       });
 
   factory PrescriptionModel.fromJson(Map<String, dynamic> json) =>

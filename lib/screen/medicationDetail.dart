@@ -79,7 +79,7 @@ class _PrescriptionDetailPageState extends State<PrescriptionDetailPage> {
                     ),
                     Row(
                       children: [
-                        Text("Bệnh: ",
+                        Text("Ngày tái khám: ",
                             style: Theme.of(context).textTheme.titleMedium),
                         Text(formatDate(widget.prescription.createdDate!)),
                       ],
