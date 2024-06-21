@@ -2,7 +2,10 @@ import 'package:app_well_mate/components/custom_elevated_button.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug.dart';
+import 'package:app_well_mate/model/prescription_detail_model.dart';
+import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/screen/drug/drug_info.dart';
+import 'package:app_well_mate/screen/drug_info.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -10,10 +13,9 @@ enum MedicationItemAction { delete, edit, snooze, buy, confirm }
 
 class MedicationItem extends StatefulWidget {
   const MedicationItem(
-      {super.key, required this.drug, this.index = 0, this.titleText});
-  final Drug drug;
+      {super.key, required this.prescription, this.titleText});
+  final ScheduleDetailModel prescription;
   //debug
-  final int index;
   final String? titleText;
   @override
   State<MedicationItem> createState() => _MedicationItemState();
@@ -23,9 +25,9 @@ class _MedicationItemState extends State<MedicationItem> {
   @override
   Widget build(BuildContext context) {
     int timeDiffSec =
-        (toSecond(TimeOfDay.now()) - toSecond(widget.drug.dueTime!));
+        (toSecond(TimeOfDay.now()) - toSecond(widget.prescription.timeOfUse!));
     TimeOfDay timeDiff = toTime(timeDiffSec.abs());
-    Color accent = timeDiffSec < 0 ? colorScheme.error : colorScheme.primary;
+    Color accent = timeDiffSec > 0 ? colorScheme.error : colorScheme.primary;
     return Padding(
       padding: const EdgeInsets.only(),
       child: Column(
@@ -44,7 +46,7 @@ class _MedicationItemState extends State<MedicationItem> {
           
           InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder:(context) => DrugInfo(drug: widget.drug,),));
+              Navigator.push(context, MaterialPageRoute(builder:(context) => const DrugInfoPage(),));
             },
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
@@ -68,7 +70,7 @@ class _MedicationItemState extends State<MedicationItem> {
                           ),
                           const SizedBox(width: 10),
                           Text(
-                            widget.drug.name ?? "",
+                            widget.prescription.detail!.drug!.name ?? "",
                             style: Theme.of(context).textTheme.bodyLarge,
                           )
                         ],
@@ -146,7 +148,7 @@ class _MedicationItemState extends State<MedicationItem> {
                               width: 5,
                             ),
                             Text(
-                                "Ngày ${widget.drug.prescriptionCount} ${widget.drug.unit}")
+                                "Ngày ${widget.prescription.detail!.amountPerConsumption} ${widget.prescription.detail!.drug!.unit}")
                           ],
                         ),
                       ),
@@ -180,7 +182,7 @@ class _MedicationItemState extends State<MedicationItem> {
                               width: 5,
                             ),
                             Text(
-                                "${widget.drug.userQuantity}/${widget.drug.quantity}")
+                                "${widget.prescription.detail!.quantityUsed}/${widget.prescription.detail!.quantity}")
                           ],
                         ),
                       ),
@@ -192,7 +194,7 @@ class _MedicationItemState extends State<MedicationItem> {
                         child: Row(
                           children: [
                             Text(
-                              timeDiffSec < 0
+                              timeDiffSec > 0
                                   ? "Trễ ${timeDiff.hour} giờ, ${timeDiff.minute} phút"
                                   : "Còn ${timeDiff.hour} giờ, ${timeDiff.minute} phút",
                               style: Theme.of(context).textTheme.bodyLarge,

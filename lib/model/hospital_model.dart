@@ -8,6 +8,7 @@ class HospitalModel {
   String? phone;
   DateTime? createdDate;
   String? contactInformation;
+  String? avatars;
 
   HospitalModel(
       {this.idHospital,
@@ -15,7 +16,8 @@ class HospitalModel {
       this.address,
       this.phone,
       this.createdDate,
-      this.contactInformation});
+      this.contactInformation,
+      this.avatars});
 factory HospitalModel.fromJson(Map<String, dynamic> json) => _$HospitalModelFromJson(json);
   Map<String, dynamic> toJson() => _$HospitalModelToJson(this);
 }
