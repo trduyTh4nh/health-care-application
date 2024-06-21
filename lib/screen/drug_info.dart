@@ -440,7 +440,7 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                     ),
                   ),
                   SliverList.separated(
-                    itemCount: 3,
+                    itemCount: 1,
                     itemBuilder: (context, index) {
                       return DrugItem(drugModel: drugModel as DrugModel);
                     },
@@ -471,7 +471,7 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                     ),
                   ),
                   SliverList.separated(
-                      itemCount: 2,
+                      itemCount: 1,
                       itemBuilder: (context, index) {
                         // cái id là test thôi sau này có data thật thì
                         // qua bên cái Item này lấy id đó xong viết API data về
@@ -498,7 +498,7 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                       backgroundColor: AppColor.smoker),
                   label: Text(
                     'Báo lại cho tôi sau 10 phút',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   icon: const Icon(
                     Symbols.snooze,
@@ -520,7 +520,7 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                     'Đánh dấu đã uống',
                     style: Theme.of(context)
                         .textTheme
-                        .bodyLarge!
+                        .bodyMedium!
                         .copyWith(color: Colors.white),
                   ),
                   icon: const Icon(

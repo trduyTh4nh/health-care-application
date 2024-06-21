@@ -172,15 +172,7 @@ class _OrderStatusState extends State<OrderStatus> {
                         )
                       ],
                     ),
-                    PopupMenuButton(
-                      itemBuilder: (context) => [
-                        const PopupMenuItem(
-                            child: ListTile(
-                          leading: Icon(Symbols.edit),
-                          title: Text('Chỉnh sửa'),
-                        ))
-                      ],
-                    )
+                    
                   ],
                 ),
               ),
@@ -221,15 +213,7 @@ class _OrderStatusState extends State<OrderStatus> {
                         ],
                       ),
                     ),
-                    PopupMenuButton(
-                      itemBuilder: (context) => [
-                        const PopupMenuItem(
-                            child: ListTile(
-                          leading: Icon(Icons.edit),
-                          title: Text('Chỉnh sửa'),
-                        ))
-                      ],
-                    )
+                   
                   ],
                 )),
               ),
@@ -370,16 +354,7 @@ class _OrderStatusState extends State<OrderStatus> {
                           )
                         ],
                       ),
-                      PopupMenuButton(
-                        style: Theme.of(context).iconButtonTheme.style,
-                        itemBuilder: (context) => [
-                          const PopupMenuItem(
-                              child: ListTile(
-                            leading: Icon(Symbols.delete),
-                            title: Text('Xóa'),
-                          ))
-                        ],
-                      )
+                     
                     ],
                   ),
                 );

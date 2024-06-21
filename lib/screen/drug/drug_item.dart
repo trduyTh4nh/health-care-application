@@ -20,7 +20,7 @@ class _DrugItemState extends State<DrugItem> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
+          Expanded(
             child: Row(
               children: [
                 Container(
@@ -36,17 +36,23 @@ class _DrugItemState extends State<DrugItem> {
                 const SizedBox(
                   width: 8,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Panadon Extra',
-                    style: Theme.of(context).textTheme.bodyLarge,),
-                    const SizedBox(
-                      height: 4,
-                    ),
-                    Text('3 vỉ - 8000đ/vỉ', 
-                    style: Theme.of(context).textTheme.bodySmall,),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Panadon Extra',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        '3 vỉ - 8000đ/vỉ',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -58,11 +64,9 @@ class _DrugItemState extends State<DrugItem> {
               onPressed: () {},
               child: Text('Mua ngay'),
               style: ElevatedButton.styleFrom(
-                minimumSize: const Size(100, 40),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100)
-                )
-              )),
+                  minimumSize: const Size(100, 40),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100)))),
           PopupMenuButton(
             itemBuilder: (context) => const [
               PopupMenuItem(
