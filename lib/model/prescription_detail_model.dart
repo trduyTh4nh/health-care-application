@@ -10,14 +10,14 @@ class PrescriptionDetailModel {
   String? notes;
   int? quantity;
   String? timeToUse;
-  double? quantityUsed;
+  int? quantityUsed;
   int? idDrug; // khóa ngoại
 // khóa ngoại
   DrugModel? drug;
   PrescriptionModel? prescription;
   int? idPre; // khóa ngoại // id của đơn thuốc
   String? amount; // ví dụ 1 lần 3 viên
-
+  int? amountPerConsumption;
   PrescriptionDetailModel(
       {this.idPreDetail,
       this.idDrug,
@@ -28,8 +28,8 @@ class PrescriptionDetailModel {
       this.timeToUse,
       this.amount,
       this.drug,
-       this.prescription
-      });
+      this.prescription,
+      this.amountPerConsumption});
 
   factory PrescriptionDetailModel.fromJson(Map<String, dynamic> json) =>
       _$PrescriptionDetailModelFromJson(json);
@@ -39,25 +39,22 @@ class PrescriptionDetailModel {
 List<PrescriptionDetailModel> generateSamplePrescriptionDetails() {
   return [
     PrescriptionDetailModel(
-      idPreDetail: 1001,
-      notes: "Sau khi ăn",
-      quantity: 30,
-      timeToUse: "Sáng",
-      quantityUsed: 10,
-      idDrug: 101,
-      idPre: 1001, //id của đơn thuốc
-      amount: "1 lần 3 viên"
-
-    ),
+        idPreDetail: 1001,
+        notes: "Sau khi ăn",
+        quantity: 30,
+        timeToUse: "Sáng",
+        quantityUsed: 10,
+        idDrug: 101,
+        idPre: 1001, //id của đơn thuốc
+        amount: "1 lần 3 viên"),
     PrescriptionDetailModel(
-      idPreDetail: 1002,
-      notes: "Sau bửa tối",
-      quantity: 60,
-      timeToUse: "Tối",
-      quantityUsed: 10,
-      idDrug: 102,
-      idPre: 1002, // id của đơn thuốc
-      amount: "1 lần 1/2 viên"
-    ),
+        idPreDetail: 1002,
+        notes: "Sau bửa tối",
+        quantity: 60,
+        timeToUse: "Tối",
+        quantityUsed: 10,
+        idDrug: 102,
+        idPre: 1002, // id của đơn thuốc
+        amount: "1 lần 1/2 viên"),
   ];
 }

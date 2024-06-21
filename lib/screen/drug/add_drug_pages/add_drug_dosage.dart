@@ -21,11 +21,13 @@ class _AddDrugPageDosageState extends State<AddDrugPageDosage> {
     return Consumer<AddPageProvider>(
       builder: (context, value, child) {
         int? quantityToUse = -1;
-        if (value.prescriptionDetail!.quantityUsed != null) {
-          quantityToUse = value.prescriptionDetail!.quantityUsed!.toInt();
+        if (value.prescriptionDetail!.amountPerConsumption != null) {
+          quantityToUse =
+              value.prescriptionDetail!.amountPerConsumption!.toInt();
           selectedDosage = quantityToUse;
         }
-        customValueController.text = quantityToUse == -1 ? "" : quantityToUse.toString();
+        customValueController.text =
+            quantityToUse == -1 ? "" : quantityToUse.toString();
         return CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
@@ -67,9 +69,11 @@ class _AddDrugPageDosageState extends State<AddDrugPageDosage> {
                         onTap: () {
                           setState(() {
                             selectedDosage = dosages[index];
-                            value.prescriptionDetail!.quantityUsed =
-                                selectedDosage.toDouble();
-                            if(value.prescriptionDetail!.quantityUsed == -1){
+                            value.prescriptionDetail!.amountPerConsumption =
+                                selectedDosage;
+                            if (value
+                                    .prescriptionDetail!.amountPerConsumption ==
+                                -1) {
                               value.isValid = false;
                             } else {
                               value.isValid = true;
@@ -132,11 +136,12 @@ class _AddDrugPageDosageState extends State<AddDrugPageDosage> {
                               const InputDecoration(label: Text("Số lượng")),
                           onChanged: (val) {
                             setState(() {});
-                            value.prescriptionDetail!.quantityUsed =
+                            value.prescriptionDetail!.amountPerConsumption =
                                 (int.tryParse(customValueController.text) ??
-                                        -1)
-                                    .toDouble();
-                            if(value.prescriptionDetail!.quantityUsed == -1){
+                                    -1);
+                            if (value
+                                    .prescriptionDetail!.amountPerConsumption ==
+                                -1) {
                               value.isValid = false;
                             } else {
                               value.isValid = true;

@@ -20,7 +20,6 @@ Map<String, dynamic> _$ScheduleDetailModelToJson(
         ScheduleDetailModel instance) =>
     <String, dynamic>{
       'idScheduleDetail': instance.idScheduleDetail,
-      'quantityUsed': instance.quantityUsed,
       'idPreDetail': instance.idPreDetail,
       'idSchedule': instance.idSchedule,
       'status': instance.status,
