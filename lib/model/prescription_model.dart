@@ -172,7 +172,6 @@ class PrescriptionModel {
   }
 }
 
-
 List<PrescriptionModel> generateSamplePrescriptions() {
   return [
     PrescriptionModel(

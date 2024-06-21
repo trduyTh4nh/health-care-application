@@ -81,6 +81,7 @@ class _MedicationItemState extends State<MedicationItem> {
                         ],
                       ),
                       Row(
+
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Column(
@@ -94,6 +95,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                               color: accent,
                                               onTap: () {},
                                               child: Icon(
+
                                                 Icons.check,
                                                 color: colorScheme.surface,
                                               )),
