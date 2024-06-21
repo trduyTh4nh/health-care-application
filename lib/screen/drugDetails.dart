@@ -28,18 +28,18 @@ class _DrugdetailsState extends State<Drugdetails> {
                 color: colorScheme.onSurface,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Row(
               children: [
                 IconButton(
-                  icon: Badge(
+                  icon: const Badge(
                       child: Icon(Symbols.deployed_code_history,
                           color: Colors.black)),
                   onPressed: () {},
                 ),
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.notifications, color: Colors.black),
+                  icon: const Icon(Icons.notifications, color: Colors.black),
                 ),
               ],
             )

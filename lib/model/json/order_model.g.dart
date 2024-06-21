@@ -7,15 +7,16 @@ part of '../order_model.dart';
 // **************************************************************************
 
 OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
-      idUser: (json['idUser'] as num?)?.toInt(),
-      datePay: json['datePay'] == null
-          ? null
-          : DateTime.parse(json['datePay'] as String),
-      paymentMethod: json['paymentMethod'] as String?,
-      status: json['status'] as String?,
-      notes: json['notes'] as String?,
-      totalMoney: (json['totalMoney'] as num?)?.toInt(),
-    )..idOrder = (json['idOrder'] as num?)?.toInt();
+    idUser: (json['idUser'] as num?)?.toInt(),
+    datePay: json['datePay'] == null
+        ? null
+        : DateTime.parse(json['datePay'] as String),
+    paymentMethod: json['paymentMethod'] as String?,
+    status: json['status'] as String?,
+    notes: json['notes'] as String?,
+    totalMoney: (json['totalMoney'] as num?)?.toInt(),
+    idPre: (json['idPre'] as num?)?.toInt())
+  ..idOrder = (json['idOrder'] as num?)?.toInt();
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
     <String, dynamic>{
@@ -26,4 +27,5 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'status': instance.status,
       'notes': instance.notes,
       'totalMoney': instance.totalMoney,
+      'idPre': instance.idPre
     };
