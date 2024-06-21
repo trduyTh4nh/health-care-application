@@ -28,8 +28,8 @@ class _BieudodichteState extends State<Bieudodichte>
       'Ngứa',
       'Đậu Mùa'
     ];
-    return Scaffold(
-      body: Column(
+    return SingleChildScrollView(
+      child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
