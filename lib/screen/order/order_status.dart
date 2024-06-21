@@ -39,7 +39,10 @@ class _OrderStatusState extends State<OrderStatus> {
   void initState() {
     super.initState();
     // dùng idOrder trong notification tìm order
-    orderOfNotifi = findOrderById(widget.notifiItem.idOrder!);
+    print("DEBUG ID ${widget.notifiItem.idOrder}");
+    if (widget.notifiItem.idOrder != null) {
+      orderOfNotifi = findOrderById(widget.notifiItem.idOrder!);
+    }
     // có được order dùng idPre của match 1:1 với Prescription tìm prescription
     prescriptionOfnotifi = findPrescriptionByIdFromOrder(orderOfNotifi!.idPre!);
     _listPrescriptionDetail = prescriptionOfnotifi!.prescriptionDetails;
@@ -100,8 +103,9 @@ class _OrderStatusState extends State<OrderStatus> {
       }
     }
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
+
+    // _showPaymentSheet(context);
   }
 
   void _showPaymentSheet(BuildContext context) {
@@ -159,7 +163,10 @@ class _OrderStatusState extends State<OrderStatus> {
                             ),
                             Text(
                               '**12',
-                              style: Theme.of(context).textTheme.bodySmall,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(fontWeight: FontWeight.bold),
                             ),
                           ],
                         )
@@ -181,14 +188,9 @@ class _OrderStatusState extends State<OrderStatus> {
                 height: 8,
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                child: Text(
-                  'Địa chỉ giao hàng',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall!
-                      .copyWith(fontSize: 12),
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+                child: Text('Địa chỉ giao hàng',
+                    style: Theme.of(context).textTheme.bodySmall!),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -207,13 +209,9 @@ class _OrderStatusState extends State<OrderStatus> {
                                   '100 đường Example, Thành phố Hồ Chí Minh, Việt Nam',
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
-                                Text(
-                                  'Địa chỉ 1',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(fontSize: 12),
-                                )
+                                Text('Địa chỉ 1',
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall!)
                               ],
                             ),
                           ),
@@ -236,7 +234,11 @@ class _OrderStatusState extends State<OrderStatus> {
                 )),
               ),
               const SizedBox(
-                height: 8,
+                height: 16,
+              ),
+              const Divider(),
+              const SizedBox(
+                height: 16,
               ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -251,16 +253,15 @@ class _OrderStatusState extends State<OrderStatus> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'Tổng tiền',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(fontSize: 12),
-                                ),
+                                Text('Tổng tiền',
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall!),
                                 Text(
                                   '$totalDeal',
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(fontSize: 28),
                                 ),
                               ],
                             ),
@@ -274,14 +275,17 @@ class _OrderStatusState extends State<OrderStatus> {
                   ],
                 )),
               ),
-              const SizedBox(height: 16,),
-              ElevatedButton(onPressed: (){
-                
-              }, child: Text('Hủy đơn thuốc'),
-              style: ButtonStyle(
-                minimumSize: WidgetStateProperty.all(Size(double.infinity, 50)),
-
-              ),)
+              const SizedBox(
+                height: 16,
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                child: Text('Hủy đơn thuốc'),
+                style: ButtonStyle(
+                  minimumSize:
+                      WidgetStateProperty.all(Size(double.infinity, 50)),
+                ),
+              )
               // Add more widgets here
             ],
           ),
@@ -381,7 +385,9 @@ class _OrderStatusState extends State<OrderStatus> {
                 );
               }
             },
-            separatorBuilder: (context, index) => const Divider(),
+            separatorBuilder: (context, index) => Divider(
+              color: AppColors.greyColor,
+            ),
           ),
         ]),
       ),

@@ -73,7 +73,9 @@ var listNotification = [
       priority: enumPriority[1],
       status: true,
       userId: 1,
-      idDonThuocCT: 1001),
+      idDonThuocCT: 1001,
+      idOrder: null),
+      
   NotificationModel(
       id: 2,
       content: "Đã quá 2 giờ kế từ giờ uống Paracetamol của bạn",
@@ -91,7 +93,8 @@ var listNotification = [
       priority: enumPriority[3],
       status: true,
       userId: 1,
-      idDonThuocCT: 1001),
+      idDonThuocCT: 1001,
+      idOrder: 1),
   NotificationModel(
       id: 4,
       content: "Đơn thuốc #2491 của bạn đang được giao",
@@ -99,7 +102,8 @@ var listNotification = [
       priority: enumPriority[4],
       status: false,
       userId: 1,
-      idDonThuocCT: 1001),
+      idDonThuocCT: 1001,
+      idOrder: 1),
   NotificationModel(
       id: 5,
       content: "Đã đến giờ sử dụng thuốc Nhỏ mắt 1 giọt",
@@ -107,7 +111,8 @@ var listNotification = [
       priority: enumPriority[0],
       status: true,
       userId: 1,
-      idDonThuocCT: 1001),
+      idDonThuocCT: 1001,
+      idOrder: 1),
   NotificationModel(
       id: 6,
       content: "Đơn thuốc #3002 của bạn đang được giao",
@@ -115,7 +120,9 @@ var listNotification = [
       priority: enumPriority[3],
       status: false,
       userId: 1,
-      idDonThuocCT: 1001),
+      idDonThuocCT: 1001,
+      idOrder: 1
+      ),
   NotificationModel(
       id: 7,
       content: "Đơn thuốc #333301 của bạn đang được giao",
@@ -123,5 +130,6 @@ var listNotification = [
       priority: enumPriority[1],
       status: true,
       userId: 1,
-      idDonThuocCT: 1001),
+      idDonThuocCT: 1001,
+      idOrder: null),
 ];

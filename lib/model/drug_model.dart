@@ -89,7 +89,7 @@ List<DrugModel> generateSampleDrugs() {
     ),
     DrugModel(
       idDrug: 103,
-      name: "Doraemon",
+      name: "Promax new",
       ingredients: [4, 5, 6],
       indication: "For treating condition B",
       contraindication: "Do not use if condition C is present",
@@ -103,7 +103,7 @@ List<DrugModel> generateSampleDrugs() {
       unit: "ml",
       idBrand: 2,
       idDrugCate: 2,
-      drugImage: "https://thuocgiaphuc.vn/Uploads/HinhSP/com_plusvitca_c40gr_tung_lam_tcplc.jpg"
+      drugImage: "https://cdn1.concung.com/2023/08/63592-103806-large_mobile/promax-new-an-huy.png"
     ),
     DrugModel(
       idDrug: 104,
@@ -139,7 +139,7 @@ List<DrugModel> generateSampleDrugs() {
       unit: "Hộp",
       idBrand: 2,
       idDrugCate: 2,
-      drugImage: "https://prospan.com.vn/wp-content/uploads/2017/04/03-vo-hop-vi.png"
+      drugImage: "https://nhathuocmedcare.vn/media/catalog/product/cache/7012753609bdb66174cd6f40c1c8efc9/5/_/5.3.png"
     ),
     // Add more sample data as needed
   ];

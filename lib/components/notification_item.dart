@@ -2,6 +2,7 @@ import 'package:app_well_mate/components/custom_elevated_check_btn.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/notification_model.dart';
 import 'package:app_well_mate/screen/drug_info.dart';
+import 'package:app_well_mate/screen/error_page.dart';
 import 'package:app_well_mate/screen/order/order_status.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -20,10 +21,16 @@ class NotifyComponent extends StatefulWidget {
 
 class _NotifyComponentState extends State<NotifyComponent> {
   Widget checkWidgetReturn(String cateWidget) {
-    if (cateWidget == 'delivery' || cateWidget == 'confirm') {
-      return OrderStatus(notifiItem: widget.notifiItem,);
+    if (cateWidget != null) {
+      if (cateWidget == 'delivery' || cateWidget == 'confirm') {
+        return OrderStatus(
+          notifiItem: widget.notifiItem,
+        );
+      } else {
+        return DrugInfoPage(notifiItem: widget.notifiItem);
+      }
     } else {
-      return DrugInfoPage(notifiItem: widget.notifiItem);
+      return ErrorPage();
     }
   }
 
