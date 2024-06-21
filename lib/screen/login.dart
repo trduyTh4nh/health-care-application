@@ -38,12 +38,12 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
         child: Column(
           children: [
             Container(
-              child: SvgPicture.asset('assets/images/login_picture.svg'),
+              child: Image.asset('assets/images/login_doctor.gif'),
               alignment: Alignment.center,
-              padding: const EdgeInsets.fromLTRB(0, 48, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
             ),
             const SizedBox(
-              height: 64,
+              height: 0,
             ),
             SmoothPageIndicator(
               controller: _pageViewController,
@@ -60,7 +60,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
               ),
             ),
             const SizedBox(
-              height: 32,
+              height: 28,
             ),
             Expanded(
                 child: PageView(

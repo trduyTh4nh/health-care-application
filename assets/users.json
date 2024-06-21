@@ -1,0 +1,50 @@
+[
+    {
+        "idUser": 1,
+        "email": "phat@gmail.com",
+        "password": "12345678",
+        "role": "user",
+        "userName": "Hoang Phat",
+        "imgUser": "https://cdn.pixabay.com/photo/2021/12/21/08/29/owl-6884773_1280.jpg"
+    },
+    {
+        "idUser": 2,
+        "email": "quang@gmail.com",
+        "password": "12345678",
+        "role": "user",
+        "userName": "Tri Quang",
+        "imgUser": "https://cdn.pixabay.com/photo/2014/01/12/22/56/owl-243129_1280.jpg"
+    },
+    {
+        "idUser": 3,
+        "email": "thanh@gmail.com",
+        "password": "12345678",
+        "role": "user",
+        "userName": "Duy Thanh",
+        "imgUser": "https://cdn.pixabay.com/photo/2021/12/21/08/29/owl-6884773_1280.jpg"
+    },
+    {
+        "idUser": 4,
+        "email": "Duy@gmail.com",
+        "password": "12345678",
+        "role": "user",
+        "userName": "Thanh Duy",
+        "imgUser": "https://cdn.pixabay.com/photo/2014/01/12/22/56/owl-243129_1280.jpg"
+    },
+    {
+        "idUser": 5,
+        "email": "Tuany@gmail.com",
+        "password": "12345678",
+        "role": "user",
+        "userName": "Anh Tuan",
+        "imgUser": "https://cdn.pixabay.com/photo/2014/01/12/22/56/owl-243129_1280.jpg"
+    },
+    {
+        "idUser": 6,
+        "email": "Vinh@gmail.com",
+        "password": "12345678",
+        "role": "user",
+        "userName": "Duc Vinh",
+        "imgUser": "assets/images/info.svg"
+    }
+]
