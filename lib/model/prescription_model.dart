@@ -22,14 +22,12 @@ class PrescriptionModel {
       this.doctorName,
       this.status,
       this.prescriptionDetails,
-      this.hospital
-      });
+      this.hospital});
 
   factory PrescriptionModel.fromJson(Map<String, dynamic> json) =>
       _$PrescriptionModelFromJson(json);
   Map<String, dynamic> toJson() => _$PrescriptionModelToJson(this);
 }
-
 
 List<PrescriptionModel> generateSamplePrescriptions() {
   return [
@@ -39,7 +37,7 @@ List<PrescriptionModel> generateSamplePrescriptions() {
       idHospital: 201,
       createdDate: DateTime.now(),
       doctorName: "Dr. John Doe",
-      status: "active", 
+      status: "active",
       hospital: HospitalModel(
         idHospital: 201,
         name: "General Hospital",
@@ -53,7 +51,7 @@ List<PrescriptionModel> generateSamplePrescriptions() {
           idPre: 1,
           notes: "Sau bửa ăn",
           quantity: 30,
-          quantityUsed: 1.0,
+          quantityUsed: 1,
           timeToUse: "Sáng",
         ),
         PrescriptionDetailModel(
@@ -62,7 +60,7 @@ List<PrescriptionModel> generateSamplePrescriptions() {
           idPre: 1,
           notes: "Before bed",
           quantity: 60,
-          quantityUsed: 2.0,
+          quantityUsed: 2,
           timeToUse: "Tối",
         ),
         PrescriptionDetailModel(
@@ -71,7 +69,7 @@ List<PrescriptionModel> generateSamplePrescriptions() {
           idPre: 2,
           notes: "Sau bửa ăn",
           quantity: 90,
-          quantityUsed: 3.0,
+          quantityUsed: 3,
           timeToUse: "Chiều",
         ),
         PrescriptionDetailModel(
@@ -80,7 +78,7 @@ List<PrescriptionModel> generateSamplePrescriptions() {
           idPre: 2,
           notes: "After meals",
           quantity: 90,
-          quantityUsed: 3.0,
+          quantityUsed: 3,
           timeToUse: "Chiều",
         ),
       ],
@@ -91,7 +89,7 @@ List<PrescriptionModel> generateSamplePrescriptions() {
       idHospital: 202,
       createdDate: DateTime.now().subtract(Duration(days: 1)),
       doctorName: "Dr. Jane Smith",
-      status: "completed", 
+      status: "completed",
       hospital: HospitalModel(
         idHospital: 202,
         name: "City Clinic",
@@ -105,7 +103,7 @@ List<PrescriptionModel> generateSamplePrescriptions() {
           idPre: 2,
           notes: "After meals",
           quantity: 90,
-          quantityUsed: 3.0,
+          quantityUsed: 3,
           timeToUse: "Afternoon",
         ),
       ],

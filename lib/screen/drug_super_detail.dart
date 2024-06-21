@@ -1,7 +1,12 @@
 import 'package:app_well_mate/components/drug_super_detail_item.dart';
-import 'package:app_well_mate/model/notification_model.dart';
+import 'package:app_well_mate/components/medication_item.dart';
+import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
+import 'package:app_well_mate/model/prescription_detail_model.dart';
+import 'package:app_well_mate/model/schedule_detail_model.dart';
+import 'package:app_well_mate/model/drug_model.dart';
+import 'dart:math';
 
 class DrugSuperDetail extends StatefulWidget {
   const DrugSuperDetail({super.key});
@@ -13,30 +18,41 @@ class DrugSuperDetail extends StatefulWidget {
 class _DrugSuperDetailState extends State<DrugSuperDetail>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  List<NotificationModel> notifications = [];
-  List<NotificationModel> _listRed = [];
-  List<NotificationModel> _listBlue = [];
-
+  List<ScheduleDetailModel> mockData = List.generate(
+      100,
+      (e) => ScheduleDetailModel(
+            idScheduleDetail: e,
+            status: "not_done",
+            timeOfUse: TimeOfDay(
+                hour: Random().nextInt(24), minute: Random().nextInt(60)),
+            detail: PrescriptionDetailModel(
+                drug: DrugModel(name: "Paracetamol"),
+                quantity: Random().nextInt(100),
+                quantityUsed: Random().nextInt(100),
+                amountPerConsumption: Random().nextInt(10),
+                notes: "Trước khi ăn"),
+          ));
+  List<ScheduleDetailModel> expiredData = [];
+  List<ScheduleDetailModel> upcomingData = [];
+  List<ScheduleDetailModel> afternoonData = [];
   @override
   void initState() {
     super.initState();
+    expiredData = mockData
+        .where((e) => toSecond(e.timeOfUse!) < toSecond(TimeOfDay.now()))
+        .toList();
+    upcomingData = mockData
+        .where((e) =>
+            toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) > -3600 &&
+            toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) < 0)
+        .toList();
+    afternoonData = mockData.where((e) {
+      int seconds = toSecond(e.timeOfUse!);
+      int noon = toSecond(const TimeOfDay(hour: 12, minute: 0));
+      int evening = toSecond(const TimeOfDay(hour: 18, minute: 0));
+      return seconds >= noon && seconds < evening;
+    }).toList();
     _tabController = TabController(length: 2, vsync: this);
-    if (listNotification != null) {
-      notifications = listNotification;
-
-      _listRed = notifications
-          .where((e) =>
-              (e.priority! == 'overdue' || e.priority! == 'runoutof') &&
-              checkExpire(e.time!))
-          .toList();
-      // sort
-      _listRed.sort((a, b) => b.time!.compareTo(a.time!));
-
-      _listBlue = notifications
-          .where((e) => (!_listRed.contains(e)) && checkExpire(e.time!))
-          .toList();
-      _listBlue.sort((a, b) => b.time!.compareTo(a.time!));
-    }
   }
 
   @override
@@ -57,74 +73,81 @@ class _DrugSuperDetailState extends State<DrugSuperDetail>
           indicatorColor: AppColors.primaryColor,
           unselectedLabelColor: Colors.black,
           indicatorWeight: 2.0,
-          tabs: const [
-            Tab(text: 'Thuốc chưa uống'),
-            Tab(text: 'Thuốc đã uống'),
+          tabs: [
+            Stack(
+              children: [
+                const Tab(text: 'Thuốc chưa uống'),
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  child: Container(
+                    width: 8,
+                    height: 8,
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const Tab(text: 'Thuốc đã uống'),
           ],
         ),
       ),
-      body: Container(
-        padding: const EdgeInsets.only(left: 24, right: 24),
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          Container(
+            padding: const EdgeInsets.only(left: 0, right: 0),
+            child: CustomScrollView(
+              slivers: [
+                SliverList.separated(
+                  itemCount: expiredData.length,
+                  itemBuilder: (context, index) => MedicationItem(
+                    prescription: expiredData[index],
+                    titleText: index == 0 ? "Quá giờ uống thuốc" : null,
+                  ),
+                  separatorBuilder: (context, index) => const Divider(
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+                ),
+                SliverList.separated(
+                  itemCount: upcomingData.length,
+                  itemBuilder: (context, index) => MedicationItem(
+                    prescription: upcomingData[index],
+                    titleText: index == 0 ? "Sắp tới" : null,
+                  ),
+                  separatorBuilder: (context, index) => const Divider(
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+                ),
+                SliverList.separated(
+                  itemCount: afternoonData.length,
+                  itemBuilder: (context, index) => MedicationItem(
+                    prescription: afternoonData[index],
+                    titleText: index == 0 ? "Chiều nay" : null,
+                  ),
+                  separatorBuilder: (context, index) => const Divider(
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(left: 0, right: 0),
+            child: const Center(
               child: Text(
-                'Quá hạn',
-                style: Theme.of(context).textTheme.bodyLarge,
+                "Danh sách thuốc đã uống",
               ),
             ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return Column();
-                },
-                childCount: _listRed.length,
-              ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  var now = DateTime.now();
-                  var difference = now.difference(_listBlue[index].time!);
-                  //var timeOfNotifi = now.difference(_listBlue[index].time!);
-
-                  List<NotificationModel> arrRecently = [];
-                  List<NotificationModel> arrYesterday = [];
-                  List<NotificationModel> arrFurther = [];
-
-                  for (var notification in _listBlue) {
-                    var timeOfNotifi = now.difference(notification.time!);
-
-                    if (timeOfNotifi.inMinutes < 60 ||
-                        timeOfNotifi.inHours < 24) {
-                      arrRecently.add(notification);
-                    } else if (timeOfNotifi.inDays < 7) {
-                      arrYesterday.add(notification);
-                    } else {
-                      arrFurther.add(notification);
-                    }
-                  }
-
-                  List<Widget> children = [];
-
-                  return Column(
-                    children: children,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                  );
-                },
-                childCount: 1,
-              ),
-            )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
-}
-
-bool checkExpire(DateTime time) {
-  var now = DateTime.now();
-  var difference = now.difference(time);
-
-  return difference.inDays <= 100 ? true : false;
 }

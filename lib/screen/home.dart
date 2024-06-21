@@ -45,8 +45,9 @@ class _HomeState extends State<Home> {
         .where((e) => toSecond(e.timeOfUse!) < toSecond(TimeOfDay.now()))
         .toList();
     upcomingData = mockData
-        .where(
-            (e) => toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) > -3600 && toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) < 0 )
+        .where((e) =>
+            toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) > -3600 &&
+            toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) < 0)
         .toList();
     super.initState();
   }
