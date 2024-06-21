@@ -14,8 +14,8 @@ PrescriptionDetailModel _$PrescriptionDetailModelFromJson(
       idPre: (json['idPre'] as num?)?.toInt(),
       notes: json['notes'] as String?,
       quantity: (json['quantity'] as num?)?.toInt(),
-      quantityToUse: (json['quantityToUse'] as num?)?.toDouble(),
       timeToUse: json['timeToUse'] as String?,
+      amount: json['amount'] as String?
     );
 
 Map<String, dynamic> _$PrescriptionDetailModelToJson(
@@ -25,7 +25,8 @@ Map<String, dynamic> _$PrescriptionDetailModelToJson(
       'notes': instance.notes,
       'quantity': instance.quantity,
       'timeToUse': instance.timeToUse,
-      'quantityToUse': instance.quantityToUse,
+      'quantityUsed': instance.quantityUsed,
       'idDrug': instance.idDrug,
       'idPre': instance.idPre,
+      'amount': instance.amount
     };

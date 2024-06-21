@@ -11,6 +11,7 @@ class OrderModel {
   String? status;
   String? notes;
   int? totalMoney;
+  int? idPre;
 
   OrderModel(
       {this.idUser,
@@ -18,7 +19,45 @@ class OrderModel {
       this.paymentMethod,
       this.status,
       this.notes,
-      this.totalMoney});
+      this.totalMoney,
+      this.idPre,
+      this.idOrder});
   factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);
   Map<String, dynamic> toJson() => _$OrderModelToJson(this);
+}
+
+
+List<OrderModel> generateSampleOrders() {
+  return [
+    OrderModel(
+      idOrder: 1,
+      idUser: 101,
+      datePay: DateTime(2023, 6, 15),
+      paymentMethod: "Credit Card",
+      status: "paid",
+      notes: "Order for medical supplies",
+      totalMoney: 500000,
+      idPre: 3001,
+    ),
+    OrderModel(
+      idOrder: 2,
+      idUser: 102,
+      datePay: DateTime(2023, 6, 16),
+      paymentMethod: "Cash",
+      status: "pending",
+      notes: "Order for prescription drugs",
+      totalMoney: 700000,
+      idPre: 2,
+    ),
+    OrderModel(
+      idOrder: 3,
+      idUser: 103,
+      datePay: DateTime(2023, 6, 17),
+      paymentMethod: "Mobile Banking",
+      status: "delivered",
+      notes: "Order for medical equipment",
+      totalMoney: 1200000,
+      idPre: 3,
+    ),
+  ];
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:app_well_mate/style/style.dart';
 
 class FFMIPage extends StatefulWidget {
   @override
