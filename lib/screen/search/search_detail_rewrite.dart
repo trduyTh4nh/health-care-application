@@ -39,11 +39,16 @@ class _SearchDetailReWritePageState extends State<SearchDetailReWritePage> {
         actions: [
           IconButton(
             onPressed: () {
-                setState(() {
+              setState(() {
                 isSave = !isSave;
-                });
+              });
             },
-            icon:  isSave ? Icon(Icons.bookmark, color: AppColor.cam,) : const Icon(Symbols.bookmark),
+            icon: isSave
+                ? Icon(
+                    Icons.bookmark,
+                    color: AppColor.cam,
+                  )
+                : const Icon(Symbols.bookmark),
           ),
         ],
       ),
