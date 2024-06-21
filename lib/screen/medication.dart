@@ -4,15 +4,17 @@ import 'package:app_well_mate/screen/drug/add_drug.dart';
 import 'package:app_well_mate/screen/drug/schedule_pages/drug_done.dart';
 import 'package:app_well_mate/screen/drug/schedule_pages/drug_today.dart';
 import 'package:flutter/material.dart';
+import 'package:app_well_mate/model/prescription_model.dart';
+import 'medicationDetail.dart';
 
 class MedicationPage extends StatefulWidget {
-  const MedicationPage({super.key});
-
   @override
-  State<MedicationPage> createState() => _MedicationPageState();
+  _MedicationPageState createState() => _MedicationPageState();
 }
 
 class _MedicationPageState extends State<MedicationPage> {
+  final List<PrescriptionModel> prescriptions = PrescriptionModel.getData();
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
