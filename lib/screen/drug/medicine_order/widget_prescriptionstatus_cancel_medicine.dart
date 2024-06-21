@@ -2,6 +2,8 @@ import 'package:app_well_mate/main.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
+import 'package:app_well_mate/screen/drug/medicine_order/cart_medicines.dart';
+
 enum MedicationItemAction { delete, edit, snooze, buy, confirm }
 
 class WidgetPrescriptionstatusCancelMedicine extends StatefulWidget {
@@ -205,7 +207,12 @@ class _WidgetPrescriptionstatusCancelMedicine
                         style: ButtonStyle(
                             backgroundColor:
                                 WidgetStateProperty.all(colorScheme.error)),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CartMedicines()));
+                        },
                         child: Text("Hủy đơn thuốc- KHÔNG HOÀN TIỀN")),
                   ),
                 ],
