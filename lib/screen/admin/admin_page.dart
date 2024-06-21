@@ -15,7 +15,7 @@ class AdminPage extends StatefulWidget {
 class _AdminPageState extends State<AdminPage> {
   int _selectedPage = 0;
 
-final  List<Widget> _listPage = [
+  final List<Widget> _listPage = [
     FinancialStatisticsPage(),
     UserManagementAdmin(),
     HospitalManagementAdminPage(),
