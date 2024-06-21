@@ -16,6 +16,7 @@ HospitalModel _$HospitalModelFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['createdDate'] as String),
       contactInformation: json['contactInformation'] as String?,
+      avatars: json['idPayment'] as String?
     );
 
 Map<String, dynamic> _$HospitalModelToJson(HospitalModel instance) =>
@@ -26,6 +27,7 @@ Map<String, dynamic> _$HospitalModelToJson(HospitalModel instance) =>
       'phone': instance.phone,
       'createdDate': instance.createdDate?.toIso8601String(),
       'contactInformation': instance.contactInformation,
+      'avatars': instance.avatars
     };
 
 

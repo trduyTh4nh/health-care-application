@@ -6,4 +6,6 @@ class AppColor {
   static Color primaryGrayTinted = const Color(0xFFD5DDF1);
   static Color smoker = const Color(0xFFF2F2F2);
   static Color cam = const Color(0xFFFF7F3E);
+  static Color backgroundTime = const Color(0xFFD5DDF1);
+  // const Color backgroundTimeGrey = const Color(0xffF1F1F1);
 }

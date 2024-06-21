@@ -1,4 +1,3 @@
-import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/providers/add_page_provider.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +24,7 @@ class _AddDrugHabitPageState extends State<AddDrugHabitPage> {
             Center(
                 child: SvgPicture.asset(
               'assets/images/undraw_time_management.svg',
-              width: 185,
+              height: 125,
             )),
             const SizedBox(height: 20),
             Center(
@@ -33,7 +32,7 @@ class _AddDrugHabitPageState extends State<AddDrugHabitPage> {
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.displaySmall),
             ),
-            SizedBox(height: 20)
+            const SizedBox(height: 20)
           ],
         ),
       ),

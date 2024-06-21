@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:app_well_mate/style/style.dart';
 
 class FFMIPage extends StatefulWidget {
   @override
@@ -43,10 +42,10 @@ class _FFMIPageState extends State<FFMIPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Tính FFMI'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {},
-        ),
+        // leading: IconButton(
+        //   icon: Icon(Icons.arrow_back),
+        //   onPressed: () {},
+        // ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
