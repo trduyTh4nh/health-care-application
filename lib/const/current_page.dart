@@ -10,4 +10,4 @@ import 'package:app_well_mate/screen/drug_super_detail.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
 import 'package:flutter/material.dart';
 
-Widget currentpage = const Changerepassword();
+Widget currentpage = const AppPage();

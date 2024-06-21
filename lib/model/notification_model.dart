@@ -97,8 +97,8 @@ var listNotification = [
   NotificationModel(
       id: 4,
       content: "Đơn thuốc #2491 của bạn đang được giao",
-      time: dateFormat.parse("2024-03-12 8:40:23"),
-      priority: enumPriority[4],
+      time: dateFormat.parse("2024-06-20 8:40:23"),
+      priority: enumPriority[0],
       status: false,
       userId: 1,
       idDonThuocCT: 1001,
@@ -106,7 +106,7 @@ var listNotification = [
   NotificationModel(
       id: 5,
       content: "Đã đến giờ sử dụng thuốc Nhỏ mắt 1 giọt",
-      time: dateFormat.parse("2024-06-14 2:40:23"),
+      time: dateFormat.parse("2024-06-21 8:40:23"),
       priority: enumPriority[0],
       status: true,
       userId: 1,

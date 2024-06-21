@@ -20,6 +20,8 @@ dependencies:
   
   syncfusion_flutter_gauges: ^21.2.4
   page_transition: ^2.1.0
+  mobile_scanner: ^5.1.1
+  simple_barcode_scanner: ^0.1.1
 
 flutter_launcher_icons:
   android: true
