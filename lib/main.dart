@@ -164,7 +164,7 @@ class _AppPageState extends State<AppPage> {
     const Home(),
     const SearchPage(),
     const ScanPage(),
-    const MedicationPage(),
+     MedicationPage(),
     const Thongtincanhan(),
     const ThemeScreen()
   ];
