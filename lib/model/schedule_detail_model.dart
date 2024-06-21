@@ -13,7 +13,6 @@ class ScheduleDetailModel {
   int? idSchedule; // khóa ngoại
   String? status;
   TimeOfDay? timeOfUse; // thời gian sử dụng ví dụ thuốc Hapacol dùng [2:00, 3:30, 10:20]
-  int? quantityUsed;
   PrescriptionDetailModel? detail;
   TimeOfDay? time;
 
@@ -23,8 +22,7 @@ class ScheduleDetailModel {
       this.idSchedule,
       this.status,
       this.timeOfUse,
-      this.detail,
-      this.quantityUsed,});
+      this.detail,});
 
   factory ScheduleDetailModel.fromJson(Map<String, dynamic> json) =>
       _$ScheduleDetailModelFromJson(json);

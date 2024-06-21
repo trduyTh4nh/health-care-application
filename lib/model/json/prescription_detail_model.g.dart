@@ -14,7 +14,6 @@ PrescriptionDetailModel _$PrescriptionDetailModelFromJson(
       idPre: (json['idPre'] as num?)?.toInt(),
       notes: json['notes'] as String?,
       quantity: (json['quantity'] as num?)?.toInt(),
-      quantityUsed: (json['quantityUsed'] as num?)?.toDouble(),
       timeToUse: json['timeToUse'] as String?,
       amount: json['amount'] as String?
     );

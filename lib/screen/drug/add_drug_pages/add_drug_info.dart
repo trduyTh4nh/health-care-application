@@ -1,6 +1,4 @@
 import 'package:app_well_mate/components/prescription_item.dart';
-import 'package:app_well_mate/main.dart';
-import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/providers/add_page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -36,7 +34,7 @@ class _AddDrugInfoPageState extends State<AddDrugInfoPage> {
               child: Row(
                 children: [
                   Icon(e.$1),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Text(e.$2)
@@ -58,7 +56,6 @@ class _AddDrugInfoPageState extends State<AddDrugInfoPage> {
               : value.prescriptionDetail!.quantity.toString();
       selection =
           (Symbols.pill, value.prescriptionDetail!.drug!.unit ?? "Viên");
-      PrescriptionDetailModel model = PrescriptionDetailModel();
       return SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -77,7 +74,7 @@ class _AddDrugInfoPageState extends State<AddDrugInfoPage> {
               TextField(
                 controller: nameController,
                 decoration:
-                    InputDecoration(label: const Text("Nhập tên thuốc")),
+                   const InputDecoration(label: Text("Nhập tên thuốc")),
                 onChanged: (val) {
                   value.prescriptionDetail!.drug!.name = nameController.text;
                   value.checkIsDrugValid();
