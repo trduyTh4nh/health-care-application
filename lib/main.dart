@@ -46,14 +46,13 @@ class _MainAppState extends State<MainApp> {
                   textStyle: WidgetStateProperty.all(
                       GoogleFonts.inter(fontWeight: FontWeight.bold)),
                   backgroundColor: WidgetStateProperty.resolveWith((e) {
-                    if(e.contains(WidgetState.disabled)){
+                    if (e.contains(WidgetState.disabled)) {
                       return AppColor.gray;
                     }
                     return colorScheme.primary;
                   }),
-                  foregroundColor:
-                      WidgetStateProperty.resolveWith((e) {
-                    if(e.contains(WidgetState.disabled)){
+                  foregroundColor: WidgetStateProperty.resolveWith((e) {
+                    if (e.contains(WidgetState.disabled)) {
                       return AppColor.darkerGray;
                     }
                     return colorScheme.onPrimary;
@@ -157,7 +156,7 @@ class _MainAppState extends State<MainApp> {
                 border: UnderlineInputBorder(
                     borderSide: BorderSide(color: AppColor.darkerGray)))),
         debugShowCheckedModeBanner: false,
-        home: Login());
+        home: const Login());
     // home: FFMIPage());
   }
 }
