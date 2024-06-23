@@ -183,7 +183,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                         },
                       ),
                       Container(
-                        width: sizeWight * 1.9 / 3,
+                        width: sizeWight * 1.8 / 3,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
