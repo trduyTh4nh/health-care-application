@@ -1,3 +1,4 @@
+import 'package:app_well_mate/components/fab_menu_button.dart';
 import 'package:app_well_mate/components/medication_fab.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/screen/drug/add_drug.dart';
@@ -34,10 +35,11 @@ class _MedicationPageState extends State<MedicationPage> {
             Tab(text: "Tất cả thuốc")
           ]),
         ),
-        floatingActionButton: const Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [MedicationFab()],
-        ),
+        // floatingActionButton: const Column(
+        //   mainAxisSize: MainAxisSize.min,
+        //   children: [MedicationFab()],
+        // ),
+        floatingActionButton: FabMenuButton(),
         body: const TabBarView(children: [
           DrugToday(),
           DrugDone(),

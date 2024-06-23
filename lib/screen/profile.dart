@@ -1,3 +1,4 @@
+import 'package:app_well_mate/components/utilities_profile_widget.dart';
 import 'package:app_well_mate/screen/changeRePassword.dart';
 import 'package:app_well_mate/screen/ffmi.dart';
 import 'package:app_well_mate/screen/imergencycall.dart';
@@ -35,10 +36,13 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
           ),
           Text("Nguyễn Duy", style: Theme.of(context).textTheme.titleMedium),
         ]),
-        actions: const [
+        actions: [
           Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.notifications_none),
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              icon: const Icon(Icons.notifications_none),
+              onPressed: () {},
+            ),
           )
         ],
       ),
@@ -52,169 +56,18 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const emergencycall(),
-                            ));
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 62,
-                            height: 62,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xffFF7D7D),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                "SOS",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                              padding: EdgeInsets.zero,
-                              child: Text("Gọi điện khẩn cấp",
-                                  textAlign: TextAlign.center,
-                                  style:
-                                      Theme.of(context).textTheme.labelSmall))
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const BmiPage()));
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 62,
-                            height: 62,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xff6B94FF),
-                            ),
-                            child: Center(
-                              child: Container(
-                                child: SvgPicture.asset(
-                                    'assets/images/monitor_weight.svg'),
-                                alignment: Alignment.center,
-                                width: 62,
-                                height: 62,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                              padding: EdgeInsets.zero,
-                              child: Text("Tính chỉ số BMI",
-                                  textAlign: TextAlign.center,
-                                  style:
-                                      Theme.of(context).textTheme.labelSmall))
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => FFMIPage()));
-                      },
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 62,
-                            height: 62,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xff6B94FF),
-                            ),
-                            child: Center(
-                              child: Container(
-                                child: SvgPicture.asset(
-                                    'assets/images/fitness_center.svg'),
-                                alignment: Alignment.center,
-                                width: 62,
-                                height: 62,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                              padding: EdgeInsets.zero,
-                              child: Text("Tính chỉ số FFMI",
-                                  textAlign: TextAlign.center,
-                                  style:
-                                      Theme.of(context).textTheme.labelSmall))
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {},
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 62,
-                            height: 62,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xff6B94FF),
-                            ),
-                            child: Center(
-                              child: Container(
-                                child: SvgPicture.asset(
-                                    'assets/images/alarm_on.svg'),
-                                alignment: Alignment.center,
-                                width: 62,
-                                height: 62,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                              padding: EdgeInsets.zero,
-                              child: Text("Thông báo uống thuốc",
-                                  textAlign: TextAlign.center,
-                                  style:
-                                      Theme.of(context).textTheme.labelSmall))
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+              const UtilitiesProfileWidget(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Text("Cài đặt",
+                    style: Theme.of(context).textTheme.titleMedium),
               ),
-              SizedBox(
-                height: 12,
-              ),
-              Text("Cài đặt", style: Theme.of(context).textTheme.titleMedium),
-              SizedBox(
-                height: 12,
-              ),
-              Container(
-                  child: InkWell(
+              InkWell(
                 onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => MedicinesOrder()));
+                          builder: (context) => const MedicinesOrder()));
                 },
                 child: const Padding(
                   padding: EdgeInsets.symmetric(vertical: 16),
@@ -227,10 +80,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                     ],
                   ),
                 ),
-              )),
+              ),
               const Divider(),
-              Container(
-                  child: InkWell(
+              InkWell(
                 onTap: () {},
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -243,10 +95,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                     ],
                   ),
                 ),
-              )),
+              ),
               const Divider(),
-              Container(
-                  child: InkWell(
+              InkWell(
                 onTap: () {
                   Navigator.push(
                       context,
@@ -264,10 +115,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                     ],
                   ),
                 ),
-              )),
-              Divider(),
-              Container(
-                  child: InkWell(
+              ),
+              const Divider(),
+              InkWell(
                 onTap: () {},
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -280,10 +130,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                     ],
                   ),
                 ),
-              )),
-              Divider(),
-              Container(
-                  child: InkWell(
+              ),
+              const Divider(),
+              InkWell(
                 onTap: () {},
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -296,10 +145,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                     ],
                   ),
                 ),
-              )),
+              ),
               const Divider(),
-              Container(
-                  child: InkWell(
+              InkWell(
                 onTap: () {},
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -312,10 +160,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                     ],
                   ),
                 ),
-              )),
+              ),
               const Divider(),
-              Container(
-                  child: InkWell(
+              InkWell(
                 onTap: () {
                   Navigator.push(
                       context,
@@ -334,7 +181,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                     ],
                   ),
                 ),
-              )),
+              ),
             ],
           ),
         ),
