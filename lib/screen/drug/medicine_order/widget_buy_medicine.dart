@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
+
+enum MedicationItemAction { delete, edit, snooze, buy, confirm, info }
 
 class WidgetBuyMedicine extends StatefulWidget {
   const WidgetBuyMedicine({super.key});
@@ -50,7 +53,21 @@ class _WidgetBuyMedicine extends State<WidgetBuyMedicine> {
                     ),
                   ],
                 ),
-                const Icon(Icons.more_horiz)
+                PopupMenuButton(
+                  style: Theme.of(context).iconButtonTheme.style,
+                  itemBuilder: (context) => const [
+                    PopupMenuItem(
+                        value: MedicationItemAction.delete,
+                        child: ListTile(
+                            leading: Icon(Symbols.delete),
+                            title: Text("Xoá đơn thuốc "))),
+                    PopupMenuItem(
+                        value: MedicationItemAction.info,
+                        child: ListTile(
+                            leading: Icon(Symbols.info),
+                            title: Text("Xem thông tin "))),
+                  ],
+                ),
               ],
             ),
           ),

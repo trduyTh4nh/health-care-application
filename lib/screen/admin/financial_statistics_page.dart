@@ -43,9 +43,7 @@ class _financial_statisticsPageState extends State<FinancialStatisticsPage>
       body: TabBarView(
         controller: _tabController,
         children: <Widget>[
-          Center(
-            child: ABC(),
-          ),
+          IncomePage(),
           Center(
             child: ReturnPage(),
           ),
