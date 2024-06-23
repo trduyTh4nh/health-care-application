@@ -16,12 +16,34 @@ class _HospitalManagementAdminPageState
   void onPressed() {}
   //Day la cho lay data
   List<Hospital> listHos = Data().listHos;
+  List<Hospital> search = [];
+  @override
+  void initState() {
+    super.initState();
+    search = listHos;
+  }
+
+  void _runFilter(String enterKey) {
+    List<Hospital> results = [];
+    if (enterKey.isEmpty) {
+      results = listHos;
+    } else {
+      results = listHos
+          .where(
+              (hos) => hos.name.toLowerCase().contains(enterKey.toLowerCase()))
+          .toList();
+    }
+    setState(() {
+      search = results;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text("Quản lý bệnh viện"),
+        title: const Text("Quản lý chi nhánh"),
         actions: [
           IconButton(
               onPressed: onPressed, icon: const Icon(Icons.notifications_none))
@@ -32,8 +54,11 @@ class _HospitalManagementAdminPageState
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: TextField(
+              onChanged: (value) => _runFilter(value),
               decoration: InputDecoration(
                   labelText: "Tìm kiếm",
+                  hintText: "Nhập tên chi nhánh",
+                  hintStyle: TextStyle(color: Colors.grey[400]),
                   suffixIcon: IconButton(
                     onPressed: () {},
                     icon: const Icon(Icons.search),
@@ -44,9 +69,9 @@ class _HospitalManagementAdminPageState
             child: Padding(
               padding: const EdgeInsets.only(top: 20),
               child: ListView.builder(
-                itemCount: listHos.length,
+                itemCount: search.length,
                 itemBuilder: (context, index) {
-                  var itemHos = listHos[index];
+                  var itemHos = search[index];
                   return ItemHospital(hospital: itemHos);
                 },
               ),
@@ -61,7 +86,7 @@ class _HospitalManagementAdminPageState
 class Data {
   List<Hospital> listHos = [
     Hospital(
-        idHospital: 1,
+        idHospital: 201,
         name: "Bệnh viện Hồng Hưng",
         address: "82 CMT8 Tây Ninh",
         phone: "0874657889",
@@ -70,7 +95,7 @@ class Data {
         imageHospital:
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGDK5XJ6rvuEzPsr7WMx1wvHDeEVeXUnuXGw&s"),
     Hospital(
-        idHospital: 2,
+        idHospital: 202,
         name: "Bệnh viện Đại Học Y Dược",
         address: "19 Lũy Bán Bích",
         phone: "0874657889",
@@ -79,7 +104,7 @@ class Data {
         imageHospital:
             "https://static.vecteezy.com/system/resources/thumbnails/004/493/181/small_2x/hospital-building-for-healthcare-background-illustration-with-ambulance-car-doctor-patient-nurses-and-medical-clinic-exterior-free-vector.jpg"),
     Hospital(
-        idHospital: 3,
+        idHospital: 203,
         name: "Bệnh viện 115",
         address: "82 Lũy Bán Bích",
         phone: "0874657889",

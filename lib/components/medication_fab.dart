@@ -15,17 +15,6 @@ class _MedicationFabState extends State<MedicationFab>
   late Animation<double> animate;
   late AnimationController controller;
   bool isOpen = false;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    controller = AnimationController(
-      value: isOpen ? 1.0 : 0.0,
-      duration: Duration(milliseconds: 500),
-      vsync: this,
-    );
-    animate = CurvedAnimation(parent: controller, curve: Curves.easeInOut);
-  }
 
   @override
   Widget build(BuildContext context) {
