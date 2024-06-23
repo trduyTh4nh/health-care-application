@@ -1,6 +1,4 @@
 import 'package:app_well_mate/const/color_scheme.dart';
-import 'package:app_well_mate/const/current_page.dart';
-import 'package:app_well_mate/screen/ffmi.dart';
 import 'package:app_well_mate/screen/home.dart';
 import 'package:app_well_mate/screen/login.dart';
 import 'package:app_well_mate/screen/medication.dart';
