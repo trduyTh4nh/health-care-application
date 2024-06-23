@@ -1,6 +1,7 @@
 import 'package:app_well_mate/screen/changeRePassword.dart';
 import 'package:app_well_mate/screen/ffmi.dart';
 import 'package:app_well_mate/screen/imergencycall.dart';
+import 'package:app_well_mate/screen/language.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -309,6 +310,28 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                       SvgPicture.asset('assets/images/info.svg'),
                       const SizedBox(width: 16),
                       const Text("Thông tin ứng dụng"),
+                    ],
+                  ),
+                ),
+              )),
+              const Divider(),
+              Container(
+                  child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LanguagePage(),
+                      ));
+                },
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(Symbols.language_chinese_array),
+                      SizedBox(width: 16),
+                      Text("Ngôn ngữ"),
                     ],
                   ),
                 ),
