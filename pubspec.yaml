@@ -24,9 +24,7 @@ dependencies:
   mobile_scanner: ^5.1.1
   simple_barcode_scanner: ^0.1.1
   lottie: ^3.1.2
-  flutter_localizations:
-    sdk: flutter
-  translator: ^0.1.7  
+ 
 
 flutter_launcher_icons:
   android: true
