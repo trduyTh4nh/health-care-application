@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
+
+enum MedicationItemAction { delete, edit, snooze, buy, confirm }
 
 class WidgetCompleteMedicine extends StatefulWidget {
   const WidgetCompleteMedicine({super.key});
@@ -91,7 +94,16 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
                                   ),
                                 ],
                               ),
-                              const Icon(Icons.more_horiz)
+                              PopupMenuButton(
+                                style: Theme.of(context).iconButtonTheme.style,
+                                itemBuilder: (context) => const [
+                                  PopupMenuItem(
+                                      value: MedicationItemAction.delete,
+                                      child: ListTile(
+                                          leading: Icon(Symbols.delete),
+                                          title: Text("Xoá thuốc này"))),
+                                ],
+                              ),
                             ],
                           ),
                           const Divider(),
@@ -131,10 +143,16 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
                     )
                   ],
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.more_horiz),
-                )
+                PopupMenuButton(
+                  style: Theme.of(context).iconButtonTheme.style,
+                  itemBuilder: (context) => const [
+                    PopupMenuItem(
+                        value: MedicationItemAction.delete,
+                        child: ListTile(
+                            leading: Icon(Symbols.delete),
+                            title: Text("Xoá thẻ này"))),
+                  ],
+                ),
               ],
             ),
             Text("Địa chỉ giao hàng"),
@@ -159,10 +177,16 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
                       ),
                     ],
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.more_horiz),
-                  )
+                  PopupMenuButton(
+                    style: Theme.of(context).iconButtonTheme.style,
+                    itemBuilder: (context) => const [
+                      PopupMenuItem(
+                          value: MedicationItemAction.delete,
+                          child: ListTile(
+                              leading: Icon(Symbols.delete),
+                              title: Text("Xoá địa chỉ này"))),
+                    ],
+                  ),
                 ],
               ),
             )

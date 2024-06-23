@@ -28,6 +28,7 @@ class PrescriptionModel {
       this.doctorName,
       this.status,
       this.prescriptionDetails,
+
       this.revisitDate,
       this.hospital,
       this.roomRevisit});
@@ -35,6 +36,7 @@ class PrescriptionModel {
   factory PrescriptionModel.fromJson(Map<String, dynamic> json) =>
       _$PrescriptionModelFromJson(json);
   Map<String, dynamic> toJson() => _$PrescriptionModelToJson(this);
+
 
   // Getter for prescriptionDetails
   List<PrescriptionDetailModel> get medications => prescriptionDetails ?? [];

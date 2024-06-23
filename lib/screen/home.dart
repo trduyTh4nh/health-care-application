@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
             detail: PrescriptionDetailModel(
                 drug: DrugModel(name: "Paracetamol"),
                 quantity: Random().nextInt(100),
-                quantityUsed: Random().nextInt(100),
+                quantityUsed: Random().nextDouble(),
                 amountPerConsumption: Random().nextInt(10),
                 notes: "Trước khi ăn"),
           ));

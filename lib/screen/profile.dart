@@ -13,6 +13,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'login.dart';
 import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
+import 'package:app_well_mate/screen/user_information.dart';
 
 class Thongtincanhan extends StatefulWidget {
   const Thongtincanhan({super.key});
@@ -36,7 +37,16 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
           const SizedBox(
             width: 12,
           ),
-          Text("Nguyễn Duy", style: Theme.of(context).textTheme.titleMedium),
+          InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const UserInformation(),
+                    ));
+              },
+              child: Text("Nguyễn Duy",
+                  style: Theme.of(context).textTheme.titleMedium)),
         ]),
         actions: [
             //KHÔNG ĐƯỢC CONST!!!!!
