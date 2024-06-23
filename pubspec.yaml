@@ -20,6 +20,13 @@ dependencies:
   
   syncfusion_flutter_gauges: ^21.2.4
   page_transition: ^2.1.0
+  fl_chart: ^0.68.0
+  mobile_scanner: ^5.1.1
+  simple_barcode_scanner: ^0.1.1
+  lottie: ^3.1.2
+  flutter_localizations:
+    sdk: flutter
+  translator: ^0.1.7  
 
 flutter_launcher_icons:
   android: true
@@ -36,11 +43,12 @@ dev_dependencies:
   build_runner: ^2.4.11
   json_serializable: ^6.8.0
 
-
 flutter:
   uses-material-design: true
   assets:
     - assets/images/
+  
+
 
 
 

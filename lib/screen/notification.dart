@@ -84,8 +84,7 @@ class _NotificationPageState extends State<NotificationPage> {
               ),
             ),
             const SliverToBoxAdapter(
-              child: Divider(
-              ),
+              child: Divider(),
             ),
             SliverList(
               delegate: SliverChildBuilderDelegate(

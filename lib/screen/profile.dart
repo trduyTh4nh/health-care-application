@@ -1,7 +1,10 @@
 import 'package:app_well_mate/screen/changeRePassword.dart';
 import 'package:app_well_mate/screen/ffmi.dart';
 import 'package:app_well_mate/screen/imergencycall.dart';
+import 'package:app_well_mate/screen/notification.dart';
+import 'package:app_well_mate/screen/language.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
+import 'package:app_well_mate/screen/revisit_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -45,12 +48,27 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               child: Text("Nguyễn Duy",
                   style: Theme.of(context).textTheme.titleMedium)),
         ]),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.notifications_none),
-          )
-        ],
+        actions: [
+            //KHÔNG ĐƯỢC CONST!!!!!
+            IconButton(
+                onPressed: () {},
+                icon: const Badge(
+                    child: Icon(Symbols.deployed_code),
+                    smallSize: 0 /*và 5*/,
+                    largeSize: 0)),
+
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NotificationPage()));
+                },
+                icon: const Icon(
+                  Symbols.notifications,
+                  size: 24,
+                ))
+          ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -179,29 +197,31 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                   ),
                   Expanded(
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (c) => const RevisitPage()));
+                      },
                       child: Column(
                         children: [
                           Container(
                             width: 62,
                             height: 62,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Color(0xff6B94FF),
+                              color:  Color(0xff6B94FF),
                             ),
                             child: Center(
                               child: Container(
-                                child: SvgPicture.asset(
-                                    'assets/images/alarm_on.svg'),
                                 alignment: Alignment.center,
                                 width: 62,
                                 height: 62,
+                                child: SvgPicture.asset(
+                                    'assets/images/alarm_on.svg'),
                               ),
                             ),
                           ),
                           Padding(
                               padding: EdgeInsets.zero,
-                              child: Text("Thông báo uống thuốc",
+                              child: Text("Lịch tái khám",
                                   textAlign: TextAlign.center,
                                   style:
                                       Theme.of(context).textTheme.labelSmall))
@@ -319,6 +339,28 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                       SvgPicture.asset('assets/images/info.svg'),
                       const SizedBox(width: 16),
                       const Text("Thông tin ứng dụng"),
+                    ],
+                  ),
+                ),
+              )),
+              const Divider(),
+              Container(
+                  child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LanguagePage(),
+                      ));
+                },
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(Symbols.language_chinese_array),
+                      SizedBox(width: 16),
+                      Text("Ngôn ngữ"),
                     ],
                   ),
                 ),

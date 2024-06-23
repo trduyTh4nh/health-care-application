@@ -9,11 +9,9 @@ import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/screen/notification.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:app_well_mate/screen/revisit_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:page_transition/page_transition.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -147,9 +145,11 @@ class _HomeState extends State<Home> {
                         )),
                         Expanded(
                             child: Shortcut(
-                          icon: Symbols.pill,
-                          text: "Xem toa thuốc",
-                          onTap: () {},
+                          icon: Symbols.alarm,
+                          text: "Lịch tái khám",
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder:(context) => const RevisitPage(),));
+                          },
                         )),
                       ],
                     ),
@@ -180,11 +180,15 @@ class _HomeState extends State<Home> {
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const Text("Hãy giữ gìn sức khoẻ nhé!"),
-                        const SizedBox(height: 10),
-                        SvgPicture.asset(
-                          "assets/images/undraw_medical_research_qg4d1.svg",
-                          height: 200,
-                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              "assets/images/prevent_gif.gif",
+                              height: 280,
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
