@@ -6,7 +6,7 @@ part 'json/profile_model.g.dart';
 class ProfileModel {
   int? idProfile;
   String? name;
-  int? height;
+  int? height;  
   int? weight;
   DateTime? age;
   String? gender;

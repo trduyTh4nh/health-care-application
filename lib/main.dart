@@ -1,6 +1,4 @@
 import 'package:app_well_mate/const/color_scheme.dart';
-import 'package:app_well_mate/const/current_page.dart';
-import 'package:app_well_mate/screen/ffmi.dart';
 import 'package:app_well_mate/screen/home.dart';
 import 'package:app_well_mate/screen/login.dart';
 import 'package:app_well_mate/screen/medication.dart';
@@ -8,9 +6,12 @@ import 'package:app_well_mate/screen/profile.dart';
 import 'package:app_well_mate/screen/scan.dart';
 import 'package:app_well_mate/screen/search.dart';
 import 'package:app_well_mate/screen/theme.dart';
+import 'package:app_well_mate/utils/translator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:translator/translator.dart';
+import 'package:syncfusion_flutter_core/localizations.dart';
 
 ColorScheme colorScheme = ColorScheme(
     brightness: Brightness.light,
@@ -25,7 +26,7 @@ ColorScheme colorScheme = ColorScheme(
     surfaceDim: const Color(0xFFF2F2F2),
     errorContainer: const Color(0xFFFFF4F4));
 
-void main() {
+void main() async {
   runApp(const MainApp());
 }
 

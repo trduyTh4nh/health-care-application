@@ -10,6 +10,8 @@ part 'json/prescription_model.g.dart';
 class PrescriptionModel {
   int? idPre;
   DateTime? createdDate;
+  DateTime? revisitDate; //ngày tái khám
+  String? roomRevisit;
   String? doctorName;
   String? status;
   int? idUser;
@@ -27,11 +29,14 @@ class PrescriptionModel {
       this.status,
       this.prescriptionDetails,
 
-      this.hospital});
+      this.revisitDate,
+      this.hospital,
+      this.roomRevisit});
 
   factory PrescriptionModel.fromJson(Map<String, dynamic> json) =>
       _$PrescriptionModelFromJson(json);
   Map<String, dynamic> toJson() => _$PrescriptionModelToJson(this);
+
 
   // Getter for prescriptionDetails
   List<PrescriptionDetailModel> get medications => prescriptionDetails ?? [];
