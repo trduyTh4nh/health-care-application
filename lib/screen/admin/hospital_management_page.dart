@@ -16,12 +16,34 @@ class _HospitalManagementAdminPageState
   void onPressed() {}
   //Day la cho lay data
   List<Hospital> listHos = Data().listHos;
+  List<Hospital> search = [];
+  @override
+  void initState() {
+    super.initState();
+    search = listHos;
+  }
+
+  void _runFilter(String enterKey) {
+    List<Hospital> results = [];
+    if (enterKey.isEmpty) {
+      results = listHos;
+    } else {
+      results = listHos
+          .where(
+              (hos) => hos.name.toLowerCase().contains(enterKey.toLowerCase()))
+          .toList();
+    }
+    setState(() {
+      search = results;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text("Quản lý bệnh viện"),
+        title: const Text("Quản lý chi nhánh"),
         actions: [
           IconButton(
               onPressed: onPressed, icon: const Icon(Icons.notifications_none))
@@ -32,8 +54,11 @@ class _HospitalManagementAdminPageState
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: TextField(
+              onChanged: (value) => _runFilter(value),
               decoration: InputDecoration(
                   labelText: "Tìm kiếm",
+                  hintText: "Nhập tên chi nhánh",
+                  hintStyle: TextStyle(color: Colors.grey[400]),
                   suffixIcon: IconButton(
                     onPressed: () {},
                     icon: const Icon(Icons.search),
@@ -44,9 +69,9 @@ class _HospitalManagementAdminPageState
             child: Padding(
               padding: const EdgeInsets.only(top: 20),
               child: ListView.builder(
-                itemCount: listHos.length,
+                itemCount: search.length,
                 itemBuilder: (context, index) {
-                  var itemHos = listHos[index];
+                  var itemHos = search[index];
                   return ItemHospital(hospital: itemHos);
                 },
               ),

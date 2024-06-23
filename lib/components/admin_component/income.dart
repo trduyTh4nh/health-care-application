@@ -19,6 +19,7 @@ class _IncomePageState extends State<IncomePage> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Doanh thu trong năm"),
             Padding(
@@ -26,11 +27,11 @@ class _IncomePageState extends State<IncomePage> {
               child: Row(
                 children: [
                   Container(
-                    height: 30,
-                    width: 60,
+                    height: 40,
+                    width: 70,
                     decoration: BoxDecoration(
                         color: Colors.green[100],
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(20),
                         border: Border.all(color: Colors.green, width: 2)),
                     child: Row(
                       children: [
@@ -42,7 +43,7 @@ class _IncomePageState extends State<IncomePage> {
                           "23 %",
                           style: Theme.of(context)
                               .textTheme
-                              .labelSmall!
+                              .labelMedium!
                               .copyWith(color: Colors.green),
                         )
                       ],
@@ -52,7 +53,7 @@ class _IncomePageState extends State<IncomePage> {
                     width: 10,
                   ),
                   Text("với năm ngoái",
-                      style: Theme.of(context).textTheme.labelSmall)
+                      style: Theme.of(context).textTheme.labelMedium)
                 ],
               ),
             ),
@@ -91,41 +92,6 @@ class _IncomePageState extends State<IncomePage> {
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  height: 120,
-                  width: 120,
-                  decoration: BoxDecoration(
-                      color: Colors.amber[200],
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.5),
-                          spreadRadius: 3,
-                          blurRadius: 10,
-                          offset: Offset(3, 5),
-                        )
-                      ]),
-                ),
-                Container(
-                  height: 120,
-                  width: 120,
-                  decoration: BoxDecoration(
-                      color: Colors.red[200],
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.5),
-                          spreadRadius: 3,
-                          blurRadius: 10,
-                          offset: Offset(3, 5),
-                        )
-                      ]),
-                )
-              ],
-            )
           ],
         ),
       ),
