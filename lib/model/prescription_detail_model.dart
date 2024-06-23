@@ -1,5 +1,6 @@
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'dart:math';
 import 'package:app_well_mate/model/prescription_model.dart';
 part 'json/prescription_detail_model.g.dart';
 

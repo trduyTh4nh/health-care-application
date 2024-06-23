@@ -9,14 +9,13 @@ part of '../prescription_detail_model.dart';
 PrescriptionDetailModel _$PrescriptionDetailModelFromJson(
         Map<String, dynamic> json) =>
     PrescriptionDetailModel(
-      idPreDetail: (json['idPreDetail'] as num?)?.toInt(),
-      idDrug: (json['idDrug'] as num?)?.toInt(),
-      idPre: (json['idPre'] as num?)?.toInt(),
-      notes: json['notes'] as String?,
-      quantity: (json['quantity'] as num?)?.toInt(),
-      timeToUse: json['timeToUse'] as String?,
-      amount: json['amount'] as String?
-    );
+        idPreDetail: (json['idPreDetail'] as num?)?.toInt(),
+        idDrug: (json['idDrug'] as num?)?.toInt(),
+        idPre: (json['idPre'] as num?)?.toInt(),
+        notes: json['notes'] as String?,
+        quantity: (json['quantity'] as num?)?.toInt(),
+        timeToUse: json['timeToUse'] as String?,
+        amount: json['amount'] as String?);
 
 Map<String, dynamic> _$PrescriptionDetailModelToJson(
         PrescriptionDetailModel instance) =>

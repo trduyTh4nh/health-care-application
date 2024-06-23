@@ -1,3 +1,4 @@
+import 'package:app_well_mate/components/utilities_profile_widget.dart';
 import 'package:app_well_mate/screen/changeRePassword.dart';
 import 'package:app_well_mate/screen/ffmi.dart';
 import 'package:app_well_mate/screen/imergencycall.dart';
@@ -13,6 +14,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'login.dart';
 import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
+import 'package:app_well_mate/screen/user_information.dart';
 
 class Thongtincanhan extends StatefulWidget {
   const Thongtincanhan({super.key});
@@ -36,9 +38,26 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
           const SizedBox(
             width: 12,
           ),
-          Text("Nguyễn Duy", style: Theme.of(context).textTheme.titleMedium),
+          InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const UserInformation(),
+                    ));
+              },
+              child: Text("Nguyễn Duy",
+                  style: Theme.of(context).textTheme.titleMedium)),
         ]),
         actions: [
+//           Padding(
+//             padding: const EdgeInsets.all(8.0),
+//             child: IconButton(
+//               icon: const Icon(Icons.notifications_none),
+//               onPressed: () {},
+//             ),
+//           )
+//         ],
             //KHÔNG ĐƯỢC CONST!!!!!
             IconButton(
                 onPressed: () {},
@@ -70,6 +89,11 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               const SizedBox(
                 height: 10,
               ),
+//               const UtilitiesProfileWidget(),
+//               Padding(
+//                 padding: const EdgeInsets.symmetric(vertical: 12),
+//                 child: Text("Cài đặt",
+//                     style: Theme.of(context).textTheme.titleMedium),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -221,20 +245,12 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 12,
-              ),
-              Text("Cài đặt", style: Theme.of(context).textTheme.titleMedium),
-              SizedBox(
-                height: 12,
-              ),
-              Container(
-                  child: InkWell(
+              InkWell(
                 onTap: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => MedicinesOrder()));
+                          builder: (context) => const MedicinesOrder()));
                 },
                 child: const Padding(
                   padding: EdgeInsets.symmetric(vertical: 16),
@@ -247,10 +263,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                     ],
                   ),
                 ),
-              )),
+              ),
               const Divider(),
-              Container(
-                  child: InkWell(
+              InkWell(
                 onTap: () {},
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -263,10 +278,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                     ],
                   ),
                 ),
-              )),
+              ),
               const Divider(),
-              Container(
-                  child: InkWell(
+              InkWell(
                 onTap: () {
                   Navigator.push(
                       context,
@@ -284,10 +298,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                     ],
                   ),
                 ),
-              )),
-              Divider(),
-              Container(
-                  child: InkWell(
+              ),
+              const Divider(),
+              InkWell(
                 onTap: () {},
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -300,10 +313,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                     ],
                   ),
                 ),
-              )),
-              Divider(),
-              Container(
-                  child: InkWell(
+              ),
+              const Divider(),
+              InkWell(
                 onTap: () {},
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -316,10 +328,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                     ],
                   ),
                 ),
-              )),
+              ),
               const Divider(),
-              Container(
-                  child: InkWell(
+              InkWell(
                 onTap: () {},
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -332,10 +343,9 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                     ],
                   ),
                 ),
-              )),
+              ),
               const Divider(),
-              Container(
-                  child: InkWell(
+              InkWell(
                 onTap: () {
                   Navigator.push(
                       context,
@@ -376,7 +386,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                     ],
                   ),
                 ),
-              )),
+              ),
             ],
           ),
         ),
