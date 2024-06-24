@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:app_well_mate/screen/cart_page.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -83,6 +84,17 @@ class _HomeState extends State<Home> {
           ),
           actions: [
             //KHÔNG ĐƯỢC CONST!!!!!
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CartPage()));
+                },
+                icon: Icon(
+                  Symbols.shopping_cart,
+                  size: 24,
+                )),
             IconButton(
                 onPressed: () {},
                 icon: Badge(
