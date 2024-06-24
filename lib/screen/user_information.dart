@@ -27,15 +27,21 @@ class _UserInformationState extends State<UserInformation> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Center(
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundImage:
-                      NetworkImage('https://i.giphy.com/BSx6mzbW1ew7K.webp'),
+                child: Hero(
+                  tag: "01",
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundImage:
+                        NetworkImage('https://i.giphy.com/BSx6mzbW1ew7K.webp'),
+                  ),
                 ),
               ),
-              Text(
-                "Trần Thanh Duy",
-                style: Theme.of(context).textTheme.titleLarge,
+              Hero(
+                tag: "02",
+                child: Text(
+                  "Nguyễn Duy",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

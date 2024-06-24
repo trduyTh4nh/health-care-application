@@ -30,10 +30,13 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Row(children: [
-          const CircleAvatar(
-            radius: 20,
-            backgroundImage:
-                NetworkImage('https://i.giphy.com/BSx6mzbW1ew7K.webp'),
+          Hero(
+            tag: "01",
+            child: const CircleAvatar(
+              radius: 20,
+              backgroundImage:
+                  NetworkImage('https://i.giphy.com/BSx6mzbW1ew7K.webp'),
+            ),
           ),
           const SizedBox(
             width: 12,
@@ -46,8 +49,11 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                       builder: (context) => const UserInformation(),
                     ));
               },
-              child: Text("Nguyễn Duy",
-                  style: Theme.of(context).textTheme.titleMedium)),
+              child: Hero(
+                tag: "02",
+                child: Text("Nguyễn Duy",
+                    style: Theme.of(context).textTheme.titleMedium),
+              )),
         ]),
         actions: [
 //           Padding(
@@ -357,7 +363,6 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               ),
             ),
             const Divider(),
-
             Container(
               child: InkWell(
                 onTap: () {

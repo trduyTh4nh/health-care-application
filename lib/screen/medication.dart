@@ -39,7 +39,7 @@ class _MedicationPageState extends State<MedicationPage> {
         //   mainAxisSize: MainAxisSize.min,
         //   children: [MedicationFab()],
         // ),
-        floatingActionButton: FabMenuButton(),
+        floatingActionButton: const FabMenuButton(),
         body: const TabBarView(children: [
           DrugToday(),
           DrugDone(),
