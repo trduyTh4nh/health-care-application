@@ -23,7 +23,10 @@ class PrescriptionItem extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Đơn ngày ${model.createdDate!.day.toString().padLeft(2, '0')}/${model.createdDate!.month.toString().padLeft(2, '0')}/${model.createdDate!.year}", style: Theme.of(context).textTheme.bodyLarge,),
+            Text(
+              "Đơn ngày ${model.createdDate!.day.toString().padLeft(2, '0')}/${model.createdDate!.month.toString().padLeft(2, '0')}/${model.createdDate!.year}",
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
             Text(model.hospital!.name ?? "")
           ],
         )

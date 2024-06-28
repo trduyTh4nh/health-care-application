@@ -18,11 +18,6 @@ class _AllDrugState extends State<AllDrug> {
   List<ScheduleDetailModel> mockData = List.generate(
       10,
       (e) => ScheduleDetailModel(
-            idScheduleDetail: e,
-            status: "completed",
-            timeOfUse: TimeOfDay(
-                hour: TimeOfDay.now().hour - Random().nextInt(5),
-                minute: Random().nextInt(60)),
             detail: PrescriptionDetailModel(
                 drug: DrugModel(name: "Paracetamol"),
                 quantity: Random().nextInt(100),
@@ -34,11 +29,11 @@ class _AllDrugState extends State<AllDrug> {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: EdgeInsets.only(bottom: 20 + 16 + 32),
+      padding: const EdgeInsets.only(bottom: 20 + 16 + 32),
       itemCount: mockData.length,
       itemBuilder: (context, index) =>
           MedicationItem(prescription: mockData[index]),
-      separatorBuilder: (context, index) => Divider(
+      separatorBuilder: (context, index) => const Divider(
         indent: 20,
         endIndent: 20,
       ),
