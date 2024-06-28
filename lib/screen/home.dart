@@ -14,9 +14,6 @@ import 'package:app_well_mate/screen/revisit_page.dart';
 import 'package:app_well_mate/screen/scan.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:app_well_mate/screen/cart_page.dart';
-
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -92,20 +89,8 @@ class _HomeState extends State<Home> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CartPage()));
-                },
-                icon: Icon(
-                  Symbols.shopping_cart,
-                  size: 24,
-                )),
-            IconButton(
-                onPressed: () {
-                Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
+                          builder: (context) =>
                               const MedicinePurchaseHistory()));
-                        },
                 },
                 icon: Badge(
                     child: Icon(Symbols.deployed_code),

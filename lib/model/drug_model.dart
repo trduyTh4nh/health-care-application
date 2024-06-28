@@ -141,6 +141,7 @@ List<DrugModel> generateSampleDrugs() {
       idDrugCate: 2,
       drugImage: "https://nhathuocmedcare.vn/media/catalog/product/cache/7012753609bdb66174cd6f40c1c8efc9/5/_/5.3.png"
     ),
+    // Add more sample data as needed
   ];
 }
 

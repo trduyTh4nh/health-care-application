@@ -55,6 +55,27 @@ class _FFMIPageState extends State<FFMIPage> {
                 padding: EdgeInsets.only(bottom: 10),
                 child: Text("Hệ đo lường",
                     style: Theme.of(context).textTheme.titleMedium)),
+            // const Text('Hệ đo lường',
+            // style: TextStyle(fontWeight: FontWeight.w900),),
+            // ToggleButtons(
+            //   isSelected: [_metricMeasurement == 'Hệ Mét', _metricMeasurement == 'Hệ Mỹ'],
+            //   onPressed: (index) {
+            //     setState(() {
+            //       _metricMeasurement = index == 0 ? 'Hệ Mét' : 'Hệ Mỹ';
+            //     });
+            //   },
+            //   children: [
+            //     Padding(
+            //       padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            //       child: Text('Mét mét'),
+
+            //     ),
+            //     Padding(
+            //       padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            //       child: Text('Hệ Mỹ'),
+            //     ),
+            //   ],
+            // ),
 
             SegmentedButton(
               style: ButtonStyle(
