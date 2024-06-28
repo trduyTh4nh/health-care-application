@@ -179,7 +179,7 @@ class PrescriptionModel {
 List<PrescriptionModel> generateSamplePrescriptions() {
   return [
     PrescriptionModel(
-      idPre: 1001,
+      idPre: 1,
       idUser: 101,
       idHospital: 201,
       createdDate: DateTime.now(),
@@ -227,7 +227,7 @@ List<PrescriptionModel> generateSamplePrescriptions() {
         PrescriptionDetailModel(
           idPreDetail: 1004,
           idDrug: 105,
-          idPre: 2,
+          idPre: 3001,
           notes: "After meals",
           quantity: 90,
           quantityUsed: 3,

@@ -10,6 +10,7 @@ import 'package:app_well_mate/model/prescription_model.dart';
 import 'medicationDetail.dart';
 
 class MedicationPage extends StatefulWidget {
+  const MedicationPage({super.key});
   @override
   _MedicationPageState createState() => _MedicationPageState();
 }
@@ -39,7 +40,7 @@ class _MedicationPageState extends State<MedicationPage> {
         //   mainAxisSize: MainAxisSize.min,
         //   children: [MedicationFab()],
         // ),
-        floatingActionButton: FabMenuButton(),
+        floatingActionButton: const FabMenuButton(),
         body: const TabBarView(children: [
           DrugToday(),
           DrugDone(),
