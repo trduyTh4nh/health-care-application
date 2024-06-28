@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
             timeOfUse: TimeOfDay(
                 hour: Random().nextInt(24), minute: Random().nextInt(60)),
             detail: PrescriptionDetailModel(
-                drug: DrugModel(name: "Paracetamol"),
+                drug: DrugModel(name: "Paracetamol", unit: "Viên"),
                 quantity: Random().nextInt(100),
                 quantityUsed: Random().nextInt(10),
                 amountPerConsumption: Random().nextInt(10),
@@ -71,6 +71,7 @@ class _HomeState extends State<Home> {
                 children: [
                   Text(
                     "Xin chào,",
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Text("Trí Quang",
@@ -183,9 +184,11 @@ class _HomeState extends State<Home> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(
-                              "assets/images/prevent_gif.gif",
-                              height: 280,
+                            Expanded(
+                              child: Image.asset(
+                                "assets/images/prevent_gif.gif",
+                                height: 280,
+                              ),
                             ),
                           ],
                         )
