@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
             timeOfUse: TimeOfDay(
                 hour: Random().nextInt(24), minute: Random().nextInt(60)),
             detail: PrescriptionDetailModel(
-                drug: DrugModel(name: "Paracetamol"),
+                drug: DrugModel(name: "Paracetamol", unit: "Viên"),
                 quantity: Random().nextInt(100),
                 quantityUsed: Random().nextInt(10),
                 amountPerConsumption: Random().nextInt(10),

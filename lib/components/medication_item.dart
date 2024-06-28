@@ -22,8 +22,9 @@ class _MedicationItemState extends State<MedicationItem> {
   bool showWarning = true;
   @override
   Widget build(BuildContext context) {
-    int timeDiffSec =
-        (toSecond(TimeOfDay.now()) - toSecond(widget.prescription.timeOfUse!));
+    int timeDiffSec = widget.prescription.timeOfUse != null
+        ? (toSecond(TimeOfDay.now()) - toSecond(widget.prescription.timeOfUse!))
+        : -1;
     TimeOfDay timeDiff = toTime(timeDiffSec.abs());
     Color accent = timeDiffSec > 0 && widget.prescription.status != "completed"
         ? colorScheme.error
@@ -84,9 +85,10 @@ class _MedicationItemState extends State<MedicationItem> {
                           ],
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Row(
-
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Column(
@@ -96,14 +98,15 @@ class _MedicationItemState extends State<MedicationItem> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          CustomElevatedButton(
-                                              color: accent,
-                                              onTap: () {},
-                                              child: Icon(
-
-                                                Icons.check,
-                                                color: colorScheme.surface,
-                                              )),
+                                          widget.prescription.idScheduleDetail != null
+                                              ? CustomElevatedButton(
+                                                  color: accent,
+                                                  onTap: () {},
+                                                  child: Icon(
+                                                    Icons.check,
+                                                    color: colorScheme.surface,
+                                                  ))
+                                              : const SizedBox(),
                                           timeDiffSec > 0
                                               ? Column(
                                                   children: [
@@ -139,28 +142,32 @@ class _MedicationItemState extends State<MedicationItem> {
                               ],
                             ),
                             PopupMenuButton(
-                              itemBuilder: (context) => const [
+                              itemBuilder: (context) => [
                                 PopupMenuItem(
+                                    enabled:
+                                        widget.prescription.idScheduleDetail != null,
                                     value: MedicationItemAction.confirm,
-                                    child: ListTile(
+                                    child: const ListTile(
                                         leading: Icon(Symbols.check),
                                         title: Text("Xác nhận đã uống"))),
                                 PopupMenuItem(
+                                    enabled:
+                                        widget.prescription.idScheduleDetail != null,
                                     value: MedicationItemAction.snooze,
-                                    child: ListTile(
+                                    child: const ListTile(
                                         leading: Icon(Symbols.snooze),
                                         title: Text("Nhắc tôi sau 10p nữa"))),
-                                PopupMenuItem(
+                                const PopupMenuItem(
                                     value: MedicationItemAction.buy,
                                     child: ListTile(
                                         leading: Icon(Symbols.shopping_bag),
                                         title: Text("Mua thuốc này"))),
-                                PopupMenuItem(
+                                const PopupMenuItem(
                                     value: MedicationItemAction.edit,
                                     child: ListTile(
                                         leading: Icon(Symbols.edit),
                                         title: Text("Sửa thuốc này"))),
-                                PopupMenuItem(
+                                const PopupMenuItem(
                                     value: MedicationItemAction.delete,
                                     child: ListTile(
                                         leading: Icon(Symbols.delete),
@@ -230,12 +237,15 @@ class _MedicationItemState extends State<MedicationItem> {
                           children: [
                             Expanded(
                               child: Text(
-                                widget.prescription.status!.toLowerCase() ==
-                                        "completed"
-                                    ? "Đã uống"
-                                    : timeDiffSec > 0
-                                        ? "Trễ ${timeDiff.hour} giờ, ${timeDiff.minute} phút"
-                                        : "Còn ${timeDiff.hour} giờ, ${timeDiff.minute} phút",
+                                widget.prescription.status != null
+                                    ? widget.prescription.status!
+                                                .toLowerCase() ==
+                                            "completed"
+                                        ? "Đã uống"
+                                        : timeDiffSec > 0
+                                            ? "Trễ ${timeDiff.hour} giờ, ${timeDiff.minute} phút"
+                                            : "Còn ${timeDiff.hour} giờ, ${timeDiff.minute} phút"
+                                    : "",
                                 style: Theme.of(context).textTheme.bodyLarge,
                               ),
                             )
@@ -244,38 +254,50 @@ class _MedicationItemState extends State<MedicationItem> {
                       )
                     ],
                   ),
-                  widget.prescription.detail!.quantityUsed == 0 && showWarning ?
-                  Column(
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Material(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        color: colorScheme.errorContainer,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 10, 10, 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Row(
-                                children: [
-                                  Icon(Symbols.emergency_home),
-                                  SizedBox(width: 16,),
-                                  Text("Đã hết thuốc, hãy mua thêm"),
-                                ],
+                  widget.prescription.detail!.quantityUsed == 0 && showWarning
+                      ? Column(
+                          children: [
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Material(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              color: colorScheme.errorContainer,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 10, 10, 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Row(
+                                      children: [
+                                        Icon(Symbols.emergency_home),
+                                        SizedBox(
+                                          width: 16,
+                                        ),
+                                        Text("Đã hết thuốc, hãy mua thêm"),
+                                      ],
+                                    ),
+                                    IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            showWarning = false;
+                                          });
+                                        },
+                                        icon: const Icon(Icons.close),
+                                        style: ButtonStyle(
+                                          padding: WidgetStateProperty.all(
+                                              EdgeInsets.all(0)),
+                                        ))
+                                  ],
+                                ),
                               ),
-                              IconButton(onPressed: () {
-                                setState(() {
-                                  showWarning = false;
-                                });
-                              }, icon: const Icon(Icons.close), style: ButtonStyle(padding: WidgetStateProperty.all(EdgeInsets.all(0)),))
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ) : const SizedBox()
+                            )
+                          ],
+                        )
+                      : const SizedBox()
                 ],
               ),
             ),
