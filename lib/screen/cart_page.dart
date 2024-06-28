@@ -69,6 +69,16 @@ class _CartPageState extends State<CartPage> {
       }
     });
   }
+  void _selectAllItems() {
+    setState(() {
+      if (_selectedCartItems.length == _cartItems.length) {
+        _selectedCartItems.clear();
+      } else {
+        _selectedCartItems.addAll(_cartItems.map((item) => item.idCart!));
+      }
+      _calculateTotalPrice();
+    });
+  }
 
   void _removeItem(DrugCartModel item) {
     setState(() {
@@ -88,6 +98,16 @@ class _CartPageState extends State<CartPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Giỏ hàng'),
+        actions: [
+          IconButton(
+                onPressed: () {
+                  _selectAllItems();
+                },
+                icon: Badge(
+                    child: Icon(Icons.checklist),
+                    smallSize: 0 /*và 5*/,
+                    largeSize: 0)),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
