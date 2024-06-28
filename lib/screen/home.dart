@@ -7,16 +7,14 @@ import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
-import 'package:app_well_mate/screen/medicine_purchase_history.dart';
 import 'package:app_well_mate/screen/notification.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
-import 'package:app_well_mate/screen/revisit_page.dart';
-import 'package:app_well_mate/screen/scan.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:app_well_mate/screen/cart_page.dart';
-
+import 'package:app_well_mate/screen/drug_cart.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -34,9 +32,9 @@ class _HomeState extends State<Home> {
             timeOfUse: TimeOfDay(
                 hour: Random().nextInt(24), minute: Random().nextInt(60)),
             detail: PrescriptionDetailModel(
-                drug: DrugModel(name: "Paracetamol", unit: "Viên"),
+                drug: DrugModel(name: "Paracetamol"),
                 quantity: Random().nextInt(100),
-                quantityUsed: Random().nextInt(10),
+                quantityUsed: Random().nextInt(100),
                 amountPerConsumption: Random().nextInt(10),
                 notes: "Trước khi ăn"),
           ));
@@ -76,7 +74,6 @@ class _HomeState extends State<Home> {
                 children: [
                   Text(
                     "Xin chào,",
-                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Text("Trí Quang",
@@ -99,14 +96,7 @@ class _HomeState extends State<Home> {
                   size: 24,
                 )),
             IconButton(
-                onPressed: () {
-                Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                              const MedicinePurchaseHistory()));
-                        },
-                },
+                onPressed: () {},
                 icon: Badge(
                     child: Icon(Symbols.deployed_code),
                     smallSize: 0 /*và 5*/,
@@ -164,28 +154,14 @@ class _HomeState extends State<Home> {
                         Expanded(
                             child: Shortcut(
                           icon: Icons.camera_alt_outlined,
-                          text: "Quét mã vạch",
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const ScanPage(
-                                    automaticallyImplyLeading: true,
-                                  ),
-                                ));
-                          },
+                          text: "Quét mã QR",
+                          onTap: () {},
                         )),
                         Expanded(
                             child: Shortcut(
-                          icon: Symbols.alarm,
-                          text: "Lịch tái khám",
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const RevisitPage(),
-                                ));
-                          },
+                          icon: Symbols.pill,
+                          text: "Xem toa thuốc",
+                          onTap: () {},
                         )),
                       ],
                     ),
@@ -219,11 +195,9 @@ class _HomeState extends State<Home> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Expanded(
-                              child: Image.asset(
-                                "assets/images/prevent_gif.gif",
-                                height: 280,
-                              ),
+                            Image.asset(
+                              "assets/images/prevent_gif.gif",
+                              height: 280,
                             ),
                           ],
                         )
