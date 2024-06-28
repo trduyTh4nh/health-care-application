@@ -1,3 +1,4 @@
+import 'package:app_well_mate/screen/drugDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -67,6 +68,15 @@ class _WidgetBuyMedicine extends State<WidgetBuyMedicine> {
                             leading: Icon(Symbols.info),
                             title: Text("Xem thông tin "))),
                   ],
+                  onSelected: (value) {
+                    switch(value){
+                      case MedicationItemAction.info:
+                        Navigator.push(context, MaterialPageRoute(builder:(context) => const Drugdetails(),));
+                        break;
+                      default:
+                        break;
+                    }
+                  },
                 ),
               ],
             ),

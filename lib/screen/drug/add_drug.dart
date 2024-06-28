@@ -11,8 +11,8 @@ import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class AddDrugPage extends StatefulWidget {
-  const AddDrugPage({super.key});
-
+  const AddDrugPage({super.key, this.addPageProdiver});
+  final AddPageProvider? addPageProdiver;
   @override
   State<AddDrugPage> createState() => _AddDrugPageState();
 }
@@ -30,7 +30,7 @@ class _AddDrugPageState extends State<AddDrugPage> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => AddPageProvider())
+        ChangeNotifierProvider(create: (context) => widget.addPageProdiver ?? AddPageProvider())
       ],
       child: Scaffold(
         appBar: AppBar(

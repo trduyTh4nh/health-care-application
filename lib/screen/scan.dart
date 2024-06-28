@@ -8,8 +8,8 @@ import 'package:flutter/widgets.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 class ScanPage extends StatefulWidget {
-  const ScanPage({super.key});
-
+  const ScanPage({super.key, this.automaticallyImplyLeading = false});
+  final bool? automaticallyImplyLeading;
   @override
   State<ScanPage> createState() => _ScanPageState();
 }
@@ -19,6 +19,7 @@ class _ScanPageState extends State<ScanPage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(automaticallyImplyLeading: widget.automaticallyImplyLeading ?? false,),
         body: Center(
             child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
