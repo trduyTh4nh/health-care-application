@@ -42,7 +42,7 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
   DrugModel? drugModel;
   PrescriptionDetailModel? prescriptionDetail;
   List<ScheduleDetailModel>? listScheduleDetail;
-  double _opacity = 1.0;
+  double _opacity = 0.0;
   int idScheSelected = 0;
   @override
   void initState() {
@@ -112,20 +112,6 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
           actions: [
             PopupMenuButton(
                 itemBuilder: (context) => const [
-                      PopupMenuItem(
-                        value: MedicationItemAction.confirm,
-                        child: ListTile(
-                          leading: Icon(Symbols.check),
-                          title: Text("Xác nhận"),
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: MedicationItemAction.snooze,
-                        child: ListTile(
-                          leading: Icon(Symbols.snooze),
-                          title: Text("Nhặc tôi sau 10p nữa"),
-                        ),
-                      ),
                       PopupMenuItem(
                         value: MedicationItemAction.buy,
                         child: ListTile(

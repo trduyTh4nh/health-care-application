@@ -47,6 +47,7 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
         ),
       ),
       body: SingleChildScrollView(
+        padding: EdgeInsets.only(bottom: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

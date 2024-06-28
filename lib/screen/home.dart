@@ -10,6 +10,7 @@ import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/screen/notification.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
 import 'package:app_well_mate/screen/revisit_page.dart';
+import 'package:app_well_mate/screen/scan.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -141,15 +142,27 @@ class _HomeState extends State<Home> {
                         Expanded(
                             child: Shortcut(
                           icon: Icons.camera_alt_outlined,
-                          text: "Quét mã QR",
-                          onTap: () {},
+                          text: "Quét mã vạch",
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ScanPage(
+                                    automaticallyImplyLeading: true,
+                                  ),
+                                ));
+                          },
                         )),
                         Expanded(
                             child: Shortcut(
                           icon: Symbols.alarm,
                           text: "Lịch tái khám",
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder:(context) => const RevisitPage(),));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const RevisitPage(),
+                                ));
                           },
                         )),
                       ],

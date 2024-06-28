@@ -1,4 +1,5 @@
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/screen/edit_infomation_user.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,6 +22,7 @@ class _UserInformationState extends State<UserInformation> {
             style: Theme.of(context).textTheme.titleMedium),
       ),
       body: SingleChildScrollView(
+        padding: EdgeInsets.only(bottom: 15),
         child: Padding(
           padding: EdgeInsets.all(15),
           child: Column(
@@ -82,7 +84,7 @@ class _UserInformationState extends State<UserInformation> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Thongtincanhan()));
+                                  builder: (context) => EditInfomationUser()));
                         },
                         child: const Text(
                           "Chỉnh sửa thông tin cá nhân",
