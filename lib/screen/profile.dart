@@ -3,6 +3,7 @@ import 'package:app_well_mate/screen/changeRePassword.dart';
 import 'package:app_well_mate/screen/drug_manage.dart';
 import 'package:app_well_mate/screen/ffmi.dart';
 import 'package:app_well_mate/screen/imergencycall.dart';
+import 'package:app_well_mate/screen/medicine_purchase_history.dart';
 import 'package:app_well_mate/screen/info.dart';
 import 'package:app_well_mate/screen/notification.dart';
 import 'package:app_well_mate/screen/language.dart';
@@ -69,7 +70,12 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
 //         ],
           //KHÔNG ĐƯỢC CONST!!!!!
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MedicinePurchaseHistory()));
+              },
               icon: const Badge(
                   child: Icon(Symbols.deployed_code),
                   smallSize: 0 /*và 5*/,

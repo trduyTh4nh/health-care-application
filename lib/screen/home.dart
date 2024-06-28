@@ -7,6 +7,7 @@ import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
+import 'package:app_well_mate/screen/medicine_purchase_history.dart';
 import 'package:app_well_mate/screen/notification.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
 import 'package:app_well_mate/screen/revisit_page.dart';
@@ -84,7 +85,13 @@ class _HomeState extends State<Home> {
           actions: [
             //KHÔNG ĐƯỢC CONST!!!!!
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const MedicinePurchaseHistory()));
+                },
                 icon: Badge(
                     child: Icon(Symbols.deployed_code),
                     smallSize: 0 /*và 5*/,

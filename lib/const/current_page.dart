@@ -11,6 +11,7 @@ import 'package:app_well_mate/screen/admin/user_management_page.dart';
 import 'package:app_well_mate/screen/changeRePassword.dart';
 import 'package:app_well_mate/screen/drug_super_detail.dart';
 import 'package:app_well_mate/screen/home.dart';
+import 'package:app_well_mate/screen/medicine_purchase_history.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
 import 'package:flutter/material.dart';
 
