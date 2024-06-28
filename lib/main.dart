@@ -1,4 +1,9 @@
 import 'package:app_well_mate/const/color_scheme.dart';
+
+import 'package:app_well_mate/const/current_page.dart';
+import 'package:app_well_mate/screen/drug_cart.dart';
+import 'package:app_well_mate/screen/ffmi.dart';
+
 import 'package:app_well_mate/screen/home.dart';
 import 'package:app_well_mate/screen/login.dart';
 import 'package:app_well_mate/screen/medication.dart';
@@ -21,9 +26,11 @@ ColorScheme colorScheme = ColorScheme(
     surface: const Color(0xFFFFFFFF),
     onSurface: const Color(0xFF000000),
     surfaceDim: const Color(0xFFF2F2F2),
-    errorContainer: const Color(0xFFFFF4F4));
+    errorContainer: const Color(0xFFFFF4F4)
+    );
+    
 
-void main() async {
+void main() {
   runApp(const MainApp());
 }
 
@@ -173,7 +180,7 @@ class _AppPageState extends State<AppPage> {
     const Home(),
     const SearchPage(),
     const ScanPage(),
-    const MedicationPage(),
+     MedicationPage(),
     const Thongtincanhan(),
     const ThemeScreen()
   ];
