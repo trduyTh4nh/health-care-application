@@ -11,6 +11,7 @@ import 'package:app_well_mate/screen/notification.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
 import 'package:app_well_mate/screen/revisit_page.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class Home extends StatefulWidget {
@@ -37,6 +38,7 @@ class _HomeState extends State<Home> {
           ));
   List<ScheduleDetailModel> expiredData = [];
   List<ScheduleDetailModel> upcomingData = [];
+  List<String> _banners = ["banner1.json", "banner2.json", "banner3.json", "dotorjson.json", "fight_the_virus.json"];
   @override
   void initState() {
     expiredData = mockData
@@ -48,6 +50,8 @@ class _HomeState extends State<Home> {
             toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) < 0)
         .toList();
     super.initState();
+
+    
   }
 
   @override
@@ -159,7 +163,7 @@ class _HomeState extends State<Home> {
                     endIndent: 20,
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -183,15 +187,15 @@ class _HomeState extends State<Home> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(
-                              "assets/images/prevent_gif.gif",
-                              height: 280,
+                            Lottie.asset(
+                              "assets/images/${_banners[Random().nextInt(_banners.length)] }",
+                              width: 380,
                             ),
                           ],
-                        )
+                        )        
                       ],
                     ),
-                  ),
+                  ), 
                 ],
               ),
             ),
