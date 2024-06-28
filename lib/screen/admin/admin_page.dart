@@ -16,10 +16,10 @@ class _AdminPageState extends State<AdminPage> {
   int _selectedPage = 0;
 
   final List<Widget> _listPage = [
-    FinancialStatisticsPage(),
-    UserManagementAdmin(),
-    HospitalManagementAdminPage(),
-    DiseaseManagementAdminPage(),
+    const FinancialStatisticsPage(),
+    const UserManagementAdmin(),
+    const HospitalManagementAdminPage(),
+    const DiseaseManagementAdminPage(),
   ];
 
   void _onTap(index) {

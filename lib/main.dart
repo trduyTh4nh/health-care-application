@@ -9,7 +9,6 @@ import 'package:app_well_mate/screen/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:syncfusion_flutter_core/localizations.dart'; 
 
 ColorScheme colorScheme = ColorScheme(
     brightness: Brightness.light,
