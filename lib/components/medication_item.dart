@@ -59,27 +59,32 @@ class _MedicationItemState extends State<MedicationItem> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                color: accent,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50))),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Icon(Symbols.pill,
-                                  color: colorScheme.surface),
+                      Expanded(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: accent,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50))),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Icon(Symbols.pill,
+                                    color: colorScheme.surface),
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 10),
-                          Text(
-                            widget.prescription.detail!.drug!.name ?? "",
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          )
-                        ],
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                widget.prescription.detail!.drug!.name ?? "",
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
+                      SizedBox(width: 10,),
                       Row(
 
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -223,14 +228,16 @@ class _MedicationItemState extends State<MedicationItem> {
                       Expanded(
                         child: Row(
                           children: [
-                            Text(
-                              widget.prescription.status!.toLowerCase() ==
-                                      "completed"
-                                  ? "Đã uống"
-                                  : timeDiffSec > 0
-                                      ? "Trễ ${timeDiff.hour} giờ, ${timeDiff.minute} phút"
-                                      : "Còn ${timeDiff.hour} giờ, ${timeDiff.minute} phút",
-                              style: Theme.of(context).textTheme.bodyLarge,
+                            Expanded(
+                              child: Text(
+                                widget.prescription.status!.toLowerCase() ==
+                                        "completed"
+                                    ? "Đã uống"
+                                    : timeDiffSec > 0
+                                        ? "Trễ ${timeDiff.hour} giờ, ${timeDiff.minute} phút"
+                                        : "Còn ${timeDiff.hour} giờ, ${timeDiff.minute} phút",
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
                             )
                           ],
                         ),

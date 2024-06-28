@@ -71,6 +71,7 @@ class _HomeState extends State<Home> {
                 children: [
                   Text(
                     "Xin chào,",
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Text("Trí Quang",
@@ -183,9 +184,11 @@ class _HomeState extends State<Home> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(
-                              "assets/images/prevent_gif.gif",
-                              height: 280,
+                            Expanded(
+                              child: Image.asset(
+                                "assets/images/prevent_gif.gif",
+                                height: 280,
+                              ),
                             ),
                           ],
                         )
