@@ -148,7 +148,11 @@ class _HomeState extends State<Home> {
                           icon: Symbols.alarm,
                           text: "Lịch tái khám",
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder:(context) => const RevisitPage(),));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const RevisitPage(),
+                                ));
                           },
                         )),
                       ],

@@ -4,6 +4,8 @@ import 'package:app_well_mate/screen/admin/hospital_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+enum HostpitalEditOption { delete, edit }
+
 class ItemHospital extends StatelessWidget {
   Hospital hospital;
   ItemHospital({super.key, required this.hospital});
@@ -24,8 +26,8 @@ class ItemHospital extends StatelessWidget {
                 builder: (context) => HospitalDetail(hospital: hospital),
               ));
         },
-        child: Container(
-          height: sizeHeight * 0.15,
+        child: SizedBox(
+          height: sizeHeight * 0.20,
           width: sizeWidht,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -99,16 +101,23 @@ class ItemHospital extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Text("#201"),
+                            const Text("#201"),
                           ],
                         ),
                       )
                     ],
                   ),
-                  IconButton(
-                    icon: Icon(Icons.more_horiz),
-                    onPressed: () {},
-                  ),
+                  Expanded(
+                      child: PopupMenuButton(
+                    itemBuilder: (context) => const [
+                      PopupMenuItem(
+                          value: HostpitalEditOption.edit,
+                          child: Text("Chỉnh sửa")),
+                      PopupMenuItem(
+                          value: HostpitalEditOption.delete,
+                          child: Text("Xóa")),
+                    ],
+                  )),
                 ],
               ),
               const Divider(),
