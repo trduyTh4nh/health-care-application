@@ -131,6 +131,16 @@ class _CartPageState extends State<CartPage> {
                               onChanged: (_) => _toggleSelection(item.idCart!),
                             ),
                             SizedBox(width: 8),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        DrugDetailPage(drug: drug!), // Replace DrugDetailPage with your actual detail page
+                                  ),
+                                );
+                              },
                             Image.network(
                               drug!.drugImage ?? '',
                               width: 50,
@@ -149,6 +159,7 @@ class _CartPageState extends State<CartPage> {
                                       style: TextStyle(color: Colors.grey)),
                                 ],
                               ),
+                            ),
                             ),
                             SizedBox(width: 8),
                             Container(
