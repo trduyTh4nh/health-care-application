@@ -173,14 +173,23 @@ class _LoginByEmailState extends State<LoginByEmail> {
                                   MaterialPageRoute(
                                       builder: (context) => currentpage));
                             },
-                            child: const Text(
-                              'Đăng kí',
-                              style: TextStyle(
-                                  color: AppColors.primaryColor,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: AppColors.primaryColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Signup(),
+                                    ));
+                              },
+                              child: const Text(
+                                'Đăng kí',
+                                style: TextStyle(
+                                    color: AppColors.primaryColor,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: AppColors.primaryColor,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                           )
                         ],
