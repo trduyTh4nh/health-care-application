@@ -1,4 +1,3 @@
-import 'package:app_well_mate/screen/drug/medicine_order/widget_complete_medicine.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:app_well_mate/main.dart';
@@ -119,7 +118,7 @@ class _CartMedicines extends State<CartMedicines> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              WidgetCompleteMedicine()));
+                                              CartMedicines()));
                                 },
                                 child: Text("Mua thuốc")),
                           ),

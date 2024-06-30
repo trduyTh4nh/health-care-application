@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
           ));
   List<ScheduleDetailModel> expiredData = [];
   List<ScheduleDetailModel> upcomingData = [];
-  List<String> _banners = [
+  final List<String> _banners = [
     "banner1.json",
     "banner2.json",
     "banner3.json",
@@ -99,7 +99,7 @@ class _HomeState extends State<Home> {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => CartPage()));
                 },
-                icon: Icon(
+                icon: const Icon(
                   Symbols.shopping_cart,
                   size: 24,
                 )),
@@ -111,7 +111,7 @@ class _HomeState extends State<Home> {
                           builder: (context) =>
                               const MedicinePurchaseHistory()));
                 },
-                icon: Badge(
+                icon: const Badge(
                     child: Icon(Symbols.deployed_code),
                     smallSize: 0 /*và 5*/,
                     largeSize: 0)),
@@ -143,7 +143,7 @@ class _HomeState extends State<Home> {
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Text("Tác vụ nhanh")),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -207,14 +207,14 @@ class _HomeState extends State<Home> {
                         ),
                         const Text("Hãy giữ gìn sức khoẻ nhé!"),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Lottie.asset(
-                              "assets/images/${_banners[Random().nextInt(_banners.length)]}",
-                              width: 380,
-                            ),
-                          ],
-                        )
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _banners[Random().nextInt(_banners.length)] != null ? 
+                              Lottie.asset(
+                                "assets/images/${_banners[Random().nextInt(_banners.length)]}",
+                                width: 380,
+                              ) : const CircularProgressIndicator()
+                            ])
                       ],
                     ),
                   ),
