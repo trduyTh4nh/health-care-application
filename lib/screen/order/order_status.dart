@@ -9,7 +9,6 @@ import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:app_well_mate/utils/util.dart';
 import 'package:flutter/material.dart';
 
-
 class OrderStatus extends StatefulWidget {
   const OrderStatus({super.key, required this.notifiItem});
   final NotificationModel notifiItem;
@@ -43,7 +42,6 @@ class _OrderStatusState extends State<OrderStatus> {
     // có được order dùng idPre của match 1:1 với Prescription tìm prescription
     prescriptionOfnotifi = findPrescriptionByIdFromOrder(orderOfNotifi!.idPre!);
     if (prescriptionOfnotifi != null) {
-
       _listPrescriptionDetail = prescriptionOfnotifi!.prescriptionDetails;
 
       _listDrug = getListDrug(_listPrescriptionDetail!);
@@ -96,6 +94,7 @@ class _OrderStatusState extends State<OrderStatus> {
 
         print('Total Price of Prescription: $totalPrice');
         setState(() {
+          // ignore: unnecessary_null_comparison
           if (convertCurrency(totalPrice) != null) {
             totalDeal = convertCurrency(totalPrice);
           }

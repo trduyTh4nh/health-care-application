@@ -1,6 +1,5 @@
 import 'package:app_well_mate/components/bieudodichte.dart';
 import 'package:app_well_mate/components/danhsachdichbenh.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class DiseaseManagementAdminPage extends StatefulWidget {
@@ -41,6 +40,7 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
     final sizeWidth = MediaQuery.of(context).size.width;
 
     const List<String> list = <String>['Năm nay', '2023', '2022', '2021'];
+    // ignore: unused_local_variable
     const List<String> list01 = <String>[
       'Sốt xuất huyết',
       'Cảm',

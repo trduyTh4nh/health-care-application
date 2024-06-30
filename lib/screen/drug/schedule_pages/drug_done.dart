@@ -33,6 +33,7 @@ class _DrugDoneState extends State<DrugDone> with AutomaticKeepAliveClientMixin<
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     return ListView.separated(
       padding: EdgeInsets.only(bottom: 20+16 + 32),

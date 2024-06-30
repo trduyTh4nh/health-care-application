@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 enum HostpitalEditOption { delete, edit }
 
+// ignore: must_be_immutable
 class ItemHospital extends StatelessWidget {
   Hospital hospital;
   ItemHospital({super.key, required this.hospital});
