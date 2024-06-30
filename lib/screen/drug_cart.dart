@@ -6,6 +6,7 @@ import 'package:app_well_mate/model/drug_cart_model.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
 
 class CartPage extends StatefulWidget {
+  const CartPage({super.key});
   @override
   _CartPageState createState() => _CartPageState();
 }
