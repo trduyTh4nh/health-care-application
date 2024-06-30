@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.4.1"
+  animated_custom_dropdown:
+    dependency: "direct main"
+    description:
+      name: animated_custom_dropdown
+      sha256: "1b4394c31b98094bce2889aa7115beeba1462645056f0e1709a9c99c0c7fcd85"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.0"
   archive:
     dependency: transitive
     description:
