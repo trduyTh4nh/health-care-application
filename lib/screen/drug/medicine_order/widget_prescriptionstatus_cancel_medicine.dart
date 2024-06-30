@@ -27,123 +27,155 @@ class _WidgetPrescriptionstatusCancelMedicine
       appBar: AppBar(
         title: Text("Tình trạng đơn thuốc"),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.ac_unit_outlined),
-                  SizedBox(
-                    width: 15,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 0, bottom: 0, right: 16, left: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.ac_unit_outlined),
+                SizedBox(
+                  width: 15,
+                ),
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    child: Text(
+                      "Đơn thuốc đang được chuẩn bị bởi nhà thuốc",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge!
+                          .copyWith(fontSize: 24),
+                    ),
                   ),
-                  Expanded(
-                    child: Container(
-                      width: double.infinity,
-                      child: Text(
-                        "Đơn thuốc đang được chuẩn bị bởi nhà thuốc",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(fontSize: 24),
+                )
+              ],
+            ),
+            Container(
+              height: sizeHeight * 0.40,
+              child: ListView.builder(
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 20,
+                                    backgroundImage: NetworkImage(
+                                        'https://i.giphy.com/BSx6mzbW1ew7K.webp'),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Panadol Extra",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge),
+                                        Text("3 vỉ _ 8.000 đ / vỉ",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelSmall),
+                                        Text("25.000 đ",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              PopupMenuButton(
+                                style: Theme.of(context).iconButtonTheme.style,
+                                itemBuilder: (context) => const [
+                                  PopupMenuItem(
+                                      value: MedicationItemAction.delete,
+                                      child: ListTile(
+                                          leading: Icon(Symbols.delete),
+                                          title: Text("Xoá thuốc này"))),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const Divider(),
+                        ],
                       ),
                     ),
-                  )
-                ],
+                  );
+                },
               ),
-              Container(
-                height: sizeHeight * 0.40,
-                child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 20,
-                                      backgroundImage: NetworkImage(
-                                          'https://i.giphy.com/BSx6mzbW1ew7K.webp'),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text("Panadol Extra",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge),
-                                          Text("3 vỉ _ 8.000 đ / vỉ",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .labelSmall),
-                                          Text("25.000 đ",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleMedium),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                PopupMenuButton(
-                                  style:
-                                      Theme.of(context).iconButtonTheme.style,
-                                  itemBuilder: (context) => const [
-                                    PopupMenuItem(
-                                        value: MedicationItemAction.delete,
-                                        child: ListTile(
-                                            leading: Icon(Symbols.delete),
-                                            title: Text("Xoá thuốc này"))),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const Divider(),
-                          ],
-                        ),
+            ),
+            const Text("Phương thức thanh toán"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(25),
                       ),
-                    );
-                  },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(25),
+                        child: Image.network(
+                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGxsoe7iPccCnGraliGFCLCvbg3bO3PDtELQ&s"),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Visa",
+                            style: Theme.of(context).textTheme.titleMedium),
+                        Text("******12"),
+                      ],
+                    )
+                  ],
                 ),
-              ),
-              const Text("Phương thức thanh toán"),
-              Row(
+                PopupMenuButton(
+                  style: Theme.of(context).iconButtonTheme.style,
+                  itemBuilder: (context) => const [
+                    PopupMenuItem(
+                        value: MedicationItemAction.delete,
+                        child: ListTile(
+                            leading: Icon(Symbols.delete),
+                            title: Text("Xoá thẻ này"))),
+                  ],
+                ),
+              ],
+            ),
+            Text("Địa chỉ giao hàng"),
+            Container(
+              width: double.infinity,
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
                     children: [
                       Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: Image.network(
-                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGxsoe7iPccCnGraliGFCLCvbg3bO3PDtELQ&s"),
+                        width: sizeWight * 1.9 / 3,
+                        child: Column(  
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "100 đường Example, Thành phố Hồ Chí Minh, Việt Nam",
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ],
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Visa",
-                              style: Theme.of(context).textTheme.titleMedium),
-                          Text("******12"),
-                        ],
-                      )
                     ],
                   ),
                   PopupMenuButton(
@@ -153,73 +185,38 @@ class _WidgetPrescriptionstatusCancelMedicine
                           value: MedicationItemAction.delete,
                           child: ListTile(
                               leading: Icon(Symbols.delete),
-                              title: Text("Xoá thẻ này"))),
+                              title: Text("Xoá địa chỉ này"))),
                     ],
                   ),
                 ],
               ),
-              Text("Địa chỉ giao hàng"),
-              Container(
-                width: double.infinity,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: sizeWight * 1.9 / 3,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "100 đường Example, Thành phố Hồ Chí Minh, Việt Nam",
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    PopupMenuButton(
-                      style: Theme.of(context).iconButtonTheme.style,
-                      itemBuilder: (context) => const [
-                        PopupMenuItem(
-                            value: MedicationItemAction.delete,
-                            child: ListTile(
-                                leading: Icon(Symbols.delete),
-                                title: Text("Xoá địa chỉ này"))),
-                      ],
-                    ),
-                  ],
+            ),
+            Text(
+              "Tổng tiền",
+              style: Theme.of(context).textTheme.labelMedium,
+            ),
+            Text(
+              "505.000" " Đ",
+              style: Theme.of(context).textTheme.displayMedium,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              WidgetStateProperty.all(colorScheme.error)),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CartPage()));
+                      },
+                      child: Text("Hủy đơn thuốc- KHÔNG HOÀN TIỀN")),
                 ),
-              ),
-              Text(
-                "Tổng tiền",
-                style: Theme.of(context).textTheme.labelMedium,
-              ),
-              Text(
-                "505.000" " Đ",
-                style: Theme.of(context).textTheme.displayMedium,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStateProperty.all(colorScheme.error)),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CartPage()));
-                        },
-                        child: Text("Hủy đơn thuốc- KHÔNG HOÀN TIỀN")),
-                  ),
-                ],
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ),
       ),
     );

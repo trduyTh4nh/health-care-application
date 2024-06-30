@@ -29,6 +29,7 @@ class _NotifyComponentState extends State<NotifyComponent> {
           notifiItem: widget.notifiItem,
         );
       } else if (cateWidget == 'important') {
+        
         return HospitalDetailPage(notifiItem: widget.notifiItem);
       } else {
         return DrugInfoPage(notifiItem: widget.notifiItem);
@@ -109,7 +110,7 @@ class _NotifyComponentState extends State<NotifyComponent> {
                         ? const SizedBox()
                         : CustomElevatedBtnCheck(
                             onTap: () {},
-                            child: const Icon(
+                            child:  Icon(
                               Symbols.check,
                               color: Colors.white,
                             ),

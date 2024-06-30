@@ -1,7 +1,6 @@
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/screen/edit_infomation_user.dart';
 import 'package:flutter/material.dart';
-
 import 'package:material_symbols_icons/symbols.dart';
 
 class UserInformation extends StatefulWidget {

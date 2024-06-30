@@ -1,9 +1,5 @@
-import 'dart:collection';
-import 'dart:convert';
-
 import 'package:app_well_mate/components/notification_item.dart';
 import 'package:app_well_mate/model/notification_model.dart';
-import 'package:app_well_mate/model/user.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 
@@ -23,23 +19,21 @@ class _NotificationPageState extends State<NotificationPage> {
   void initState() {
     super.initState();
 
-    if (listNotification != null) {
-      notifications = listNotification;
+    notifications = listNotification;
 
-      _listRed = notifications
-          .where((e) =>
-              (e.priority! == 'overdue' || e.priority! == 'runoutof' || e.priority! == 'important') &&
-              checkExpire(e.time!))
-          .toList();
-      // sort
-      _listRed.sort((a, b) => b.time!.compareTo(a.time!));
+    _listRed = notifications
+        .where((e) =>
+            (e.priority! == 'overdue' || e.priority! == 'runoutof' || e.priority! == 'important') &&
+            checkExpire(e.time!))
+        .toList();
+    // sort
+    _listRed.sort((a, b) => b.time!.compareTo(a.time!));
 
-      _listBlue = notifications
-          .where((e) => (!_listRed.contains(e)) && checkExpire(e.time!))
-          .toList();
-      _listBlue.sort((a, b) => b.time!.compareTo(a.time!));
+    _listBlue = notifications
+        .where((e) => (!_listRed.contains(e)) && checkExpire(e.time!))
+        .toList();
+    _listBlue.sort((a, b) => b.time!.compareTo(a.time!));
     }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +84,7 @@ class _NotificationPageState extends State<NotificationPage> {
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   var now = DateTime.now();
-                  var difference = now.difference(_listBlue[index].time!);
+                  now.difference(_listBlue[index].time!);
                   //var timeOfNotifi = now.difference(_listBlue[index].time!);
 
                   List<NotificationModel> arrRecently = [];

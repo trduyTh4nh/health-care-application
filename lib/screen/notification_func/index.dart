@@ -6,6 +6,10 @@ import 'package:app_well_mate/model/prescription_model.dart';
 PrescriptionDetailModel? getPrescriptionModelDetailFromId(int preDetail) {
   List<PrescriptionDetailModel> _listPreDetailModel = generateSamplePrescriptionDetails();
   try {
+    print("Debug preid: ${preDetail}");
+    for (var element in _listPreDetailModel) {
+        print(element.idPreDetail);
+    }
     PrescriptionDetailModel preDetailModel = _listPreDetailModel.firstWhere(
       (element) => element.idPreDetail == preDetail,
       orElse: () => throw Exception('No element found'),
@@ -26,7 +30,7 @@ PrescriptionModel? getPrescriptionModel(int preId) {
   try {
     PrescriptionModel pre = _listPreModel
         .firstWhere((element) => element.idPre == preId,
-        orElse: () => throw Exception('No element found'),);
+        orElse: () => throw Exception('No element found 1'),);
     print(pre.hospital!.name);
     return pre;
   } catch (e) {
