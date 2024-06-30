@@ -90,14 +90,14 @@ class _PrescriptionDetailPageState extends State<PrescriptionDetailPage> {
                 SizedBox(height: 16),
                 Table(
                   border: TableBorder.all(color: Colors.grey),
-                  columnWidths: {
+                  columnWidths: const {
                     0: FlexColumnWidth(2),
                     1: FlexColumnWidth(1),
                     2: FlexColumnWidth(1),
                     3: FlexColumnWidth(2),
                   },
                   children: [
-                    TableRow(
+                    const TableRow(
                       children: [
                         TableCell(
                             child: Padding(
@@ -147,12 +147,11 @@ class _PrescriptionDetailPageState extends State<PrescriptionDetailPage> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Expanded(
+                    const Expanded(
                       child: Column(
                         children: [
                           Text("Lời dặn của bác sĩ:",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)),
+                              style: Theme.of(context).textTheme.titleMedium),
                           Text(
                               "Sức đề kháng kém là do bạn không chơi đồ đó bạn ạ",
                               style: TextStyle(fontSize: 16)),
@@ -169,9 +168,9 @@ class _PrescriptionDetailPageState extends State<PrescriptionDetailPage> {
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(height: 8),
-                          Text("Bác sĩ", style: TextStyle(fontSize: 16)),
+                          const Text("Bác sĩ", style: TextStyle(fontSize: 16)),
                           Text(widget.prescription.doctorName!,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold)),
                           SizedBox(height: 8),
                           Icon(Symbols.signature, size: 48),

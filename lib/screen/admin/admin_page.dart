@@ -3,6 +3,7 @@ import 'package:app_well_mate/screen/admin/financial_statistics_page.dart';
 import 'package:app_well_mate/screen/admin/hospital_management_page.dart';
 import 'package:app_well_mate/screen/admin/user_management_page.dart';
 import 'package:flutter/material.dart';
+import 'package:app_well_mate/screen/admin/faceAdmin.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class AdminPage extends StatefulWidget {
@@ -20,6 +21,7 @@ class _AdminPageState extends State<AdminPage> {
     const UserManagementAdmin(),
     const HospitalManagementAdminPage(),
     const DiseaseManagementAdminPage(),
+    const FaceAdmin(),
   ];
 
   void _onTap(index) {
@@ -47,6 +49,10 @@ class _AdminPageState extends State<AdminPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Symbols.stethoscope),
+            label: "Quản lý dịch bệnh",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Symbols.face_6),
             label: "Quản lý dịch bệnh",
           ),
         ],

@@ -1,4 +1,7 @@
 import 'dart:ffi';
+import 'package:app_well_mate/const/color_scheme.dart';
+import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:app_well_mate/model/drug_model.dart';
@@ -34,7 +37,7 @@ class _CartPageState extends State<CartPage> {
     try {
       return _drugs.firstWhere((drug) => drug.idDrug == id);
     } catch (e) {
-      return null; // Trả về null nếu không tìm thấy
+      return null;
     }
   }
 
@@ -141,11 +144,10 @@ class _CartPageState extends State<CartPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(drug.name ?? '',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
+                                  style: Theme.of(context).textTheme.titleMedium,),
                                   SizedBox(height: 4),
                                   Text(_formatCurrency(drug.price ?? 0),
-                                      style: TextStyle(color: Colors.grey)),
+                                      style: TextStyle(color: AppColors.textColor)),
                                 ],
                               ),
                             ),
@@ -153,7 +155,7 @@ class _CartPageState extends State<CartPage> {
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: Colors.grey[200],
+                                color: AppColors.greyColor,
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
@@ -164,8 +166,7 @@ class _CartPageState extends State<CartPage> {
                                     onPressed: () => _decrementQuantity(item),
                                   ),
                                   Text('${item.quantity}',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
+                                      style: Theme.of(context).textTheme.titleMedium,),
                                   IconButton(
                                     iconSize: 15.0,
                                     icon: Icon(Icons.arrow_forward_ios_rounded),
@@ -175,8 +176,8 @@ class _CartPageState extends State<CartPage> {
                               ),
                             ),
                             SizedBox(width: 8),
-                            Text("Vi",
-                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text("Vỉ",
+                                style: Theme.of(context).textTheme.titleMedium),
                             SizedBox(width: 8),
                             IconButton(
                               icon: Icon(Icons.delete),
@@ -194,7 +195,7 @@ class _CartPageState extends State<CartPage> {
             SizedBox(height: 16),
             Text(
               'Tổng tiền: ${_formatCurrency(_totalPrice)}',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style:Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 24)
             ),
             SizedBox(height: 16),
             ElevatedButton(
@@ -208,7 +209,7 @@ class _CartPageState extends State<CartPage> {
                       ),
                     );
                     },
-              child: Text('Mua thuốc'),
+              child: Text('Mua thuốc',),
               // style: ElevatedButton.styleFrom(
               //   minimumSize: Size(double.infinity, 48),
               // ),
