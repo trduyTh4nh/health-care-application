@@ -22,34 +22,40 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Icon(Icons.ac_unit_outlined),
-                SizedBox(
-                  width: 15,
-                ),
-                Expanded(
-                  child: Container(
-                    width: double.infinity,
-                    child: Text(
-                      "Đơn thuốc đang được chuẩn bị bởi nhà thuốc",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge!
-                          .copyWith(fontSize: 24),
-                    ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  const Icon(Icons.ac_unit_outlined),
+                  const SizedBox(
+                    width: 15,
                   ),
-                )
-              ],
+                  Expanded(
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        "Đơn thuốc đang được chuẩn bị bởi nhà thuốc",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge!
+                            .copyWith(fontSize: 24),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
-            Container(
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
               height: sizeHeight * 0.40,
-              child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return SingleChildScrollView(
                       child: Column(
                         children: [
                           Row(
@@ -57,16 +63,7 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
                             children: [
                               Row(
                                 children: [
-                                  Checkbox(
-                                    value: isChecked,
-                                    activeColor: Colors.blue,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        isChecked = value!;
-                                      });
-                                    },
-                                  ),
-                                  CircleAvatar(
+                                  const CircleAvatar(
                                     radius: 20,
                                     backgroundImage: NetworkImage(
                                         'https://i.giphy.com/BSx6mzbW1ew7K.webp'),
@@ -109,85 +106,107 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
                           const Divider(),
                         ],
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
-            const Text("Phương thức thanh toán"),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
+            Container(
+              decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.4),
+                  spreadRadius: 15,
+                  blurRadius: 7,
+                  offset: const Offset(0, 5),
+                )
+              ]),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(25),
-                        child: Image.network(
-                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGxsoe7iPccCnGraliGFCLCvbg3bO3PDtELQ&s"),
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    const Text("Phương thức thanh toán"),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Visa",
-                            style: Theme.of(context).textTheme.titleMedium),
-                        Text("******12"),
+                        Row(
+                          children: [
+                            Container(
+                              height: 50,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(25),
+                                child: Image.network(
+                                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGxsoe7iPccCnGraliGFCLCvbg3bO3PDtELQ&s"),
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Visa",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium),
+                                Text("******12"),
+                              ],
+                            )
+                          ],
+                        ),
+                        PopupMenuButton(
+                          style: Theme.of(context).iconButtonTheme.style,
+                          itemBuilder: (context) => const [
+                            PopupMenuItem(
+                                value: MedicationItemAction.delete,
+                                child: ListTile(
+                                    leading: Icon(Symbols.delete),
+                                    title: Text("Xoá thẻ này"))),
+                          ],
+                        ),
                       ],
+                    ),
+                    Text("Địa chỉ giao hàng"),
+                    Container(
+                      width: double.infinity,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                width: sizeWight * 1.9 / 3,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "100 đường Example, Thành phố Hồ Chí Minh, Việt Nam",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          PopupMenuButton(
+                            style: Theme.of(context).iconButtonTheme.style,
+                            itemBuilder: (context) => const [
+                              PopupMenuItem(
+                                  value: MedicationItemAction.delete,
+                                  child: ListTile(
+                                      leading: Icon(Symbols.delete),
+                                      title: Text("Xoá địa chỉ này"))),
+                            ],
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),
-                PopupMenuButton(
-                  style: Theme.of(context).iconButtonTheme.style,
-                  itemBuilder: (context) => const [
-                    PopupMenuItem(
-                        value: MedicationItemAction.delete,
-                        child: ListTile(
-                            leading: Icon(Symbols.delete),
-                            title: Text("Xoá thẻ này"))),
-                  ],
-                ),
-              ],
-            ),
-            Text("Địa chỉ giao hàng"),
-            Container(
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: sizeWight * 1.9 / 3,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "100 đường Example, Thành phố Hồ Chí Minh, Việt Nam",
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  PopupMenuButton(
-                    style: Theme.of(context).iconButtonTheme.style,
-                    itemBuilder: (context) => const [
-                      PopupMenuItem(
-                          value: MedicationItemAction.delete,
-                          child: ListTile(
-                              leading: Icon(Symbols.delete),
-                              title: Text("Xoá địa chỉ này"))),
-                    ],
-                  ),
-                ],
               ),
             )
           ],

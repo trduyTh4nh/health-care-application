@@ -99,7 +99,7 @@ class _HomeState extends State<Home> {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => CartPage()));
                 },
-                icon: Icon(
+                icon: const Icon(
                   Symbols.shopping_cart,
                   size: 24,
                 )),
@@ -111,10 +111,7 @@ class _HomeState extends State<Home> {
                           builder: (context) =>
                               const MedicinePurchaseHistory()));
                 },
-                icon: Badge(
-                    child: Icon(Symbols.deployed_code),
-                    smallSize: 0 /*và 5*/,
-                    largeSize: 0)),
+                icon: const Icon(Symbols.deployed_code)),
 
             IconButton(
                 onPressed: () {

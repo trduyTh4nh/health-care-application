@@ -26,9 +26,7 @@ ColorScheme colorScheme = ColorScheme(
     surface: const Color(0xFFFFFFFF),
     onSurface: const Color(0xFF000000),
     surfaceDim: const Color(0xFFF2F2F2),
-    errorContainer: const Color(0xFFFFF4F4)
-    );
-    
+    errorContainer: const Color(0xFFFFF4F4));
 
 void main() {
   runApp(const MainApp());
@@ -180,7 +178,7 @@ class _AppPageState extends State<AppPage> {
     const Home(),
     const SearchPage(),
     const ScanPage(),
-     MedicationPage(),
+    const MedicationPage(),
     const Thongtincanhan(),
     const ThemeScreen()
   ];

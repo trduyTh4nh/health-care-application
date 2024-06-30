@@ -34,32 +34,32 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title:InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const UserInformation(),
-                    ));
-              },
-              child: Row(children: [
-          Hero(
-            tag: "01",
-            child: const CircleAvatar(
-              radius: 20,
-              backgroundImage:
-                  NetworkImage('https://i.giphy.com/BSx6mzbW1ew7K.webp'),
-            ),
-          ),
-          const SizedBox(
-            width: 12,
-          ),
-          Hero(
+        title: InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const UserInformation(),
+                  ));
+            },
+            child: Row(children: [
+              Hero(
+                tag: "01",
+                child: const CircleAvatar(
+                  radius: 20,
+                  backgroundImage:
+                      NetworkImage('https://i.giphy.com/BSx6mzbW1ew7K.webp'),
+                ),
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              Hero(
                 tag: "02",
                 child: Text("Nguyễn Duy",
                     style: Theme.of(context).textTheme.titleMedium),
               ),
-        ])),
+            ])),
         actions: [
 //           Padding(
 //             padding: const EdgeInsets.all(8.0),
@@ -113,7 +113,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const emergencycall(),
+                            builder: (context) => const EmergencyCall(),
                           ));
                     },
                     child: Column(
@@ -273,7 +273,6 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
             ),
             const Divider(),
             InkWell(
-
               onTap: () {
                 Navigator.push(
                     context,
@@ -294,7 +293,6 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
             ),
             const Divider(),
             InkWell(
-
               onTap: () {
                 Navigator.push(
                     context,
@@ -335,7 +333,6 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               ),
             ),
             const Divider(),
-            
             InkWell(
               onTap: () {
                 Navigator.push(
@@ -357,10 +354,13 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               ),
             ),
             const Divider(),
-
             InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const InfoPage(),));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const InfoPage(),
+                    ));
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),

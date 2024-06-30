@@ -26,8 +26,13 @@ class _CartPageState extends State<CartPage> {
   void _calculateTotalPrice() {
     _totalPrice = _selectedCartItems.fold(
         0,
-        (sum, idCart) => sum + (_findDrugById(idCart)?.price ?? 0) *
-            (_cartItems.firstWhere((item) => item.idCart == idCart).quantity ?? 0));
+        (sum, idCart) =>
+            sum +
+            (_findDrugById(idCart)?.price ?? 0) *
+                (_cartItems
+                        .firstWhere((item) => item.idCart == idCart)
+                        .quantity ??
+                    0));
   }
 
   DrugModel? _findDrugById(int id) {
@@ -68,6 +73,7 @@ class _CartPageState extends State<CartPage> {
       }
     });
   }
+
   void _selectAllItems() {
     setState(() {
       if (_selectedCartItems.length == _cartItems.length) {
@@ -96,16 +102,16 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Giỏ hàng'),
+        title: const Text('Giỏ hàng'),
         actions: [
           IconButton(
-                onPressed: () {
-                  _selectAllItems();
-                },
-                icon: Badge(
-                    child: Icon(Icons.checklist),
-                    smallSize: 0 /*và 5*/,
-                    largeSize: 0)),
+              onPressed: () {
+                _selectAllItems();
+              },
+              icon: const Badge(
+                  child: Icon(Icons.checklist),
+                  smallSize: 0 /*và 5*/,
+                  largeSize: 0)),
         ],
       ),
       body: Padding(
@@ -118,38 +124,40 @@ class _CartPageState extends State<CartPage> {
                 itemBuilder: (context, index) {
                   final item = _cartItems[index];
                   final drug = _findDrugById(item.idCart!);
-                  
+
                   return Column(
                     children: [
                       Container(
-                        padding: EdgeInsets.only(left: 4.0, top: 8.0, right: 4.0, bottom: 8.0),
+                        padding: const EdgeInsets.only(
+                            left: 4.0, top: 8.0, right: 4.0, bottom: 8.0),
                         child: Row(
                           children: [
                             Checkbox(
                               value: _selectedCartItems.contains(item.idCart),
                               onChanged: (_) => _toggleSelection(item.idCart!),
                             ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             Image.network(
                               drug!.drugImage ?? '',
                               width: 50,
                               height: 50,
                             ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(drug.name ?? '',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold)),
-                                  SizedBox(height: 4),
+                                  const SizedBox(height: 4),
                                   Text(_formatCurrency(drug.price ?? 0),
-                                      style: TextStyle(color: Colors.grey)),
+                                      style:
+                                          const TextStyle(color: Colors.grey)),
                                 ],
                               ),
                             ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
@@ -160,21 +168,24 @@ class _CartPageState extends State<CartPage> {
                                 children: [
                                   IconButton(
                                     iconSize: 15.0,
-                                    icon: Icon(Icons.arrow_back_ios_new_rounded,),
+                                    icon: const Icon(
+                                      Icons.arrow_back_ios_new_rounded,
+                                    ),
                                     onPressed: () => _decrementQuantity(item),
                                   ),
                                   Text('${item.quantity}',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold)),
                                   IconButton(
                                     iconSize: 15.0,
-                                    icon: Icon(Icons.arrow_forward_ios_rounded),
+                                    icon: const Icon(
+                                        Icons.arrow_forward_ios_rounded),
                                     onPressed: () => _incrementQuantity(item),
                                   ),
                                 ],
                               ),
                             ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             Text("Vi",
                                 style: TextStyle(fontWeight: FontWeight.bold)),
                             SizedBox(width: 8),
@@ -202,11 +213,11 @@ class _CartPageState extends State<CartPage> {
                   ? null
                   : () {
                       Navigator.push(
-                      context,
-                       MaterialPageRoute(
-                        builder: (context) => MedicinesOrder(),
-                      ),
-                    );
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MedicinesOrder(),
+                        ),
+                      );
                     },
               child: Text('Mua thuốc'),
               // style: ElevatedButton.styleFrom(
