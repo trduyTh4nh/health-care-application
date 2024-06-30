@@ -1,4 +1,3 @@
-import 'package:app_well_mate/components/drug_super_detail_item.dart';
 import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/utils/app.colors.dart';

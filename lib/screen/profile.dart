@@ -10,6 +10,7 @@ import 'package:app_well_mate/screen/language.dart';
 import 'package:app_well_mate/screen/policy.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
 import 'package:app_well_mate/screen/revisit_page.dart';
+import 'package:app_well_mate/screen/transaction_history.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -34,32 +35,32 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title:InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const UserInformation(),
-                    ));
-              },
-              child: Row(children: [
-          Hero(
-            tag: "01",
-            child: const CircleAvatar(
-              radius: 20,
-              backgroundImage:
-                  NetworkImage('https://i.giphy.com/BSx6mzbW1ew7K.webp'),
-            ),
-          ),
-          const SizedBox(
-            width: 12,
-          ),
-          Hero(
+        title: InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const UserInformation(),
+                  ));
+            },
+            child: Row(children: [
+              Hero(
+                tag: "01",
+                child: const CircleAvatar(
+                  radius: 20,
+                  backgroundImage:
+                      NetworkImage('https://i.giphy.com/BSx6mzbW1ew7K.webp'),
+                ),
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              Hero(
                 tag: "02",
                 child: Text("Nguyễn Duy",
                     style: Theme.of(context).textTheme.titleMedium),
               ),
-        ])),
+            ])),
         actions: [
 //           Padding(
 //             padding: const EdgeInsets.all(8.0),
@@ -97,7 +98,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text("Tiện ích", style: Theme.of(context).textTheme.titleMedium),
@@ -273,7 +274,6 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
             ),
             const Divider(),
             InkWell(
-
               onTap: () {
                 Navigator.push(
                     context,
@@ -294,7 +294,6 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
             ),
             const Divider(),
             InkWell(
-
               onTap: () {
                 Navigator.push(
                     context,
@@ -335,7 +334,6 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               ),
             ),
             const Divider(),
-            
             InkWell(
               onTap: () {
                 Navigator.push(
@@ -357,10 +355,34 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               ),
             ),
             const Divider(),
-
             InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const InfoPage(),));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TransactionHistoryScreen(),
+                    ));
+              },
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(Symbols.attach_money),
+                    SizedBox(width: 16),
+                    Text("Lịch sử giao dịch"),
+                  ],
+                ),
+              ),
+            ),
+            const Divider(),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const InfoPage(),
+                    ));
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -396,7 +418,32 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                   ),
                 ),
               ),
-            )
+              
+            ),
+            const Divider(),
+            Container(
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Login(),
+                      ));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.code),
+                      const SizedBox(width: 16),
+                      const Text("Nhà phát triển"),
+                    ],
+                  ),
+                ),
+              ),
+              
+            ),
           ]),
         ),
       ),

@@ -84,12 +84,13 @@ class _RevisitDateState extends State<RevisitDate> {
                                         Theme.of(context).textTheme.bodyLarge,
                                   ),
                                   Text(
-                                      "Ngày ${dateDif == 1 ? "hôm qua" : dateDif == -1 ? "mai" : df.format(widget.prescription.revisitDate!)} (${isExpired ? "quá ${dateDif}" : "còn ${-dateDif}"} ngày)"),
+                                      "Ngày ${dateDif == 1 ? "hôm qua" : dateDif == -1 ? "mai" : df.format(widget.prescription.revisitDate!)} (${isExpired ? "quá $dateDif" : "còn ${-dateDif}"} ngày)"),
                                   Text(
                                       "Phòng ${widget.prescription.roomRevisit}")
                                 ],
                               ),
                             ),
+                            const SizedBox(width: 10,),
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
