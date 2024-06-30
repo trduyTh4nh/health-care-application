@@ -1,3 +1,4 @@
+import 'package:app_well_mate/model/order_detail_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'json/order_model.g.dart';
@@ -12,7 +13,7 @@ class OrderModel {
   String? notes;
   int? totalMoney;
   int? idPre;
-
+  List<OrderDetailModel>? orderDetailList = [];
   OrderModel(
       {this.idUser,
       this.datePay,
@@ -21,7 +22,8 @@ class OrderModel {
       this.notes,
       this.totalMoney,
       this.idPre,
-      this.idOrder});
+      this.idOrder,
+      this.orderDetailList = const []});
   factory OrderModel.fromJson(Map<String, dynamic> json) => _$OrderModelFromJson(json);
   Map<String, dynamic> toJson() => _$OrderModelToJson(this);
 }
@@ -37,7 +39,7 @@ List<OrderModel> generateSampleOrders() {
       status: "paid",
       notes: "Order for medical supplies",
       totalMoney: 500000,
-      idPre: 1,
+      idPre: 1001,
     ),
     OrderModel(
       idOrder: 2,

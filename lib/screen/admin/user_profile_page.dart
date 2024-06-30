@@ -1,9 +1,6 @@
 import 'package:app_well_mate/components/item_prescription_of_infomation_user.dart';
-import 'package:app_well_mate/main.dart';
-import 'package:app_well_mate/model/notification_model.dart';
-import 'package:app_well_mate/screen/profile.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 import 'package:material_symbols_icons/symbols.dart';
 
 class UserProfilePage extends StatefulWidget {

@@ -1,7 +1,5 @@
-import 'package:app_well_mate/screen/drug/medicine_order/widget_complete_medicine.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:app_well_mate/main.dart';
 
 enum MedicationItemAction { delete, edit, snooze, buy, confirm }
 
@@ -17,6 +15,7 @@ class _CartMedicines extends State<CartMedicines> {
   @override
   Widget build(BuildContext context) {
     final sizeHeight = MediaQuery.of(context).size.height;
+    // ignore: unused_local_variable
     final sizeWight = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -51,7 +50,7 @@ class _CartMedicines extends State<CartMedicines> {
                                       });
                                     },
                                   ),
-                                  CircleAvatar(
+                                  const CircleAvatar(
                                     radius: 20,
                                     backgroundImage: NetworkImage(
                                         'https://i.giphy.com/BSx6mzbW1ew7K.webp'),
@@ -119,7 +118,7 @@ class _CartMedicines extends State<CartMedicines> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              WidgetCompleteMedicine()));
+                                              CartMedicines()));
                                 },
                                 child: Text("Mua thuốc")),
                           ),

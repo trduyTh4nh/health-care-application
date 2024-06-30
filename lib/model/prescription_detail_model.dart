@@ -1,6 +1,5 @@
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'dart:math';
 import 'package:app_well_mate/model/prescription_model.dart';
 part 'json/prescription_detail_model.g.dart';
 
@@ -47,6 +46,7 @@ List<PrescriptionDetailModel> generateSamplePrescriptionDetails() {
         quantityUsed: 10,
         idDrug: 101,
         idPre: 1001, //id của đơn thuốc''
+        
         drug: DrugModel(
             idDrug: 105,
             name: "Thuốc ho Prospan",
@@ -95,4 +95,3 @@ List<PrescriptionDetailModel> generateSamplePrescriptionDetails() {
         amount: "1 lần 1/2 viên"),
   ];
 }
-

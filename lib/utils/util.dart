@@ -6,7 +6,6 @@ String convertCurrency(amount) {
   return currencyFormat.format(amount);
 }
 
-
- String formatDate(DateTime date) {
-    return DateFormat('dd/MM/yyyy').format(date);
-  }
+String formatDate(DateTime date) {
+  return DateFormat('dd/MM/yyyy').format(date);
+}

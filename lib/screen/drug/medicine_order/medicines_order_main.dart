@@ -28,7 +28,9 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
   ];
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     final sizeWidth = MediaQuery.of(context).size.width;
+    // ignore: unused_local_variable
     final sizeHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(

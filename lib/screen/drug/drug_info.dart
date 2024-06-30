@@ -1,7 +1,5 @@
 import 'dart:math';
-
 import 'package:app_well_mate/components/medication_item.dart';
-import 'package:app_well_mate/components/time_item.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug.dart';
 import 'package:flutter/material.dart';
@@ -188,7 +186,9 @@ class _DrugInfoState extends State<DrugInfo> {
                 ),
                 SliverList.separated(
                     itemCount: _timesMorning.length,
+                    // ignore: body_might_complete_normally_nullable
                     itemBuilder: (c, i) {
+                      // ignore: unused_local_variable
                       int nextIndex = i == _timesMorning.length ? i : i+1;
                       // return TimeItem(
 
@@ -205,6 +205,7 @@ class _DrugInfoState extends State<DrugInfo> {
                     separatorBuilder: (c, i) => const SizedBox(height: 10)),
                 SliverList.separated(
                     itemCount: _timesAfternoon.length,
+                    // ignore: body_might_complete_normally_nullable
                     itemBuilder: (c, i) {
                       // return TimeItem(
                       //   time: _timesAfternoon[i],
@@ -220,6 +221,7 @@ class _DrugInfoState extends State<DrugInfo> {
                     separatorBuilder: (c, i) => const SizedBox(height: 10)),
                 SliverList.separated(
                     itemCount: _timesNight.length,
+                    // ignore: body_might_complete_normally_nullable
                     itemBuilder: (c, i) {
                       // return TimeItem(
                       //   time: _timesNight[i],

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/hospital_model.dart';

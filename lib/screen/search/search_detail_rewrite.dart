@@ -1,5 +1,4 @@
 import 'package:app_well_mate/const/color_scheme.dart';
-import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/disease_model.dart';
 import 'package:app_well_mate/style/style.dart';
 import 'package:flutter/material.dart';

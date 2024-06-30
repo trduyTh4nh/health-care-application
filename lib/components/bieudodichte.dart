@@ -1,5 +1,4 @@
 import 'package:app_well_mate/components/bottomTitleWidgets.dart';
-import 'package:app_well_mate/components/item_sick.dart';
 import 'package:app_well_mate/components/leftTitleWidgets.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +58,7 @@ class _BieudodichteState extends State<Bieudodichte>
         ),
         Padding(
           padding: const EdgeInsets.only(top: 16, left: 10, right: 10),
-          child: Container(
+          child: SizedBox(
             width: sizeWidht,
             height: sizeHeight * 0.35,
             child: LineChart(

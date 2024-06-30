@@ -1,10 +1,8 @@
-import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/disease_model.dart';
-import 'package:app_well_mate/screen/search/search_detail.dart';
 import 'package:app_well_mate/screen/search/search_detail_rewrite.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
+
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
