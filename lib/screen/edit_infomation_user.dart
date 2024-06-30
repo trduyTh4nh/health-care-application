@@ -1,7 +1,5 @@
-import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class EditInfomationUser extends StatefulWidget {
   const EditInfomationUser({super.key});
@@ -68,12 +66,12 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                           onPressed: () {},
                           elevation: 2.0,
                           fillColor: const Color(0xFFF5F6F9),
-                          child: Icon(
+                          padding: const EdgeInsets.all(15.0),
+                          shape: const CircleBorder(),
+                          child: const Icon(
                             Icons.edit,
                             color: AppColors.primaryColor,
                           ),
-                          padding: const EdgeInsets.all(15.0),
-                          shape: const CircleBorder(),
                         ),
                       ),
                     ],
@@ -109,7 +107,7 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
               height: 16,
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -117,30 +115,29 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                     'Họ Tên',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Container(
-                    child: TextField(
-                      controller: hoTenController,
-                      decoration: const InputDecoration(
-                        hintText: 'Trần Thanh Duy',
-                        hintStyle: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w100,
-                            fontStyle: FontStyle.normal,
-                            color: Color.fromARGB(255, 216, 206, 206)),
-                        contentPadding: EdgeInsetsDirectional.symmetric(
-                            vertical: 10, horizontal: 16),
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey, width: 3),
-                        ),
-                        focusedErrorBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: AppColors.primaryColor, width: 3),
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.greyColor,
-                            width: 2,
-                          ),
+                  TextField(
+                    controller: hoTenController,
+                    decoration: const InputDecoration(
+                      hintText: 'Trần Thanh Duy',
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w100,
+                        fontStyle: FontStyle.normal,
+                        color: Color.fromARGB(255, 165, 165, 165),
+                      ),
+                      contentPadding: EdgeInsetsDirectional.symmetric(
+                          vertical: 10, horizontal: 0),
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey, width: 3),
+                      ),
+                      focusedErrorBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: AppColors.primaryColor, width: 3),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.greyColor,
+                          width: 2,
                         ),
                       ),
                     ),
@@ -152,30 +149,28 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                     "Email",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Container(
-                    child: TextField(
-                      controller: emailController,
-                      decoration: const InputDecoration(
-                        hintText: 'thanhduy69@gmail.com',
-                        hintStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w100,
-                          fontStyle: FontStyle.normal,
-                          color: Color.fromARGB(255, 216, 206, 206),
+                  TextField(
+                    controller: emailController,
+                    decoration: const InputDecoration(
+                      hintText: 'thanhduy69@gmail.com',
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w100,
+                        fontStyle: FontStyle.normal,
+                        color: Color.fromARGB(255, 165, 165, 165),
+                      ),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.primaryColor,
+                          width: 2,
                         ),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.primaryColor,
-                            width: 2,
-                          ),
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.greyColor,
-                            width: 2,
-                          ),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.greyColor,
+                          width: 2,
                         ),
                       ),
                     ),
@@ -187,31 +182,29 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                     "Địa chỉ",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Container(
-                    child: TextField(
-                      controller: addressController,
-                      decoration: const InputDecoration(
-                        hintText:
-                            '84 Thành Thái, Phường 10, Quận 10, TP. Hồ Chí Minh',
-                        hintStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w100,
-                          fontStyle: FontStyle.normal,
-                          color: Color.fromARGB(255, 216, 206, 206),
+                  TextField(
+                    controller: addressController,
+                    decoration: const InputDecoration(
+                      hintText:
+                          '84 Thành Thái, Phường 10, Quận 10, TP. Hồ Chí Minh',
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w100,
+                        fontStyle: FontStyle.normal,
+                        color: Color.fromARGB(255, 165, 165, 165),
+                      ),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.primaryColor,
+                          width: 2,
                         ),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.primaryColor,
-                            width: 2,
-                          ),
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.greyColor,
-                            width: 2,
-                          ),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.greyColor,
+                          width: 2,
                         ),
                       ),
                     ),
@@ -223,31 +216,28 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                     "Số điện thoại",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Container(
-                    child: TextField(
-                      controller: phoneController,
-                      keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(
-                        hintText: '0908291415',
-                        hintStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w100,
-                          fontStyle: FontStyle.normal,
-                          color: Color.fromARGB(255, 216, 206, 206),
+                  TextField(
+                    controller: phoneController,
+                    decoration: const InputDecoration(
+                      hintText: '0908291415',
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w100,
+                        fontStyle: FontStyle.normal,
+                        color: Color.fromARGB(255, 165, 165, 165),
+                      ),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.primaryColor,
+                          width: 2,
                         ),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.primaryColor,
-                            width: 2,
-                          ),
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.greyColor,
-                            width: 2,
-                          ),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.greyColor,
+                          width: 2,
                         ),
                       ),
                     ),
@@ -259,38 +249,29 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                     "Cân nặng",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Container(
-                    child: TextField(
-                      controller: weightController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        hintText: '65',
-                        suffixText: 'kg',
-                        hintStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w100,
-                          fontStyle: FontStyle.normal,
-                          color: Color.fromARGB(255, 216, 206, 206),
+                  TextField(
+                    controller: weightController,
+                    decoration: const InputDecoration(
+                      hintText: '65',
+                      suffixText: 'kg',
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w100,
+                        fontStyle: FontStyle.normal,
+                        color: Color.fromARGB(255, 165, 165, 165),
+                      ),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.primaryColor,
+                          width: 2,
                         ),
-                        suffixStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.normal,
-                          color: Colors.black,
-                        ),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.primaryColor,
-                            width: 2,
-                          ),
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.greyColor,
-                            width: 2,
-                          ),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.greyColor,
+                          width: 2,
                         ),
                       ),
                     ),
@@ -302,38 +283,29 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                     "Chiều cao",
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Container(
-                    child: TextField(
-                      controller: weightController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        hintText: '180',
-                        suffixText: 'cm',
-                        hintStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w100,
-                          fontStyle: FontStyle.normal,
-                          color: Color.fromARGB(255, 216, 206, 206),
+                  TextField(
+                    controller: weightController,
+                    decoration: const InputDecoration(
+                      hintText: '180',
+                      suffixText: 'cm',
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w100,
+                        fontStyle: FontStyle.normal,
+                        color: Color.fromARGB(255, 165, 165, 165),
+                      ),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.primaryColor,
+                          width: 2,
                         ),
-                        suffixStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.normal,
-                          color: Colors.black,
-                        ),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.primaryColor,
-                            width: 2,
-                          ),
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.greyColor,
-                            width: 2,
-                          ),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.greyColor,
+                          width: 2,
                         ),
                       ),
                     ),
@@ -345,35 +317,33 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                     'Ngày sinh',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  Container(
-                    child: TextFormField(
-                      controller: birthDayController,
-                      onTap: () {
-                        _selectDate(context);
-                      },
-                      readOnly: true,
-                      decoration: const InputDecoration(
-                        hintText: 'Chọn ngày sinh',
-                        hintStyle: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w100,
-                          fontStyle: FontStyle.normal,
-                          color: Color.fromARGB(255, 216, 206, 206),
+                  TextFormField(
+                    controller: birthDayController,
+                    onTap: () {
+                      _selectDate(context);
+                    },
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                      hintText: 'Chọn ngày sinh',
+                      hintStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w100,
+                        fontStyle: FontStyle.normal,
+                        color: Color.fromARGB(255, 165, 165, 165),
+                      ),
+                      suffixIcon: Icon(Icons.calendar_month),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.primaryColor,
+                          width: 2,
                         ),
-                        suffixIcon: Icon(Icons.calendar_month),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                        border: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.primaryColor,
-                            width: 2,
-                          ),
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.greyColor,
-                            width: 2,
-                          ),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.greyColor,
+                          width: 2,
                         ),
                       ),
                     ),
@@ -386,6 +356,13 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primaryColor,
+                          elevation: 3,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
                         child: const Padding(
                           padding:
                               EdgeInsets.symmetric(horizontal: 0, vertical: 12),
@@ -394,13 +371,6 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                             style: TextStyle(
                               color: Colors.white,
                             ),
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
-                          elevation: 3,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                       ),

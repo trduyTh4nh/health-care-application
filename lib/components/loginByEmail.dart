@@ -1,5 +1,4 @@
 import 'package:app_well_mate/const/current_page.dart';
-import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/screen/signup.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';

@@ -1,7 +1,6 @@
 import 'package:app_well_mate/components/custom_elevated_check_btn.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/notification_model.dart';
-import 'package:app_well_mate/screen/admin/hospital_detail.dart';
 import 'package:app_well_mate/screen/drug_info.dart';
 import 'package:app_well_mate/screen/error_page.dart';
 import 'package:app_well_mate/screen/hospital_detail.dart';
@@ -23,12 +22,14 @@ class NotifyComponent extends StatefulWidget {
 
 class _NotifyComponentState extends State<NotifyComponent> {
   Widget checkWidgetReturn(String cateWidget) {
+    // ignore: unnecessary_null_comparison
     if (cateWidget != null) {
       if (cateWidget == 'delivery' || cateWidget == 'confirm') {
         return OrderStatus(
           notifiItem: widget.notifiItem,
         );
       } else if (cateWidget == 'important') {
+        
         return HospitalDetailPage(notifiItem: widget.notifiItem);
       } else {
         return DrugInfoPage(notifiItem: widget.notifiItem);
@@ -109,7 +110,7 @@ class _NotifyComponentState extends State<NotifyComponent> {
                         ? const SizedBox()
                         : CustomElevatedBtnCheck(
                             onTap: () {},
-                            child: const Icon(
+                            child:  Icon(
                               Symbols.check,
                               color: Colors.white,
                             ),

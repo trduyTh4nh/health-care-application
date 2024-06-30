@@ -1,14 +1,10 @@
-import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug_model.dart';
-import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/providers/add_page_provider.dart';
 import 'package:app_well_mate/screen/drug/add_drug.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:material_symbols_icons/symbols.dart';
 
 class Drugdetails extends StatefulWidget {
   const Drugdetails({super.key});
@@ -103,13 +99,13 @@ class _DrugdetailsState extends State<Drugdetails> {
                                   builder: (context) => const MedicinesOrder(),
                                 ));
                           },
-                          child: Text('Mua'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primaryColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ), // Button color
                           ),
+                          child: const Text('Mua'),
                         ),
                       ),
                       const SizedBox(width: 8),
@@ -123,16 +119,16 @@ class _DrugdetailsState extends State<Drugdetails> {
                             onPressed: () {
                               // Handle add to stock action
                             },
-                            child: Text(
-                              'Thêm vào kho thuốc',
-                              textAlign: TextAlign.center,
-                            ),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.greyColor,
                               foregroundColor: Colors.black, // Text color
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ), // Button color
+                            ),
+                            child: const Text(
+                              'Thêm vào kho thuốc',
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ),
@@ -154,16 +150,16 @@ class _DrugdetailsState extends State<Drugdetails> {
                                   ),
                                 ));
                           },
-                          child: Text(
-                            'Thêm vào toa thuốc',
-                            textAlign: TextAlign.center,
-                          ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.greyColor,
                             foregroundColor: Colors.black, // Text color
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ), // Button color
+                          ),
+                          child: const Text(
+                            'Thêm vào toa thuốc',
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
@@ -172,7 +168,7 @@ class _DrugdetailsState extends State<Drugdetails> {
                   const SizedBox(
                     height: 12,
                   ),
-                  Divider(),
+                  const Divider(),
                   const SizedBox(height: 8),
                   Text(
                     'Miêu tả',
