@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:app_well_mate/screen/profile.dart';
+import 'package:app_well_mate/screen/edit_infomation_user.dart';
 
 class UserInformation extends StatefulWidget {
   const UserInformation({super.key});
@@ -22,13 +23,16 @@ class _UserInformationState extends State<UserInformation> {
             style: Theme.of(context).textTheme.titleMedium),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(bottom: 15),
+        padding: EdgeInsets.only(bottom: 16),
         child: Padding(
-          padding: EdgeInsets.all(15),
+
+          padding: EdgeInsets.all(10),
+
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Center(
+
                 child: Hero(
                   tag: "01",
                   child: CircleAvatar(
@@ -71,7 +75,9 @@ class _UserInformationState extends State<UserInformation> {
                   ),
                 ],
               ),
-              const Divider(),
+              const SizedBox(
+                height: 16,
+              ),
               Row(
                 children: [
                   Expanded(
@@ -93,7 +99,9 @@ class _UserInformationState extends State<UserInformation> {
                   ),
                 ],
               ),
-              const Divider(),
+              const SizedBox(
+                height: 16,
+              ),
               Align(
                 alignment: Alignment.centerLeft, // Căn bên trái
                 child: Column(
@@ -106,7 +114,7 @@ class _UserInformationState extends State<UserInformation> {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(
-                      height: 15,
+                      height: 16,
                     ),
                     Row(
                       children: [
@@ -116,7 +124,7 @@ class _UserInformationState extends State<UserInformation> {
                         ),
                         Text("Có tổng cộng "),
                         Text(
-                          " 115",
+                          " 116",
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                         Text(" thuốc trong "),
@@ -125,6 +133,10 @@ class _UserInformationState extends State<UserInformation> {
                         Text(" toa")
                       ],
                     ),
+                    SizedBox(
+                      height: 10,
+
+                    ),
                     Row(
                       children: [
                         Icon(Symbols.pill),
@@ -132,21 +144,21 @@ class _UserInformationState extends State<UserInformation> {
                           width: 10,
                         ),
                         Text("Đã mua "),
-                        Text(" 115 ",
+                        Text(" 116 ",
                             style: Theme.of(context).textTheme.titleMedium),
                         Text(" thuốc"),
                         Text(" (13.194.131 VND)"),
                       ],
                     ),
                     const SizedBox(
-                      height: 15,
+                      height: 16,
                     ),
                     Text(
                       "Thông tin cá nhân",
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(
-                      height: 15,
+                      height: 16,
                     ),
                     const Row(
                       children: [
@@ -155,11 +167,11 @@ class _UserInformationState extends State<UserInformation> {
                           width: 10,
                         ),
                         Text("SĐT: "),
-                        Text("0908291415")
+                        Text("0908291416")
                       ],
                     ),
                     const SizedBox(
-                      height: 15,
+                      height: 16,
                     ),
                     const Row(
                       children: [
@@ -172,10 +184,10 @@ class _UserInformationState extends State<UserInformation> {
                       ],
                     ),
                     const SizedBox(
-                      height: 15,
+                      height: 16,
                     ),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -191,7 +203,7 @@ class _UserInformationState extends State<UserInformation> {
                               ],
                             ),
                             SizedBox(
-                              height: 15,
+                              height: 16,
                             ),
                             Row(
                               children: [
@@ -210,17 +222,15 @@ class _UserInformationState extends State<UserInformation> {
                         ),
                         Row(
                           children: [
-                            Text("BMI: ",
+                            Text("BMI: 23.9",
                                 style:
                                     Theme.of(context).textTheme.displaySmall),
-                            Text(" 23.9",
-                                style: Theme.of(context).textTheme.displaySmall)
                           ],
                         ),
                       ],
                     ),
                     const SizedBox(
-                      height: 15,
+                      height: 16,
                     ),
                     const Row(
                       children: [
@@ -233,7 +243,7 @@ class _UserInformationState extends State<UserInformation> {
                       ],
                     ),
                     const SizedBox(
-                      height: 15,
+                      height: 16,
                     ),
                     const Row(
                       children: [
@@ -241,17 +251,13 @@ class _UserInformationState extends State<UserInformation> {
                         SizedBox(
                           width: 10,
                         ),
-                        Text("Địa chỉ:"),
-                        Flexible(
-                          child: Text(
-                            " 84 Thành Thái, Phường 10, Quận 10, TP. Hồ Chí Minh",
-                            softWrap: true,
-                          ),
-                        ),
+                        Expanded(
+                            child: Text(
+                                "Địa chỉ: 84 Thành Thái, Phường 10, Quận 10, TP. Hồ Chí Minh")),
                       ],
                     ),
                     const SizedBox(
-                      height: 15,
+                      height: 16,
                     ),
                     const Row(
                       children: [

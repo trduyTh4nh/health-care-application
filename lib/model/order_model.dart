@@ -37,7 +37,7 @@ List<OrderModel> generateSampleOrders() {
       status: "paid",
       notes: "Order for medical supplies",
       totalMoney: 500000,
-      idPre: 3001,
+      idPre: 1,
     ),
     OrderModel(
       idOrder: 2,

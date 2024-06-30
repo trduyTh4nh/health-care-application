@@ -1,4 +1,5 @@
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/screen/drug_cart.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -211,7 +212,7 @@ class _WidgetPrescriptionstatusCancelMedicine
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => CartMedicines()));
+                                  builder: (context) => CartPage()));
                         },
                         child: Text("Hủy đơn thuốc- KHÔNG HOÀN TIỀN")),
                   ),

@@ -2,8 +2,8 @@ import 'package:intl/intl.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 
-
 part 'json/notification_model.g.dart';
+
 @JsonSerializable()
 class NotificationModel {
   int? id;
@@ -15,9 +15,8 @@ class NotificationModel {
   int? userId; // khóa ngoại
   int? idDonThuocCT; // khóa ngoại
   int? idOrder; // khóa ngoại
-  int? idPayment;  // khóa ngoại
+  int? idPayment; // khóa ngoại
 
-  
   NotificationModel(
       {this.id,
       this.content,
@@ -30,7 +29,8 @@ class NotificationModel {
       this.idPayment,
       this.isComfirmed});
 
-  factory NotificationModel.fromJson(Map<String, dynamic> json) => _$NotificationModelFromJson(json);
+  factory NotificationModel.fromJson(Map<String, dynamic> json) =>
+      _$NotificationModelFromJson(json);
   Map<String, dynamic> toJson() => _$NotificationModelToJson(this);
 
   String convertTime(DateTime time) {
@@ -56,7 +56,8 @@ var enumPriority = [
   "overdue", // red
   "delivery",
   "confirm",
-  "runoutof" // red
+  "runoutof", // red
+  "important"
 ];
 
 DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
@@ -74,7 +75,6 @@ var listNotification = [
       userId: 1,
       idDonThuocCT: 1001,
       idOrder: null),
-      
   NotificationModel(
       id: 2,
       content: "Đã quá 2 giờ kế từ giờ uống Paracetamol của bạn",
@@ -84,7 +84,6 @@ var listNotification = [
       userId: 1,
       idDonThuocCT: 1001,
       idOrder: 1),
-      
   NotificationModel(
       id: 3,
       content: "Đã đến giờ uống Paracetamol 30mg",
@@ -120,13 +119,30 @@ var listNotification = [
       status: false,
       userId: 1,
       idDonThuocCT: 1001,
-      idOrder: 1
-      ),
+      idOrder: 1),
   NotificationModel(
       id: 7,
       content: "Đơn thuốc #333301 của bạn đang được giao",
       time: dateFormat.parse("2024-06-11 8:40:23"),
       priority: enumPriority[1],
+      status: true,
+      userId: 1,
+      idDonThuocCT: 1001,
+      idOrder: null),
+  NotificationModel(
+      id: 8,
+      content: "Tái khám ở Phòng khám Tháng 8.",
+      time: dateFormat.parse("2024-06-27 8:40:23"),
+      priority: enumPriority[5],
+      status: true,
+      userId: 1,
+      idDonThuocCT: 1001,
+      idOrder: null), 
+  NotificationModel(
+      id: 9,
+      content: "Tái khám ở Phòng khám Trường Chinh.",
+      time: dateFormat.parse("2024-06-28 8:40:23"),
+      priority: enumPriority[5],
       status: true,
       userId: 1,
       idDonThuocCT: 1001,
