@@ -45,6 +45,7 @@ class _FabMenuButtonState extends State<FabMenuButton>
       clipBehavior: Clip.none,
       children: [
         FloatingActionButton(
+          heroTag: "1",
           child: AnimatedIcon(
             icon: AnimatedIcons.menu_close,
             progress: animationController,
@@ -52,6 +53,7 @@ class _FabMenuButtonState extends State<FabMenuButton>
           onPressed: () => toggleMenu(),
         ),
         FloatingActionButton(
+          heroTag: "2",
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder:(context) => const AddDrugPage(),));
           },
@@ -59,6 +61,7 @@ class _FabMenuButtonState extends State<FabMenuButton>
           child: const Icon(Icons.add),
         ),
         FloatingActionButton(
+          heroTag: "3",
           onPressed: () {},
           backgroundColor: actionButtonColor,
           child: const Icon(Icons.shopping_cart_outlined),

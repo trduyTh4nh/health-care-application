@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
+// ignore: must_be_immutable
 class HospitalDetail extends StatelessWidget {
   HospitalDetail({super.key, required this.hospital});
   Hospital hospital;

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:app_well_mate/providers/add_page_provider.dart';
 import 'package:app_well_mate/screen/drug/add_drug_pages/add_drug_dosage.dart';
 import 'package:app_well_mate/screen/drug/add_drug_pages/add_drug_habit.dart';

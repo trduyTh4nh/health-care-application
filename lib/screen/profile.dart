@@ -1,4 +1,4 @@
-import 'package:app_well_mate/components/utilities_profile_widget.dart';
+import 'package:app_well_mate/screen/admin/admin_page.dart';
 import 'package:app_well_mate/screen/changeRePassword.dart';
 import 'package:app_well_mate/screen/drug_manage.dart';
 import 'package:app_well_mate/screen/ffmi.dart';
@@ -10,14 +10,13 @@ import 'package:app_well_mate/screen/language.dart';
 import 'package:app_well_mate/screen/policy.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
 import 'package:app_well_mate/screen/revisit_page.dart';
+import 'package:app_well_mate/screen/transaction_history.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'login.dart';
-import 'package:app_well_mate/components/shotcut.dart';
-import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
 import 'package:app_well_mate/screen/user_information.dart';
 import 'package:app_well_mate/screen/edit_infomation_user.dart';
 
@@ -97,7 +96,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text("Tiện ích", style: Theme.of(context).textTheme.titleMedium),
@@ -359,6 +358,27 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
+                      builder: (context) => const TransactionHistoryScreen(),
+                    ));
+              },
+              child: const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Icon(Symbols.attach_money),
+                    SizedBox(width: 16),
+                    Text("Lịch sử giao dịch"),
+                  ],
+                ),
+              ),
+            ),
+            const Divider(),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
                       builder: (context) => const InfoPage(),
                     ));
               },
@@ -396,7 +416,30 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                   ),
                 ),
               ),
-            )
+            ),
+            const Divider(),
+            Container(
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AdminPage(),
+                      ));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.code),
+                      const SizedBox(width: 16),
+                      const Text("Nhà phát triển"),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ]),
         ),
       ),

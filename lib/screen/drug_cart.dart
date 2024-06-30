@@ -1,4 +1,4 @@
-import 'dart:ffi';
+import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:app_well_mate/model/drug_model.dart';
@@ -6,6 +6,7 @@ import 'package:app_well_mate/model/drug_cart_model.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
 
 class CartPage extends StatefulWidget {
+  const CartPage({super.key});
   @override
   _CartPageState createState() => _CartPageState();
 }
@@ -126,10 +127,11 @@ class _CartPageState extends State<CartPage> {
                   final drug = _findDrugById(item.idCart!);
 
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Container(
                         padding: const EdgeInsets.only(
-                            left: 4.0, top: 8.0, right: 4.0, bottom: 8.0),
+                            left: 4.0, top: 4.0, right: 4.0, bottom: 4.0),
                         child: Row(
                           children: [
                             Checkbox(
@@ -137,10 +139,16 @@ class _CartPageState extends State<CartPage> {
                               onChanged: (_) => _toggleSelection(item.idCart!),
                             ),
                             const SizedBox(width: 8),
-                            Image.network(
-                              drug!.drugImage ?? '',
-                              width: 50,
-                              height: 50,
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                  color: AppColors.greyColor,
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: Image.network(
+                                drug!.drugImage ?? '',
+                                width: 50,
+                                height: 50,
+                              ),
                             ),
                             const SizedBox(width: 8),
                             Expanded(
@@ -148,66 +156,72 @@ class _CartPageState extends State<CartPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(drug.name ?? '',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold)),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold)),
                                   const SizedBox(height: 4),
                                   Text(_formatCurrency(drug.price ?? 0),
-                                      style:
-                                          const TextStyle(color: Colors.grey)),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(color: Colors.grey)),
                                 ],
                               ),
                             ),
                             const SizedBox(width: 8),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.grey[200],
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    iconSize: 15.0,
-                                    icon: const Icon(
-                                      Icons.arrow_back_ios_new_rounded,
-                                    ),
-                                    onPressed: () => _decrementQuantity(item),
-                                  ),
-                                  Text('${item.quantity}',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  IconButton(
-                                    iconSize: 15.0,
-                                    icon: const Icon(
-                                        Icons.arrow_forward_ios_rounded),
-                                    onPressed: () => _incrementQuantity(item),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            Text("Vỉ",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(fontWeight: FontWeight.bold)),
                             const SizedBox(width: 8),
-                            Text("Vi",
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            SizedBox(width: 8),
                             IconButton(
-                              icon: Icon(Icons.delete),
+                              icon: const Icon(Icons.delete),
                               onPressed: () => _removeItem(item),
                             ),
                           ],
                         ),
                       ),
-                      Divider(),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: AppColors.greyColor,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              iconSize: 15.0,
+                              icon: const Icon(
+                                Icons.arrow_back_ios_new_rounded,
+                              ),
+                              onPressed: () => _decrementQuantity(item),
+                            ),
+                            Text('${item.quantity}',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold)),
+                            IconButton(
+                              iconSize: 15.0,
+                              icon: const Icon(Icons.arrow_forward_ios_rounded),
+                              onPressed: () => _incrementQuantity(item),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Divider(),
                     ],
                   );
                 },
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               'Tổng tiền: ${_formatCurrency(_totalPrice)}',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _selectedCartItems.isEmpty
                   ? null
@@ -219,7 +233,7 @@ class _CartPageState extends State<CartPage> {
                         ),
                       );
                     },
-              child: Text('Mua thuốc'),
+              child: const Text('Mua thuốc'),
               // style: ElevatedButton.styleFrom(
               //   minimumSize: Size(double.infinity, 48),
               // ),

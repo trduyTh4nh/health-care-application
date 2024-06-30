@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class thuocdo_widget extends StatelessWidget {
   thuocdo_widget({super.key, required this.color, required this.title});
   Color color;

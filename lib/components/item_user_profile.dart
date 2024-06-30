@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 enum UserEditOption { delete, edit }
 
+// ignore: must_be_immutable
 class itemUserProfile extends StatelessWidget {
   User users;
   itemUserProfile({super.key, required this.users});

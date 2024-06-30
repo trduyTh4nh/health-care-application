@@ -1,3 +1,4 @@
+import 'package:app_well_mate/main.dart';
 import 'package:flutter/material.dart';
 
 class AppColor {
@@ -8,7 +9,6 @@ class AppColor {
   static Color smoker = const Color(0xFFF2F2F2);
   static Color cam = const Color(0xFFFF7F3E);
   static Color backgroundTime = const Color(0xFFD5DDF1);
-
   static const Color menuBackground = Color(0xFF090912);
   static const Color itemsBackground = Color(0xFF1B2339);
   static const Color pageBackground = Color(0xFF282E45);
