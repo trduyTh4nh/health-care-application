@@ -28,7 +28,7 @@ class _NotificationPageState extends State<NotificationPage> {
 
       _listRed = notifications
           .where((e) =>
-              (e.priority! == 'overdue' || e.priority! == 'runoutof') &&
+              (e.priority! == 'overdue' || e.priority! == 'runoutof' || e.priority! == 'important') &&
               checkExpire(e.time!))
           .toList();
       // sort

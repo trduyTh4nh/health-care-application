@@ -19,6 +19,7 @@ import 'login.dart';
 import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
 import 'package:app_well_mate/screen/user_information.dart';
+import 'package:app_well_mate/screen/edit_infomation_user.dart';
 
 class Thongtincanhan extends StatefulWidget {
   const Thongtincanhan({super.key});
@@ -33,7 +34,15 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Row(children: [
+        title:InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const UserInformation(),
+                    ));
+              },
+              child: Row(children: [
           Hero(
             tag: "01",
             child: const CircleAvatar(
@@ -45,20 +54,12 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
           const SizedBox(
             width: 12,
           ),
-          InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const UserInformation(),
-                    ));
-              },
-              child: Hero(
+          Hero(
                 tag: "02",
                 child: Text("Nguyễn Duy",
                     style: Theme.of(context).textTheme.titleMedium),
-              )),
-        ]),
+              ),
+        ])),
         actions: [
 //           Padding(
 //             padding: const EdgeInsets.all(8.0),
@@ -272,6 +273,28 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
             ),
             const Divider(),
             InkWell(
+
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditInfomationUser()));
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset('assets/images/settings_alert.svg'),
+                    const SizedBox(width: 16),
+                    const Text("Chỉnh sửa tài khoản"),
+                  ],
+                ),
+              ),
+            ),
+            const Divider(),
+            InkWell(
+
               onTap: () {
                 Navigator.push(
                     context,
@@ -334,6 +357,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               ),
             ),
             const Divider(),
+
             InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const InfoPage(),));

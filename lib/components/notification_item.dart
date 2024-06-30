@@ -1,8 +1,10 @@
 import 'package:app_well_mate/components/custom_elevated_check_btn.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/notification_model.dart';
+import 'package:app_well_mate/screen/admin/hospital_detail.dart';
 import 'package:app_well_mate/screen/drug_info.dart';
 import 'package:app_well_mate/screen/error_page.dart';
+import 'package:app_well_mate/screen/hospital_detail.dart';
 import 'package:app_well_mate/screen/order/order_status.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -26,11 +28,13 @@ class _NotifyComponentState extends State<NotifyComponent> {
         return OrderStatus(
           notifiItem: widget.notifiItem,
         );
+      } else if (cateWidget == 'important') {
+        return HospitalDetailPage(notifiItem: widget.notifiItem);
       } else {
         return DrugInfoPage(notifiItem: widget.notifiItem);
       }
     } else {
-      return ErrorPage();
+      return const ErrorPage();
     }
   }
 
@@ -152,6 +156,11 @@ Widget checkPriorityForIcon(String priority) {
   } else if (priority == 'confirm') {
     return const Icon(
       Symbols.stethoscope_check,
+      color: Colors.white,
+    );
+  } else if (priority == 'important') {
+    return const Icon(
+      Symbols.restart_alt,
       color: Colors.white,
     );
   } else {
