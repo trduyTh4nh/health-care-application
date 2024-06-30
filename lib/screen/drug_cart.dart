@@ -40,7 +40,7 @@ class _CartPageState extends State<CartPage> {
     try {
       return _drugs.firstWhere((drug) => drug.idDrug == id);
     } catch (e) {
-      return null; // Trả về null nếu không tìm thấy
+      return null;
     }
   }
 
