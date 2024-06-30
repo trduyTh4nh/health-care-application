@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:app_well_mate/screen/profile.dart';
+import 'package:app_well_mate/screen/edit_infomation_user.dart';
 
 class UserInformation extends StatefulWidget {
   const UserInformation({super.key});
@@ -24,11 +25,14 @@ class _UserInformationState extends State<UserInformation> {
       body: SingleChildScrollView(
         padding: EdgeInsets.only(bottom: 16),
         child: Padding(
-          padding: EdgeInsets.all(16),
+
+          padding: EdgeInsets.all(10),
+
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Center(
+
                 child: Hero(
                   tag: "01",
                   child: CircleAvatar(
@@ -129,8 +133,9 @@ class _UserInformationState extends State<UserInformation> {
                         Text(" toa")
                       ],
                     ),
-                    const SizedBox(
-                      height: 8,
+                    SizedBox(
+                      height: 10,
+
                     ),
                     Row(
                       children: [
