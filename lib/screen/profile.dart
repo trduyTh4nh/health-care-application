@@ -19,6 +19,7 @@ import 'login.dart';
 import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
 import 'package:app_well_mate/screen/user_information.dart';
+import 'package:app_well_mate/screen/edit_infomation_user.dart';
 
 class Thongtincanhan extends StatefulWidget {
   const Thongtincanhan({super.key});
@@ -272,6 +273,28 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
             ),
             const Divider(),
             InkWell(
+
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditInfomationUser()));
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset('assets/images/settings_alert.svg'),
+                    const SizedBox(width: 16),
+                    const Text("Chỉnh sửa tài khoản"),
+                  ],
+                ),
+              ),
+            ),
+            const Divider(),
+            InkWell(
+
               onTap: () {
                 Navigator.push(
                     context,
@@ -334,6 +357,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               ),
             ),
             const Divider(),
+
             InkWell(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const InfoPage(),));
