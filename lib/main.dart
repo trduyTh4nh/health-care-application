@@ -1,4 +1,9 @@
 import 'package:app_well_mate/const/color_scheme.dart';
+
+import 'package:app_well_mate/const/current_page.dart';
+import 'package:app_well_mate/screen/drug_cart.dart';
+import 'package:app_well_mate/screen/ffmi.dart';
+import 'package:app_well_mate/screen/medicationDetail.dart';
 import 'package:app_well_mate/screen/home.dart';
 import 'package:app_well_mate/screen/login.dart';
 import 'package:app_well_mate/screen/medication.dart';
@@ -158,7 +163,7 @@ class _MainAppState extends State<MainApp> {
                     borderSide: BorderSide(color: AppColor.darkerGray)))),
         debugShowCheckedModeBanner: false,
         home: const Login());
-    // home: FFMIPage());
+
   }
 }
 

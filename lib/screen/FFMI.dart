@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:google_fonts/google_fonts.dart';
+// import 'package:animated_custom_dropdown/custom_dropdown.dart';
 class FFMIPage extends StatefulWidget {
   @override
   _FFMIPageState createState() => _FFMIPageState();
@@ -9,6 +10,7 @@ class _FFMIPageState extends State<FFMIPage> {
   final _weightController = TextEditingController();
   final _heightController = TextEditingController();
   final _fatController = TextEditingController();
+  // final _genderController = TextEditingController();
 
   String _gender = 'Nam';
   String _metricMeasurement = 'Hệ Mét';
@@ -55,50 +57,38 @@ class _FFMIPageState extends State<FFMIPage> {
                 padding: EdgeInsets.only(bottom: 10),
                 child: Text("Hệ đo lường",
                     style: Theme.of(context).textTheme.titleMedium)),
-            // const Text('Hệ đo lường',
-            // style: TextStyle(fontWeight: FontWeight.w900),),
-            // ToggleButtons(
-            //   isSelected: [_metricMeasurement == 'Hệ Mét', _metricMeasurement == 'Hệ Mỹ'],
-            //   onPressed: (index) {
-            //     setState(() {
-            //       _metricMeasurement = index == 0 ? 'Hệ Mét' : 'Hệ Mỹ';
-            //     });
-            //   },
-            //   children: [
-            //     Padding(
-            //       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            //       child: Text('Mét mét'),
-
-            //     ),
-            //     Padding(
-            //       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            //       child: Text('Hệ Mỹ'),
-            //     ),
-            //   ],
-            // ),
 
             SegmentedButton(
               style: ButtonStyle(
-                        iconColor: MaterialStateProperty.all(Colors.white)),
+                  iconColor: MaterialStateProperty.all(Colors.white)),
               segments: [
                 ButtonSegment(
                   value: 'Hệ Mét',
-                  label: Text('Mét Mét',
-                  style: TextStyle(
-                            color: _metricMeasurement.contains("Hệ Mét")
-                                ? Colors.white
-                                : Colors.black,
-                          ),),
-                  
+                  label: Text(
+                    'Hệ Mét',
+                    style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                          fontFamily:
+                              GoogleFonts.inter(fontWeight: FontWeight.bold)
+                                  .fontFamily,
+                          color: _metricMeasurement.contains("Hệ Mét")
+                              ? Colors.white
+                              : Colors.black,
+                        ),
+                    ),
                 ),
                 ButtonSegment(
                   value: 'Hệ Mỹ',
-                  label: Text('Hệ Mỹ',
-                  style: TextStyle(
-                            color: _metricMeasurement.contains("Hệ Mỹ")
-                                ? Colors.white
-                                : Colors.black,
-                          ),),
+                  label: Text(
+                    'Hệ Mỹ',
+                     style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                          fontFamily:
+                              GoogleFonts.inter(fontWeight: FontWeight.bold)
+                                  .fontFamily,
+                          color: _metricMeasurement.contains("Hệ Mỹ")
+                              ? Colors.white
+                              : Colors.black,
+                        ),
+                  ),
                 ),
               ],
               selected: {_metricMeasurement},
@@ -136,6 +126,17 @@ class _FFMIPageState extends State<FFMIPage> {
               ),
             ),
             SizedBox(height: 16),
+            // Container(
+            //   decoration: BoxDecoration(
+            //     border: Border.all(color: Colors.grey), // Màu viền
+            //     borderRadius: BorderRadius.circular(10), // Bo tròn góc
+            //   ),
+            //   child: CustomDropdown(
+            //     hintText: 'Chọn giới tính',
+            //     items: const ['Nam', 'Nữ'],
+            //     controller: _genderController,
+            //   ),
+            // ),
             DropdownButton<String>(
               isExpanded: true,
               value: _gender,
@@ -148,7 +149,9 @@ class _FFMIPageState extends State<FFMIPage> {
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(value),
+                  child: Text(value,
+                  
+                  ),
                 );
               }).toList(),
             ),
