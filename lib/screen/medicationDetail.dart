@@ -151,7 +151,8 @@ class _PrescriptionDetailPageState extends State<PrescriptionDetailPage> {
                       child: Column(
                         children: [
                           Text("Lời dặn của bác sĩ:",
-                              style: Theme.of(context).textTheme.titleMedium),
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold)),
                           Text(
                               "Sức đề kháng kém là do bạn không chơi đồ đó bạn ạ",
                               style: TextStyle(fontSize: 16)),
