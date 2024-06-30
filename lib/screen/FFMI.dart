@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:animated_custom_dropdown/custom_dropdown.dart';
+// import 'package:animated_custom_dropdown/custom_dropdown.dart';
 class FFMIPage extends StatefulWidget {
   @override
   _FFMIPageState createState() => _FFMIPageState();
@@ -10,7 +10,7 @@ class _FFMIPageState extends State<FFMIPage> {
   final _weightController = TextEditingController();
   final _heightController = TextEditingController();
   final _fatController = TextEditingController();
-  final _genderController = TextEditingController();
+  // final _genderController = TextEditingController();
 
   String _gender = 'Nam';
   String _metricMeasurement = 'Hệ Mét';
@@ -126,35 +126,35 @@ class _FFMIPageState extends State<FFMIPage> {
               ),
             ),
             SizedBox(height: 16),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey), // Màu viền
-                borderRadius: BorderRadius.circular(10), // Bo tròn góc
-              ),
-              child: CustomDropdown(
-                hintText: 'Chọn giới tính',
-                items: const ['Nam', 'Nữ'],
-                controller: _genderController,
-              ),
-            ),
-            // DropdownButton<String>(
-            //   isExpanded: true,
-            //   value: _gender,
-            //   onChanged: (String? newValue) {
-            //     setState(() {
-            //       _gender = newValue!;
-            //     });
-            //   },
-            //   items: <String>['Nam', 'Nữ']
-            //       .map<DropdownMenuItem<String>>((String value) {
-            //     return DropdownMenuItem<String>(
-            //       value: value,
-            //       child: Text(value,
-                  
-            //       ),
-            //     );
-            //   }).toList(),
+            // Container(
+            //   decoration: BoxDecoration(
+            //     border: Border.all(color: Colors.grey), // Màu viền
+            //     borderRadius: BorderRadius.circular(10), // Bo tròn góc
+            //   ),
+            //   child: CustomDropdown(
+            //     hintText: 'Chọn giới tính',
+            //     items: const ['Nam', 'Nữ'],
+            //     controller: _genderController,
+            //   ),
             // ),
+            DropdownButton<String>(
+              isExpanded: true,
+              value: _gender,
+              onChanged: (String? newValue) {
+                setState(() {
+                  _gender = newValue!;
+                });
+              },
+              items: <String>['Nam', 'Nữ']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value,
+                  
+                  ),
+                );
+              }).toList(),
+            ),
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: _calculateFFMI,
