@@ -18,9 +18,19 @@ class _LanguagePageState extends State<LanguagePage> {
         ),
         
       ),
-      body: Center(
-        child: Text('LanguagePage'),
-      ),
+      body: Column(
+        children: [
+          ElevatedButton(onPressed: () {
+
+          }, child: Text('Viet Nam')),
+          ElevatedButton(onPressed: () {
+
+          }, child: Text('English')),
+          ElevatedButton(onPressed: () {
+
+          }, child: Text('Portuguese'))
+        ],
+      )
     );
   }
 }

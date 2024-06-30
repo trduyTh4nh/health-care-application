@@ -2,6 +2,7 @@ import 'package:app_well_mate/components/custom_elevated_button.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
+import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
 import 'package:app_well_mate/screen/drug_info.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -98,7 +99,9 @@ class _MedicationItemState extends State<MedicationItem> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          widget.prescription.idScheduleDetail != null
+                                          widget.prescription
+                                                      .idScheduleDetail !=
+                                                  null
                                               ? CustomElevatedButton(
                                                   color: accent,
                                                   onTap: () {},
@@ -131,7 +134,14 @@ class _MedicationItemState extends State<MedicationItem> {
                                             0
                                         ? CustomElevatedButton(
                                             color: colorScheme.error,
-                                            onTap: () {},
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const MedicinesOrder(),
+                                                  ));
+                                            },
                                             child: Text(
                                               "Mua ngay",
                                               style: GoogleFonts.inter(
@@ -145,14 +155,16 @@ class _MedicationItemState extends State<MedicationItem> {
                               itemBuilder: (context) => [
                                 PopupMenuItem(
                                     enabled:
-                                        widget.prescription.idScheduleDetail != null,
+                                        widget.prescription.idScheduleDetail !=
+                                            null,
                                     value: MedicationItemAction.confirm,
                                     child: const ListTile(
                                         leading: Icon(Symbols.check),
                                         title: Text("Xác nhận đã uống"))),
                                 PopupMenuItem(
                                     enabled:
-                                        widget.prescription.idScheduleDetail != null,
+                                        widget.prescription.idScheduleDetail !=
+                                            null,
                                     value: MedicationItemAction.snooze,
                                     child: const ListTile(
                                         leading: Icon(Symbols.snooze),
@@ -173,6 +185,34 @@ class _MedicationItemState extends State<MedicationItem> {
                                         leading: Icon(Symbols.delete),
                                         title: Text("Xoá thuốc này"))),
                               ],
+                              onSelected: (value) {
+                                switch (value) {
+                                  case MedicationItemAction.buy:
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              MedicinesOrder(),
+                                        ));
+                                    break;
+                                  case MedicationItemAction.delete:
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) =>
+                                            AlertDialog.adaptive(
+                                              title: const Text("Xoá thuốc này"),
+                                              content: Text(
+                                                  "Bạn có muốn xoá thuốc ${widget.prescription.detail!.drug!.name} không?"),
+                                              actions: [
+                                                TextButton(onPressed: () {Navigator.pop(context);}, child: const Text("Có")),
+                                                TextButton(onPressed: () {Navigator.pop(context);}, child: const Text("Không"))
+                                              ],
+                                            ));
+                                    break;
+                                  default:
+                                    break;
+                                }
+                              },
                             )
                           ])
                     ],

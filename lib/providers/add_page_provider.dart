@@ -15,8 +15,7 @@ class AddPageProvider extends ChangeNotifier {
     _startDate = newVal;
     notifyListeners();
   }
-
-  TimeOfDay _sDate = TimeOfDay(hour: 1, minute: 0);
+  TimeOfDay _sDate = const TimeOfDay(hour: 1, minute: 0);
   TimeOfDay get sDate => _sDate;
   set sDate(TimeOfDay newVal) {
     if ((toSecond(_startDate) + ((_habit * toSecond(_sDate)) - 1)) / 3600 >
@@ -82,9 +81,9 @@ class AddPageProvider extends ChangeNotifier {
 
   PrescriptionDetailModel? _prescriptionDetail =
       PrescriptionDetailModel(drug: DrugModel());
-  PrescriptionDetailModel? get prescriptionDetail => _prescriptionDetail;
+  PrescriptionDetailModel? get prescriptionDetail => _prescriptionDetail ?? PrescriptionDetailModel(drug: DrugModel());
   set prescriptionDetail(PrescriptionDetailModel? newVal) {
-    _prescriptionDetail = newVal;
+    _prescriptionDetail = newVal ?? PrescriptionDetailModel(drug: DrugModel());
     notifyListeners();
   }
 
