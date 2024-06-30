@@ -1,5 +1,6 @@
 import 'package:app_well_mate/components/bieudodichte.dart';
 import 'package:app_well_mate/components/danhsachdichbenh.dart';
+import 'package:app_well_mate/main.dart';
 import 'package:flutter/material.dart';
 
 class DiseaseManagementAdminPage extends StatefulWidget {
@@ -35,7 +36,14 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
 
   @override
   Widget build(BuildContext context) {
-    void onPressed() {}
+    void onPressed() {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const AppPage(),
+          ));
+    }
+
     final sizeHeight = MediaQuery.of(context).size.height;
     final sizeWidth = MediaQuery.of(context).size.width;
 
@@ -54,7 +62,7 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
         title: const Text("Quản lý dịch bệnh"),
         actions: [
           IconButton(
-              onPressed: onPressed, icon: const Icon(Icons.notifications_none))
+              onPressed: onPressed, icon: const Icon(Icons.change_circle))
         ],
       ),
       body: SingleChildScrollView(

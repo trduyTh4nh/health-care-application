@@ -1,3 +1,4 @@
+import 'package:app_well_mate/screen/admin/admin_page.dart';
 import 'package:app_well_mate/screen/changeRePassword.dart';
 import 'package:app_well_mate/screen/drug_manage.dart';
 import 'package:app_well_mate/screen/ffmi.dart';
@@ -415,7 +416,6 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                   ),
                 ),
               ),
-              
             ),
             const Divider(),
             Container(
@@ -424,7 +424,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const Login(),
+                        builder: (context) => const AdminPage(),
                       ));
                 },
                 child: Padding(
@@ -439,7 +439,6 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                   ),
                 ),
               ),
-              
             ),
           ]),
         ),
