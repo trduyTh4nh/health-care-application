@@ -33,20 +33,25 @@ class _OrderStatusState extends State<OrderStatus> {
   OrderModel? orderOfNotifi;
   PrescriptionModel? prescriptionOfnotifi;
   List<PrescriptionDetailModel>? _listPrescriptionDetail;
-  List<DrugModel>? _listDrug;
+  List<DrugModel>? _listDrug = [];
   String? totalDeal;
   @override
   void initState() {
     super.initState();
     // dùng idOrder trong notification tìm order
-    print("DEBUG ID ${widget.notifiItem.idOrder}");
     if (widget.notifiItem.idOrder != null) {
+      print("DEBUG ID ${widget.notifiItem.idOrder}");
+
       orderOfNotifi = findOrderById(widget.notifiItem.idOrder!);
     }
     // có được order dùng idPre của match 1:1 với Prescription tìm prescription
     prescriptionOfnotifi = findPrescriptionByIdFromOrder(orderOfNotifi!.idPre!);
-    _listPrescriptionDetail = prescriptionOfnotifi!.prescriptionDetails;
-    _listDrug = getListDrug(_listPrescriptionDetail!);
+    if (prescriptionOfnotifi != null) {
+
+      _listPrescriptionDetail = prescriptionOfnotifi!.prescriptionDetails;
+
+      _listDrug = getListDrug(_listPrescriptionDetail!);
+    }
 
     // // ${_listPrescriptionDetail![index].amount!} / ${(_listDrug![index].price! * _listPrescriptionDetail![index].quantity!)}
     // for (var element in _listPrescriptionDetail!) {
@@ -172,7 +177,6 @@ class _OrderStatusState extends State<OrderStatus> {
                         )
                       ],
                     ),
-                    
                   ],
                 ),
               ),
@@ -213,7 +217,6 @@ class _OrderStatusState extends State<OrderStatus> {
                         ],
                       ),
                     ),
-                   
                   ],
                 )),
               ),
@@ -354,7 +357,6 @@ class _OrderStatusState extends State<OrderStatus> {
                           )
                         ],
                       ),
-                     
                     ],
                   ),
                 );

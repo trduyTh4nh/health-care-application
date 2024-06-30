@@ -33,7 +33,7 @@ class _WidgetBuyMedicine extends State<WidgetBuyMedicine> {
                         });
                       },
                     ),
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 20,
                       backgroundImage: NetworkImage(
                           'https://i.giphy.com/BSx6mzbW1ew7K.webp'),
@@ -69,9 +69,13 @@ class _WidgetBuyMedicine extends State<WidgetBuyMedicine> {
                             title: Text("Xem thông tin "))),
                   ],
                   onSelected: (value) {
-                    switch(value){
+                    switch (value) {
                       case MedicationItemAction.info:
-                        Navigator.push(context, MaterialPageRoute(builder:(context) => const Drugdetails(),));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Drugdetails(),
+                            ));
                         break;
                       default:
                         break;
@@ -81,8 +85,8 @@ class _WidgetBuyMedicine extends State<WidgetBuyMedicine> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 28),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 28),
             child: Divider(),
           )
         ],

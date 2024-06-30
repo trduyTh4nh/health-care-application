@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:app_well_mate/components/item_user_profile.dart';
 import 'package:app_well_mate/model/user.dart';
+import 'package:app_well_mate/screen/admin/user_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -126,14 +127,15 @@ class _UserManagementAdminState extends State<UserManagementAdmin> {
         ],
       ),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                   child: TextField(
                     controller: searchUserController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         hintText: 'Tìm kiếm',
                         hintStyle: TextStyle(
                           color: Color.fromARGB(255, 165, 165, 165),
@@ -149,7 +151,15 @@ class _UserManagementAdminState extends State<UserManagementAdmin> {
                     itemBuilder: (context, index) {
                       // var itemUser = filteredUsers[index];
                       // return ItemUserProfile(users: itemUser);
-                      return ItemUserProfile(users: filteredUsers[index]);
+                      return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const UserProfilePage(),
+                                ));
+                          },
+                          child: itemUserProfile(users: filteredUsers[index]));
                     },
                   ),
                 )),

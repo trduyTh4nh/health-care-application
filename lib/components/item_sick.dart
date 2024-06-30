@@ -30,7 +30,10 @@ class ItemSick extends StatelessWidget {
                     ),
                   ],
                 ),
-                Icon(Icons.more_horiz),
+                IconButton(
+                  icon: const Icon(Icons.more_horiz),
+                  onPressed: () {},
+                ),
               ],
             ),
           ),

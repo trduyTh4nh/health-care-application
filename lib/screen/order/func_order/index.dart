@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/order_model.dart';
 import 'package:app_well_mate/model/prescription_detail_model.dart';
@@ -10,17 +12,20 @@ OrderModel? findOrderById(int idOrder) {
   try {
     return orders.firstWhere((order) => order.idOrder == idOrder);
   } catch (e) {
+    log(e.toString());
     return null;
   }
 }
 
 // [GET]
 PrescriptionModel? findPrescriptionByIdFromOrder(int idPrescription) {
+  print(idPrescription);
   // fetch
   List<PrescriptionModel> prescriptions = generateSamplePrescriptions();
   try {
     return prescriptions.firstWhere((pre) => pre.idPre == idPrescription);
   } catch (error) {
+    print(error);
     return null;
   }
 }
