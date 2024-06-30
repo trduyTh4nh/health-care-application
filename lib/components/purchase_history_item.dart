@@ -1,4 +1,5 @@
 import 'package:app_well_mate/screen/drug/medicine_order/widget_prescriptionstatus_cancel_medicine.dart';
+import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -25,11 +26,11 @@ class _PurchaseHistoryItemState extends State<PurchaseHistoryItem> {
         children: [
           const CircleAvatar(
             radius: 35,
-            backgroundColor: Color(0xFFCBC9C9),
+            backgroundColor: AppColors.greyColor,
             child: Icon(
               Icons.receipt_long,
               size: 35,
-              color: Colors.black,
+              color: Colors.black87,
             ),
           ),
           const SizedBox(

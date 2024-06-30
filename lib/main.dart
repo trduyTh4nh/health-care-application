@@ -26,9 +26,7 @@ ColorScheme colorScheme = ColorScheme(
     surface: const Color(0xFFFFFFFF),
     onSurface: const Color(0xFF000000),
     surfaceDim: const Color(0xFFF2F2F2),
-    errorContainer: const Color(0xFFFFF4F4)
-    );
-    
+    errorContainer: const Color(0xFFFFF4F4));
 
 void main() {
   runApp(const MainApp());
@@ -75,7 +73,8 @@ class _MainAppState extends State<MainApp> {
             ),
             iconButtonTheme: IconButtonThemeData(
                 style: ButtonStyle(
-                    padding: WidgetStateProperty.all(EdgeInsets.all(16)))),
+                    padding:
+                        WidgetStateProperty.all(const EdgeInsets.all(16)))),
             filledButtonTheme: FilledButtonThemeData(
                 style: ButtonStyle(
               textStyle: WidgetStateProperty.all(

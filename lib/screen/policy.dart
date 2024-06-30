@@ -33,18 +33,12 @@ class _PolicyState extends State<Policy> {
         body: ListView(
           padding: const EdgeInsets.all(24),
           children: [
-            PolicyItem(
-              title: "Điều khoản 1",
-              content: dk1,
-            ),
-            SizedBox(
+            PolicyItem(title: "Điều khoản 1", content: dk1),
+            const SizedBox(
               height: 20,
             ),
-            PolicyItem(
-              title: "Điều Khoản 2",
-              content: dk2,
-            ),
-            SizedBox(
+            PolicyItem(title: "Điều Khoản 2", content: dk2),
+            const SizedBox(
               height: 20,
             ),
             PolicyItem(title: "Điều khoản 3", content: dk3),
@@ -69,17 +63,12 @@ class PolicyItem extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           content,
-          style: const TextStyle(
-            fontSize: 16,
-          ),
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ],
     );

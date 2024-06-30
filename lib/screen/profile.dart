@@ -112,7 +112,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const emergencycall(),
+                            builder: (context) => const EmergencyCall(),
                           ));
                     },
                     child: Column(

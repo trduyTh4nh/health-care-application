@@ -15,28 +15,23 @@ class MedicinesOrder extends StatefulWidget {
 
 class _MedicinesOrderState extends State<MedicinesOrder> {
   int _currentPageIndex = 0;
-  PageController _pageController = PageController();
-  List<Widget> _pages = [
+  final PageController _pageController = PageController();
+  final List<Widget> _pages = [
     WidgetBuyMedicine(),
     WidgetPaymentMedicine(),
     WidgetCompleteMedicine(),
   ];
-  List<String> _tittle = [
+  final List<String> _tittle = [
     "Mua thuốc",
     "Thanh toán",
     "Hoàn tất",
   ];
   @override
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    final sizeWidth = MediaQuery.of(context).size.width;
-    // ignore: unused_local_variable
-    final sizeHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       appBar: AppBar(
         title: AnimatedSwitcher(
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
           transitionBuilder: (Widget child, Animation<double> animation) {
             return ScaleTransition(scale: animation, child: child);
           },
@@ -45,14 +40,13 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
             key: ValueKey(_tittle[_currentPageIndex]),
           ),
         ),
-        
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SmoothPageIndicator(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SmoothPageIndicator(
               controller: _pageController,
               count: _pages.length,
               axisDirection: Axis.horizontal,
@@ -66,75 +60,83 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                 activeDotColor: AppColors.primaryColor,
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: PageView(
-                  physics: NeverScrollableScrollPhysics(),
-                  controller: _pageController,
-                  children: _pages,
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: PageView(
+                physics: const NeverScrollableScrollPhysics(),
+                controller: _pageController,
+                children: _pages,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Tổng tiền",
+                  style: Theme.of(context).textTheme.labelMedium,
                 ),
-              ),
-            ),
-            Text(
-              "Tổng tiền",
-              style: Theme.of(context).textTheme.labelMedium,
-            ),
-            Text(
-              "505.000" " Đ",
-              style: Theme.of(context).textTheme.displayMedium,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _currentPageIndex != _pages.length - 1
-                      ? FilledButton(
-                          onPressed: () {
-                            if (_currentPageIndex > 0) {
-                              _currentPageIndex--;
-                            }
-                            _pageController.animateToPage(_currentPageIndex,
-                                duration: Duration(milliseconds: 500),
-                                curve: Curves.easeInOutCubicEmphasized);
+                Text(
+                  "505.000" " Đ",
+                  style: Theme.of(context).textTheme.displayMedium,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _currentPageIndex != _pages.length - 1
+                          ? FilledButton(
+                              onPressed: () {
+                                if (_currentPageIndex > 0) {
+                                  _currentPageIndex--;
+                                }
+                                _pageController.animateToPage(_currentPageIndex,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.easeInOutCubicEmphasized);
 
-                            setState(() {});
-                          },
-                          child: Text("Quay lại"),
-                        )
-                      : SizedBox.shrink(),
-                  _currentPageIndex != _pages.length - 1
-                      ? ElevatedButton(
-                          onPressed: () {
-                            if (_currentPageIndex >= _pages.length - 1) {
-                              return;
-                            }
-                            _currentPageIndex++;
-                            _pageController.animateToPage(_currentPageIndex,
-                                duration: Duration(milliseconds: 500),
-                                curve: Curves.easeInOutCubicEmphasized);
-                            setState(() {});
-                          },
-                          child: Text("Tiếp theo"),
-                        )
-                      : Expanded(
-                          child: SizedBox(
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                WidgetPrescriptionstatusMedicine()));
-                                  },
-                                  child: Text("Hoàn thành"))),
-                        )
-                ],
-              ),
-            )
-          ],
-        ),
+                                setState(() {});
+                              },
+                              child: Text("Quay lại"),
+                            )
+                          : SizedBox.shrink(),
+                      _currentPageIndex != _pages.length - 1
+                          ? ElevatedButton(
+                              onPressed: () {
+                                if (_currentPageIndex >= _pages.length - 1) {
+                                  return;
+                                }
+                                _currentPageIndex++;
+                                _pageController.animateToPage(_currentPageIndex,
+                                    duration: Duration(milliseconds: 500),
+                                    curve: Curves.easeInOutCubicEmphasized);
+                                setState(() {});
+                              },
+                              child: Text("Tiếp theo"),
+                            )
+                          : Expanded(
+                              child: SizedBox(
+                                  child: ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    WidgetPrescriptionstatusMedicine()));
+                                      },
+                                      child: const Text("Hoàn thành"))),
+                            )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
