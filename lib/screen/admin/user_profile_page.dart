@@ -18,12 +18,12 @@ class _UserProfilePageState extends State<UserProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text(
+          title: const Text(
         "Thông tin người dùng",
       )),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -36,6 +36,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         NetworkImage('https://i.giphy.com/BSx6mzbW1ew7K.webp'),
                   ),
                 ),
+              ),
+              const SizedBox(
+                height: 10,
               ),
               Hero(
                 tag: "02",
@@ -51,11 +54,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   children: [
                     Text(
                       "Đăng ký ngày ",
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     Text(
                       "11-06-2024",
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],
                 ),
@@ -65,155 +68,162 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 children: [
                   Text(
                     "Mã người dùng:",
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   Text(
                     "000043",
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: const Divider(),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 5),
+                child: Divider(),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Padding(padding: EdgeInsets.all(5)),
-                  Text(
-                    "Thông tin cơ bản",
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: Row(
-                      children: [
-                        const Icon(Symbols.pill),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        const Text("Đã mua "),
-                        Text(" 115 ",
-                            style: Theme.of(context).textTheme.titleMedium),
-                        const Text(" thuốc"),
-                        const Text(" (13.194.131 VND)"),
-                      ],
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 13, vertical: 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Padding(padding: EdgeInsets.all(2)),
+                    Text(
+                      "Thông tin cơ bản",
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
-                  ),
-                  const Row(
-                    children: [
-                      Icon(Symbols.email),
-                      SizedBox(
-                        width: 10,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: Row(
+                        children: [
+                          const Icon(Symbols.pill),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          const Text("Đã mua "),
+                          Text(" 115 ",
+                              style: Theme.of(context).textTheme.titleMedium),
+                          const Text(" thuốc"),
+                          const Text(" (13.194.131 VND)"),
+                        ],
                       ),
-                      Text("Email: "),
-                      Text("thanhduy69@gmail.com")
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const Icon(Symbols.monitor_weight),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                const Text("Cân nặng: "),
-                                Text(" 65kg")
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 15,
-                            ),
-                            Row(
-                              children: [
-                                const Icon(Symbols.height),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                const Text("Chiều cao: "),
-                                Text("165kg")
-                              ],
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text("BMI: ",
-                                style:
-                                    Theme.of(context).textTheme.displaySmall),
-                            Text(" 23.9",
-                                style: Theme.of(context).textTheme.displaySmall)
-                          ],
-                        ),
-                      ],
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    child: Row(
+                    const Row(
                       children: [
-                        Icon(Symbols.cake),
+                        Icon(Symbols.email),
                         SizedBox(
                           width: 10,
                         ),
-                        Text("Ngày sinh: "),
-                        Text("28-08-2003 (18 tuổi)"),
+                        Text("Email: "),
+                        Text("thanhduy69@gmail.com")
                       ],
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    child: Container(
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Icon(Symbols.corporate_fare),
-                          SizedBox(
-                            width: 10,
+                          const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(Symbols.monitor_weight),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Cân nặng: "),
+                                  Text(" 65kg")
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(Symbols.height),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text("Chiều cao: "),
+                                  Text("165kg")
+                                ],
+                              ),
+                            ],
                           ),
-                          Text("Địa chỉ:"),
-                          Expanded(
-                            child: Text(
-                              " 84 Thành Thái, Phường 10, Quận 10, TP. Hồ Chí Minh",
-                            ),
+                          Row(
+                            children: [
+                              Text("BMI: ",
+                                  style:
+                                      Theme.of(context).textTheme.displaySmall),
+                              Text(" 23.9",
+                                  style:
+                                      Theme.of(context).textTheme.displaySmall)
+                            ],
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    child: Row(
-                      children: [
-                        const Icon(Symbols.calendar_month),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        const Text("Ngày khám trước đó: "),
-                        Text("11/06/2024")
-                      ],
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      child: Row(
+                        children: [
+                          Icon(Symbols.cake),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text("Ngày sinh: "),
+                          Text("28-08-2003 (18 tuổi)"),
+                        ],
+                      ),
                     ),
-                  ),
-                  Text(
-                    "Đơn thuốc",
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  const ItemPrescriptionOfInfomationUser(),
-                  const ItemPrescriptionOfInfomationUser(),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: Container(
+                        child: const Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Symbols.corporate_fare),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text("Địa chỉ:"),
+                            Expanded(
+                              child: Text(
+                                " 84 Thành Thái, Phường 10, Quận 10, TP. Hồ Chí Minh",
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 15),
+                      child: Row(
+                        children: [
+                          Icon(Symbols.calendar_month),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text("Ngày khám trước đó: "),
+                          Text("11/06/2024")
+                        ],
+                      ),
+                    ),
+                    Text(
+                      "Đơn thuốc",
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    const ItemPrescriptionOfInfomationUser(),
+                  ],
+                ),
               )
             ],
           ),
