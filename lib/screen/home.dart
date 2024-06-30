@@ -4,13 +4,15 @@ import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/screen/FFMI.dart';
 import 'package:app_well_mate/screen/medicine_purchase_history.dart';
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/screen/notification.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:app_well_mate/screen/revisit_page.dart';
+import 'package:app_well_mate/screen/scan.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -109,9 +111,10 @@ class _HomeState extends State<Home> {
                               const MedicinePurchaseHistory()));
                 },
                 icon: const Badge(
-                    child: Icon(Symbols.deployed_code),
-                    smallSize: 0 /*và 5*/,
-                    largeSize: 0)),
+                  smallSize: 0 /*và 5*/,
+                  largeSize: 0,
+                  child: Icon(Symbols.deployed_code),
+                )),
 
             IconButton(
                 onPressed: () {
@@ -152,27 +155,46 @@ class _HomeState extends State<Home> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => BmiPage(),
+                                  builder: (context) => const BmiPage(),
                                 ));
                           },
                         )),
                         Expanded(
                             child: Shortcut(
-                          icon: Icons.leaderboard_outlined,
-                          text: "Theo dõi",
-                          onTap: () {},
+                          icon: Icons.fitness_center,
+                          text: "Tính chỉ số FFMI",
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FFMIPage(),
+                                ));
+                          },
                         )),
                         Expanded(
                             child: Shortcut(
                           icon: Icons.camera_alt_outlined,
-                          text: "Quét mã QR",
-                          onTap: () {},
+                          text: "Quét mã vạch",
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ScanPage(
+                                    automaticallyImplyLeading: true,
+                                  ),
+                                ));
+                          },
                         )),
                         Expanded(
                             child: Shortcut(
-                          icon: Symbols.pill,
-                          text: "Xem toa thuốc",
-                          onTap: () {},
+                          icon: Symbols.alarm,
+                          text: "Lịch tái khám",
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const RevisitPage()));
+                          },
                         )),
                       ],
                     ),
@@ -204,9 +226,8 @@ class _HomeState extends State<Home> {
                         ),
                         const Text("Hãy giữ gìn sức khoẻ nhé!"),
                         Lottie.asset(
-                            "assets/images/${_banners[Random().nextInt(_banners.length)]}",
-                          ),
-                        
+                          "assets/images/${_banners[Random().nextInt(_banners.length)]}",
+                        ),
                       ],
                     ),
                   ),

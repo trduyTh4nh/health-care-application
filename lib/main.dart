@@ -77,6 +77,7 @@ class _MainAppState extends State<MainApp> {
                   GoogleFonts.inter(fontWeight: FontWeight.bold)),
               backgroundColor: WidgetStateProperty.all(colorScheme.surfaceDim),
               foregroundColor: WidgetStateProperty.all(colorScheme.onSurface),
+              
               minimumSize: WidgetStateProperty.all(const Size(40, 50)),
               shape: WidgetStateProperty.all(const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)))),
@@ -175,7 +176,7 @@ class _AppPageState extends State<AppPage> {
     const Home(),
     const SearchPage(),
     const ScanPage(),
-     MedicationPage(),
+    const MedicationPage(),
     const Thongtincanhan(),
     const ThemeScreen()
   ];

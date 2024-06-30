@@ -47,18 +47,18 @@ class _DrugdetailsState extends State<Drugdetails> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset('assets/images/panadol.png'),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   Text(
                     'Panadol Extra (Đỏ)',
                     style: Theme.of(context).textTheme.displaySmall,
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text('Thuốc kê đơn • Không có trong toa',
                           style: Theme.of(context).textTheme.labelMedium),
-                      SizedBox(width: 4),
+                      const SizedBox(width: 4),
                       Icon(
                         Icons.info_outline,
                         size: 16,
@@ -66,7 +66,7 @@ class _DrugdetailsState extends State<Drugdetails> {
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 18,
                   ),
                 ],
@@ -81,12 +81,12 @@ class _DrugdetailsState extends State<Drugdetails> {
                     'Giá tiền',
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     '8000đ / Vỉ',
                     style: Theme.of(context).textTheme.displaySmall,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     children: [
                       Expanded(
@@ -99,16 +99,16 @@ class _DrugdetailsState extends State<Drugdetails> {
                                   builder: (context) => const MedicinesOrder(),
                                 ));
                           },
-                          child: Text('Mua'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primaryColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ), // Button color
                           ),
+                          child: const Text('Mua'),
                         ),
                       ),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                       // Space between buttons
                       Expanded(
                         flex: 2,
@@ -119,10 +119,6 @@ class _DrugdetailsState extends State<Drugdetails> {
                             onPressed: () {
                               // Handle add to stock action
                             },
-                            child: Text(
-                              'Thêm vào kho thuốc',
-                              textAlign: TextAlign.center,
-                            ),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.greyColor,
                               foregroundColor: Colors.black, // Text color
@@ -130,12 +126,16 @@ class _DrugdetailsState extends State<Drugdetails> {
                                 borderRadius: BorderRadius.circular(10),
                               ), // Button color
                             ),
+                            child: const Text(
+                              'Thêm vào kho thuốc',
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Row(
                     children: [
                       Expanded(
@@ -150,10 +150,6 @@ class _DrugdetailsState extends State<Drugdetails> {
                                   ),
                                 ));
                           },
-                          child: Text(
-                            'Thêm vào toa thuốc',
-                            textAlign: TextAlign.center,
-                          ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.greyColor,
                             foregroundColor: Colors.black, // Text color
@@ -161,60 +157,64 @@ class _DrugdetailsState extends State<Drugdetails> {
                               borderRadius: BorderRadius.circular(10),
                             ), // Button color
                           ),
+                          child: const Text(
+                            'Thêm vào toa thuốc',
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 12,
                   ),
-                  Divider(),
-                  SizedBox(height: 8),
+                  const Divider(),
+                  const SizedBox(height: 8),
                   Text(
                     'Miêu tả',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     'Lorem ipsum dolor sit amet consectetur. Risus duis auctor gravida turpis. Turpis risus sem donec purus a est elementum curabitur. Orci est iaculis consectetur morbi euismod. Faucibus tortor libero pretium tincidunt tristique nulla curabitur quam cursus.',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     'Thành phần',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     'Lorem ipsum dolor sit amet consectetur. Risus duis auctor gravida turpis. Turpis risus sem donec purus a est elementum curabitur. Orci est iaculis consectetur morbi euismod. Faucibus tortor libero pretium tincidunt tristique nulla curabitur quam cursus.',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     'Chỉ định',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     'Lorem ipsum dolor sit amet consectetur. Risus duis auctor gravida turpis. Turpis risus sem donec purus a est elementum curabitur. Orci est iaculis consectetur morbi euismod. Faucibus tortor libero pretium tincidunt tristique nulla curabitur quam cursus.',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     'Chống chỉ định',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     'Lorem ipsum dolor sit amet consectetur. Risus duis auctor gravida turpis. Turpis risus sem donec purus a est elementum curabitur. Orci est iaculis consectetur morbi euismod. Faucibus tortor libero pretium tincidunt tristique nulla curabitur quam cursus.',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     'Tác dụng phụ',
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Text(
                     'Lorem ipsum dolor sit amet consectetur. Risus duis auctor gravida turpis. Turpis risus sem donec purus a est elementum curabitur. Orci est iaculis consectetur morbi euismod. Faucibus tortor libero pretium tincidunt tristique nulla curabitur quam cursus.',
                     style: Theme.of(context).textTheme.bodyMedium,
