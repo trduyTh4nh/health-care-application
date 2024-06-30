@@ -143,7 +143,7 @@ class _HomeState extends State<Home> {
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Text("Tác vụ nhanh")),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -206,15 +206,10 @@ class _HomeState extends State<Home> {
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const Text("Hãy giữ gìn sức khoẻ nhé!"),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Lottie.asset(
-                              "assets/images/${_banners[Random().nextInt(_banners.length)]}",
-                              width: 380,
-                            ),
-                          ],
-                        )
+                        Lottie.asset(
+                            "assets/images/${_banners[Random().nextInt(_banners.length)]}",
+                          ),
+                        
                       ],
                     ),
                   ),
