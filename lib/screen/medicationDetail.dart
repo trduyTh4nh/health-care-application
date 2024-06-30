@@ -147,12 +147,12 @@ class _PrescriptionDetailPageState extends State<PrescriptionDetailPage> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         children: [
                           Text("Lời dặn của bác sĩ:",
                               style: Theme.of(context).textTheme.titleMedium),
-                          Text(
+                          const Text(
                               "Sức đề kháng kém là do bạn không chơi đồ đó bạn ạ",
                               style: TextStyle(fontSize: 16)),
                         ],
