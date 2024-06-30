@@ -23,7 +23,7 @@ class _WidgetPrescriptionstatusCancelMedicine
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tình trạng đơn thuốc"),
+        title: const Text("Tình trạng đơn thuốc"),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 0, bottom: 0, right: 16, left: 16),
@@ -220,3 +220,19 @@ class _WidgetPrescriptionstatusCancelMedicine
     );
   }
 }
+
+
+
+// Expanded(
+//                     child: ElevatedButton(
+//                         style: ButtonStyle(
+//                             backgroundColor:
+//                                 WidgetStateProperty.all(colorScheme.error)),
+//                         onPressed: () {
+//                           Navigator.push(
+//                               context,
+//                               MaterialPageRoute(
+//                                   builder: (context) => CartPage()));
+//                         },
+//                         child: Text("Hủy đơn thuốc- KHÔNG HOÀN TIỀN")),
+//                   ),
