@@ -89,14 +89,13 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                         // return showBottomSheet(sizeHeight: sizeHeight);
                         return SingleChildScrollView(
                           child: Padding(
-                            padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                            padding: const EdgeInsets.only(
+                              bottom: 50,
                               left: 12,
                               right: 12,
-                              top: 12,
+                              top: 20,
                             ),
                             child: Container(
-                              height: 0.5 * sizeHeight,
                               child: SingleChildScrollView(
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -104,6 +103,8 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Center(
                                         child: Text(
@@ -113,12 +114,14 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                               .bodyLarge,
                                         ),
                                       ),
-                                      const Text("Thông tin liên hệ"),
                                       // SizedBox(
                                       //   height: 20,
                                       // ),
                                       Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
+                                          const Text("Thông tin liên hệ"),
                                           TextFormField(
                                             controller: _userName,
                                             decoration: InputDecoration(
@@ -154,8 +157,11 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                         ],
                                       ),
 
+                                      // SizedBox(
+                                      //   height: 12,
+                                      // ),
                                       SizedBox(
-                                        height: 12,
+                                        height: 10,
                                       ),
                                       SizedBox(
                                         width: double.infinity,
