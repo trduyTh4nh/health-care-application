@@ -1,5 +1,6 @@
-import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
+import 'package:app_well_mate/utils/app.colors.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Changerepassword extends StatefulWidget {
   const Changerepassword({super.key});
@@ -12,177 +13,179 @@ class _ChangerepasswordState extends State<Changerepassword> {
   final TextEditingController passCurrentController = TextEditingController();
   final TextEditingController newPassController = TextEditingController();
   final TextEditingController newRepassController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('Đổi mật khẩu'),
-          ],
+        title: const Text(
+          'Đổi mật khẩu',
+          style: TextStyle(color: Colors.black),
         ),
+        backgroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 64,
-              ),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 0, horizontal: 24),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.all(24),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(height: 40),
+
+                    // Thêm hình ảnh
+                    Center(
+                      child: SvgPicture.asset(
+                        'assets/images/undraw_forgot_password.svg',
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    Center(
+                      child: Text(
+                        'Đổi mật khẩu hiện tại',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 32,
+                    ),
                     Text(
                       'Mật khẩu hiện tại',
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
-                    Container(
-                      child: TextField(
-                        onChanged: (value) {
-                          print(value);
-                        },
-                        controller: passCurrentController,
-                        decoration: const InputDecoration(
-                          hintText: 'nhập mật khẩu hiện tại',
-                          hintStyle: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w100,
-                              fontStyle: FontStyle.normal,
-                              color: Color.fromARGB(255, 165, 165, 165)),
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                          border: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 3),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: AppColors.primaryColor, width: 3),
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: AppColors.greyColor, width: 2)),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    TextField(
+                      controller: passCurrentController,
+                      decoration: const InputDecoration(
+                        hintText: 'Nhập mật khẩu hiện tại',
+                        hintStyle: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w100,
+                          fontStyle: FontStyle.normal,
+                          color: Color.fromARGB(255, 216, 206, 206),
+                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey, width: 3),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.primaryColor, width: 3),
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              BorderSide(color: AppColors.greyColor, width: 2),
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 32,
-                    ),
+                    const SizedBox(height: 8),
+
+                    // Mật khẩu mới
                     const Text(
-                      "Mật khẩu mới",
+                      'Mật khẩu mới',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
-                    Container(
-                      child: TextField(
-                        onChanged: (value) {
-                          print(value);
-                        },
-                        controller: newPassController,
-                        decoration: const InputDecoration(
-                          hintText: 'nhập mật khẩu mới',
-                          hintStyle: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w100,
-                              fontStyle: FontStyle.normal,
-                              color: Color.fromARGB(255, 165, 165, 165)),
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                          border: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 3),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: AppColors.primaryColor, width: 2),
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: AppColors.greyColor, width: 2),
-                          ),
+                    TextField(
+                      controller: newPassController,
+                      decoration: const InputDecoration(
+                        hintText: 'Nhập mật khẩu mới',
+                        hintStyle: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w100,
+                          fontStyle: FontStyle.normal,
+                          color: Color.fromARGB(255, 216, 206, 206),
+                        ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey, width: 3),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.primaryColor, width: 3),
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              BorderSide(color: AppColors.greyColor, width: 2),
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 32,
-                    ),
+                    const SizedBox(height: 32),
+
+                    // Nhập lại mật khẩu
                     const Text(
-                      "Nhập lại mật khẩu",
+                      'Nhập lại mật khẩu',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
                     ),
-                    Container(
-                      child: TextField(
-                        onChanged: (value) {
-                          print(value);
-                        },
-                        controller: newRepassController,
-                        decoration: const InputDecoration(
-                            hintText: 'nhập lại mật khẩu mới',
-                            hintStyle: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w100,
-                                fontStyle: FontStyle.normal,
-                                color: Color.fromARGB(255, 165, 165, 165)),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 0),
-                            border: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey, width: 3),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: AppColors.primaryColor, width: 3),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: AppColors.greyColor, width: 2),
-                            )),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Center(
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: const Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 0, vertical: 12),
-                          child: Text(
-                            'Cập nhật',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
+                    TextField(
+                      controller: newRepassController,
+                      decoration: const InputDecoration(
+                        hintText: 'Nhập lại mật khẩu mới',
+                        hintStyle: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w100,
+                          fontStyle: FontStyle.normal,
+                          color: Color.fromARGB(255, 216, 206, 206),
                         ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primaryColor,
-                          elevation: 3,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                        border: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey, width: 3),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.primaryColor, width: 3),
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide:
+                              BorderSide(color: AppColors.greyColor, width: 2),
                         ),
                       ),
-                    )
+                    ),
+                    const SizedBox(height: 32),
+
+                    // Nút Cập nhật
                   ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryColor,
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 0, vertical: 16),
+                  child: Text(
+                    'Cập nhật',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
