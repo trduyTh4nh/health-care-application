@@ -1,7 +1,5 @@
 import 'package:app_well_mate/components/custom_elevated_button.dart';
-import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
-import 'package:app_well_mate/model/drug.dart';
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/screen/drug_info.dart';
 import 'package:flutter/material.dart';

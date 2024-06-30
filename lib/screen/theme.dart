@@ -1,4 +1,3 @@
-import 'package:app_well_mate/components/shotcut.dart';
 import 'package:flutter/material.dart';
 
 class ThemeScreen extends StatelessWidget {

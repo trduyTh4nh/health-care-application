@@ -1,4 +1,4 @@
-import 'package:app_well_mate/screen/drugDetails.dart';
+import 'package:app_well_mate/screen/drug_details.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 

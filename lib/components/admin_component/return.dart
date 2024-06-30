@@ -1,6 +1,5 @@
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/main.dart';
-import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -202,12 +201,16 @@ class _ReturnPageState extends State<ReturnPage> {
                     (Map<String, dynamic> value) {
                       return DropdownMenuItem<Map<String, dynamic>>(
                         value: value,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            value['year'] as String,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Icon(Symbols.calendar_today),
+                            Text(
+                              value['year'] as String,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
                         ),
                       );
                     },
