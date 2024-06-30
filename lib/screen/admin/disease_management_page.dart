@@ -162,8 +162,8 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
               child: TabBarView(
                 controller: _tabController,
                 children: const [
-                   Bieudodichte(),
-                   Danhsachdichbenh(),
+                  Bieudodichte(),
+                  Danhsachdichbenh(),
                 ],
               ),
             ),

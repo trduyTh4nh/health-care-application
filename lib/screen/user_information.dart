@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:app_well_mate/screen/profile.dart';
+import 'package:app_well_mate/screen/edit_infomation_user.dart';
 
 class UserInformation extends StatefulWidget {
   const UserInformation({super.key});
@@ -22,13 +23,13 @@ class _UserInformationState extends State<UserInformation> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.all(10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Center(
                 child: CircleAvatar(
-                  radius: 50,
+                  radius: 70,
                   backgroundImage:
                       NetworkImage('https://i.giphy.com/BSx6mzbW1ew7K.webp'),
                 ),
@@ -76,7 +77,7 @@ class _UserInformationState extends State<UserInformation> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Thongtincanhan()));
+                                  builder: (context) => EditInfomationUser()));
                         },
                         child: const Text(
                           "Chỉnh sửa thông tin cá nhân",
@@ -116,6 +117,9 @@ class _UserInformationState extends State<UserInformation> {
                             style: Theme.of(context).textTheme.titleMedium),
                         Text(" toa")
                       ],
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                     Row(
                       children: [

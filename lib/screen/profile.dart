@@ -15,6 +15,7 @@ import 'login.dart';
 import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
 import 'package:app_well_mate/screen/user_information.dart';
+import 'package:app_well_mate/screen/edit_infomation_user.dart';
 
 class Thongtincanhan extends StatefulWidget {
   const Thongtincanhan({super.key});
@@ -257,7 +258,12 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
             ),
             const Divider(),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditInfomationUser()));
+              },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Row(
@@ -357,7 +363,6 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               ),
             ),
             const Divider(),
-
             Container(
               child: InkWell(
                 onTap: () {
