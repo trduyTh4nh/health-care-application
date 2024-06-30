@@ -1,4 +1,3 @@
-import 'package:app_well_mate/components/utilities_profile_widget.dart';
 import 'package:app_well_mate/screen/changeRePassword.dart';
 import 'package:app_well_mate/screen/drug_manage.dart';
 import 'package:app_well_mate/screen/ffmi.dart';
@@ -16,8 +15,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'login.dart';
-import 'package:app_well_mate/components/shotcut.dart';
-import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
 import 'package:app_well_mate/screen/user_information.dart';
 import 'package:app_well_mate/screen/edit_infomation_user.dart';
 

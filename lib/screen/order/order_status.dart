@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:app_well_mate/const/color_scheme.dart';
-import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/notification_model.dart';
 import 'package:app_well_mate/model/order_model.dart';
@@ -11,8 +8,7 @@ import 'package:app_well_mate/screen/order/func_order/index.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:app_well_mate/utils/util.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:material_symbols_icons/symbols.dart';
+
 
 class OrderStatus extends StatefulWidget {
   const OrderStatus({super.key, required this.notifiItem});
@@ -342,6 +338,7 @@ class _OrderStatusState extends State<OrderStatus> {
                               const SizedBox(
                                 height: 2,
                               ),
+                              // ignore: unnecessary_null_comparison
                               priceOfDrug != null
                                   ? Text(
                                       convertCurrency(priceOfDrug),

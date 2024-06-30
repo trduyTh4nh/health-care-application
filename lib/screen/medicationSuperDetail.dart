@@ -1,4 +1,3 @@
-import 'package:app_well_mate/utils/util.dart';
 import 'package:flutter/material.dart';
 class MedicationSuperDetail extends StatefulWidget {
   const MedicationSuperDetail({super.key});

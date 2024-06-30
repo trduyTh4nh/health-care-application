@@ -1,5 +1,3 @@
-import 'dart:ffi';
-import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -128,6 +126,7 @@ class _CartPageState extends State<CartPage> {
                   final drug = _findDrugById(item.idCart!);
 
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Container(
                         padding: const EdgeInsets.only(
@@ -171,34 +170,6 @@ class _CartPageState extends State<CartPage> {
                               ),
                             ),
                             const SizedBox(width: 8),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.grey[200],
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    iconSize: 15.0,
-                                    icon: const Icon(
-                                      Icons.arrow_back_ios_new_rounded,
-                                    ),
-                                    onPressed: () => _decrementQuantity(item),
-                                  ),
-                                  Text('${item.quantity}',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                  IconButton(
-                                    iconSize: 15.0,
-                                    icon: const Icon(
-                                        Icons.arrow_forward_ios_rounded),
-                                    onPressed: () => _incrementQuantity(item),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 8),
                             Text("Vỉ",
                                 style: Theme.of(context)
                                     .textTheme
@@ -208,6 +179,32 @@ class _CartPageState extends State<CartPage> {
                             IconButton(
                               icon: const Icon(Icons.delete),
                               onPressed: () => _removeItem(item),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: AppColors.greyColor,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              iconSize: 15.0,
+                              icon: const Icon(
+                                Icons.arrow_back_ios_new_rounded,
+                              ),
+                              onPressed: () => _decrementQuantity(item),
+                            ),
+                            Text('${item.quantity}',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold)),
+                            IconButton(
+                              iconSize: 15.0,
+                              icon: const Icon(Icons.arrow_forward_ios_rounded),
+                              onPressed: () => _incrementQuantity(item),
                             ),
                           ],
                         ),

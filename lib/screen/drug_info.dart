@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/components/time_item.dart';
 import 'package:app_well_mate/const/color_scheme.dart';

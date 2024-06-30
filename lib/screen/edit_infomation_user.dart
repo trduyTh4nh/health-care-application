@@ -1,4 +1,3 @@
-import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

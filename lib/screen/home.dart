@@ -13,10 +13,7 @@ import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
-
-import 'package:page_transition/page_transition.dart';
 import 'package:app_well_mate/screen/drug_cart.dart';
 
 class Home extends StatefulWidget {
