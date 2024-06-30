@@ -1,5 +1,4 @@
 import 'package:app_well_mate/main.dart';
-import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
 import 'package:flutter/material.dart';
 
 class Shortcut extends StatefulWidget {
@@ -18,13 +17,13 @@ class _ShortcutState extends State<Shortcut> {
     return InkWell(
       onTap: widget.onTap,
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: Column(
           children: [
             Container(
               decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary,
-                  borderRadius: BorderRadius.all(Radius.circular(50))),
+                  borderRadius: const BorderRadius.all(Radius.circular(50))),
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Icon(widget.icon, color: colorScheme.surface),

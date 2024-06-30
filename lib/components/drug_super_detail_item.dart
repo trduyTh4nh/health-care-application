@@ -1,7 +1,5 @@
 import 'package:app_well_mate/components/custom_elevated_button.dart';
-import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
-import 'package:app_well_mate/model/drug.dart';
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/screen/drug_info.dart';
 import 'package:flutter/material.dart';
@@ -60,11 +58,11 @@ class _DrugSuperDetailComponentState extends State<DrugSuperDetailComponent> {
                                   Container(
                                     decoration: BoxDecoration(
                                       color: accent,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(50)),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(50)),
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsets.all(16),
+                                      padding: const EdgeInsets.all(16),
                                       child: Icon(Symbols.pill,
                                           color: colorScheme.surface),
                                     ),

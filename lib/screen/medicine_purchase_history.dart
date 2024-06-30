@@ -18,17 +18,6 @@ class _MedicinePurchaseHistoryState extends State<MedicinePurchaseHistory> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: const Text("Đặt mua thuốc"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const NotificationPage()));
-            },
-            icon: const Icon(Symbols.notifications),
-          ),
-        ],
       ),
       body: const SingleChildScrollView(
         child: Padding(

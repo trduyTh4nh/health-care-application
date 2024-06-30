@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
 

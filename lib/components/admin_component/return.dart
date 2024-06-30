@@ -1,6 +1,5 @@
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/main.dart';
-import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
