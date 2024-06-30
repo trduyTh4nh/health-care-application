@@ -120,10 +120,10 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                     decoration: const InputDecoration(
                       hintText: 'Trần Thanh Duy',
                       hintStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w100,
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
                         fontStyle: FontStyle.normal,
-                        color: Color.fromARGB(255, 165, 165, 165),
+                        color:  Color.fromARGB(255, 206, 206, 206),
                       ),
                       contentPadding: EdgeInsetsDirectional.symmetric(
                           vertical: 10, horizontal: 0),
@@ -154,10 +154,10 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                     decoration: const InputDecoration(
                       hintText: 'thanhduy69@gmail.com',
                       hintStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w100,
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
                         fontStyle: FontStyle.normal,
-                        color: Color.fromARGB(255, 165, 165, 165),
+                        color:  Color.fromARGB(255, 206, 206, 206),
                       ),
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 0),
@@ -188,10 +188,10 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                       hintText:
                           '84 Thành Thái, Phường 10, Quận 10, TP. Hồ Chí Minh',
                       hintStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w100,
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
                         fontStyle: FontStyle.normal,
-                        color: Color.fromARGB(255, 165, 165, 165),
+                        color:  Color.fromARGB(255, 206, 206, 206),
                       ),
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 0),
@@ -221,10 +221,10 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                     decoration: const InputDecoration(
                       hintText: '0908291415',
                       hintStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w100,
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
                         fontStyle: FontStyle.normal,
-                        color: Color.fromARGB(255, 165, 165, 165),
+                        color:  Color.fromARGB(255, 206, 206, 206),
                       ),
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 0),
@@ -255,10 +255,10 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                       hintText: '65',
                       suffixText: 'kg',
                       hintStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w100,
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
                         fontStyle: FontStyle.normal,
-                        color: Color.fromARGB(255, 165, 165, 165),
+                        color:  Color.fromARGB(255, 206, 206, 206),
                       ),
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 0),
@@ -284,15 +284,15 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   TextField(
-                    controller: weightController,
+                    controller: heightController,
                     decoration: const InputDecoration(
                       hintText: '180',
                       suffixText: 'cm',
                       hintStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w100,
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
                         fontStyle: FontStyle.normal,
-                        color: Color.fromARGB(255, 165, 165, 165),
+                        color:  Color.fromARGB(255, 206, 206, 206),
                       ),
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 0),
@@ -326,10 +326,10 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                     decoration: const InputDecoration(
                       hintText: 'Chọn ngày sinh',
                       hintStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w100,
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
                         fontStyle: FontStyle.normal,
-                        color: Color.fromARGB(255, 165, 165, 165),
+                        color:  Color.fromARGB(255, 206, 206, 206),
                       ),
                       suffixIcon: Icon(Icons.calendar_month),
                       contentPadding:
