@@ -139,7 +139,7 @@ class _LoginByEmailState extends State<LoginByEmail> {
                               padding: const EdgeInsets.all(0),
                               shape: const CircleBorder(),
                               backgroundColor:
-                                  Color.fromARGB(255, 238, 238, 238)),
+                                  const Color.fromARGB(255, 238, 238, 238)),
                           child: ClipOval(
                             child: SvgPicture.asset(
                               'assets/images/google-color.svg',

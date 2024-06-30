@@ -92,14 +92,14 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                 ),
                 Text(
                   'Đăng kí ngày : 23-06-2024',
-                  style: Theme.of(context).textTheme.bodySmall,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const SizedBox(
                   height: 8,
                 ),
                 Text(
                   'Mã người dùng : 000043',
-                  style: Theme.of(context).textTheme.bodySmall,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
             ),
