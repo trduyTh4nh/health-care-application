@@ -1,5 +1,10 @@
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/model/drug_model.dart';
+import 'package:app_well_mate/model/prescription_detail_model.dart';
+import 'package:app_well_mate/providers/add_page_provider.dart';
+import 'package:app_well_mate/screen/drug/add_drug.dart';
+import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,6 +20,10 @@ class Drugdetails extends StatefulWidget {
 class _DrugdetailsState extends State<Drugdetails> {
   @override
   Widget build(BuildContext context) {
+    AddPageProvider prod = AddPageProvider();
+    prod.prescriptionDetail!.quantity = 1;
+    prod.prescriptionDetail!.drug =
+        DrugModel(name: "Paradol Extra", unit: "Viên");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -28,21 +37,6 @@ class _DrugdetailsState extends State<Drugdetails> {
                 color: colorScheme.onSurface,
               ),
             ),
-            const Spacer(),
-            Row(
-              children: [
-                IconButton(
-                  icon: const Badge(
-                      child: Icon(Symbols.deployed_code_history,
-                          color: Colors.black)),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.notifications, color: Colors.black),
-                ),
-              ],
-            )
           ],
         ),
       ),
@@ -102,7 +96,13 @@ class _DrugdetailsState extends State<Drugdetails> {
                       Expanded(
                         flex: 1,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MedicinesOrder(),
+                                ));
+                          },
                           child: Text('Mua'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primaryColor,
@@ -146,7 +146,13 @@ class _DrugdetailsState extends State<Drugdetails> {
                         // Add padding on the right
                         child: ElevatedButton(
                           onPressed: () {
-                            // Handle add to stock action
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AddDrugPage(
+                                    addPageProdiver: prod,
+                                  ),
+                                ));
                           },
                           child: Text(
                             'Thêm vào toa thuốc',

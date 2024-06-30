@@ -1,9 +1,13 @@
 import 'package:app_well_mate/components/utilities_profile_widget.dart';
 import 'package:app_well_mate/screen/changeRePassword.dart';
+import 'package:app_well_mate/screen/drug_manage.dart';
 import 'package:app_well_mate/screen/ffmi.dart';
 import 'package:app_well_mate/screen/imergencycall.dart';
+import 'package:app_well_mate/screen/medicine_purchase_history.dart';
+import 'package:app_well_mate/screen/info.dart';
 import 'package:app_well_mate/screen/notification.dart';
 import 'package:app_well_mate/screen/language.dart';
+import 'package:app_well_mate/screen/policy.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
 import 'package:app_well_mate/screen/revisit_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,16 +34,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Row(children: [
-          const CircleAvatar(
-            radius: 20,
-            backgroundImage:
-                NetworkImage('https://i.giphy.com/BSx6mzbW1ew7K.webp'),
-          ),
-          const SizedBox(
-            width: 12,
-          ),
-          InkWell(
+        title:InkWell(
               onTap: () {
                 Navigator.push(
                     context,
@@ -47,9 +42,24 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                       builder: (context) => const UserInformation(),
                     ));
               },
-              child: Text("Nguyễn Duy",
-                  style: Theme.of(context).textTheme.titleMedium)),
-        ]),
+              child: Row(children: [
+          Hero(
+            tag: "01",
+            child: const CircleAvatar(
+              radius: 20,
+              backgroundImage:
+                  NetworkImage('https://i.giphy.com/BSx6mzbW1ew7K.webp'),
+            ),
+          ),
+          const SizedBox(
+            width: 12,
+          ),
+          Hero(
+                tag: "02",
+                child: Text("Nguyễn Duy",
+                    style: Theme.of(context).textTheme.titleMedium),
+              ),
+        ])),
         actions: [
 //           Padding(
 //             padding: const EdgeInsets.all(8.0),
@@ -61,7 +71,12 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
 //         ],
           //KHÔNG ĐƯỢC CONST!!!!!
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MedicinePurchaseHistory()));
+              },
               icon: const Badge(
                   child: Icon(Symbols.deployed_code),
                   smallSize: 0 /*và 5*/,
@@ -242,7 +257,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const MedicinesOrder()));
+                        builder: (context) => const DrugManagePage()));
               },
               child: const Padding(
                 padding: EdgeInsets.symmetric(vertical: 16),
@@ -258,6 +273,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
             ),
             const Divider(),
             InkWell(
+
               onTap: () {
                 Navigator.push(
                     context,
@@ -278,6 +294,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
             ),
             const Divider(),
             InkWell(
+
               onTap: () {
                 Navigator.push(
                     context,
@@ -298,22 +315,13 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
             ),
             const Divider(),
             InkWell(
-              onTap: () {},
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset('assets/images/delete.svg'),
-                    const SizedBox(width: 16),
-                    const Text("Xóa tài khoản"),
-                  ],
-                ),
-              ),
-            ),
-            const Divider(),
-            InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Policy(),
+                    ));
+              },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Row(
@@ -327,21 +335,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
               ),
             ),
             const Divider(),
-            InkWell(
-              onTap: () {},
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset('assets/images/info.svg'),
-                    const SizedBox(width: 16),
-                    const Text("Thông tin ứng dụng"),
-                  ],
-                ),
-              ),
-            ),
-            const Divider(),
+            
             InkWell(
               onTap: () {
                 Navigator.push(
@@ -358,6 +352,24 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                     Icon(Symbols.language_chinese_array),
                     SizedBox(width: 16),
                     Text("Ngôn ngữ"),
+                  ],
+                ),
+              ),
+            ),
+            const Divider(),
+
+            InkWell(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const InfoPage(),));
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset('assets/images/info.svg'),
+                    const SizedBox(width: 16),
+                    const Text("Thông tin ứng dụng"),
                   ],
                 ),
               ),

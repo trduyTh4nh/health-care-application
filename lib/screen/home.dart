@@ -4,14 +4,20 @@ import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/screen/medicine_purchase_history.dart';
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/screen/notification.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
-import 'package:app_well_mate/screen/revisit_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
+
+import 'package:page_transition/page_transition.dart';
+import 'package:app_well_mate/screen/drug_cart.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -31,12 +37,19 @@ class _HomeState extends State<Home> {
             detail: PrescriptionDetailModel(
                 drug: DrugModel(name: "Paracetamol"),
                 quantity: Random().nextInt(100),
-                quantityUsed: Random().nextInt(10),
+                quantityUsed: Random().nextInt(100),
                 amountPerConsumption: Random().nextInt(10),
                 notes: "Trước khi ăn"),
           ));
   List<ScheduleDetailModel> expiredData = [];
   List<ScheduleDetailModel> upcomingData = [];
+  List<String> _banners = [
+    "banner1.json",
+    "banner2.json",
+    "banner3.json",
+    "dotorjson.json",
+    "fight_the_virus.json"
+  ];
   @override
   void initState() {
     expiredData = mockData
@@ -82,7 +95,22 @@ class _HomeState extends State<Home> {
           actions: [
             //KHÔNG ĐƯỢC CONST!!!!!
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CartPage()));
+                },
+                icon: Icon(
+                  Symbols.shopping_cart,
+                  size: 24,
+                )),
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const MedicinePurchaseHistory()));
+                },
                 icon: Badge(
                     child: Icon(Symbols.deployed_code),
                     smallSize: 0 /*và 5*/,
@@ -145,11 +173,9 @@ class _HomeState extends State<Home> {
                         )),
                         Expanded(
                             child: Shortcut(
-                          icon: Symbols.alarm,
-                          text: "Lịch tái khám",
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder:(context) => const RevisitPage(),));
-                          },
+                          icon: Symbols.pill,
+                          text: "Xem toa thuốc",
+                          onTap: () {},
                         )),
                       ],
                     ),
@@ -159,7 +185,7 @@ class _HomeState extends State<Home> {
                     endIndent: 20,
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -183,9 +209,9 @@ class _HomeState extends State<Home> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(
-                              "assets/images/prevent_gif.gif",
-                              height: 280,
+                            Lottie.asset(
+                              "assets/images/${_banners[Random().nextInt(_banners.length)]}",
+                              width: 380,
                             ),
                           ],
                         )

@@ -1,6 +1,8 @@
+import 'package:app_well_mate/screen/login.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -20,19 +22,16 @@ class _SignupState extends State<Signup> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Container(
+        child: Padding(
           padding: const EdgeInsets.all(4),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                child: SvgPicture.asset('assets/images/login_picture.svg'),
+                child: Lottie.asset('assets/images/fight_the_virus.json'),
                 alignment: Alignment.center,
                 width: double.infinity,
-                padding: const EdgeInsets.fromLTRB(0, 48, 0, 0),
-              ),
-              const SizedBox(
-                height: 64,
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               ),
               const Text(
                 "Đăng kí",
@@ -42,7 +41,7 @@ class _SignupState extends State<Signup> {
                 ),
               ),
               const SizedBox(
-                height: 32,
+                height: 8,
               ),
               Container(
                 padding:
@@ -166,8 +165,22 @@ class _SignupState extends State<Signup> {
                       ),
                     ),
                     const SizedBox(
-                      height: 24,
+                      height: 16,
                     ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder:(context) => const Login(),));
+                      },
+                      child: const Text(
+                        'Đăng nhập',
+                        style: TextStyle(
+                            color: AppColors.primaryColor,
+                            decoration: TextDecoration.underline,
+                            decorationColor: AppColors.primaryColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )
                   ],
                 ),
               )

@@ -1,9 +1,11 @@
 import 'package:app_well_mate/model/user.dart';
 import 'package:flutter/material.dart';
 
-class ItemUserProfile extends StatelessWidget {
+enum UserEditOption { delete, edit }
+
+class itemUserProfile extends StatelessWidget {
   User users;
-  ItemUserProfile({super.key, required this.users});
+  itemUserProfile({super.key, required this.users});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +13,7 @@ class ItemUserProfile extends StatelessWidget {
     final sizeWidht = MediaQuery.of(context).size.width;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Container(
+      child: SizedBox(
         height: sizeHeight * 0.15,
         width: sizeWidht,
         child: Column(
@@ -67,7 +69,14 @@ class ItemUserProfile extends StatelessWidget {
                     )
                   ],
                 ),
-                Icon(Icons.more_horiz),
+                PopupMenuButton(
+                  itemBuilder: (context) => const [
+                    PopupMenuItem(
+                        value: UserEditOption.edit, child: Text("Chỉnh sửa")),
+                    PopupMenuItem(
+                        value: UserEditOption.delete, child: Text("Xóa")),
+                  ],
+                )
               ],
             ),
             const Divider(),
@@ -82,14 +91,14 @@ class ItemUserProfile extends StatelessWidget {
 Widget _loadImage(String? imgUrl) {
   if (imgUrl == null || imgUrl.isEmpty) {
     // Nếu URL hình ảnh không hợp lệ, sử dụng một placeholder
-    return Icon(Icons.image_not_supported);
+    return const Icon(Icons.image_not_supported);
   } else if (imgUrl.startsWith('http') || imgUrl.startsWith('https')) {
     // Sử dụng Image.network nếu đó là một URL hợp lệ
     return Image.network(
       imgUrl,
       errorBuilder: (context, error, stackTrace) {
         // Hiển thị một icon placeholder nếu có lỗi xảy ra khi tải hình ảnh
-        return Icon(Icons.image_not_supported);
+        return const Icon(Icons.image_not_supported);
       },
     );
   } else {

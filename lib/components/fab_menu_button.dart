@@ -1,4 +1,5 @@
 import 'package:app_well_mate/components/fab_vertical_delegate.dart';
+import 'package:app_well_mate/screen/drug/add_drug.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class _FabMenuButtonState extends State<FabMenuButton>
     super.initState();
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 250),
+      duration: const Duration(milliseconds: 250),
     );
   }
 
@@ -51,19 +52,16 @@ class _FabMenuButtonState extends State<FabMenuButton>
           onPressed: () => toggleMenu(),
         ),
         FloatingActionButton(
-          onPressed: () {},
-          child: Icon(Icons.roundabout_left),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder:(context) => const AddDrugPage(),));
+          },
           backgroundColor: actionButtonColor,
+          child: const Icon(Icons.add),
         ),
         FloatingActionButton(
           onPressed: () {},
-          child: Icon(Icons.back_hand),
           backgroundColor: actionButtonColor,
-        ),
-        FloatingActionButton(
-          onPressed: () {},
-          child: Icon(Icons.cabin),
-          backgroundColor: actionButtonColor,
+          child: const Icon(Icons.shopping_cart_outlined),
         ),
       ],
     );

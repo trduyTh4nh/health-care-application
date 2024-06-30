@@ -102,7 +102,6 @@ class _AddDrugInfoPageState extends State<AddDrugInfoPage> {
                 onChanged: (v) {
                   value.prescriptionDetail!.quantity =
                       int.tryParse(quantityController.text);
-
                   value.checkIsDrugValid();
                 },
               ),

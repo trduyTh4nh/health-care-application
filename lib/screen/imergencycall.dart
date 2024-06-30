@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 
 class emergencycall extends StatefulWidget {
   const emergencycall({super.key});
@@ -18,7 +19,7 @@ class _emergencycallState extends State<emergencycall> {
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
-        padding: EdgeInsets.all(15),
+        padding: EdgeInsets.all(18),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -26,12 +27,11 @@ class _emergencycallState extends State<emergencycall> {
             Column(
               children: [
                 Container(
-                  child: SvgPicture.asset('assets/images/emergency.svg'),
+                  width: 250,
+                  child: Lottie.asset('assets/images/customer_service.json'),
                   alignment: Alignment.center,
                 ),
-                SizedBox(
-                  height: 12,
-                ),
+               
                 Padding(
                     padding: EdgeInsets.zero,
                     child: Text("Gọi khẩn cấp",
@@ -48,22 +48,31 @@ class _emergencycallState extends State<emergencycall> {
             InkWell(
               onTap: () {},
               child: Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0xffFF7D7D),
-                ),
-                child: Center(
-                  child: Text(
-                    "Gọi khẩn cấp",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+                child: Lottie.asset('assets/images/sos.json'),
+                alignment: Alignment.center,
+                width: 350,
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               ),
             ),
+            // InkWell(
+            //   onTap: () {},
+            //   child: Container(
+            //     width: 150,
+            //     height: 150,
+            //     decoration: BoxDecoration(
+            //       shape: BoxShape.circle,
+            //       color: Color(0xffFF7D7D),
+            //     ),
+            //     child: Center(
+            //       child: Text(
+            //         "Gọi khẩn cấp",
+            //         style: TextStyle(
+            //             color: Colors.white, fontWeight: FontWeight.bold),
+            //         textAlign: TextAlign.center,
+            //       ),
+            //     ),
+            //   ),
+            // ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
@@ -71,7 +80,7 @@ class _emergencycallState extends State<emergencycall> {
                 child: Text(
                     "Bệnh viện: Bệnh viện Đại học Y Dược Thành phố Hồ Chí Minh",
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.labelSmall),
+                    style: Theme.of(context).textTheme.bodyMedium),
               ),
             ),
           ],

@@ -11,7 +11,7 @@ class PrescriptionModel {
   int? idPre;
   DateTime? createdDate;
   DateTime? revisitDate; //ngày tái khám
-  String? roomRevisit;
+  String? roomRevisit; // phòng tái khám
   String? doctorName;
   String? status;
   int? idUser;
@@ -28,7 +28,6 @@ class PrescriptionModel {
       this.doctorName,
       this.status,
       this.prescriptionDetails,
-
       this.revisitDate,
       this.hospital,
       this.roomRevisit});
@@ -180,17 +179,22 @@ class PrescriptionModel {
 List<PrescriptionModel> generateSamplePrescriptions() {
   return [
     PrescriptionModel(
-      idPre: 3001,
+      idPre: 1,
       idUser: 101,
       idHospital: 201,
       createdDate: DateTime.now(),
       doctorName: "Dr. John Doe",
       status: "active",
+      revisitDate: DateTime.now(),
+      roomRevisit: "A91",
       hospital: HospitalModel(
-        idHospital: 201,
-        name: "General Hospital",
-        address: "123 Main St",
-        phone: "123-456-7890",
+        idHospital: 100,
+        name: "Phòng khám đa khoa bệnh viện Đại Học Y Dược",
+        address: "413, Điện Biên Phủ, Phường 10, Quận 3",
+        phone: "0988362384",
+        createdDate: DateTime.now(),
+        contactInformation: "bsdhyd@gmail.com",
+        avatars: "https://upload.wikimedia.org/wikipedia/vi/thumb/4/42/Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_Y_D%C6%B0%E1%BB%A3c%2C_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_Hu%E1%BA%BF.svg/1024px-Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_Y_D%C6%B0%E1%BB%A3c%2C_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_Hu%E1%BA%BF.svg.png"
       ),
       prescriptionDetails: [
         PrescriptionDetailModel(
@@ -223,7 +227,7 @@ List<PrescriptionModel> generateSamplePrescriptions() {
         PrescriptionDetailModel(
           idPreDetail: 1004,
           idDrug: 105,
-          idPre: 2,
+          idPre: 3001,
           notes: "After meals",
           quantity: 90,
           quantityUsed: 3,
@@ -232,7 +236,7 @@ List<PrescriptionModel> generateSamplePrescriptions() {
       ],
     ),
     PrescriptionModel(
-      idPre: 3002,
+      idPre: 1002,
       idUser: 102,
       idHospital: 202,
       createdDate: DateTime.now().subtract(Duration(days: 1)),
