@@ -1,13 +1,11 @@
 import 'package:app_well_mate/components/fab_menu_button.dart';
-import 'package:app_well_mate/components/medication_fab.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
-import 'package:app_well_mate/screen/drug/add_drug.dart';
 import 'package:app_well_mate/screen/drug/schedule_pages/all_drug.dart';
 import 'package:app_well_mate/screen/drug/schedule_pages/drug_done.dart';
 import 'package:app_well_mate/screen/drug/schedule_pages/drug_today.dart';
 import 'package:flutter/material.dart';
 import 'package:app_well_mate/model/prescription_model.dart';
-import 'medicationDetail.dart';
+
 
 class MedicationPage extends StatefulWidget {
   const MedicationPage({super.key});

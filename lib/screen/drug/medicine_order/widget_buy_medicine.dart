@@ -1,4 +1,4 @@
-import 'package:app_well_mate/screen/drugDetails.dart';
+import 'package:app_well_mate/screen/drug_details.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -12,27 +12,18 @@ class WidgetBuyMedicine extends StatefulWidget {
 }
 
 class _WidgetBuyMedicine extends State<WidgetBuyMedicine> {
-  bool isChecked = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            child: Row(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    Checkbox(
-                      value: isChecked,
-                      activeColor: Colors.blue,
-                      onChanged: (value) {
-                        setState(() {
-                          isChecked = value!;
-                        });
-                      },
-                    ),
                     const CircleAvatar(
                       radius: 20,
                       backgroundImage: NetworkImage(
@@ -84,12 +75,9 @@ class _WidgetBuyMedicine extends State<WidgetBuyMedicine> {
                 ),
               ],
             ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 28),
-            child: Divider(),
-          )
-        ],
+            const Divider()
+          ],
+        ),
       ),
     );
   }

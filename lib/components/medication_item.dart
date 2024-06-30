@@ -200,12 +200,21 @@ class _MedicationItemState extends State<MedicationItem> {
                                         context: context,
                                         builder: (context) =>
                                             AlertDialog.adaptive(
-                                              title: const Text("Xoá thuốc này"),
+                                              title:
+                                                  const Text("Xoá thuốc này"),
                                               content: Text(
                                                   "Bạn có muốn xoá thuốc ${widget.prescription.detail!.drug!.name} không?"),
                                               actions: [
-                                                TextButton(onPressed: () {Navigator.pop(context);}, child: const Text("Có")),
-                                                TextButton(onPressed: () {Navigator.pop(context);}, child: const Text("Không"))
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text("Có")),
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text("Không"))
                                               ],
                                             ));
                                     break;
@@ -311,14 +320,18 @@ class _MedicationItemState extends State<MedicationItem> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    const Row(
-                                      children: [
-                                        Icon(Symbols.emergency_home),
-                                        SizedBox(
-                                          width: 16,
-                                        ),
-                                        Text("Đã hết thuốc, hãy mua thêm"),
-                                      ],
+                                    const Expanded(
+                                      child: const Row(
+                                        children: [
+                                          Icon(Symbols.emergency_home),
+                                          SizedBox(
+                                            width: 16,
+                                          ),
+                                          Expanded(
+                                              child: Text(
+                                                  "Đã hết thuốc, hãy mua thêm")),
+                                        ],
+                                      ),
                                     ),
                                     IconButton(
                                         onPressed: () {

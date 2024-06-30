@@ -1,4 +1,3 @@
-import 'package:app_well_mate/model/disease_model.dart';
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/hospital_model.dart';
 import 'package:app_well_mate/model/prescription_detail_model.dart'; // Import PrescriptionDetailModel
@@ -179,7 +178,7 @@ class PrescriptionModel {
 List<PrescriptionModel> generateSamplePrescriptions() {
   return [
     PrescriptionModel(
-      idPre: 1,
+      idPre: 1001,
       idUser: 101,
       idHospital: 201,
       createdDate: DateTime.now(),

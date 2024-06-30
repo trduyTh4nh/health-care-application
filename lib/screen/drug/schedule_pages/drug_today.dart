@@ -60,6 +60,7 @@ class _DrugTodayState extends State<DrugToday> with AutomaticKeepAliveClientMixi
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
