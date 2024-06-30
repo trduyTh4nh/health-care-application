@@ -206,15 +206,10 @@ class _HomeState extends State<Home> {
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const Text("Hãy giữ gìn sức khoẻ nhé!"),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _banners[Random().nextInt(_banners.length)] != null ? 
-                              Lottie.asset(
-                                "assets/images/${_banners[Random().nextInt(_banners.length)]}",
-                                width: 380,
-                              ) : const CircularProgressIndicator()
-                            ])
+                        Lottie.asset(
+                            "assets/images/${_banners[Random().nextInt(_banners.length)]}",
+                          ),
+                        
                       ],
                     ),
                   ),
