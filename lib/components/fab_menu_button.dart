@@ -1,5 +1,6 @@
 import 'package:app_well_mate/components/fab_vertical_delegate.dart';
 import 'package:app_well_mate/screen/drug/add_drug.dart';
+import 'package:app_well_mate/screen/drug_cart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -62,7 +63,10 @@ class _FabMenuButtonState extends State<FabMenuButton>
         ),
         FloatingActionButton(
           heroTag: "3",
-          onPressed: () {},
+          onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder:(context) => const CartPage(),));
+
+          },
           backgroundColor: actionButtonColor,
           child: const Icon(Icons.shopping_cart_outlined),
         ),

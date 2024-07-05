@@ -1,9 +1,5 @@
 import 'package:app_well_mate/const/color_scheme.dart';
 
-import 'package:app_well_mate/const/current_page.dart';
-import 'package:app_well_mate/screen/drug_cart.dart';
-import 'package:app_well_mate/screen/ffmi.dart';
-import 'package:app_well_mate/screen/medicationDetail.dart';
 import 'package:app_well_mate/screen/home.dart';
 import 'package:app_well_mate/screen/login.dart';
 import 'package:app_well_mate/screen/medication.dart';
@@ -11,6 +7,7 @@ import 'package:app_well_mate/screen/profile.dart';
 import 'package:app_well_mate/screen/scan.dart';
 import 'package:app_well_mate/screen/search.dart';
 import 'package:app_well_mate/screen/theme.dart';
+import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -70,6 +67,10 @@ class _MainAppState extends State<MainApp> {
                     }
                     return 0;
                   })),
+            ),
+            dividerTheme: const DividerThemeData(
+              color: AppColors.greyColor,
+              thickness: 1,
             ),
             iconButtonTheme: IconButtonThemeData(
                 style: ButtonStyle(

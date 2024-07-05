@@ -31,7 +31,7 @@ class LanguageItem extends StatelessWidget {
                         child: SizedBox(
                             width: 24,
                             height: 24,
-                            child: Center(child: Text(data.flag ?? "🇺🇳"))),
+                            child: Center(child: Text(data.flag ?? "🇺🇳", style: Theme.of(context).textTheme.titleLarge,))),
                       ),
                     ),
                     const SizedBox(

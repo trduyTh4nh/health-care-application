@@ -1,5 +1,6 @@
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/payment_model.dart';
+import 'package:app_well_mate/screen/transaction_detail.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -14,12 +15,15 @@ class TransactionHistoryItem extends StatefulWidget {
 
 class _TransactionHistoryItemState extends State<TransactionHistoryItem> {
   DateFormat format = DateFormat("dd/MM/yyyy HH:mm");
+  NumberFormat numFormat = NumberFormat("##,###.##");
   late Color primaryColor =
       widget.data.status! ? AppColors.primaryColor : colorScheme.error;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (c) => TransactionDetail()));
+      },
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Row(
@@ -60,7 +64,7 @@ class _TransactionHistoryItemState extends State<TransactionHistoryItem> {
                           ),
                           Text(
                               "${widget.data.order!.orderDetailList!.length} thuốc • ${widget.data.paymentMethod}"),
-                          Text("${widget.data.totalMoney}"),
+                          Text("${numFormat.format(widget.data.totalMoney)} ₫"),
                         ],
                       ),
                     )
