@@ -32,7 +32,8 @@ class _WidgetPrescriptionstatusCancelMedicine
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
-                Icon(Icons.ac_unit_outlined),
+                const SizedBox(
+                    width: 24, height: 24, child: CircularProgressIndicator()),
                 SizedBox(
                   width: 15,
                 ),
@@ -95,16 +96,6 @@ class _WidgetPrescriptionstatusCancelMedicine
                                   ),
                                 ],
                               ),
-                              PopupMenuButton(
-                                style: Theme.of(context).iconButtonTheme.style,
-                                itemBuilder: (context) => const [
-                                  PopupMenuItem(
-                                      value: MedicationItemAction.delete,
-                                      child: ListTile(
-                                          leading: Icon(Symbols.delete),
-                                          title: Text("Xoá thuốc này"))),
-                                ],
-                              ),
                             ],
                           ),
                           const Divider(),
@@ -165,30 +156,10 @@ class _WidgetPrescriptionstatusCancelMedicine
                     ],
                   ),
                   Text("Địa chỉ giao hàng"),
-                  Container(
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              width: sizeWight * 1.9 / 3,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "100 đường Example, Thành phố Hồ Chí Minh, Việt Nam",
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                  Text(
+                    "100 đường Example, Thành phố Hồ Chí Minh, Việt Nam",
+                    style:
+                        Theme.of(context).textTheme.titleMedium,
                   ),
                   Text(
                     "Tổng tiền",
