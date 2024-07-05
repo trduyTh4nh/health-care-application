@@ -2,7 +2,7 @@ import 'package:app_well_mate/main.dart';
 import 'package:flutter/material.dart';
 
 class Shortcut extends StatefulWidget {
-  Shortcut(
+  const Shortcut(
       {super.key, required this.icon, required this.text, required this.onTap});
   final IconData icon;
   final String text;
@@ -25,7 +25,7 @@ class _ShortcutState extends State<Shortcut> {
                   color: Theme.of(context).colorScheme.primary,
                   borderRadius: const BorderRadius.all(Radius.circular(50))),
               child: Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(12),
                 child: Icon(widget.icon, color: colorScheme.surface),
               ),
             ),

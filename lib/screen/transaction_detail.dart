@@ -1,5 +1,6 @@
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/screen/drug/medicine_order/widget_prescriptionstatus_cancel_medicine.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -138,7 +139,9 @@ class TransactionDetail extends StatelessWidget {
                       iconSize: 24,
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (c) => const WidgetPrescriptionstatusCancelMedicine()));
+                      },
                       icon: const Icon(Symbols.arrow_right_alt),
                       iconSize: 24,
                     ),
