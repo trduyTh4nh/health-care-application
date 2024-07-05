@@ -1,3 +1,4 @@
+import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
@@ -29,7 +30,10 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Row(
                       children: [
-                        const Icon(Icons.ac_unit_outlined),
+                        SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator()),
                         const SizedBox(
                           width: 15,
                         ),
@@ -94,17 +98,6 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
                                       ),
                                     ],
                                   ),
-                                  PopupMenuButton(
-                                    style:
-                                        Theme.of(context).iconButtonTheme.style,
-                                    itemBuilder: (context) => const [
-                                      PopupMenuItem(
-                                          value: MedicationItemAction.delete,
-                                          child: ListTile(
-                                              leading: Icon(Symbols.delete),
-                                              title: Text("Xoá thuốc này"))),
-                                    ],
-                                  ),
                                 ],
                               ),
                               const Divider(),
@@ -159,54 +152,14 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
                           )
                         ],
                       ),
-                      PopupMenuButton(
-                        style: Theme.of(context).iconButtonTheme.style,
-                        itemBuilder: (context) => const [
-                          PopupMenuItem(
-                              value: MedicationItemAction.delete,
-                              child: ListTile(
-                                  leading: Icon(Symbols.delete),
-                                  title: Text("Xoá thẻ này"))),
-                        ],
-                      ),
+                      
                     ],
                   ),
                   Text("Địa chỉ giao hàng"),
-                  Container(
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              width: sizeWight * 1.9 / 3,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "100 đường Example, Thành phố Hồ Chí Minh, Việt Nam",
-                                    overflow: TextOverflow.ellipsis,
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        PopupMenuButton(
-                          style: Theme.of(context).iconButtonTheme.style,
-                          itemBuilder: (context) => const [
-                            PopupMenuItem(
-                                value: MedicationItemAction.delete,
-                                child: ListTile(
-                                    leading: Icon(Symbols.delete),
-                                    title: Text("Xoá địa chỉ này"))),
-                          ],
-                        ),
-                      ],
-                    ),
+                  Text(
+                    "100 đường Example, Thành phố Hồ Chí Minh, Việt Nam",
+                    style:
+                        Theme.of(context).textTheme.titleMedium,
                   )
                 ],
               ),

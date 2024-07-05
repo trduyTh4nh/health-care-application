@@ -35,6 +35,7 @@ class _ScanPageState extends State<ScanPage> with WidgetsBindingObserver {
                 setState(() {
                   if (res is String) {
                     result = res;
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("RESULT: $result")));
                     log("RESULT $result");
                   }
                 });
