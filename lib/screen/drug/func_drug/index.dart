@@ -3,11 +3,10 @@ import 'package:app_well_mate/model/schedule_detail_model.dart';
 
 // fake API fetch
 
-//GET
+//GET //Nhớ Future
 // tìm thuốc thông qua id thuốc của đơn thuốc chi tiết
 DrugModel? findDrugByIdPrescriptionDetail(int idDrug) {
   List<DrugModel> listDrug = generateSampleDrugs();
-
   try {
     DrugModel result = listDrug.firstWhere((drug) => drug.idDrug == idDrug);
     return result;

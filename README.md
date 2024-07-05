@@ -10,9 +10,9 @@
 
 ## Tiến độ
 
-![](https://geps.dev/progress/1)\
+![](https://geps.dev/progress/10)
 
-1% - Đang xây dựng các màn hình
+10% - Tạm xong màn hình
 ## Credits
 - Trần Duy Thanh (trDuyTh4nh)
 - Nguyễn Đức Vinh (BlackHerro)

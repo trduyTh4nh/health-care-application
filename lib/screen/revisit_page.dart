@@ -16,7 +16,7 @@ class _RevisitPageState extends State<RevisitPage> {
   final List<PrescriptionModel> _schedules = List.generate(
       20,
       (e) => PrescriptionModel(
-          idPre: e,
+          idPre: 1001,
           idUser: 0,
           idHospital: 0,
           revisitDate:
