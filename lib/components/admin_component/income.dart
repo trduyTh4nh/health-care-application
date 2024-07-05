@@ -60,51 +60,55 @@ class _IncomePageState extends State<IncomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        height: 40,
-                        decoration: BoxDecoration(
-                            // color: const Color.fromARGB(255, 200, 211, 230),
-                            borderRadius: BorderRadius.circular(6),
-                            border: Border.all(
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          height: 40,
+                          decoration: BoxDecoration(
+                              // color: const Color.fromARGB(255, 200, 211, 230),
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                  color: totalUpPercent > 0
+                                      ? Colors.greenAccent
+                                      : Colors.redAccent,
+                                  width: 2)),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                totalUpPercent > 0
+                                    ? Symbols.arrow_upward_alt
+                                    : Symbols.arrow_downward_alt,
                                 color: totalUpPercent > 0
                                     ? Colors.greenAccent
                                     : Colors.redAccent,
-                                width: 2)),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              totalUpPercent > 0
-                                  ? Symbols.arrow_upward_alt
-                                  : Symbols.arrow_downward_alt,
-                              color: totalUpPercent > 0
-                                  ? Colors.greenAccent
-                                  : Colors.redAccent,
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            Text(
-                              "$totalUpPercent%",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                      color: AppColors.primaryColor,
-                                      fontWeight: FontWeight.bold),
-                            )
-                          ],
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              Text(
+                                "$totalUpPercent%",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                        color: AppColors.primaryColor,
+                                        fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(" ${checkPercent(totalUpPercent)} so với năm ngoái",
-                          style: Theme.of(context).textTheme.bodyMedium)
-                    ],
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: Text("${checkPercent(totalUpPercent)} so với năm ngoái",
+                              style: Theme.of(context).textTheme.bodyMedium),
+                        )
+                      ],
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 0),

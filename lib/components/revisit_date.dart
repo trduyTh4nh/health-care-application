@@ -1,8 +1,11 @@
 import 'package:app_well_mate/components/custom_elevated_button.dart';
 import 'package:app_well_mate/components/medication_detail_item.dart';
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/model/notification_model.dart';
 import 'package:app_well_mate/model/prescription_model.dart';
+import 'package:app_well_mate/screen/admin/hospital_detail.dart';
 import 'package:app_well_mate/screen/drug_info.dart';
+import 'package:app_well_mate/screen/hospital_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -48,7 +51,7 @@ class _RevisitDateState extends State<RevisitDate> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const DrugInfoPage(),
+                  builder: (context) => HospitalDetailPage(notifiItem: NotificationModel(idDonThuocCT: widget.prescription.idPre),),
                 ));
           },
           child: Padding(

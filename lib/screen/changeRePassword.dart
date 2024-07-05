@@ -29,13 +29,11 @@ class _ChangerepasswordState extends State<Changerepassword> {
           Expanded(
             child: SingleChildScrollView(
               child: Container(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 40),
-
                     // Thêm hình ảnh
                     Center(
                       child: SvgPicture.asset(
@@ -154,8 +152,6 @@ class _ChangerepasswordState extends State<Changerepassword> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 32),
-
                     // Nút Cập nhật
                   ],
                 ),
