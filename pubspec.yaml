@@ -27,6 +27,7 @@ dependencies:
   url_launcher: ^6.3.0
   animated_custom_dropdown: ^1.0.0
   blur: ^4.0.0
+  flutter_local_notifications: ^17.2.1
  
 
 flutter_launcher_icons:
