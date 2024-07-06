@@ -82,7 +82,6 @@ class _MainAppState extends State<MainApp> {
                   GoogleFonts.inter(fontWeight: FontWeight.bold)),
               backgroundColor: WidgetStateProperty.all(colorScheme.surfaceDim),
               foregroundColor: WidgetStateProperty.all(colorScheme.onSurface),
-              
               minimumSize: WidgetStateProperty.all(const Size(40, 50)),
               shape: WidgetStateProperty.all(const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(16)))),
@@ -164,7 +163,6 @@ class _MainAppState extends State<MainApp> {
                     borderSide: BorderSide(color: AppColor.darkerGray)))),
         debugShowCheckedModeBanner: false,
         home: const Login());
-
   }
 }
 

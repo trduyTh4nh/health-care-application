@@ -1,5 +1,6 @@
 import 'package:app_well_mate/components/bottomTitleWidgets.dart';
 import 'package:app_well_mate/components/leftTitleWidgets.dart';
+import 'package:app_well_mate/main.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class _BieudodichteState extends State<Bieudodichte>
     with TickerProviderStateMixin {
   String dropdownValue01 = 'Sốt xuất huyết';
   List<Color> gradientColors = [
-    Colors.blue,
+    colorScheme.primary,
     Colors.white,
   ];
   @override
@@ -27,6 +28,14 @@ class _BieudodichteState extends State<Bieudodichte>
       'Ngứa',
       'Đậu Mùa'
     ];
+
+    Map<String, List<double>> diseaseData = {
+      'Sốt xuất huyết': [0, 4, 5, 6, 2, 7, 1, 1, 4, 7, 4.2, 1, 5],
+      'Cảm': [0, 3, 4, 6, 7, 5, 3, 2, 2.1, 3, 4, 7, 3],
+      'Ngứa': [0, 3, 5, 7, 6, 4, 6, 3, 2, 5, 6, 1, 2],
+      'Đậu Mùa': [0, 6, 4, 3, 7, 3, 4.3, 2, 1, 3, 5, 6, 3],
+    };
+
     return Column(
       children: [
         Padding(
@@ -119,26 +128,15 @@ class _BieudodichteState extends State<Bieudodichte>
                 lineBarsData: [
                   // nơi lấy dữ liệu cho biểu đồ
                   LineChartBarData(
-                    spots: const [
-                      FlSpot(0, 3),
-                      FlSpot(1, 2.1),
-                      FlSpot(2, 3),
-                      FlSpot(3, 6),
-                      FlSpot(4, 7.3),
-                      FlSpot(5, 1.3),
-                      FlSpot(6, 4),
-                      FlSpot(7, 0.6),
-                      FlSpot(8, 2),
-                      FlSpot(9, 1),
-                      FlSpot(10, 3),
-                      FlSpot(11, 5.5),
-                      FlSpot(12, 2.6),
-                    ],
+                    spots: List.generate(
+                        13,
+                        (index) => FlSpot(index.toDouble(),
+                            diseaseData[dropdownValue01]![index])),
                     isCurved: true,
                     // gradient: LinearGradient(
                     //   colors: gradientColors,
                     // ),
-                    color: Colors.blue[400],
+                    color: colorScheme.primary,
                     barWidth: 5,
                     isStrokeCapRound: true,
                     dotData: const FlDotData(
@@ -149,7 +147,7 @@ class _BieudodichteState extends State<Bieudodichte>
                       gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
-                          stops: [0.7, 1],
+                          stops: const [0.7, 1],
                           colors: gradientColors
                               .map((Color color) => color.withOpacity(0.7))
                               .toList()),
