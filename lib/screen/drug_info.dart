@@ -61,9 +61,8 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
     listScheduleDetail = prescriptionDetail!.idPreDetail != null
         ? findScheduleDetail(prescriptionDetail!.idPreDetail!)
         : null;
-  
+
     renderListSchedule();
-    
 
     // handle controller
     _controller.addListener(() {
@@ -547,7 +546,6 @@ void updateElement(int id, ScheduleDetailModel updatedModel) {
     print("Element with ID $id not found in the list.");
   }
 }
-
 
 Widget timerWidget() {
   return Container(

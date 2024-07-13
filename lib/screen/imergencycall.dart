@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EmergencyCall extends StatelessWidget {
   const EmergencyCall({super.key});
+
+  void launPhoneDialer(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launchUrl(launchUri);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,18 +39,30 @@ class EmergencyCall extends StatelessWidget {
                   Padding(
                       padding: const EdgeInsets.all(12),
                       child: Text(
-                          "Ấn nút dưới đây trong 5 giây để gọi khẩn cấp đến bệnh viện của bạn",
+                          "Ấn nút dưới đây trong 3 giây để gọi khẩn cấp đến bệnh viện của bạn",
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.labelSmall)),
                 ],
               ),
-              InkWell(
-                onTap: () {},
+              // InkWell(
+              //   onTap: () {},
+              //   borderRadius: BorderRadius.circular(200),
+              //   child: Container(
+              //     child: Lottie.asset('assets/images/sos.json'),
+              //     alignment: Alignment.center,
+              //     width: 350,
+              //     padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+              //   ),
+              // ),
+              GestureDetector(
+                onLongPress: () {
+                  launPhoneDialer('0902832040');
+                },
                 child: Container(
                   child: Lottie.asset('assets/images/sos.json'),
                   alignment: Alignment.center,
                   width: 350,
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  padding: const EdgeInsets.all(0),
                 ),
               ),
               Align(
