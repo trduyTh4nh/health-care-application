@@ -13,7 +13,8 @@ class DrugDone extends StatefulWidget {
   State<DrugDone> createState() => _DrugDoneState();
 }
 
-class _DrugDoneState extends State<DrugDone> with AutomaticKeepAliveClientMixin<DrugDone> {
+class _DrugDoneState extends State<DrugDone>
+    with AutomaticKeepAliveClientMixin<DrugDone> {
   List<ScheduleDetailModel> mockData = List.generate(
       10,
       (e) => ScheduleDetailModel(
@@ -29,18 +30,21 @@ class _DrugDoneState extends State<DrugDone> with AutomaticKeepAliveClientMixin<
                 amountPerConsumption: Random().nextInt(10),
                 notes: "Trước khi ăn"),
           ));
-          @override
+  @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
   @override
   // ignore: must_call_super
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: EdgeInsets.only(bottom: 20+16 + 32),
+      padding: const EdgeInsets.only(bottom: 20 + 16 + 32),
       itemCount: mockData.length,
       itemBuilder: (context, index) =>
           MedicationItem(prescription: mockData[index]),
-      separatorBuilder: (context, index) => Divider(indent: 20, endIndent: 20,),
+      separatorBuilder: (context, index) => const Divider(
+        indent: 20,
+        endIndent: 20,
+      ),
     );
   }
 }
