@@ -12,3 +12,11 @@ class API {
 
   Dio get sendRequest => _dio;
 }
+Map<String, dynamic> header(String token) {
+    return {
+      "Access-Control-Allow-Origin": "*",
+      'Content-Type': 'application/json',
+      'Accept': '*/*',
+      'Authorization': 'Bearer $token'
+    };
+  }

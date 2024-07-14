@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:app_well_mate/api/drug/drug_repo.dart';
 import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/const/functions.dart';
@@ -27,6 +28,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  DrugRepo repo = DrugRepo();
   List<ScheduleDetailModel> mockData = List.generate(
       10,
       (e) => ScheduleDetailModel(
@@ -57,6 +59,7 @@ class _HomeState extends State<Home> {
   ];
   @override
   void initState() {
+    repo.getSchedule();
     expiredData = mockData
         .where((e) => toSecond(e.timeOfUse!) < toSecond(TimeOfDay.now()))
         .toList();
