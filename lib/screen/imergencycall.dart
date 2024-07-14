@@ -36,7 +36,7 @@ class EmergencyCall extends StatelessWidget {
                 ],
               ),
               InkWell(
-                onTap: () {},
+                onTap: () async {},
                 child: Container(
                   child: Lottie.asset('assets/images/sos.json'),
                   alignment: Alignment.center,
