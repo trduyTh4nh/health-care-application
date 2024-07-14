@@ -14,7 +14,6 @@ import 'package:app_well_mate/screen/notification.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
 import 'package:app_well_mate/screen/revisit_page.dart';
 import 'package:app_well_mate/screen/scan.dart';
-import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -36,8 +35,13 @@ class _HomeState extends State<Home> {
             timeOfUse: TimeOfDay(
                 hour: Random().nextInt(24), minute: Random().nextInt(60)),
             detail: PrescriptionDetailModel(
-                drug: DrugModel(name: "Paracetamol"),
-                quantity: Random().nextInt(100),
+                drug: DrugModel(
+                    unit: "hộp",
+                    name: "Paracetamol",
+                    drugImage:
+                        "https://cdn.tgdd.vn/Products/Images/10244/129157/panadol-extra-600x600.jpg",
+                    price: 23000),
+                quantity: 1,
                 quantityUsed: Random().nextInt(100),
                 amountPerConsumption: Random().nextInt(10),
                 notes: "Trước khi ăn"),
@@ -75,7 +79,7 @@ class _HomeState extends State<Home> {
             end: Alignment.bottomCenter,
             colors: [Color(0xff6a94ff), Colors.white],
           )),
-          height: MediaQuery.of(context).size.height * 1/2,
+          height: MediaQuery.of(context).size.height * 1 / 2,
         ),
         Scaffold(
             backgroundColor: Colors.transparent,
@@ -96,17 +100,10 @@ class _HomeState extends State<Home> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Xin chào,",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                      ),
+                      Text("Xin chào,",
+                          style: Theme.of(context).textTheme.titleLarge!),
                       Text("Trí Quang",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              )
+                          style: Theme.of(context).textTheme.bodyMedium!)
                     ],
                   )
                 ],
@@ -115,8 +112,10 @@ class _HomeState extends State<Home> {
                 //KHÔNG ĐƯỢC CONST!!!!!
                 IconButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => CartPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CartPage()));
                     },
                     icon: const Icon(
                       Symbols.shopping_cart,
@@ -162,7 +161,8 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Material(
-                          borderRadius: BorderRadius.all(Radius.circular(16)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16)),
                           color: colorScheme.surface.withAlpha(150),
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
@@ -180,7 +180,8 @@ class _HomeState extends State<Home> {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => const BmiPage(),
+                                              builder: (context) =>
+                                                  const BmiPage(),
                                             ));
                                       },
                                     )),
@@ -204,7 +205,8 @@ class _HomeState extends State<Home> {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => const ScanPage(
+                                              builder: (context) =>
+                                                  const ScanPage(
                                                 automaticallyImplyLeading: true,
                                               ),
                                             ));
@@ -229,7 +231,6 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       ),
-
                       Padding(
                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: Column(
@@ -269,14 +270,15 @@ class _HomeState extends State<Home> {
                     prescription: expiredData[index],
                     titleText: index == 0 ? "Quá giờ uống thuốc" : null,
                   ),
-                  separatorBuilder: (context, index) => const SizedBox(),),
+                  separatorBuilder: (context, index) => const SizedBox(),
+                ),
                 SliverList.separated(
-                  itemCount: upcomingData.length,
-                  itemBuilder: (context, index) => MedicationItem(
-                    prescription: upcomingData[index],
-                    titleText: index == 0 ? "Sắp tới" : null,
-                  ),
-                  separatorBuilder: (context, index) => const SizedBox())
+                    itemCount: upcomingData.length,
+                    itemBuilder: (context, index) => MedicationItem(
+                          prescription: upcomingData[index],
+                          titleText: index == 0 ? "Sắp tới" : null,
+                        ),
+                    separatorBuilder: (context, index) => const SizedBox())
               ],
             )),
       ],

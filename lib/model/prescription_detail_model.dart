@@ -46,7 +46,7 @@ List<PrescriptionDetailModel> generateSamplePrescriptionDetails() {
         quantityUsed: 10,
         idDrug: 101,
         idPre: 1001, //id của đơn thuốc''
-        
+
         drug: DrugModel(
             idDrug: 105,
             name: "Thuốc ho Prospan",
