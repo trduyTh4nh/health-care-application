@@ -30,7 +30,6 @@ class _DrugDoneState extends State<DrugDone> with AutomaticKeepAliveClientMixin<
                 notes: "Trước khi ăn"),
           ));
           @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
   @override
   // ignore: must_call_super

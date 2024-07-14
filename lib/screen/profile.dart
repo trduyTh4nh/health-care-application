@@ -360,14 +360,14 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                             builder: (context) => const DeveloperScreen(),
                           ));
                     },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(Icons.code),
-                          const SizedBox(width: 16),
-                          const Text("Nhà phát triển"),
+                          Icon(Icons.code),
+                          SizedBox(width: 16),
+                          Text("Nhà phát triển"),
                         ],
                       ),
                     ),

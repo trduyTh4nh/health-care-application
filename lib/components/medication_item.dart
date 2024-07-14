@@ -13,7 +13,6 @@ enum MedicationItemAction { delete, edit, snooze, buy, confirm }
 class MedicationItem extends StatefulWidget {
   const MedicationItem({super.key, required this.prescription, this.titleText});
   final ScheduleDetailModel prescription;
-  //debug
   final String? titleText;
   @override
   State<MedicationItem> createState() => _MedicationItemState();
