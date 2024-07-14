@@ -1,4 +1,5 @@
 import 'package:app_well_mate/const/color_scheme.dart';
+import 'package:app_well_mate/providers/cart_page_provider.dart';
 
 import 'package:app_well_mate/screen/home.dart';
 import 'package:app_well_mate/screen/login.dart';
@@ -11,6 +12,7 @@ import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:provider/provider.dart';
 
 ColorScheme colorScheme = ColorScheme(
     brightness: Brightness.light,
@@ -26,7 +28,11 @@ ColorScheme colorScheme = ColorScheme(
     errorContainer: const Color(0xFFFFF4F4));
 
 void main() {
-  runApp(const MainApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => CartPageProvider(),
+    )
+  ], child: const MainApp()));
 }
 
 class MainApp extends StatefulWidget {

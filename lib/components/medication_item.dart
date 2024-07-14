@@ -2,11 +2,13 @@ import 'package:app_well_mate/components/custom_elevated_button.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
+import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
 import 'package:app_well_mate/screen/drug_info.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:provider/provider.dart';
 
 enum MedicationItemAction { delete, edit, snooze, buy, confirm }
 
@@ -88,6 +90,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
+                                  // tên thuốc
                                   child: Text(
                                     widget.prescription.detail!.drug!.name ??
                                         "",
@@ -148,21 +151,18 @@ class _MedicationItemState extends State<MedicationItem> {
                                             ? CustomElevatedButton(
                                                 color: colorScheme.error,
                                                 onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const MedicinesOrder(),
-                                                      ));
+                                                  // Navigator.push(
+                                                  //     context,
+                                                  //     MaterialPageRoute(
+                                                  //       builder: (context) =>
+                                                  //           const MedicinesOrder(),
+                                                  //     ));
                                                 },
-                                                child: Text(
-                                                  "Mua ngay",
-                                                  style: GoogleFonts.inter(
-                                                      color:
-                                                          colorScheme.onPrimary,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ))
+                                                child: const Icon(
+                                                  Icons.add_shopping_cart,
+                                                  color: Colors.white,
+                                                ),
+                                              )
                                             : const SizedBox(),
                                   ],
                                 ),
@@ -204,12 +204,16 @@ class _MedicationItemState extends State<MedicationItem> {
                                   onSelected: (value) {
                                     switch (value) {
                                       case MedicationItemAction.buy:
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const MedicinesOrder(),
-                                            ));
+                                        // Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //       builder: (context) =>
+                                        //           const MedicinesOrder(),
+                                        //     ));
+                                        Provider.of<CartPageProvider>(context,
+                                                listen: false)
+                                            .addDrugCart(
+                                                widget.prescription.detail!);
                                         break;
                                       case MedicationItemAction.delete:
                                         showDialog(

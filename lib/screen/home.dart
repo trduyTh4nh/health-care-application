@@ -35,8 +35,13 @@ class _HomeState extends State<Home> {
             timeOfUse: TimeOfDay(
                 hour: Random().nextInt(24), minute: Random().nextInt(60)),
             detail: PrescriptionDetailModel(
-                drug: DrugModel(name: "Paracetamol"),
-                quantity: Random().nextInt(100),
+                drug: DrugModel(
+                    unit: "hộp",
+                    name: "Paracetamol",
+                    drugImage:
+                        "https://cdn.tgdd.vn/Products/Images/10244/129157/panadol-extra-600x600.jpg",
+                    price: 23000),
+                quantity: 1,
                 quantityUsed: Random().nextInt(100),
                 amountPerConsumption: Random().nextInt(10),
                 notes: "Trước khi ăn"),
@@ -107,8 +112,10 @@ class _HomeState extends State<Home> {
                 //KHÔNG ĐƯỢC CONST!!!!!
                 IconButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => CartPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CartPage()));
                     },
                     icon: const Icon(
                       Symbols.shopping_cart,
@@ -154,7 +161,8 @@ class _HomeState extends State<Home> {
                       Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Material(
-                          borderRadius: BorderRadius.all(Radius.circular(16)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16)),
                           color: colorScheme.surface.withAlpha(150),
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
