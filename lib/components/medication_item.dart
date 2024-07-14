@@ -2,18 +2,19 @@ import 'package:app_well_mate/components/custom_elevated_button.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
+import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
 import 'package:app_well_mate/screen/drug_info.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:provider/provider.dart';
 
 enum MedicationItemAction { delete, edit, snooze, buy, confirm }
 
 class MedicationItem extends StatefulWidget {
   const MedicationItem({super.key, required this.prescription, this.titleText});
   final ScheduleDetailModel prescription;
-  //debug
   final String? titleText;
   @override
   State<MedicationItem> createState() => _MedicationItemState();
@@ -46,8 +47,12 @@ class _MedicationItemState extends State<MedicationItem> {
                           20, widget.titleText != null ? 20 : 20, 20, 20),
                       child: Text(
                         widget.titleText ?? "",
-                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                            fontFamily: "Inter", fontWeight: FontWeight.bold),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(
+                                fontFamily: "Inter",
+                                fontWeight: FontWeight.bold),
                       ))
                   : const SizedBox(),
               InkWell(
@@ -74,8 +79,8 @@ class _MedicationItemState extends State<MedicationItem> {
                                 Container(
                                   decoration: BoxDecoration(
                                       color: accent,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(50))),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(50))),
                                   child: Padding(
                                     padding: const EdgeInsets.all(16),
                                     child: Icon(Symbols.pill,
@@ -84,15 +89,18 @@ class _MedicationItemState extends State<MedicationItem> {
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
+                                  // tên thuốc
                                   child: Text(
-                                    widget.prescription.detail!.drug!.name ?? "",
-                                    style: Theme.of(context).textTheme.bodyLarge,
+                                    widget.prescription.detail!.drug!.name ??
+                                        "",
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
                                   ),
                                 )
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 10,
                           ),
                           Row(
@@ -113,7 +121,8 @@ class _MedicationItemState extends State<MedicationItem> {
                                                       onTap: () {},
                                                       child: Icon(
                                                         Icons.check,
-                                                        color: colorScheme.surface,
+                                                        color:
+                                                            colorScheme.surface,
                                                       ))
                                                   : const SizedBox(),
                                               timeDiffSec > 0
@@ -141,40 +150,40 @@ class _MedicationItemState extends State<MedicationItem> {
                                             ? CustomElevatedButton(
                                                 color: colorScheme.error,
                                                 onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const MedicinesOrder(),
-                                                      ));
+                                                  // Navigator.push(
+                                                  //     context,
+                                                  //     MaterialPageRoute(
+                                                  //       builder: (context) =>
+                                                  //           const MedicinesOrder(),
+                                                  //     ));
                                                 },
-                                                child: Text(
-                                                  "Mua ngay",
-                                                  style: GoogleFonts.inter(
-                                                      color: colorScheme.onPrimary,
-                                                      fontWeight: FontWeight.bold),
-                                                ))
-                                            : SizedBox(),
+                                                child: const Icon(
+                                                  Icons.add_shopping_cart,
+                                                  color: Colors.white,
+                                                ),
+                                              )
+                                            : const SizedBox(),
                                   ],
                                 ),
                                 PopupMenuButton(
                                   itemBuilder: (context) => [
                                     PopupMenuItem(
-                                        enabled:
-                                            widget.prescription.idScheduleDetail !=
-                                                null,
+                                        enabled: widget.prescription
+                                                .idScheduleDetail !=
+                                            null,
                                         value: MedicationItemAction.confirm,
                                         child: const ListTile(
                                             leading: Icon(Symbols.check),
                                             title: Text("Xác nhận đã uống"))),
                                     PopupMenuItem(
-                                        enabled:
-                                            widget.prescription.idScheduleDetail !=
-                                                null,
+                                        enabled: widget.prescription
+                                                .idScheduleDetail !=
+                                            null,
                                         value: MedicationItemAction.snooze,
                                         child: const ListTile(
                                             leading: Icon(Symbols.snooze),
-                                            title: Text("Nhắc tôi sau 10p nữa"))),
+                                            title:
+                                                Text("Nhắc tôi sau 10p nữa"))),
                                     const PopupMenuItem(
                                         value: MedicationItemAction.buy,
                                         child: ListTile(
@@ -194,33 +203,41 @@ class _MedicationItemState extends State<MedicationItem> {
                                   onSelected: (value) {
                                     switch (value) {
                                       case MedicationItemAction.buy:
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  MedicinesOrder(),
-                                            ));
+                                        // Navigator.push(
+                                        //     context,
+                                        //     MaterialPageRoute(
+                                        //       builder: (context) =>
+                                        //           const MedicinesOrder(),
+                                        //     ));
+                                        Provider.of<CartPageProvider>(context,
+                                                listen: false)
+                                            .addDrugCart(
+                                                widget.prescription.detail!);
                                         break;
                                       case MedicationItemAction.delete:
                                         showDialog(
                                             context: context,
                                             builder: (context) =>
                                                 AlertDialog.adaptive(
-                                                  title:
-                                                      const Text("Xoá thuốc này"),
+                                                  title: const Text(
+                                                      "Xoá thuốc này"),
                                                   content: Text(
                                                       "Bạn có muốn xoá thuốc ${widget.prescription.detail!.drug!.name} không?"),
                                                   actions: [
                                                     TextButton(
                                                         onPressed: () {
-                                                          Navigator.pop(context);
+                                                          Navigator.pop(
+                                                              context);
                                                         },
-                                                        child: const Text("Có")),
+                                                        child:
+                                                            const Text("Có")),
                                                     TextButton(
                                                         onPressed: () {
-                                                          Navigator.pop(context);
+                                                          Navigator.pop(
+                                                              context);
                                                         },
-                                                        child: const Text("Không"))
+                                                        child:
+                                                            const Text("Không"))
                                                   ],
                                                 ));
                                         break;
@@ -301,7 +318,8 @@ class _MedicationItemState extends State<MedicationItem> {
                                                 ? "Trễ ${timeDiff.hour} giờ, ${timeDiff.minute} phút"
                                                 : "Còn ${timeDiff.hour} giờ, ${timeDiff.minute} phút"
                                         : "",
-                                    style: Theme.of(context).textTheme.bodyLarge,
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
                                   ),
                                 )
                               ],
@@ -309,7 +327,8 @@ class _MedicationItemState extends State<MedicationItem> {
                           )
                         ],
                       ),
-                      widget.prescription.detail!.quantityUsed == 0 && showWarning
+                      widget.prescription.detail!.quantityUsed == 0 &&
+                              showWarning
                           ? Column(
                               children: [
                                 const SizedBox(
@@ -320,14 +339,14 @@ class _MedicationItemState extends State<MedicationItem> {
                                       BorderRadius.all(Radius.circular(20)),
                                   color: colorScheme.errorContainer,
                                   child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(16, 10, 10, 10),
+                                    padding: const EdgeInsets.fromLTRB(
+                                        16, 10, 10, 10),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         const Expanded(
-                                          child: const Row(
+                                          child: Row(
                                             children: [
                                               Icon(Symbols.emergency_home),
                                               SizedBox(
