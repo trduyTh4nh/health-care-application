@@ -119,14 +119,14 @@ class _AddDrugPageState extends State<AddDrugPage> {
                                     Navigator.pop(context);
                                     //TODO: Add thuốc khi có back-end.
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
+                                       const SnackBar(
                                             content: Text("Đã thêm thuốc.")));
                                     return;
                                   }
                                   _currentPageIndex++;
                                   _pageController.animateToPage(
                                       _currentPageIndex,
-                                      duration: Duration(milliseconds: 500),
+                                      duration: const Duration(milliseconds: 500),
                                       curve: Curves.easeInOutCubicEmphasized);
                                   checkIsPageValid();
                                   setState(() {});

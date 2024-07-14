@@ -33,11 +33,9 @@ class _DrugTodayState extends State<DrugToday> with AutomaticKeepAliveClientMixi
   List<ScheduleDetailModel> eveningData = [];
   List<ScheduleDetailModel> noonData = [];
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
   @override
   void initState() {
-    // TODO: implement initState
     expiredData = mockData
         .where((e) => toSecond(e.timeOfUse!) < toSecond(TimeOfDay.now()))
         .toList();
