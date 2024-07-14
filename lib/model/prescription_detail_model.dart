@@ -32,7 +32,13 @@ class PrescriptionDetailModel {
   });
 
   factory PrescriptionDetailModel.fromJson(Map<String, dynamic> json) =>
-      _$PrescriptionDetailModelFromJson(json);
+      PrescriptionDetailModel(
+        idPreDetail: json["id_app_detail"] ?? 0,
+        notes: json["notes"] ?? "",
+        timeToUse: json["time_to_use"] ?? "",
+        quantityUsed: json["quantity_used"] ?? 0,
+        idPre: json["id_drug_application"] ?? 0,
+      );
   Map<String, dynamic> toJson() => _$PrescriptionDetailModelToJson(this);
 }
 
@@ -50,13 +56,10 @@ List<PrescriptionDetailModel> generateSamplePrescriptionDetails() {
         drug: DrugModel(
             idDrug: 105,
             name: "Thuốc ho Prospan",
-            ingredients: [4, 5, 6],
             indication: "For treating condition B",
             contraindication: "Do not use if condition C is present",
             uses: "Take one pill daily",
             sideEffect: "May cause side effect B",
-            productionDate: DateTime(2022, 6, 15),
-            expirationDate: DateTime(2023, 6, 15),
             price: 230000.0,
             description: "This is a description of Drug B",
             code: "B002",
@@ -73,13 +76,10 @@ List<PrescriptionDetailModel> generateSamplePrescriptionDetails() {
         drug: DrugModel(
             idDrug: 105,
             name: "Thuốc ho Prospan",
-            ingredients: [4, 5, 6],
             indication: "For treating condition B",
             contraindication: "Do not use if condition C is present",
             uses: "Take one pill daily",
             sideEffect: "May cause side effect B",
-            productionDate: DateTime(2022, 6, 15),
-            expirationDate: DateTime(2023, 6, 15),
             price: 230000.0,
             description: "This is a description of Drug B",
             code: "B002",

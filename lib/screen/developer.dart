@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:app_well_mate/screen/admin/admin_page.dart';
+import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -254,7 +255,13 @@ class _DeveloperScreenState extends State<DeveloperScreen> {
             ],
           ),
         ),
-        SliverList.separated(itemCount: rqs.length, itemBuilder: (c, i) => Text("${rqs[i].id} : ${rqs[i].title} : ${rqs[i].body}"), separatorBuilder: (c,i) => const Divider())
+        SliverList.separated(itemCount: rqs.length, itemBuilder: (c, i) => Text("${rqs[i].id} : ${rqs[i].title} : ${rqs[i].body}"), separatorBuilder: (c,i) => const Divider()),
+        SliverToBoxAdapter(
+          child: FilledButton(onPressed: () async {
+            String token = await SecureStorage.getToken();
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(token)));
+          }, child: const Text("Lấy JWT Token")),
+        )
       ]),
     );
   }

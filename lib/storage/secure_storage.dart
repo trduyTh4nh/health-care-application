@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SecureStorage {
@@ -12,5 +14,14 @@ class SecureStorage {
       return false;
     }
     return true;
+  }
+  static Future<String> getToken() async {
+    String? token = await storage.read(key: "token");
+    return token ?? "";
+  }
+  static Future<int> getUserId() async {
+    String? user = await storage.read(key: "user");
+    var userJson = jsonDecode(user ?? "");
+    return int.parse(userJson["id_user"]);
   }
 }
