@@ -179,7 +179,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                         value: MedicationItemAction.buy,
                                         child: ListTile(
                                             leading: Icon(Symbols.shopping_bag),
-                                            title: Text("Mua thuốc này"))),
+                                            title: Text("Thêm vào giỏ hàng"))),
                                     const PopupMenuItem(
                                         value: MedicationItemAction.edit,
                                         child: ListTile(

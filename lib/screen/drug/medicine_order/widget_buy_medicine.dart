@@ -1,3 +1,4 @@
+import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/screen/drug_details.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -12,6 +13,7 @@ class WidgetBuyMedicine extends StatefulWidget {
 }
 
 class _WidgetBuyMedicine extends State<WidgetBuyMedicine> {
+    final List<DrugModel> _drugs = generateSampleDrugs();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
