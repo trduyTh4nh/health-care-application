@@ -19,14 +19,38 @@ class _SignupState extends State<Signup> {
   final TextEditingController _namePController = TextEditingController();
   final TextEditingController _userNamePController = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
+
+  String? validateEmail(String? email) {
+    RegExp emailRegex = RegExp(r'^[\w\.-]+@[\w-]+\.\w{2,3}(\.\w{2,3})?$');
+    final isEmailValid = emailRegex.hasMatch(email ?? '');
+    if (!isEmailValid) {
+      return "Vui lòng nhập email hợp lệ";
+    }
+    return null;
+  }
+
+  String? validatePassWord(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Mật khẩu không được để trống';
+    } else if (!RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$')
+        .hasMatch(value)) {
+      return 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ cái và số';
+    }
+    return null;
+  }
+
   register() async {
-    String respone = await ApiRepo().register(
+    if (_formKey.currentState!.validate()) {
+    } else {
+      String response = await ApiRepo().register(
         _userNamePController.text,
         _namePController.text,
         _emailController.text,
         _phoneController.text,
-        _passwordController.text);
-    print("đăng ký thành công");
+        _passwordController.text,
+      );
+    }
   }
 
   @override
@@ -59,174 +83,196 @@ class _SignupState extends State<Signup> {
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 0, horizontal: 48),
-                  child: Column(
-                    children: [
-                      TextField(
-                        onChanged: (value) {},
-                        controller: _userNamePController,
-                        decoration: const InputDecoration(
-                            hintText: 'User name',
-                            hintStyle: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 167, 167, 167)),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            border: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(width: 3, color: Colors.grey)),
-                            prefixIcon: Icon(Icons.person_outlined),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 3, color: AppColors.primaryColor)),
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 2, color: AppColors.greyColor))),
-                      ),
-                      const SizedBox(
-                        height: 32,
-                      ),
-                      TextField(
-                        onChanged: (value) {},
-                        controller: _namePController,
-                        decoration: const InputDecoration(
-                            hintText: 'Họ và tên',
-                            hintStyle: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 167, 167, 167)),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            border: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(width: 3, color: Colors.grey)),
-                            prefixIcon: Icon(Icons.person_outlined),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 3, color: AppColors.primaryColor)),
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 2, color: AppColors.greyColor))),
-                      ),
-                      const SizedBox(
-                        height: 32,
-                      ),
-                      TextField(
-                        onChanged: (value) {
-                          print(value);
-                        },
-                        controller: _phoneController,
-                        decoration: const InputDecoration(
-                            hintText: 'Số điện thoại',
-                            hintStyle: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 167, 167, 167)),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            border: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(width: 3, color: Colors.grey)),
-                            prefixIcon: Icon(Icons.phone),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 3, color: AppColors.primaryColor)),
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 2, color: AppColors.greyColor))),
-                      ),
-                      const SizedBox(
-                        height: 32,
-                      ),
-                      TextField(
-                        onChanged: (value) {},
-                        controller: _emailController,
-                        decoration: const InputDecoration(
-                            hintText: 'Nhập email',
-                            hintStyle: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 167, 167, 167)),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            border: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(width: 3, color: Colors.grey)),
-                            prefixIcon: Icon(Icons.email),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 3, color: AppColors.primaryColor)),
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 2, color: AppColors.greyColor))),
-                      ),
-                      const SizedBox(
-                        height: 32,
-                      ),
-                      TextField(
-                        onChanged: (value) {},
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                            hintText: 'Mật khẩu',
-                            hintStyle: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 167, 167, 167)),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 20),
-                            border: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(width: 3, color: Colors.grey)),
-                            prefixIcon: Icon(Icons.password),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 3, color: AppColors.primaryColor)),
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    width: 2, color: AppColors.greyColor))),
-                      ),
-                      const SizedBox(
-                        height: 32,
-                      ),
-                      SizedBox(
-                        width: 360,
-                        height: 48,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            register();
-                            showCustomSnackBar(context, "Đăng ký thành công");
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          validator: (username) => username!.isEmpty
+                              ? "Vui lòng nhập user name"
+                              : null,
+                          onChanged: (value) {},
+                          controller: _userNamePController,
+                          decoration: const InputDecoration(
+                              hintText: 'User name',
+                              hintStyle: TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromARGB(255, 167, 167, 167)),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              border: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(width: 3, color: Colors.grey)),
+                              prefixIcon: Icon(Icons.person_outlined),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 3, color: AppColors.primaryColor)),
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 2, color: AppColors.greyColor))),
+                        ),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        TextFormField(
+                          validator: (value) =>
+                              value!.isEmpty ? "Vui lòng nhập họ và tên" : null,
+                          onChanged: (value) {},
+                          controller: _namePController,
+                          decoration: const InputDecoration(
+                              hintText: 'Họ và tên',
+                              hintStyle: TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromARGB(255, 167, 167, 167)),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              border: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(width: 3, color: Colors.grey)),
+                              prefixIcon: Icon(Icons.person_outlined),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 3, color: AppColors.primaryColor)),
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 2, color: AppColors.greyColor))),
+                        ),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        TextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Số điện thoại không được để trống';
+                            } else if (value.length != 10) {
+                              return 'Số điện thoại phải có 10 chữ số';
+                            }
+                            return null;
                           },
-                          child: Text(
-                            'Đăng kí',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: Colors.white),
+                          onChanged: (value) {
+                            print(value);
+                          },
+                          keyboardType: TextInputType.number,
+                          controller: _phoneController,
+                          decoration: const InputDecoration(
+                              hintText: 'Số điện thoại',
+                              hintStyle: TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromARGB(255, 167, 167, 167)),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              border: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(width: 3, color: Colors.grey)),
+                              prefixIcon: Icon(Icons.phone),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 3, color: AppColors.primaryColor)),
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 2, color: AppColors.greyColor))),
+                        ),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        TextFormField(
+                          validator: validateEmail,
+                          onChanged: (value) {},
+                          controller: _emailController,
+                          decoration: const InputDecoration(
+                              hintText: 'Nhập email',
+                              hintStyle: TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromARGB(255, 167, 167, 167)),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              border: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(width: 3, color: Colors.grey)),
+                              prefixIcon: Icon(Icons.email),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 3, color: AppColors.primaryColor)),
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 2, color: AppColors.greyColor))),
+                        ),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        TextFormField(
+                          validator: validatePassWord,
+                          onChanged: (value) {},
+                          controller: _passwordController,
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                              hintText: 'Mật khẩu',
+                              hintStyle: TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromARGB(255, 167, 167, 167)),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              border: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(width: 3, color: Colors.grey)),
+                              prefixIcon: Icon(Icons.password),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 3, color: AppColors.primaryColor)),
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 2, color: AppColors.greyColor))),
+                        ),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        SizedBox(
+                          width: 360,
+                          height: 48,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              register();
+                              showCustomSnackBar(context, "Đăng ký thành công");
+                            },
+                            child: Text(
+                              'Đăng kí',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Colors.white),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primaryColor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(6))),
                           ),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryColor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(6))),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Login(),
-                              ));
-                        },
-                        child: const Text(
-                          'Đăng nhập',
-                          style: TextStyle(
-                              color: AppColors.primaryColor,
-                              decoration: TextDecoration.underline,
-                              decorationColor: AppColors.primaryColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                        const SizedBox(
+                          height: 16,
                         ),
-                      )
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const Login(),
+                                  ));
+                            },
+                            child: const Text(
+                              'Đăng nhập',
+                              style: TextStyle(
+                                  color: AppColors.primaryColor,
+                                  decoration: TextDecoration.underline,
+                                  decorationColor: AppColors.primaryColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 )
               ],
