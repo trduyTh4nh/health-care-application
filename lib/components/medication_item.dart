@@ -95,6 +95,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                   child: Text(
                                     widget.prescription.detail!.drug!.name ??
                                         "",
+                                        overflow: TextOverflow.ellipsis,
                                     style:
                                         Theme.of(context).textTheme.bodyLarge,
                                   ),
