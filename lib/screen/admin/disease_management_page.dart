@@ -15,12 +15,16 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
     with TickerProviderStateMixin {
   String dropdownValue = 'Năm nay';
   String dropdownValue01 = 'Sốt xuất huyết';
-  List<Color> gradientColors = [
-    Colors.blue,
-    Colors.green,
-  ];
+  int patientCount = 29192;
 
   late final TabController _tabController;
+
+  final Map<String, int> patientData = {
+    'Năm nay': 29192,
+    '2023': 25000,
+    '2022': 63610,
+    '2021': 32060,
+  };
 
   @override
   void initState() {
@@ -47,14 +51,13 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
     final sizeHeight = MediaQuery.of(context).size.height;
     final sizeWidth = MediaQuery.of(context).size.width;
 
-    const List<String> list = <String>['Năm nay', '2023', '2022', '2021'];
-    // ignore: unused_local_variable
-    const List<String> list01 = <String>[
-      'Sốt xuất huyết',
-      'Cảm',
-      'Ngứa',
-      'Đậu Mùa'
+    const List<String> list = <String>[
+      'Năm nay',
+      '2023',
+      '2022',
+      '2021',
     ];
+    // ignore: unused_local_variable
 
     return Scaffold(
       appBar: AppBar(
@@ -98,7 +101,7 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
                 onChanged: (String? value) {
                   setState(() {
                     dropdownValue = value!;
-                    print(dropdownValue);
+                    patientCount = patientData[dropdownValue]!;
                   });
                 },
               ),
@@ -107,41 +110,84 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
               height: 20,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
-                  height: 121,
-                  width: sizeWidth * 1 / 2,
+                  height: 150,
+                  width: sizeWidth * 2 / 5,
+                  decoration: BoxDecoration(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.7),
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 3,
+                          blurRadius: 10,
+                          offset: const Offset(3, 6),
+                        )
+                      ]),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Số người được chuẩn đoán",
-                          style: Theme.of(context).textTheme.labelLarge,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(color: Colors.white),
                         ),
                         Text(
-                          "29.192",
-                          style: Theme.of(context).textTheme.headlineLarge,
+                          "$patientCount",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineLarge!
+                              .copyWith(color: Colors.white),
                         )
                       ],
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 121,
-                  width: sizeWidth * 1 / 2,
+                Container(
+                  height: 150,
+                  width: sizeWidth * 2 / 5,
+                  decoration: BoxDecoration(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.7),
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.3),
+                          spreadRadius: 3,
+                          blurRadius: 10,
+                          offset: const Offset(3, 6),
+                        )
+                      ]),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 10),
                     child: Column(
                       children: [
                         Text(
                           "Dịch bệnh mắc nhiều nhất",
-                          style: Theme.of(context).textTheme.labelLarge,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge!
+                              .copyWith(color: Colors.white),
                         ),
                         Text(
-                          "Sốt Xuất Huyết ",
-                          style: Theme.of(context).textTheme.headlineLarge,
+                          "Sốt Xuất Huyết",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineLarge!
+                              .copyWith(color: Colors.white),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                         )
@@ -163,7 +209,7 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
                 ),
               ],
             ),
-            Container(
+            SizedBox(
               width: sizeWidth,
               height: sizeHeight * 0.5,
               child: TabBarView(

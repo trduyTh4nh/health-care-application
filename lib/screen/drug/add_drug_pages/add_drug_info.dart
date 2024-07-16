@@ -1,5 +1,7 @@
 import 'package:app_well_mate/components/prescription_item.dart';
+import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/providers/add_page_provider.dart';
+import 'package:app_well_mate/screen/drug/add_drug_pages/components/add_drug_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -13,106 +15,103 @@ class AddDrugInfoPage extends StatefulWidget {
 }
 
 class _AddDrugInfoPageState extends State<AddDrugInfoPage> {
-  List<(IconData, String)> units = [
-    (Symbols.pill, "Viên"),
-    (Symbols.pill, "Ống"),
-    (Symbols.pill, "Giọt"),
-    (Symbols.pill, "Lọ"),
-    (Symbols.pill, "Mũi tiêm"),
-    (Symbols.pill, "Gói"),
-    (Symbols.pill, "Lần"),
-  ];
+  List<DrugModel> lst = [];
   TextEditingController nameController = TextEditingController(),
       quantityController = TextEditingController();
-  late (IconData, String) selection = units[0];
-  List<DropdownMenuItem<(IconData, String)>> options = [];
+  DrugModel? current;
   @override
   void initState() {
-    options = units
-        .map((e) => DropdownMenuItem<(IconData, String)>(
-              value: e,
-              child: Row(
-                children: [
-                  Icon(e.$1),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(e.$2)
-                ],
-              ),
-            ))
-        .toList();
-    setState(() {});
+    lst = List.generate(
+        10,
+        (e) => DrugModel(
+              idDrug: e,
+              idBrand: 0,
+              idDrugCate: 0,
+              name: "Paracetamol",
+              unit: "Viên",
+            ));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AddPageProvider>(builder: (context, value, child) {
-      nameController.text = value.prescriptionDetail!.drug!.name ?? "";
-      quantityController.text =
-          value.prescriptionDetail!.quantity.toString() == "null"
+    return Column(
+      children: [
+        Expanded(
+          child: Consumer<AddPageProvider>(builder: (context, value, child) {
+            return CustomScrollView(slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                          child: SvgPicture.asset(
+                        'assets/images/undraw_add_information.svg',
+                        height: 125,
+                      )),
+                      const SizedBox(height: 20),
+                      Center(
+                        child: Text("Vui lòng chọn thuốc của bạn",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.displaySmall),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SliverPadding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                sliver: SliverList.separated(
+                    itemCount: lst.length,
+                    itemBuilder: (context, index) => AddDrugItem(
+                          drug: lst[index],
+                          selected: value.prescriptionDetail!.drug!.idDrug ==
+                              lst[index].idDrug,
+                          onClick: () {
+                            setState(() {
+                              value.prescriptionDetail!.drug = lst[index];
+                            });
+                          },
+                        ),
+                    separatorBuilder: (c, i) => const SizedBox(
+                          height: 16,
+                        )),
+              )
+            ]);
+          }),
+        ),
+        Consumer<AddPageProvider>(builder: (context, value, child) {
+          quantityController.text = value.prescriptionDetail!.quantity == null
               ? ""
               : value.prescriptionDetail!.quantity.toString();
-      selection =
-          (Symbols.pill, value.prescriptionDetail!.drug!.unit ?? "Viên");
-      return SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                  child: SvgPicture.asset(
-                      'assets/images/undraw_add_information.svg', height: 125,)),
-              const SizedBox(height: 20),
-              Center(
-                child: Text("Thuốc của bạn là gì?",
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.displaySmall),
-              ),
-              TextField(
-                controller: nameController,
-                decoration:
-                   const InputDecoration(label: Text("Nhập tên thuốc")),
-                onChanged: (val) {
-                  value.prescriptionDetail!.drug!.name = nameController.text;
-                  value.checkIsDrugValid();
-                },
-              ),
-              const SizedBox(height: 20),
-              const Text("Đơn vị"),
-              DropdownButton<(IconData, String)>(
-                  isExpanded: true,
-                  value: selection,
-                  items: options,
-                  onChanged: (i) {
-                    value.prescriptionDetail!.drug!.unit = i!.$2;
-                    setState(() {
-                      selection = i;
-                    });
-                    value.checkIsDrugValid();
-                  }),
-              TextField(
-                controller: quantityController,
-                decoration: const InputDecoration(
-                    label: Text("Nhập số lượng thuốc bạn đang có")),
-                keyboardType: const TextInputType.numberWithOptions(
-                    decimal: false, signed: false),
-                onChanged: (v) {
-                  value.prescriptionDetail!.quantity =
-                      int.tryParse(quantityController.text);
-                  value.checkIsDrugValid();
-                },
-              ),
-              const SizedBox(height: 20),
-              const Text("Toa thuốc"),
-              const SizedBox(height: 20),
-              PrescriptionItem(model: value.prescriptionModel!),
-            ],
-          ),
-        ),
-      );
-    });
+          return value.prescriptionDetail!.drug!.idDrug != null
+              ? Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: TextField(
+                    controller: quantityController,
+                    onChanged: (v) {
+                      int? quantity = int.tryParse(quantityController.text);
+                      if (quantity != null) {
+                        value.prescriptionDetail!.quantity = quantity;
+                      } else {
+                        quantityController.text = quantityController.text == ""
+                            ? ""
+                            : value.prescriptionDetail!.quantity.toString();
+                      }
+                      if (quantityController.text == "") {
+                        value.prescriptionDetail!.quantity = null;
+                      }
+                      value.checkIsDrugValid();
+                    },
+                    decoration: const InputDecoration(label: Text("Số lượng")),
+                  ),
+                )
+              : const SizedBox();
+        })
+      ],
+    );
   }
 }

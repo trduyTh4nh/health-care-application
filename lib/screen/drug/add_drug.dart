@@ -28,7 +28,8 @@ class _AddDrugPageState extends State<AddDrugPage> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => widget.addPageProdiver ?? AddPageProvider())
+        ChangeNotifierProvider(
+            create: (context) => widget.addPageProdiver ?? AddPageProvider())
       ],
       child: Scaffold(
         appBar: AppBar(
@@ -75,13 +76,15 @@ class _AddDrugPageState extends State<AddDrugPage> {
             Consumer<AddPageProvider>(builder: (context, value, child) {
               void checkIsPageValid() {
                 if (_currentPageIndex == 2) {
-                  value.isValid = value.scheduleDetailModel.isNotEmpty || value.habit != 0;
+                  value.isValid =
+                      value.scheduleDetailModel.isNotEmpty || value.habit != 0;
                 }
-                if(_currentPageIndex == 1){
+                if (_currentPageIndex == 1) {
                   value.isValid = true;
                 }
                 FocusManager.instance.primaryFocus?.unfocus();
               }
+
               return Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Row(
@@ -96,7 +99,8 @@ class _AddDrugPageState extends State<AddDrugPage> {
                                   _currentPageIndex--;
                                   _pageController.animateToPage(
                                       _currentPageIndex,
-                                      duration: Duration(milliseconds: 500),
+                                      duration:
+                                          const Duration(milliseconds: 500),
                                       curve: Curves.easeInOutCubicEmphasized);
                                   checkIsPageValid();
                                   setState(() {});
@@ -114,13 +118,15 @@ class _AddDrugPageState extends State<AddDrugPage> {
                                   if (_currentPageIndex >= pages.length - 1) {
                                     Navigator.pop(context);
                                     //TODO: Add thuốc khi có back-end.
-                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Đã thêm thuốc.")));
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                       const SnackBar(
+                                            content: Text("Đã thêm thuốc.")));
                                     return;
                                   }
                                   _currentPageIndex++;
                                   _pageController.animateToPage(
                                       _currentPageIndex,
-                                      duration: Duration(milliseconds: 500),
+                                      duration: const Duration(milliseconds: 500),
                                       curve: Curves.easeInOutCubicEmphasized);
                                   checkIsPageValid();
                                   setState(() {});

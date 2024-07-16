@@ -12,6 +12,7 @@ import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:provider/provider.dart';
 
 class DrugInfoPage extends StatefulWidget {
   const DrugInfoPage({super.key, this.notifiItem});
@@ -109,24 +110,27 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
           ),
           actions: [
             PopupMenuButton(
-                itemBuilder: (context) => const [
+                itemBuilder: (context) => [
                       PopupMenuItem(
+                        onTap: () {},
                         value: MedicationItemAction.buy,
-                        child: ListTile(
+                        child: const ListTile(
                           leading: Icon(Symbols.shopping_bag),
                           title: Text("Mua thuốc"),
                         ),
                       ),
                       PopupMenuItem(
+                        onTap: () {},
                         value: MedicationItemAction.edit,
-                        child: ListTile(
+                        child: const ListTile(
                           leading: Icon(Symbols.edit),
                           title: Text("Sửa thuốc"),
                         ),
                       ),
                       PopupMenuItem(
+                        onTap: () {},
                         value: MedicationItemAction.delete,
-                        child: ListTile(
+                        child: const ListTile(
                           leading: Icon(Symbols.delete),
                           title: Text("Xóa thuốc"),
                         ),
