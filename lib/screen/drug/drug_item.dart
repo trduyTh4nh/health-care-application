@@ -60,23 +60,23 @@ class _DrugItemState extends State<DrugItem> {
           const SizedBox(
             width: 4,
           ),
-          ElevatedButton(
-              onPressed: () {},
-              child: Text('Mua ngay'),
-              style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(100, 40),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100)))),
-          PopupMenuButton(
-            itemBuilder: (context) => const [
-              PopupMenuItem(
-                  value: MedicationItemAction.delete,
-                  child: ListTile(
-                    leading: Icon(Symbols.delete),
-                    title: Text('Xóa thuốc'),
-                  ))
-            ],
-          )
+          // ElevatedButton(
+          //     onPressed: () {},
+          //     child: Text('Mua ngay'),
+          //     style: ElevatedButton.styleFrom(
+          //         minimumSize: const Size(100, 40),
+          //         shape: RoundedRectangleBorder(
+          //             borderRadius: BorderRadius.circular(100)))),
+          // PopupMenuButton(
+          //   itemBuilder: (context) => const [
+          //     PopupMenuItem(
+          //         value: MedicationItemAction.delete,
+          //         child: ListTile(
+          //           leading: Icon(Symbols.delete),
+          //           title: Text('Xóa thuốc'),
+          //         ))
+          //   ],
+          // )
         ],
       ),
     );

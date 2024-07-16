@@ -79,7 +79,9 @@ class _MedicationItemState extends State<MedicationItem> {
                                 Container(
                                   decoration: BoxDecoration(
                                       color: accent,
+
                                       borderRadius: const BorderRadius.all(
+
                                           Radius.circular(50))),
                                   child: Padding(
                                     padding: const EdgeInsets.all(16),
@@ -158,12 +160,14 @@ class _MedicationItemState extends State<MedicationItem> {
                                                   //           const MedicinesOrder(),
                                                   //     ));
                                                 },
+
                                                 child: const Icon(
                                                   Icons.add_shopping_cart,
                                                   color: Colors.white,
                                                 ),
                                               )
                                             : const SizedBox(),
+
                                   ],
                                 ),
                                 PopupMenuButton(
