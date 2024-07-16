@@ -42,7 +42,6 @@ class _SignupState extends State<Signup> {
 
   register() async {
     if (_formKey.currentState!.validate()) {
-    } else {
       String response = await ApiRepo().register(
         _userNamePController.text,
         _namePController.text,
@@ -50,6 +49,9 @@ class _SignupState extends State<Signup> {
         _phoneController.text,
         _passwordController.text,
       );
+      showCustomSnackBar(context, "Đăng ký thành công");
+    } else {
+      showCustomSnackBar(context, "Đăng ký thất bại");
     }
   }
 
@@ -232,7 +234,6 @@ class _SignupState extends State<Signup> {
                           child: ElevatedButton(
                             onPressed: () {
                               register();
-                              showCustomSnackBar(context, "Đăng ký thành công");
                             },
                             child: Text(
                               'Đăng kí',
