@@ -85,6 +85,9 @@ class _CartPageState extends State<CartPage> {
                                             color: AppColors.greyColor,
                                             borderRadius: BorderRadius.circular(50)),
                                         child: Image.network(
+                                          errorBuilder: (context, error, stackTrace) => Icon(Icons.image),
+                                          // drug!.drugImage ?? '',
+
                                           item.drug!.drugImage ?? '',
                                           width: 50,
                                           height: 50,

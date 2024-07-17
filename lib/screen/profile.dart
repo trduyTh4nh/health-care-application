@@ -167,14 +167,14 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                             )),
                             Expanded(
                                 child: Shortcut(
-                              icon: Symbols.alarm,
-                              text: "Tái khám",
+                              icon: Symbols.emergency,
+                              text: "SOS",
                               onTap: () {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const RevisitPage()));
+                                            const EmergencyCall()));
                               },
                             )),
                           ],
