@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
 
@@ -9,6 +12,7 @@ import 'package:app_well_mate/screen/scan.dart';
 import 'package:app_well_mate/screen/search.dart';
 import 'package:app_well_mate/screen/theme.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -44,6 +48,17 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
+  StreamSubscription<List<ConnectivityResult>>? subscription;
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -75,6 +90,18 @@ class _MainAppState extends State<MainApp> {
                     return 0;
                   })),
             ),
+            snackBarTheme: SnackBarThemeData(
+                backgroundColor: colorScheme.primary,
+                contentTextStyle: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: colorScheme.onPrimary),
+                insetPadding: const EdgeInsets.all(40),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16)),
+                )),
             dividerTheme: const DividerThemeData(
               color: AppColors.greyColor,
               thickness: 1,
@@ -162,12 +189,10 @@ class _MainAppState extends State<MainApp> {
                 scrolledUnderElevation: 0, titleSpacing: 20, toolbarHeight: 75),
             inputDecorationTheme: InputDecorationTheme(
                 labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontFamily:
-                        GoogleFonts.inter(wordSpacing: 0, color: AppColor.gray)
-                            .fontFamily,
+                    fontFamily: GoogleFonts.inter(wordSpacing: 0, color: AppColor.gray)
+                        .fontFamily,
                     color: AppColor.darkerGray),
-                border: UnderlineInputBorder(
-                    borderSide: BorderSide(color: AppColor.darkerGray)))),
+                border: UnderlineInputBorder(borderSide: BorderSide(color: AppColor.darkerGray)))),
         debugShowCheckedModeBanner: false,
         home: const Login());
   }

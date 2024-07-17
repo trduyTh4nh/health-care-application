@@ -1,6 +1,11 @@
+import 'dart:developer';
+
+import 'package:app_well_mate/api/schedule/schedule_repo.dart';
 import 'package:app_well_mate/components/medication_item.dart';
+import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/components/time_item.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
+import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/notification_model.dart';
 import 'package:app_well_mate/model/prescription_detail_model.dart';
@@ -11,13 +16,15 @@ import 'package:app_well_mate/screen/drug/prescription_item.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 
 class DrugInfoPage extends StatefulWidget {
-  const DrugInfoPage({super.key, this.notifiItem});
+  const DrugInfoPage({super.key, this.notifiItem, this.model, this.idScheSelected = 0});
   final NotificationModel? notifiItem;
-
+  final ScheduleDetailModel? model;
+  final int idScheSelected;
   @override
   State<DrugInfoPage> createState() => _DrugInfoPageState();
 }
@@ -41,37 +48,35 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
 
   DrugModel? drugModel;
   PrescriptionDetailModel? prescriptionDetail;
-  List<ScheduleDetailModel>? listScheduleDetail;
+  List<ScheduleDetailModel>? listScheduleDetail = [];
   double _opacity = 0.0;
   int idScheSelected = 0;
+  ScheduleRepo repo = ScheduleRepo();
+  Future<void>? future;
+  getSchedules() async {
+    listScheduleDetail =
+        await repo.findAllSchedulesBy(widget.model!.detail!.idPreDetail ?? -1);
+    
+    idScheSelected = widget.idScheSelected;
+    log(idScheSelected.toString());
+    renderListSchedule();
+  }
+
+  deleteSchedule(int id, BuildContext context) async {
+    String res = await repo.deleteScheduleBy(id);
+    if (context.mounted) {
+      if (res == "Delete successfully!") {
+        showCustomSnackBar(context, "Xoá thành công");
+      } else {
+        showCustomSnackBar(context, "Xoá thất bại");
+      }
+    }
+  }
+
   @override
   void initState() {
-    // idDonThuocCT(notification) => idPre chi tiết (Predetail modele) "lúc đang ở đây sẵn lấy thông tin thuốc"
-    //  => vô model của schedule_detail lấy ra thông tin  lịch thuốc
-
+    future = getSchedules();
     super.initState();
-    setState(() {});
-
-    prescriptionDetail = prescriptionDetailModel[0];
-    // lấy ra 1 chi tiết đơn thuốc (1:1 thuốc để làm data mẫu)
-    drugModel = prescriptionDetail!.idDrug != null
-        ? findDrugByIdPrescriptionDetail(prescriptionDetail!.idDrug!)
-        : null;
-    //  get list schedule detail
-
-    listScheduleDetail = prescriptionDetail!.idPreDetail != null
-        ? findScheduleDetail(prescriptionDetail!.idPreDetail!)
-        : null;
-
-    renderListSchedule();
-
-    // handle controller
-    _controller.addListener(() {
-      _opacity = (_controller.offset / 150).clamp(0, 1);
-      if (_opacity != 1) {
-        setState(() {});
-      }
-    });
   }
 
   void renderListSchedule() {
@@ -106,7 +111,7 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
         appBar: AppBar(
           title: Opacity(
             opacity: _opacity,
-            child: Text(drugModel!.name ?? "null"),
+            child: Text(widget.model!.detail!.drug!.name ?? "null"),
           ),
           actions: [
             PopupMenuButton(
@@ -116,15 +121,7 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                         value: MedicationItemAction.buy,
                         child: const ListTile(
                           leading: Icon(Symbols.shopping_bag),
-                          title: Text("Mua thuốc"),
-                        ),
-                      ),
-                      PopupMenuItem(
-                        onTap: () {},
-                        value: MedicationItemAction.edit,
-                        child: const ListTile(
-                          leading: Icon(Symbols.edit),
-                          title: Text("Sửa thuốc"),
+                          title: Text("Thêm thuốc vào giỏ hàng"),
                         ),
                       ),
                       PopupMenuItem(
@@ -143,334 +140,443 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
             Expanded(
-              child: CustomScrollView(
-                controller: _controller,
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          decoration: const BoxDecoration(
-                              color: AppColors.primaryColor,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(100))),
-                          child: const Padding(
-                            padding: EdgeInsets.all(25),
-                            child: Icon(
-                              Symbols.pill,
-                              color: Colors.white,
-                              size: 50,
+              child: FutureBuilder(
+                  future: future,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: LoadingAnimationWidget.flickr(
+                          leftDotColor: colorScheme.primary,
+                          rightDotColor: colorScheme.error,
+                          size: 48,
+                        ),
+                      );
+                    }
+                    return CustomScrollView(
+                      controller: _controller,
+                      slivers: [
+                        SliverToBoxAdapter(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                decoration: const BoxDecoration(
+                                    color: AppColors.primaryColor,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(100))),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(25),
+                                  child: Icon(
+                                    Symbols.pill,
+                                    color: Colors.white,
+                                    size: 50,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                widget.model!.detail!.drug!.name ?? "null",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge!
+                                    .copyWith(fontSize: 32),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(Symbols.pill),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    'Số lượng: ${widget.model!.detail!.quantityUsed}/${widget.model!.detail!.quantity ?? "0"}',
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(Symbols.alarm),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      Text(
+                                        '1 ngày ${widget.model!.detail!.amountPerConsumption} ${widget.model!.detail!.drug!.unit}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    width: 16,
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Icon(Symbols.local_dining_rounded),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      Text(
+                                        '${widget.model!.detail!.notes.toString()}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                        const SliverToBoxAdapter(
+                          child: SizedBox(
+                            height: 16,
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: Text(
+                            'Lịch uống thuốc',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(fontSize: 18),
+                          ),
+                        ),
+                        SliverList.separated(
+                          itemCount: _timesMorning1.length,
+                          itemBuilder: (context, index) {
+                            return _timesMorning1.isNotEmpty
+                                ? TimeItem(
+                                    deleteScheduleById: (id) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          icon:
+                                              const Icon(Icons.warning_rounded),
+                                          title:
+                                              const Text("Xoá lịch uống thuốc"),
+                                          content: const Text(
+                                              "Bạn có chắc là muốn xoá lịch uống thuốc này không?"),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () async {
+                                                  await deleteSchedule(
+                                                      id, context);
+                                                  listScheduleDetail
+                                                      ?.removeWhere((e) =>
+                                                          e.idScheduleDetail ==
+                                                          id);
+                                                  renderListSchedule();
+                                                  setState(() {});
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("Có")),
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("Không"))
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    scheDetail: _timesMorning1[index],
+                                    onDataChanged: (index) {
+                                      setState(() {
+                                        idScheSelected = index;
+                                      });
+                                    },
+                                    isSelected: idScheSelected ==
+                                        _timesMorning1[index].idScheduleDetail,
+                                    time: _timesMorning1[index].timeOfUse!,
+                                    title: index == 0
+                                        ? Text(
+                                            'Sáng',
+                                            style: GoogleFonts.inter(
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        : null,
+                                    sIndex:
+                                        _timesMorning1[index].idScheduleDetail,
+                                  )
+                                : null;
+                          },
+                          separatorBuilder: (context, index) => const SizedBox(
+                            height: 10,
+                          ),
+                        ),
+                        SliverList.separated(
+                          itemCount: _timesAfternoon1.length,
+                          itemBuilder: (context, index) {
+                            //print(_timesMorning1[index].idScheduleDetail == _timesMorning1[idScheSelected].idScheduleDetail);
+                            return _timesAfternoon1.isNotEmpty
+                                ? TimeItem(
+                                    deleteScheduleById: (id) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          icon:
+                                              const Icon(Icons.warning_rounded),
+                                          title:
+                                              const Text("Xoá lịch uống thuốc"),
+                                          content: const Text(
+                                              "Bạn có chắc là muốn xoá lịch uống thuốc này không?"),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () async {
+                                                  await deleteSchedule(
+                                                      id, context);
+                                                  listScheduleDetail
+                                                      ?.removeWhere((e) =>
+                                                          e.idScheduleDetail ==
+                                                          id);
+                                                  renderListSchedule();
+                                                  setState(() {});
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("Có")),
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("Không"))
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    scheDetail: _timesAfternoon1[index],
+                                    onDataChanged: (id) {
+                                      setState(() {
+                                        idScheSelected = id;
+                                      });
+                                    },
+                                    isSelected: idScheSelected ==
+                                        _timesAfternoon1[index]
+                                            .idScheduleDetail,
+                                    time: _timesAfternoon1[index].timeOfUse!,
+                                    title: index == 0
+                                        ? Text(
+                                            'Chiều',
+                                            style: GoogleFonts.inter(
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        : null,
+                                    sIndex: _timesAfternoon1[index]
+                                        .idScheduleDetail,
+                                  )
+                                : null;
+                          },
+                          separatorBuilder: (context, index) => const SizedBox(
+                            height: 10,
+                          ),
+                        ),
+                        SliverList.separated(
+                          itemCount: _timesNight1.length,
+                          itemBuilder: (context, index) {
+                            return _timesNight1.isNotEmpty
+                                ? TimeItem(
+                                    deleteScheduleById: (id) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          icon:
+                                              const Icon(Icons.warning_rounded),
+                                          title:
+                                              const Text("Xoá lịch uống thuốc"),
+                                          content: const Text(
+                                              "Bạn có chắc là muốn xoá lịch uống thuốc này không?"),
+                                          actions: [
+                                            TextButton(
+                                                onPressed: () async {
+                                                  await deleteSchedule(
+                                                      id, context);
+                                                  listScheduleDetail
+                                                      ?.removeWhere((e) =>
+                                                          e.idScheduleDetail ==
+                                                          id);
+                                                  renderListSchedule();
+                                                  setState(() {});
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("Có")),
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("Không"))
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    scheDetail: _timesNight1[index],
+                                    onDataChanged: (index) {
+                                      setState(() {
+                                        idScheSelected = index;
+                                      });
+                                    },
+                                    isSelected: idScheSelected ==
+                                        _timesNight1[index].idScheduleDetail,
+                                    time: _timesNight1[index].timeOfUse!,
+                                    title: index == 0
+                                        ? Text(
+                                            'Tối',
+                                            style: GoogleFonts.inter(
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        : null,
+                                    sIndex:
+                                        _timesNight1[index].idScheduleDetail,
+                                  )
+                                : null;
+                          },
+                          separatorBuilder: (context, index) => const SizedBox(
+                            height: 10,
+                          ),
+                        ),
+                        const SliverToBoxAdapter(
+                          child: SizedBox(
+                            height: 8,
+                          ),
+                        ),
+                        const SliverToBoxAdapter(
+                          child: Divider(),
+                        ),
+                        SliverToBoxAdapter(
+                          child: InkWell(
+                            onTap: () async {
+                              final TimeOfDay? time = await showTimePicker(
+                                context: context,
+                                initialTime: TimeOfDay.now(),
+                                initialEntryMode: entryMode,
+                                orientation: orientation,
+                                builder: (BuildContext context, Widget? child) {
+                                  return Theme(
+                                    data: Theme.of(context).copyWith(
+                                        materialTapTargetSize: tapTargetSize),
+                                    child: Directionality(
+                                      textDirection: textDirection,
+                                      child: MediaQuery(
+                                        data: MediaQuery.of(context).copyWith(
+                                            alwaysUse24HourFormat:
+                                                use24HourTime),
+                                        child: child!,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+
+                              if (time != null) {
+                                setState(() {
+                                  ScheduleDetailModel newSche =
+                                      ScheduleDetailModel(
+                                    idScheduleDetail:
+                                        listScheduleDetail!.length + 1,
+                                    idPreDetail: 1001,
+                                    idSchedule: 203,
+                                    status: "Pending",
+                                    timeOfUse: time,
+                                  );
+                                  listScheduleDetail!.add(newSche);
+                                });
+                              }
+
+                              // var newSche1 = listScheduleDetail!
+                              //     .firstWhere((e) => e.idSchedule == 9);
+                              renderListSchedule();
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              child: Row(
+                                children: [
+                                  const Icon(Symbols.add),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    'Thêm thời gian',
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                        Text(
-                          drugModel!.name ?? "null",
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(fontSize: 32),
+                        const SliverToBoxAdapter(
+                          child: SizedBox(
+                            height: 8,
+                          ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(Symbols.pill),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Text(
-                              'Số lượng: ${prescriptionDetail!.quantityUsed!.toInt()}/${prescriptionDetail!.quantity ?? "0"}',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ],
+                        SliverToBoxAdapter(
+                          child: Text(
+                            'Thông tin thuốc',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(fontSize: 18),
+                          ),
                         ),
-                        const SizedBox(
-                          height: 8,
+                        const SliverToBoxAdapter(
+                          child: SizedBox(
+                            height: 8,
+                          ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              children: [
-                                const Icon(Symbols.alarm),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  '${prescriptionDetail!.amount}',
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                )
-                              ],
-                            ),
-                            const SizedBox(
-                              width: 16,
-                            ),
-                            Row(
-                              children: [
-                                const Icon(Symbols.local_dining_rounded),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  '${prescriptionDetail!.notes}',
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                )
-                              ],
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 16,
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Text(
-                      'Lịch uống thuốc',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(fontSize: 18),
-                    ),
-                  ),
-                  SliverList.separated(
-                    itemCount: _timesMorning1.length,
-                    itemBuilder: (context, index) {
-                      return _timesMorning1.isNotEmpty
-                          ? TimeItem(
-                              deleteScheduleById: (id) {
-                                listScheduleDetail?.removeWhere(
-                                    (e) => e.idScheduleDetail == id);
-                                renderListSchedule();
-                                setState(() {});
-                              },
-                              scheDetail: _timesMorning1[index],
-                              onDataChanged: (index) {
-                                setState(() {
-                                  idScheSelected = index;
-                                });
-                              },
-                              isSelected: idScheSelected ==
-                                  _timesMorning1[index].idScheduleDetail,
-                              time: _timesMorning1[index].timeOfUse!,
-                              title: index == 0
-                                  ? Text(
-                                      'Sáng',
-                                      style: GoogleFonts.inter(
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  : null,
-                              sIndex: _timesMorning1[index].idScheduleDetail,
-                            )
-                          : null;
-                    },
-                    separatorBuilder: (context, index) => const SizedBox(
-                      height: 10,
-                    ),
-                  ),
-                  SliverList.separated(
-                    itemCount: _timesAfternoon1.length,
-                    itemBuilder: (context, index) {
-                      //print(_timesMorning1[index].idScheduleDetail == _timesMorning1[idScheSelected].idScheduleDetail);
-                      return _timesAfternoon1.isNotEmpty
-                          ? TimeItem(
-                              deleteScheduleById: (id) {
-                                listScheduleDetail?.removeWhere(
-                                    (e) => e.idScheduleDetail == id);
-                                renderListSchedule();
-                                setState(() {});
-                              },
-                              scheDetail: _timesAfternoon1[index],
-                              onDataChanged: (id) {
-                                setState(() {
-                                  idScheSelected = id;
-                                });
-                              },
-                              isSelected: idScheSelected ==
-                                  _timesAfternoon1[index].idScheduleDetail,
-                              time: _timesAfternoon1[index].timeOfUse!,
-                              title: index == 0
-                                  ? Text(
-                                      'Chiều',
-                                      style: GoogleFonts.inter(
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  : null,
-                              sIndex: _timesAfternoon1[index].idScheduleDetail,
-                            )
-                          : null;
-                    },
-                    separatorBuilder: (context, index) => const SizedBox(
-                      height: 10,
-                    ),
-                  ),
-                  SliverList.separated(
-                    itemCount: _timesNight1.length,
-                    itemBuilder: (context, index) {
-                      return _timesNight1.isNotEmpty
-                          ? TimeItem(
-                              deleteScheduleById: (id) {
-                                listScheduleDetail?.removeWhere(
-                                    (e) => e.idScheduleDetail == id);
-                                renderListSchedule();
-                                setState(() {});
-                              },
-                              scheDetail: _timesNight1[index],
-                              onDataChanged: (index) {
-                                setState(() {
-                                  idScheSelected = index;
-                                });
-                              },
-                              isSelected: idScheSelected ==
-                                  _timesNight1[index].idScheduleDetail,
-                              time: _timesNight1[index].timeOfUse!,
-                              title: index == 0
-                                  ? Text(
-                                      'Tối',
-                                      style: GoogleFonts.inter(
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  : null,
-                              sIndex: _timesNight1[index].idScheduleDetail,
-                            )
-                          : null;
-                    },
-                    separatorBuilder: (context, index) => const SizedBox(
-                      height: 10,
-                    ),
-                  ),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 8,
-                    ),
-                  ),
-                  const SliverToBoxAdapter(
-                    child: Divider(),
-                  ),
-                  SliverToBoxAdapter(
-                    child: InkWell(
-                      onTap: () async {
-                        final TimeOfDay? time = await showTimePicker(
-                          context: context,
-                          initialTime: TimeOfDay.now(),
-                          initialEntryMode: entryMode,
-                          orientation: orientation,
-                          builder: (BuildContext context, Widget? child) {
-                            return Theme(
-                              data: Theme.of(context).copyWith(
-                                  materialTapTargetSize: tapTargetSize),
-                              child: Directionality(
-                                textDirection: textDirection,
-                                child: MediaQuery(
-                                  data: MediaQuery.of(context).copyWith(
-                                      alwaysUse24HourFormat: use24HourTime),
-                                  child: child!,
-                                ),
-                              ),
-                            );
+                        SliverList.separated(
+                          itemCount: 1,
+                          itemBuilder: (context, index) {
+                            return DrugItem(
+                                drugModel: widget.model!.detail!.drug!);
                           },
-                        );
-
-                        if (time != null) {
-                          setState(() {
-                            ScheduleDetailModel newSche = ScheduleDetailModel(
-                              idScheduleDetail: listScheduleDetail!.length + 1,
-                              idPreDetail: 1001,
-                              idSchedule: 203,
-                              status: "Pending",
-                              timeOfUse: time,
-                            );
-                            listScheduleDetail!.add(newSche);
-                          });
-                        }
-
-                        // var newSche1 = listScheduleDetail!
-                        //     .firstWhere((e) => e.idSchedule == 9);
-                        renderListSchedule();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        child: Row(
-                          children: [
-                            const Icon(Symbols.add),
-                            const SizedBox(
-                              width: 8,
-                            ),
-                            Text(
-                              'Thêm thời gian',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
+                          separatorBuilder: (context, index) => const SizedBox(
+                            height: 6,
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 8,
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Text(
-                      'Thông tin thuốc',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(fontSize: 18),
-                    ),
-                  ),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 8,
-                    ),
-                  ),
-                  SliverList.separated(
-                    itemCount: 1,
-                    itemBuilder: (context, index) {
-                      return DrugItem(drugModel: drugModel as DrugModel);
-                    },
-                    separatorBuilder: (context, index) => const SizedBox(
-                      height: 6,
-                    ),
-                  ),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 8,
-                    ),
-                  ),
-                  const SliverToBoxAdapter(
-                    child: Divider(),
-                  ),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 8,
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: Text(
-                      'Đơn thuốc',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(fontSize: 18),
-                    ),
-                  ),
-                  SliverList.separated(
-                      itemCount: 1,
-                      itemBuilder: (context, index) {
-                        // cái id là test thôi sau này có data thật thì
-                        // qua bên cái Item này lấy id đó xong viết API data về
-                        // lắp data vô
-                        return PrescriptionItem(idPresciption: 1);
-                      },
-                      separatorBuilder: (context, index) => const SizedBox(
-                            height: 4,
-                          ))
-                ],
-              ),
+                        const SliverToBoxAdapter(
+                          child: SizedBox(
+                            height: 8,
+                          ),
+                        ),
+                        const SliverToBoxAdapter(
+                          child: Divider(),
+                        ),
+                        const SliverToBoxAdapter(
+                          child: SizedBox(
+                            height: 8,
+                          ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: Text(
+                            'Đơn thuốc',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(fontSize: 18),
+                          ),
+                        ),
+                        SliverList.separated(
+                            itemCount: 1,
+                            itemBuilder: (context, index) {
+                              // cái id là test thôi sau này có data thật thì
+                              // qua bên cái Item này lấy id đó xong viết API data về
+                              // lắp data vô
+                              return PrescriptionItem(idPresciption: 1);
+                            },
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(
+                                  height: 4,
+                                ))
+                      ],
+                    );
+                  }),
             )
           ]),
         ),

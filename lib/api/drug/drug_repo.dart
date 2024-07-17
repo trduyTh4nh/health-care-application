@@ -29,4 +29,28 @@ class DrugRepo {
     }
     return lst;
   }
+
+  Future<String> deletePrescriptionDetail(int id) async {
+    String token = await SecureStorage.getToken();
+    try {
+      Response res = await api.sendRequest.delete(
+          "/drug/deleteDrugFromDrugApplication",
+          data: {"id_app_detail": id},
+          options: Options(headers: header(token)));
+      if (res.statusCode == 200) {
+        log("SUCCESS! RESPONSE: ${res.data}");
+        return res.data["message"].toString();
+      }
+      return "Lỗi máy chủ";
+    } catch (ex) {
+      log("ERROR!: $ex");
+      if (ex is DioException) {
+        DioException excep = ex;
+        log("ERROR!: $ex");
+        log("RESPONSE: ${excep.response}");
+        return excep.response!.data["code"].toString();
+      }
+      return "Lỗi vô định";
+    }
+  }
 }
