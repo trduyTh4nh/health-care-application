@@ -274,6 +274,7 @@ class _CartPageState extends State<CartPage> {
                                             borderRadius:
                                                 BorderRadius.circular(50)),
                                         child: Image.network(
+                                          errorBuilder: (context, error, stackTrace) => Icon(Icons.image),
                                           // drug!.drugImage ?? '',
                                           item.drug!.drugImage ?? '',
                                           width: 50,

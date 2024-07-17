@@ -2,6 +2,7 @@ import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class DrugItem extends StatefulWidget {
@@ -31,7 +32,11 @@ class _DrugItemState extends State<DrugItem> {
                     borderRadius: BorderRadius.circular(50),
                   ),
                   child: Image.network(
-                      'https://cdn.nhathuoclongchau.com.vn/unsafe/375x0/filters:quality(90)/https://cms-prod.s3-sgn09.fptcloud.com/00005713_panadol_extra_do_500mg_180v_sanofi_3541_63d7_large_72b42bbdda.jpg'),
+                      widget.drugModel.drugImage ?? "",
+                      errorBuilder: (context, error, stackTrace) {
+                        return Icon(Icons.image);
+                      },
+                    ),
                 ),
                 const SizedBox(
                   width: 8,
@@ -41,14 +46,14 @@ class _DrugItemState extends State<DrugItem> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Panadon Extra',
+                        widget.drugModel.name ?? "",
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       const SizedBox(
                         height: 4,
                       ),
                       Text(
-                        '3 vỉ - 8000đ/vỉ',
+                        '${NumberFormat("##,###.##").format(widget.drugModel.price)} đồng / ${widget.drugModel.unit}',
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],

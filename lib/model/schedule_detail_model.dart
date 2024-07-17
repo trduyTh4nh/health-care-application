@@ -34,7 +34,6 @@ class ScheduleDetailModel {
         idScheduleDetail: json["id_schedule_detail"] ?? 0,
         status: json["status"] ? "done" : "not_done",
         timeOfUse: tod,
-        
       );
   }
   Map<String, dynamic> toJson() => _$ScheduleDetailModelToJson(this);

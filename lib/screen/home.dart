@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:app_well_mate/api/drug/drug_repo.dart';
 import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/components/shotcut.dart';
+import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/screen/FFMI.dart';
@@ -33,6 +34,7 @@ class _HomeState extends State<Home> {
   List<ScheduleDetailModel> data = [];
   List<ScheduleDetailModel> expiredData = [];
   List<ScheduleDetailModel> upcomingData = [];
+  bool showBanner = true;
   final List<String> _banners = [
     "banner1.json",
     "banner2.json",
@@ -44,11 +46,17 @@ class _HomeState extends State<Home> {
     data = await repo.getSchedule();
   }
 
+  onDelete(int id, BuildContext context) {
+    setState(() {
+      data.removeWhere((e) => e.idPreDetail == id);
+    });
+    showCustomSnackBar(context, "Xoá thuốc thành công");
+  }
+
   Future<void>? future;
   @override
   void initState() {
     future = getSchedule();
-
     super.initState();
   }
 
@@ -241,44 +249,56 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.error_outline_outlined,
-                                        color: colorScheme.error,
-                                      ),
-                                      IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(Icons.close))
-                                    ],
-                                  ),
-                                  Text(
-                                    "Mùa này là mùa cảm cúm",
-                                    style:
-                                        Theme.of(context).textTheme.titleLarge,
-                                  ),
-                                  const Text("Hãy giữ gìn sức khoẻ nhé!"),
-                                  Lottie.asset(
-                                    "assets/images/${_banners[Random().nextInt(_banners.length)]}",
-                                  ),
-                                ],
-                              ),
-                            ),
+                            showBanner
+                                ? Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.error_outline_outlined,
+                                              color: colorScheme.error,
+                                            ),
+                                            IconButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    showBanner = false;
+                                                  });
+                                                },
+                                                icon: const Icon(Icons.close))
+                                          ],
+                                        ),
+                                        Text(
+                                          "Mùa này là mùa cảm cúm",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge,
+                                        ),
+                                        const Text("Hãy giữ gìn sức khoẻ nhé!"),
+                                        Lottie.asset(
+                                          "assets/images/${_banners[Random().nextInt(_banners.length)]}",
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : const SizedBox(),
                           ],
                         ),
                       ),
                       SliverList.separated(
                         itemCount: expiredData.length,
                         itemBuilder: (context, index) => MedicationItem(
+                          onDelete: (preDetailId) {
+                            onDelete(preDetailId, context);
+                          },
                           prescription: expiredData[index],
                           titleText: index == 0 ? "Quá giờ uống thuốc" : null,
                         ),
@@ -287,6 +307,9 @@ class _HomeState extends State<Home> {
                       SliverList.separated(
                           itemCount: upcomingData.length,
                           itemBuilder: (context, index) => MedicationItem(
+                                onDelete: (preDetailId) {
+                                  onDelete(preDetailId, context);
+                                },
                                 prescription: upcomingData[index],
                                 titleText: index == 0 ? "Sắp tới" : null,
                               ),
