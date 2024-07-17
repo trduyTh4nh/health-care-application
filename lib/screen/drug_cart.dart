@@ -1,5 +1,8 @@
+import 'package:app_well_mate/api/auth/api_repo.dart';
+import 'package:app_well_mate/api/cart/cart_repo.dart';
 import 'package:app_well_mate/model/drug_cart_detail_model.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
+import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -22,10 +25,18 @@ class _CartPageState extends State<CartPage> {
 
   late double _totalPrice;
 
+  Future<String> getAllDrugInCart() async {
+    print("bat dau vo ham");
+    int userId = await SecureStorage.getUserId();
+    print("id user: $userId");
+    return CartRepo().getAllDrugInCart(userId);
+  }
+
   @override
   void initState() {
     super.initState();
     _calculateTotalPrice();
+    getAllDrugInCart();
   }
 
   void _calculateTotalPrice() {
