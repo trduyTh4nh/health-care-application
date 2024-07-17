@@ -24,8 +24,18 @@ class ScheduleDetailModel {
       this.timeOfUse,
       this.detail,});
 
-  factory ScheduleDetailModel.fromJson(Map<String, dynamic> json) =>
-      _$ScheduleDetailModelFromJson(json);
+  factory ScheduleDetailModel.fromJson(Map<String, dynamic> json) {
+      String timeOfUse = json["time_use"] ?? "00:00:00";
+      List<String> convert = timeOfUse.split(":");
+      TimeOfDay tod = TimeOfDay(hour: int.parse(convert[0]), minute: int.parse(convert[1]));
+      return ScheduleDetailModel(
+        idSchedule: json["id_schedule"] ?? 0,
+        idPreDetail: json["id_app_detail"] ?? 0,
+        idScheduleDetail: json["id_schedule_detail"] ?? 0,
+        status: json["status"] ? "done" : "not_done",
+        timeOfUse: tod,
+      );
+  }
   Map<String, dynamic> toJson() => _$ScheduleDetailModelToJson(this);
 }
 

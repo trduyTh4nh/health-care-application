@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/screen/admin/admin_page.dart';
 import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:flutter/material.dart';
@@ -112,9 +113,7 @@ class _DeveloperScreenState extends State<DeveloperScreen> {
           const SnackBar(content: Text("Đã cấp quyền thông báo")));
     }
     await updateNotifRequests();
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   showNotification() async {
@@ -148,8 +147,10 @@ class _DeveloperScreenState extends State<DeveloperScreen> {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const AdminPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AdminPage()));
                 },
                 child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -175,6 +176,20 @@ class _DeveloperScreenState extends State<DeveloperScreen> {
                       Icon(Icons.notification_add_outlined),
                       SizedBox(width: 16),
                       Text("Cấp quyền thông báo"),
+                    ],
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  showCustomSnackBar(context, "test");
+                },
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Hiện snackbar"),
                     ],
                   ),
                 ),
@@ -255,12 +270,19 @@ class _DeveloperScreenState extends State<DeveloperScreen> {
             ],
           ),
         ),
-        SliverList.separated(itemCount: rqs.length, itemBuilder: (c, i) => Text("${rqs[i].id} : ${rqs[i].title} : ${rqs[i].body}"), separatorBuilder: (c,i) => const Divider()),
+        SliverList.separated(
+            itemCount: rqs.length,
+            itemBuilder: (c, i) =>
+                Text("${rqs[i].id} : ${rqs[i].title} : ${rqs[i].body}"),
+            separatorBuilder: (c, i) => const Divider()),
         SliverToBoxAdapter(
-          child: FilledButton(onPressed: () async {
-            String token = await SecureStorage.getToken();
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(token)));
-          }, child: const Text("Lấy JWT Token")),
+          child: FilledButton(
+              onPressed: () async {
+                String token = await SecureStorage.getToken();
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text(token)));
+              },
+              child: const Text("Lấy JWT Token")),
         )
       ]),
     );

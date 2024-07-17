@@ -24,7 +24,7 @@ class _LoginByEmailState extends State<LoginByEmail> {
     });
     String msg = "";
     bool r = await repo.login(_emailController.text, _passwordController.text);
-    msg = r ? "Đăng nhập thành công" : "Không tìm thấy người dùng";
+    msg = r ? "Đăng nhập thành công" : "Email hoặc mật khẩu không khớp";
     setState(() {
       isLoading = false;
     });
