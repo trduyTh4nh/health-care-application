@@ -38,6 +38,8 @@ class PrescriptionDetailModel {
         timeToUse: json["time_to_use"] ?? "",
         quantityUsed: json["quantity_used"] ?? 0,
         idPre: json["id_drug_application"] ?? 0,
+        amountPerConsumption: json["amount_per_consumption"] ?? 0,
+        quantity: json["quantity"] ?? 0
       );
   Map<String, dynamic> toJson() => _$PrescriptionDetailModelToJson(this);
 }

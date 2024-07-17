@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:app_well_mate/api/drug/drug_repo.dart';
 import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/components/shotcut.dart';
+import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/screen/FFMI.dart';
@@ -16,6 +17,7 @@ import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
 import 'package:app_well_mate/screen/revisit_page.dart';
 import 'package:app_well_mate/screen/scan.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:app_well_mate/screen/drug_cart.dart';
@@ -29,27 +31,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   DrugRepo repo = DrugRepo();
-  List<ScheduleDetailModel> mockData = List.generate(
-      10,
-      (e) => ScheduleDetailModel(
-            idScheduleDetail: e,
-            status: "not_done",
-            timeOfUse: TimeOfDay(
-                hour: Random().nextInt(24), minute: Random().nextInt(60)),
-            detail: PrescriptionDetailModel(
-                drug: DrugModel(
-                    unit: "hộp",
-                    name: "Paracetamol",
-                    drugImage:
-                        "https://cdn.tgdd.vn/Products/Images/10244/129157/panadol-extra-600x600.jpg",
-                    price: 23000),
-                quantity: 1,
-                quantityUsed: Random().nextInt(100),
-                amountPerConsumption: Random().nextInt(10),
-                notes: "Trước khi ăn"),
-          ));
+  List<ScheduleDetailModel> data = [];
   List<ScheduleDetailModel> expiredData = [];
   List<ScheduleDetailModel> upcomingData = [];
+  bool showBanner = true;
   final List<String> _banners = [
     "banner1.json",
     "banner2.json",
@@ -57,17 +42,21 @@ class _HomeState extends State<Home> {
     "dotorjson.json",
     "fight_the_virus.json"
   ];
+  Future<void> getSchedule() async {
+    data = await repo.getSchedule();
+  }
+
+  onDelete(int id, BuildContext context) {
+    setState(() {
+      data.removeWhere((e) => e.idPreDetail == id);
+    });
+    showCustomSnackBar(context, "Xoá thuốc thành công");
+  }
+
+  Future<void>? future;
   @override
   void initState() {
-    repo.getSchedule();
-    expiredData = mockData
-        .where((e) => toSecond(e.timeOfUse!) < toSecond(TimeOfDay.now()))
-        .toList();
-    upcomingData = mockData
-        .where((e) =>
-            toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) > -3600 &&
-            toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) < 0)
-        .toList();
+    future = getSchedule();
     super.initState();
   }
 
@@ -152,138 +141,183 @@ class _HomeState extends State<Home> {
               ],
             ),
             //Nôm na là cách tối ưu nhất để nhét nhiều ListView chung với các View cứng khác.
-            body: CustomScrollView(
-              //các sliver được đối xử như các "màn hình ảo" riêng biệt, cho nên chúng độc lập với nhau về constrant, size...
-              //vì thế các listview, gridview và widget cứng có thể tồn tại chung với nhau
-              //mà k bị RenderBox has no size.
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Material(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(16)),
-                          color: colorScheme.surface.withAlpha(150),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                        child: Shortcut(
-                                      icon: Icons.monitor_weight_outlined,
-                                      text: "Tính BMI",
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const BmiPage(),
-                                            ));
-                                      },
-                                    )),
-                                    Expanded(
-                                        child: Shortcut(
-                                      icon: Icons.fitness_center,
-                                      text: "Tính FFMI",
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => FFMIPage(),
-                                            ));
-                                      },
-                                    )),
-                                    Expanded(
-                                        child: Shortcut(
-                                      icon: Icons.camera_alt_outlined,
-                                      text: "Quét mã",
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const ScanPage(
-                                                automaticallyImplyLeading: true,
-                                              ),
-                                            ));
-                                      },
-                                    )),
-                                    Expanded(
-                                        child: Shortcut(
-                                      icon: Symbols.alarm,
-                                      text: "Tái khám",
-                                      onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const RevisitPage()));
-                                      },
-                                    )),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            body: FutureBuilder(
+                future: future,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                        child: LoadingAnimationWidget.flickr(
+                      leftDotColor: colorScheme.primary,
+                      rightDotColor: colorScheme.error,
+                      size: 48,
+                    ));
+                  }
+                  expiredData = data
+                      .where((e) =>
+                          toSecond(e.timeOfUse!) < toSecond(TimeOfDay.now()))
+                      .toList();
+                  upcomingData = data
+                      .where((e) =>
+                          toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) >
+                              -3600 &&
+                          toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) <
+                              0)
+                      .toList();
+                  return CustomScrollView(
+                    //các sliver được đối xử như các "màn hình ảo" riêng biệt, cho nên chúng độc lập với nhau về constrant, size...
+                    //vì thế các listview, gridview và widget cứng có thể tồn tại chung với nhau
+                    //mà k bị RenderBox has no size.
+                    slivers: [
+                      SliverToBoxAdapter(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.error_outline_outlined,
-                                  color: colorScheme.error,
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Material(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(16)),
+                                color: colorScheme.surface.withAlpha(150),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                              child: Shortcut(
+                                            icon: Icons.monitor_weight_outlined,
+                                            text: "Tính BMI",
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const BmiPage(),
+                                                  ));
+                                            },
+                                          )),
+                                          Expanded(
+                                              child: Shortcut(
+                                            icon: Icons.fitness_center,
+                                            text: "Tính FFMI",
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        FFMIPage(),
+                                                  ));
+                                            },
+                                          )),
+                                          Expanded(
+                                              child: Shortcut(
+                                            icon: Icons.camera_alt_outlined,
+                                            text: "Quét mã",
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const ScanPage(
+                                                      automaticallyImplyLeading:
+                                                          true,
+                                                    ),
+                                                  ));
+                                            },
+                                          )),
+                                          Expanded(
+                                              child: Shortcut(
+                                            icon: Symbols.alarm,
+                                            text: "Tái khám",
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const RevisitPage()));
+                                            },
+                                          )),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.close))
-                              ],
+                              ),
                             ),
-                            Text(
-                              "Mùa này là mùa cảm cúm",
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            const Text("Hãy giữ gìn sức khoẻ nhé!"),
-                            Lottie.asset(
-                              "assets/images/${_banners[Random().nextInt(_banners.length)]}",
-                            ),
+                            showBanner
+                                ? Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.error_outline_outlined,
+                                              color: colorScheme.error,
+                                            ),
+                                            IconButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    showBanner = false;
+                                                  });
+                                                },
+                                                icon: const Icon(Icons.close))
+                                          ],
+                                        ),
+                                        Text(
+                                          "Mùa này là mùa cảm cúm",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge,
+                                        ),
+                                        const Text("Hãy giữ gìn sức khoẻ nhé!"),
+                                        Lottie.asset(
+                                          "assets/images/${_banners[Random().nextInt(_banners.length)]}",
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : const SizedBox(),
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                SliverList.separated(
-                  
-                  itemCount: expiredData.length,
-                  itemBuilder: (context, index) => MedicationItem(
-                    prescription: expiredData[index],
-                    titleText: index == 0 ? "Quá giờ uống thuốc" : null,
-                  ),
-                  separatorBuilder: (context, index) => const SizedBox(),
-                ),
-                SliverList.separated(
-                    itemCount: upcomingData.length,
-                    itemBuilder: (context, index) => MedicationItem(
-                          prescription: upcomingData[index],
-                          titleText: index == 0 ? "Sắp tới" : null,
+                      SliverList.separated(
+                        itemCount: expiredData.length,
+                        itemBuilder: (context, index) => MedicationItem(
+                          onDelete: (preDetailId) {
+                            onDelete(preDetailId, context);
+                          },
+                          prescription: expiredData[index],
+                          titleText: index == 0 ? "Quá giờ uống thuốc" : null,
                         ),
-                    separatorBuilder: (context, index) => const SizedBox())
-              ],
-            )),
+                        separatorBuilder: (context, index) => const SizedBox(),
+                      ),
+                      SliverList.separated(
+                          itemCount: upcomingData.length,
+                          itemBuilder: (context, index) => MedicationItem(
+                                onDelete: (preDetailId) {
+                                  onDelete(preDetailId, context);
+                                },
+                                prescription: upcomingData[index],
+                                titleText: index == 0 ? "Sắp tới" : null,
+                              ),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox())
+                    ],
+                  );
+                })),
       ],
     );
   }
