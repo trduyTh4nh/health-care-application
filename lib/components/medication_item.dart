@@ -1,6 +1,9 @@
+import 'package:app_well_mate/api/drug/drug_repo.dart';
 import 'package:app_well_mate/components/custom_elevated_button.dart';
+import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
@@ -13,15 +16,33 @@ import 'package:provider/provider.dart';
 enum MedicationItemAction { delete, edit, snooze, buy, confirm }
 
 class MedicationItem extends StatefulWidget {
-  const MedicationItem({super.key, required this.prescription, this.titleText});
+  const MedicationItem(
+      {super.key, required this.prescription, this.titleText, this.onDelete});
   final ScheduleDetailModel prescription;
   final String? titleText;
+  final Function(int preDetailId)? onDelete;
   @override
   State<MedicationItem> createState() => _MedicationItemState();
 }
 
 class _MedicationItemState extends State<MedicationItem> {
   bool showWarning = true;
+  DrugRepo repo = DrugRepo();
+  deleteDrug(BuildContext context) async {
+    try {
+      String res = await repo
+          .deletePrescriptionDetail(widget.prescription.idPreDetail ?? -1);
+    } catch (ex) {
+      if (context.mounted) {
+        showCustomSnackBar(context, "Lỗi khi xoá thuốc");
+      }
+      return;
+    }
+    if (widget.onDelete != null) {
+      widget.onDelete!(widget.prescription.idPreDetail ?? -1);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     int timeDiffSec = widget.prescription.timeOfUse != null
@@ -61,7 +82,10 @@ class _MedicationItemState extends State<MedicationItem> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const DrugInfoPage(),
+                        builder: (context) => DrugInfoPage(
+                          model: widget.prescription,
+                          idScheSelected: widget.prescription.idScheduleDetail ?? -1,
+                        ),
                       ));
                 },
                 child: Padding(
@@ -79,9 +103,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                 Container(
                                   decoration: BoxDecoration(
                                       color: accent,
-
                                       borderRadius: const BorderRadius.all(
-
                                           Radius.circular(50))),
                                   child: Padding(
                                     padding: const EdgeInsets.all(16),
@@ -95,7 +117,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                   child: Text(
                                     widget.prescription.detail!.drug!.name ??
                                         "",
-                                        overflow: TextOverflow.ellipsis,
+                                    overflow: TextOverflow.ellipsis,
                                     style:
                                         Theme.of(context).textTheme.bodyLarge,
                                   ),
@@ -160,14 +182,12 @@ class _MedicationItemState extends State<MedicationItem> {
                                                   //           const MedicinesOrder(),
                                                   //     ));
                                                 },
-
                                                 child: const Icon(
                                                   Icons.add_shopping_cart,
                                                   color: Colors.white,
                                                 ),
                                               )
                                             : const SizedBox(),
-
                                   ],
                                 ),
                                 PopupMenuButton(
@@ -193,12 +213,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                         value: MedicationItemAction.buy,
                                         child: ListTile(
                                             leading: Icon(Symbols.shopping_bag),
-                                            title: Text("Mua thuốc này"))),
-                                    const PopupMenuItem(
-                                        value: MedicationItemAction.edit,
-                                        child: ListTile(
-                                            leading: Icon(Symbols.edit),
-                                            title: Text("Sửa thuốc này"))),
+                                            title: Text("Thêm vào giỏ hàng"))),
                                     const PopupMenuItem(
                                         value: MedicationItemAction.delete,
                                         child: ListTile(
@@ -230,9 +245,13 @@ class _MedicationItemState extends State<MedicationItem> {
                                                       "Bạn có muốn xoá thuốc ${widget.prescription.detail!.drug!.name} không?"),
                                                   actions: [
                                                     TextButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(
+                                                        onPressed: () async {
+                                                          await deleteDrug(
                                                               context);
+                                                          if (context.mounted) {
+                                                            Navigator.pop(
+                                                                context);
+                                                          }
                                                         },
                                                         child:
                                                             const Text("Có")),
