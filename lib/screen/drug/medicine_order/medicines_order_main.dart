@@ -1,10 +1,12 @@
+import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/widget_buy_medicine.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/widget_complete_medicine.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/widget_payment_medicine.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:app_well_mate/screen/drug/medicine_order/widget_prescriptionstatus_medicine.dart';
+import 'package:app_well_mate/providers/cart_page_provider.dart';
 
 class MedicinesOrder extends StatefulWidget {
   const MedicinesOrder({super.key});
@@ -16,18 +18,18 @@ class MedicinesOrder extends StatefulWidget {
 class _MedicinesOrderState extends State<MedicinesOrder> {
   int _currentPageIndex = 0;
   final PageController _pageController = PageController();
-  final List<Widget> _pages = [
-    WidgetBuyMedicine(),
-    WidgetPaymentMedicine(),
-    WidgetCompleteMedicine(),
-  ];
-  final List<String> _tittle = [
+
+  final List<String> _title = [
     "Mua thuốc",
     "Thanh toán",
     "Hoàn tất",
   ];
+
   @override
   Widget build(BuildContext context) {
+    var selectedDrugs = Provider.of<CartPageProvider>(context).getSelectedDrugs();
+    var totalPrice = Provider.of<CartPageProvider>(context).calculateTotalPrice();
+
     return Scaffold(
       appBar: AppBar(
         title: AnimatedSwitcher(
@@ -36,8 +38,8 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
             return ScaleTransition(scale: animation, child: child);
           },
           child: Text(
-            _tittle[_currentPageIndex],
-            key: ValueKey(_tittle[_currentPageIndex]),
+            _title[_currentPageIndex],
+            key: ValueKey(_title[_currentPageIndex]),
           ),
         ),
       ),
@@ -48,7 +50,7 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SmoothPageIndicator(
               controller: _pageController,
-              count: _pages.length,
+              count: _title.length,
               axisDirection: Axis.horizontal,
               effect: const SlideEffect(
                 spacing: 8.0,
@@ -67,7 +69,12 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
               child: PageView(
                 physics: const NeverScrollableScrollPhysics(),
                 controller: _pageController,
-                children: _pages,
+                children: [
+                  WidgetBuyMedicine(selectedDrugs: selectedDrugs),
+                  // WidgetPaymentMedicine(totalPrice: totalPrice),
+                  WidgetPaymentMedicine(),  
+                  WidgetCompleteMedicine(selectedDrugs: selectedDrugs)
+                ],
               ),
             ),
           ),
@@ -81,7 +88,7 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                   style: Theme.of(context).textTheme.labelMedium,
                 ),
                 Text(
-                  "505.000" " Đ",
+                  "$totalPrice Đ",
                   style: Theme.of(context).textTheme.displayMedium,
                 ),
                 Padding(
@@ -89,53 +96,60 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _currentPageIndex != _pages.length - 1
+                      _currentPageIndex != _title.length - 1
                           ? FilledButton(
                               onPressed: () {
                                 if (_currentPageIndex > 0) {
                                   _currentPageIndex--;
                                 }
-                                _pageController.animateToPage(_currentPageIndex,
-                                    duration: Duration(milliseconds: 500),
-                                    curve: Curves.easeInOutCubicEmphasized);
-
+                                _pageController.animateToPage(
+                                  _currentPageIndex,
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.easeInOutCubicEmphasized,
+                                );
                                 setState(() {});
                               },
-                              child: Text("Quay lại"),
+                              child: const Text("Quay lại"),
                             )
-                          : SizedBox.shrink(),
-                      _currentPageIndex != _pages.length - 1
+                          : const SizedBox.shrink(),
+                      _currentPageIndex != _title.length - 1
                           ? ElevatedButton(
                               onPressed: () {
-                                if (_currentPageIndex >= _pages.length - 1) {
+                                if (_currentPageIndex >= _title.length - 1) {
                                   return;
                                 }
                                 _currentPageIndex++;
-                                _pageController.animateToPage(_currentPageIndex,
-                                    duration: Duration(milliseconds: 500),
-                                    curve: Curves.easeInOutCubicEmphasized);
+                                _pageController.animateToPage(
+                                  _currentPageIndex,
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.easeInOutCubicEmphasized,
+                                );
                                 setState(() {});
                               },
-                              child: Text("Tiếp theo"),
+                              child: const Text("Tiếp theo"),
                             )
                           : Expanded(
                               child: SizedBox(
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    WidgetPrescriptionstatusMedicine()));
-                                      },
-                                      child: const Text("Hoàn thành"))),
-                            )
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            WidgetCompleteMedicine(selectedDrugs: selectedDrugs),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text("Hoàn thành"),
+                                ),
+                              ),
+                            ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

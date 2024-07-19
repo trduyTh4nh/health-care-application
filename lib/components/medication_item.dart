@@ -222,6 +222,12 @@ class _MedicationItemState extends State<MedicationItem> {
                                         child: ListTile(
                                             leading: Icon(Symbols.shopping_bag),
                                             title: Text("Thêm vào giỏ hàng"))),
+
+                                    const PopupMenuItem(
+                                        value: MedicationItemAction.edit,
+                                        child: ListTile(
+                                            leading: Icon(Symbols.edit),
+                                            title: Text("Sửa thuốc này"))),
                                     const PopupMenuItem(
                                         value: MedicationItemAction.delete,
                                         child: ListTile(

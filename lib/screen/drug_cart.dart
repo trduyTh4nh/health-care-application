@@ -6,13 +6,12 @@ import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:app_well_mate/model/drug_model.dart';
-import 'package:app_well_mate/model/drug_cart_model.dart';
-import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
 import 'package:provider/provider.dart';
+import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
+
   @override
   _CartPageState createState() => _CartPageState();
 }
@@ -123,6 +122,7 @@ class _CartPageState extends State<CartPage> {
       _selectedCartItems.remove(item.idCart!);
       _calculateTotalPrice();
     });
+
   }
 
   String _formatCurrency(double amount) {
@@ -137,13 +137,17 @@ class _CartPageState extends State<CartPage> {
         title: const Text('Giỏ hàng'),
         actions: [
           IconButton(
-              onPressed: () {
-                _selectAllItems();
-              },
-              icon: const Badge(
-                  child: Icon(Icons.checklist),
-                  smallSize: 0 /*và 5*/,
-                  largeSize: 0)),
+            onPressed: () {
+              Provider.of<CartPageProvider>(context, listen: false).selectAll();
+            },
+            icon: const Icon(Icons.select_all),
+          ),
+          IconButton(
+            onPressed: () {
+              Provider.of<CartPageProvider>(context, listen: false).deselectAll();
+            },
+            icon: const Icon(Icons.deselect),
+          ),
         ],
       ),
       body: FutureBuilder(
@@ -288,6 +292,7 @@ class _CartPageState extends State<CartPage> {
                 child: const Text('Mua thuốc'),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 48),
+
                 ),
               ),
             ],

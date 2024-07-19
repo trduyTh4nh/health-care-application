@@ -1,82 +1,89 @@
-import 'package:app_well_mate/screen/drug_details.dart';
+import 'package:app_well_mate/model/drug_model.dart';
+import 'package:app_well_mate/model/prescription_detail_model.dart';
+import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 enum MedicationItemAction { delete, edit, snooze, buy, confirm, info }
 
-class WidgetBuyMedicine extends StatefulWidget {
-  const WidgetBuyMedicine({super.key});
+class WidgetBuyMedicine extends StatelessWidget {
+  final List<PrescriptionDetailModel> selectedDrugs;
 
-  @override
-  State<WidgetBuyMedicine> createState() => _WidgetBuyMedicine();
-}
+  const WidgetBuyMedicine({required this.selectedDrugs, Key? key}) : super(key: key);
 
-class _WidgetBuyMedicine extends State<WidgetBuyMedicine> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: selectedDrugs.map((item) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Row(
-                  children: [
-                    const CircleAvatar(
-                      radius: 20,
-                      backgroundImage: NetworkImage(
-                          'https://i.giphy.com/BSx6mzbW1ew7K.webp'),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Panadol Extra",
-                              style: Theme.of(context).textTheme.bodyLarge),
-                          Text("3 vỉ _ 8.000 đ / vỉ",
-                              style: Theme.of(context).textTheme.labelSmall),
-                          Text("25.000 đ",
-                              style: Theme.of(context).textTheme.titleMedium),
-                        ],
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  child: Row(
+                    children: [
+                      Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                            color: AppColors.greyColor,
+                                            borderRadius: BorderRadius.circular(50)),
+                                        child: Image.network(
+                                          item.drug!.drugImage ?? '',
+                                          width: 50,
+                                          height: 50,
+                                        ),
+                                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.drug!.name ?? '',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            Text(
+                              "${item.quantity} vỉ - ${item.drug!.price ?? 0} đ / vỉ",
+                              style: Theme.of(context).textTheme.labelSmall,
+                            ),
+                            Text(
+                              "${(item.drug!.price ?? 0) * (item.quantity ?? 1)} đ",
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                      PopupMenuButton(
+                        itemBuilder: (context) => const [
+                          PopupMenuItem(
+                            value: MedicationItemAction.delete,
+                            child: ListTile(
+                              leading: Icon(Symbols.delete),
+                              title: Text("Xoá đơn thuốc"),
+                            ),
+                          ),
+                          PopupMenuItem(
+                            value: MedicationItemAction.info,
+                            child: ListTile(
+                              leading: Icon(Symbols.info),
+                              title: Text("Xem thông tin"),
+                            ),
+                          ),
+                        ],
+                        onSelected: (value) {
+                          // Handle actions
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-                PopupMenuButton(
-                  style: Theme.of(context).iconButtonTheme.style,
-                  itemBuilder: (context) => const [
-                    PopupMenuItem(
-                        value: MedicationItemAction.delete,
-                        child: ListTile(
-                            leading: Icon(Symbols.delete),
-                            title: Text("Xoá đơn thuốc "))),
-                    PopupMenuItem(
-                        value: MedicationItemAction.info,
-                        child: ListTile(
-                            leading: Icon(Symbols.info),
-                            title: Text("Xem thông tin "))),
-                  ],
-                  onSelected: (value) {
-                    switch (value) {
-                      case MedicationItemAction.info:
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Drugdetails(),
-                            ));
-                        break;
-                      default:
-                        break;
-                    }
-                  },
-                ),
+                const Divider(),
               ],
-            ),
-            const Divider()
-          ],
+            );
+          }).toList(),
         ),
       ),
     );
