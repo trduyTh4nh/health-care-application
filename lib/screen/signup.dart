@@ -1,4 +1,5 @@
 import 'package:app_well_mate/api/auth/api_repo.dart';
+import 'package:app_well_mate/api/cart/cart_repo.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/screen/login.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
@@ -49,6 +50,9 @@ class _SignupState extends State<Signup> {
         _phoneController.text,
         _passwordController.text,
       );
+
+      await CartRepo().createCart(response);
+
       showCustomSnackBar(context, "Đăng ký thành công");
     } else {
       showCustomSnackBar(context, "Đăng ký thất bại");
