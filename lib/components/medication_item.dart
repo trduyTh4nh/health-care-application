@@ -1,3 +1,4 @@
+import 'package:app_well_mate/api/cart/cart_repo.dart';
 import 'package:app_well_mate/api/drug/drug_repo.dart';
 import 'package:app_well_mate/components/custom_elevated_button.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
@@ -43,6 +44,12 @@ class _MedicationItemState extends State<MedicationItem> {
     }
   }
 
+  void insertDrugIntoCart(DrugModel drug) async {
+    String res = await CartRepo().insertDrugToCart(drug);
+    print("Day la thuoc da duc them: $drug");
+    print(res);
+  }
+
   @override
   Widget build(BuildContext context) {
     int timeDiffSec = widget.prescription.timeOfUse != null
@@ -84,7 +91,8 @@ class _MedicationItemState extends State<MedicationItem> {
                       MaterialPageRoute(
                         builder: (context) => DrugInfoPage(
                           model: widget.prescription,
-                          idScheSelected: widget.prescription.idScheduleDetail ?? -1,
+                          idScheSelected:
+                              widget.prescription.idScheduleDetail ?? -1,
                         ),
                       ));
                 },
@@ -223,16 +231,21 @@ class _MedicationItemState extends State<MedicationItem> {
                                   onSelected: (value) {
                                     switch (value) {
                                       case MedicationItemAction.buy:
+                                        print("dang vao ham insert");
+                                        insertDrugIntoCart(
+                                            widget.prescription.detail!.drug!);
                                         // Navigator.push(
                                         //     context,
                                         //     MaterialPageRoute(
                                         //       builder: (context) =>
                                         //           const MedicinesOrder(),
                                         //     ));
-                                        Provider.of<CartPageProvider>(context,
-                                                listen: false)
-                                            .addDrugCart(
-                                                widget.prescription.detail!);
+
+                                        // Provider.of<CartPageProvider>(context,
+                                        //         listen: false)
+                                        //     .addDrugCart(
+                                        //         widget.prescription.detail!);
+
                                         break;
                                       case MedicationItemAction.delete:
                                         showDialog(
