@@ -24,22 +24,22 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      idUser: json['id_user'] as int?,
+      idUser: int.parse(json['id_user']),
       email: json['email'] as String?,
       password: json['password'] as String?,
-      role: json['role'] as String?,
-      userName: json['name'] as String?,
-      imgUser: json['imgUser'] as String?,
+      role: json['role'].toString(),
+      userName: json['name'] ?? "",
+      imgUser: json['imgUser'] ?? "",
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'idUser': idUser,
+      'id_user': idUser,
       'email': email,
       'password': password,
       'role': role,
-      'userName': userName,
+      'name': userName,
       'imgUser': imgUser,
     };
   }

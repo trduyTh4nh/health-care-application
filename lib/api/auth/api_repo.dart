@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:app_well_mate/api/api.dart';
+import 'package:app_well_mate/model/user.dart';
 import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -52,10 +53,11 @@ class ApiRepo {
             headers: header("no_token"),
           ));
 
-      print("status: ${response.statusCode}");
-      print("statusMessage: ${response.statusMessage}");
+      log("body: ${response.data["metadata"]["metadata"]["user"]}");
+      var data = response.data["metadata"]["metadata"]["user"];
+      User user = User.fromJson(data);
       if (response.statusCode == 201) {
-        return "register success";
+        return user.idUser.toString();
       } else {
         print("fail");
         return "register fail";
