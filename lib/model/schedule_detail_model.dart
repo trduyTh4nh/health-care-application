@@ -16,15 +16,15 @@ class ScheduleDetailModel {
       timeOfUse; // thời gian sử dụng ví dụ thuốc Hapacol dùng [2:00, 3:30, 10:20]
   PrescriptionDetailModel? detail;
   TimeOfDay? time;
-
-  ScheduleDetailModel({
-    this.idScheduleDetail,
-    this.idPreDetail,
-    this.idSchedule,
-    this.status,
-    this.timeOfUse,
-    this.detail,
-  });
+  DateTime? lastConfirmed;
+  ScheduleDetailModel(
+      {this.idScheduleDetail,
+      this.idPreDetail,
+      this.idSchedule,
+      this.status,
+      this.timeOfUse,
+      this.detail,
+      this.lastConfirmed});
 
   factory ScheduleDetailModel.fromJson(Map<String, dynamic> json) {
     String timeOfUse = json["time_use"] ?? "00:00:00";
