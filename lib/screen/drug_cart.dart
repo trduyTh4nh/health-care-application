@@ -1,14 +1,16 @@
+import 'package:app_well_mate/api/cart/cart_repo.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
+import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:app_well_mate/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
-
   @override
   _CartPageState createState() => _CartPageState();
 }
@@ -180,9 +182,6 @@ class _CartPageState extends State<CartPage> {
                   );
                 },
                 child: const Text('Mua thuốc'),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 48),
-                ),
               ),
             ],
           );
