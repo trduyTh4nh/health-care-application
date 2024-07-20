@@ -10,8 +10,6 @@ import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:app_well_mate/screen/FFMI.dart';
 import 'package:app_well_mate/screen/medicine_purchase_history.dart';
-import 'package:app_well_mate/model/drug_model.dart';
-import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/screen/notification.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';

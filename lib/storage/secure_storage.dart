@@ -24,4 +24,9 @@ class SecureStorage {
     var userJson = jsonDecode(user ?? "");
     return int.parse(userJson["id_user"]);
   }
+    static Future<int> getUserRole() async {
+    String? user = await storage.read(key: "user");
+    var userJson = jsonDecode(user ?? "");
+    return userJson["role"];
+  }
 }
