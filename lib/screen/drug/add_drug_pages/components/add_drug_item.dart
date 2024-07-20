@@ -23,6 +23,9 @@ class _AddDrugItemState extends State<AddDrugItem> {
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: widget.onClick ?? () {},
+        onLongPress: () {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(widget.drug.name ?? "Không có tên")));
+        },
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
           child: Row(
@@ -39,24 +42,33 @@ class _AddDrugItemState extends State<AddDrugItem> {
               const SizedBox(
                 width: 10,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.drug.name!,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        color: widget.selected
-                            ? colorScheme.onPrimary
-                            : colorScheme.onSurface),
-                  ),
-                  Text(
-                    widget.drug.unit!,
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: widget.selected
-                            ? colorScheme.onPrimary
-                            : colorScheme.onSurface),
-                  )
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            overflow: TextOverflow.ellipsis,
+                            widget.drug.name!,
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                color: widget.selected
+                                    ? colorScheme.onPrimary
+                                    : colorScheme.onSurface),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Text(
+                      widget.drug.unit!,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: widget.selected
+                              ? colorScheme.onPrimary
+                              : colorScheme.onSurface),
+                    )
+                  ],
+                ),
               )
             ],
           ),
