@@ -326,6 +326,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                                             _updateAddress(address.id_address!, _editAddressController.text);
                                                             Navigator.pop(context);
                                                           },
+                                                          
                                                           child: const Text("Xong"),
                                                         ),
                                                       ),
