@@ -7,6 +7,7 @@ import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:app_well_mate/screen/FFMI.dart';
 import 'package:app_well_mate/screen/medicine_purchase_history.dart';
 import 'package:app_well_mate/model/drug_model.dart';
@@ -21,6 +22,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:app_well_mate/screen/drug_cart.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -109,17 +111,26 @@ class _HomeState extends State<Home> {
               ),
               actions: [
                 //KHÔNG ĐƯỢC CONST!!!!!
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const CartPage()));
-                    },
-                    icon: const Icon(
-                      Symbols.shopping_cart,
-                      size: 24,
-                    )),
+                Consumer<CartPageProvider>(builder: (context, value, child) {
+                  return Badge(
+                    label: Text(
+                      "${value.listDrugCart.length}",
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    child: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const CartPage()));
+                        },
+                        icon: const Icon(
+                          Symbols.shopping_cart,
+                          size: 24,
+                        )),
+                  );
+                }),
+
                 IconButton(
                     onPressed: () {
                       Navigator.push(
