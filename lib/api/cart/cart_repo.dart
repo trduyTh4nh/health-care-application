@@ -53,15 +53,19 @@ class CartRepo {
     try {
       Response res = await api.sendRequest.get("/cart/getAllDrugInCart/$id",
           options: Options(headers: header(token)));
-      var data = res.data['metadata']['listFiltered'];
+      var data = res.data['metadata'];
 
-      print("Body : ${data}");
+      log("Body : ${data}");
       if (res.statusCode == 200) {
-        final transformed = data as List<dynamic>;
-        final dataFinal = transformed
-            .map((item) => DrugCartDetailModel.fromJson(item))
-            .toList();
-        return dataFinal;
+        if ((data is! List)) {
+          var filteredData = data['listFiltered'];
+          final transformed = filteredData as List<dynamic>;
+          final dataFinal = transformed
+              .map((item) => DrugCartDetailModel.fromJson(item))
+              .toList();
+          return dataFinal;
+        }
+        return [];
       } else {
         return [];
       }
@@ -71,7 +75,7 @@ class CartRepo {
     }
   }
 
-  Future<String> insertDrugToCart(DrugModel grug) async {
+  Future<void> insertDrugToCart(DrugModel grug) async {
     String token = await SecureStorage.getToken();
     int idUser = await SecureStorage.getUserId();
     Map<String, dynamic> body = {
@@ -82,13 +86,56 @@ class CartRepo {
       Response res = await api.sendRequest.post('/cart/insertDrugIntoCart',
           data: body, options: Options(headers: header(token)));
       if (res.statusCode == 200) {
-        return "Insert Success";
+        print("Insert Success");
       } else {
-        return "Insert Drug Into Cart Error";
+        print("Insert Drug Into Cart Error");
       }
     } catch (ex) {
       print(ex);
-      return "Error Drug into Cart";
+      print("Error Drug into Cart");
+    }
+  }
+
+  Future<String> updateQuantityCartDetail(
+      int drugcartDetail, int quantity) async {
+    String token = await SecureStorage.getToken();
+    Map<String, dynamic> body = {
+      'id_cart_detail': drugcartDetail,
+      'quantity': quantity
+    };
+    try {
+      Response res = await api.sendRequest.post(
+          '/cart/updateQuantityCartDetail',
+          data: body,
+          options: Options(headers: header(token)));
+      if (res.statusCode == 200) {
+        print("status cua ham update: ${res.statusCode}");
+        return "update success";
+      } else {
+        print("status cua ham update: ${res.statusCode}");
+        return "update fail";
+      }
+    } catch (ex) {
+      print(ex);
+      rethrow;
+    }
+  }
+
+  Future<String> deleteDrugFromCart(int id) async {
+    String token = await SecureStorage.getToken();
+    try {
+      Response response = await api.sendRequest.delete(
+          '/cart/deleteDrugInCart/$id',
+          options: Options(headers: header(token)));
+      if (response.data['metadata'] == 1) {
+        print("status cua ham delete: ${response.statusCode}");
+        return "delete success";
+      } else {
+        print("status cua ham delete: ${response.statusCode}");
+        return "delete fail";
+      }
+    } catch (ex) {
+      rethrow;
     }
   }
 }

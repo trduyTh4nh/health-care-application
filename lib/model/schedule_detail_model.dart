@@ -12,29 +12,32 @@ class ScheduleDetailModel {
   int? idPreDetail; // khóa ngoại
   int? idSchedule; // khóa ngoại
   String? status;
-  TimeOfDay? timeOfUse; // thời gian sử dụng ví dụ thuốc Hapacol dùng [2:00, 3:30, 10:20]
+  TimeOfDay?
+      timeOfUse; // thời gian sử dụng ví dụ thuốc Hapacol dùng [2:00, 3:30, 10:20]
   PrescriptionDetailModel? detail;
   TimeOfDay? time;
-
+  DateTime? lastConfirmed;
   ScheduleDetailModel(
       {this.idScheduleDetail,
       this.idPreDetail,
       this.idSchedule,
       this.status,
       this.timeOfUse,
-      this.detail,});
+      this.detail,
+      this.lastConfirmed});
 
   factory ScheduleDetailModel.fromJson(Map<String, dynamic> json) {
-      String timeOfUse = json["time_use"] ?? "00:00:00";
-      List<String> convert = timeOfUse.split(":");
-      TimeOfDay tod = TimeOfDay(hour: int.parse(convert[0]), minute: int.parse(convert[1]));
-      return ScheduleDetailModel(
-        idSchedule: json["id_schedule"] ?? 0,
-        idPreDetail: json["id_app_detail"] ?? 0,
-        idScheduleDetail: json["id_schedule_detail"] ?? 0,
-        status: json["status"] ? "done" : "not_done",
-        timeOfUse: tod,
-      );
+    String timeOfUse = json["time_use"] ?? "00:00:00";
+    List<String> convert = timeOfUse.split(":");
+    TimeOfDay tod =
+        TimeOfDay(hour: int.parse(convert[0]), minute: int.parse(convert[1]));
+    return ScheduleDetailModel(
+      idSchedule: json["id_schedule"] ?? 0,
+      idPreDetail: json["id_app_detail"] ?? 0,
+      idScheduleDetail: json["id_schedule_detail"] ?? 0,
+      status: json["status"] ? "done" : "not_done",
+      timeOfUse: tod,
+    );
   }
   Map<String, dynamic> toJson() => _$ScheduleDetailModelToJson(this);
 }
@@ -62,28 +65,28 @@ List<ScheduleDetailModel> generateSampleScheduleDetails() {
       status: "Pending",
       timeOfUse: const TimeOfDay(hour: 18, minute: 0),
     ),
-      ScheduleDetailModel(
+    ScheduleDetailModel(
       idScheduleDetail: 4,
       idPreDetail: 1001,
       idSchedule: 203,
       status: "Missed",
       timeOfUse: const TimeOfDay(hour: 10, minute: 10),
     ),
-      ScheduleDetailModel(
+    ScheduleDetailModel(
       idScheduleDetail: 5,
       idPreDetail: 1001,
       idSchedule: 203,
       status: "Pending",
       timeOfUse: const TimeOfDay(hour: 14, minute: 0),
     ),
-      ScheduleDetailModel(
+    ScheduleDetailModel(
       idScheduleDetail: 6,
       idPreDetail: 1001,
       idSchedule: 203,
       status: "Missed",
       timeOfUse: const TimeOfDay(hour: 19, minute: 40),
     ),
-     ScheduleDetailModel(
+    ScheduleDetailModel(
       idScheduleDetail: 7,
       idPreDetail: 1001,
       idSchedule: 203,
@@ -91,7 +94,7 @@ List<ScheduleDetailModel> generateSampleScheduleDetails() {
       timeOfUse: const TimeOfDay(hour: 20, minute: 50),
     ),
 
-     ScheduleDetailModel(
+    ScheduleDetailModel(
       idScheduleDetail: 8,
       idPreDetail: 1001,
       idSchedule: 203,
