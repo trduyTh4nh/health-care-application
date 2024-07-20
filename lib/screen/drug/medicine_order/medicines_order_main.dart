@@ -1,4 +1,5 @@
 import 'package:app_well_mate/providers/cart_page_provider.dart';
+import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/widget_buy_medicine.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/widget_complete_medicine.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/widget_payment_medicine.dart';
@@ -6,8 +7,9 @@ import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:app_well_mate/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:app_well_mate/screen/drug/medicine_order/widget_prescriptionstatus_medicine.dart';
+import 'package:app_well_mate/providers/cart_page_provider.dart';
 
 class MedicinesOrder extends StatefulWidget {
   const MedicinesOrder({super.key});
@@ -19,18 +21,20 @@ class MedicinesOrder extends StatefulWidget {
 class _MedicinesOrderState extends State<MedicinesOrder> {
   int _currentPageIndex = 0;
   final PageController _pageController = PageController();
-  final List<Widget> _pages = [
-    WidgetBuyMedicine(),
-    WidgetPaymentMedicine(),
-    WidgetCompleteMedicine(),
-  ];
+
   final List<String> _tittle = [
     "Mua thuốc",
     "Thanh toán",
     "Hoàn tất",
   ];
+
   @override
   Widget build(BuildContext context) {
+    var selectedDrugs =
+        Provider.of<CartPageProvider>(context).getSelectedDrugs();
+    var totalPrice =
+        Provider.of<CartPageProvider>(context).calculateTotalPrice();
+
     return Scaffold(
         appBar: AppBar(
           title: AnimatedSwitcher(
