@@ -1,3 +1,4 @@
+import 'package:app_well_mate/api/cart/cart_repo.dart';
 import 'package:app_well_mate/api/drug/drug_repo.dart';
 import 'package:app_well_mate/components/custom_elevated_button.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
@@ -317,8 +318,8 @@ class _MedicationItemState extends State<MedicationItem> {
                                                 Provider.of<CartPageProvider>(
                                                         context,
                                                         listen: false)
-                                                    .addDrugCart(widget
-                                                        .prescription.detail!);
+                                                    .addDrugtoCart(widget
+                                                        .prescription.detail!.drug!);
                                                 break;
                                               case MedicationItemAction.delete:
                                                 showDialog(

@@ -5,26 +5,27 @@ import 'package:json_annotation/json_annotation.dart';
 part 'json/drug_cart_detail_model.g.dart';
 
 @JsonSerializable()
-class DrugCartDetailModel{
+class DrugCartDetailModel {
   int? idDrugCartDetail;
   int? idDrug; // khóa ngoại
   DrugModel? drug;
   int? idCart; // khóa ngoại
   DateTime? addedDate;
   int? quantity;
+  int? quantityDrugDetail;
   DrugCartModel? drugCart;
-  DrugCartDetailModel({
-    this.idDrugCartDetail,
-    this.idDrug,
-    this.addedDate,
-    this.quantity,
-    this.drug,
-    this.drugCart
-  });
 
+  DrugCartDetailModel(
+      {this.idDrugCartDetail,
+      this.idDrug,
+      this.addedDate,
+      this.quantity,
+      this.quantityDrugDetail,
+      this.drug,
+      this.drugCart,
+      this.idCart});
 
-  factory DrugCartDetailModel.fromJson(Map<String, dynamic> json) => _$DrugCartDetailModelFromJson(json);
+  factory DrugCartDetailModel.fromJson(Map<String, dynamic> json) =>
+      _$DrugCartDetailModelFromJson(json);
   Map<String, dynamic> toJson() => _$DrugCartDetailModelToJson(this);
-
-
 }

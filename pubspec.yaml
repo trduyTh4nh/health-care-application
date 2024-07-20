@@ -33,6 +33,10 @@ dependencies:
   flutter_secure_storage: ^9.2.2
   url_launcher: ^6.3.0
   loading_animation_widget: ^1.2.1
+  flutter_datetime_picker: ^1.5.1
+  snippet_coder_utils: ^1.0.15
+  shared_preferences: ^2.2.2
+  image_picker: ^1.1.2
   connectivity_plus: ^6.0.3
  
 
