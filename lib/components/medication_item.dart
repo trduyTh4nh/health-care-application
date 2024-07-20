@@ -44,12 +44,6 @@ class _MedicationItemState extends State<MedicationItem> {
     }
   }
 
-  void insertDrugIntoCart(DrugModel drug) async {
-    String res = await CartRepo().insertDrugToCart(drug);
-    print("Day la thuoc da duc them: $drug");
-    print(res);
-  }
-
   @override
   Widget build(BuildContext context) {
     int timeDiffSec = widget.prescription.timeOfUse != null
@@ -198,89 +192,86 @@ class _MedicationItemState extends State<MedicationItem> {
                                             : const SizedBox(),
                                   ],
                                 ),
-                                PopupMenuButton(
-                                  itemBuilder: (context) => [
-                                    PopupMenuItem(
-                                        enabled: widget.prescription
-                                                .idScheduleDetail !=
-                                            null,
-                                        value: MedicationItemAction.confirm,
-                                        child: const ListTile(
-                                            leading: Icon(Symbols.check),
-                                            title: Text("Xác nhận đã uống"))),
-                                    PopupMenuItem(
-                                        enabled: widget.prescription
-                                                .idScheduleDetail !=
-                                            null,
-                                        value: MedicationItemAction.snooze,
-                                        child: const ListTile(
-                                            leading: Icon(Symbols.snooze),
-                                            title:
-                                                Text("Nhắc tôi sau 10p nữa"))),
-                                    const PopupMenuItem(
-                                        value: MedicationItemAction.buy,
-                                        child: ListTile(
-                                            leading: Icon(Symbols.shopping_bag),
-                                            title: Text("Thêm vào giỏ hàng"))),
-                                    const PopupMenuItem(
-                                        value: MedicationItemAction.delete,
-                                        child: ListTile(
-                                            leading: Icon(Symbols.delete),
-                                            title: Text("Xoá thuốc này"))),
-                                  ],
-                                  onSelected: (value) {
-                                    switch (value) {
-                                      case MedicationItemAction.buy:
-                                        print("dang vao ham insert");
-                                        insertDrugIntoCart(
-                                            widget.prescription.detail!.drug!);
-                                        // Navigator.push(
-                                        //     context,
-                                        //     MaterialPageRoute(
-                                        //       builder: (context) =>
-                                        //           const MedicinesOrder(),
-                                        //     ));
+                                Consumer<CartPageProvider>(
+                                  builder: (context, value, child) {
+                                    return PopupMenuButton(
+                                      itemBuilder: (context) => [
+                                        PopupMenuItem(
+                                            enabled: widget.prescription
+                                                    .idScheduleDetail !=
+                                                null,
+                                            value: MedicationItemAction.confirm,
+                                            child: const ListTile(
+                                                leading: Icon(Symbols.check),
+                                                title:
+                                                    Text("Xác nhận đã uống"))),
+                                        PopupMenuItem(
+                                            enabled: widget.prescription
+                                                    .idScheduleDetail !=
+                                                null,
+                                            value: MedicationItemAction.snooze,
+                                            child: const ListTile(
+                                                leading: Icon(Symbols.snooze),
+                                                title: Text(
+                                                    "Nhắc tôi sau 10p nữa"))),
+                                        const PopupMenuItem(
+                                            value: MedicationItemAction.buy,
+                                            child: ListTile(
+                                                leading:
+                                                    Icon(Symbols.shopping_bag),
+                                                title:
+                                                    Text("Thêm vào giỏ hàng"))),
+                                        const PopupMenuItem(
+                                            value: MedicationItemAction.delete,
+                                            child: ListTile(
+                                                leading: Icon(Symbols.delete),
+                                                title: Text("Xoá thuốc này"))),
+                                      ],
+                                      onSelected: (item) {
+                                        switch (item) {
+                                          case MedicationItemAction.buy:
+                                            value.addDrugtoCart(widget
+                                                .prescription.detail!.drug!);
 
-                                        // Provider.of<CartPageProvider>(context,
-                                        //         listen: false)
-                                        //     .addDrugCart(
-                                        //         widget.prescription.detail!);
-
-                                        break;
-                                      case MedicationItemAction.delete:
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) =>
-                                                AlertDialog.adaptive(
-                                                  title: const Text(
-                                                      "Xoá thuốc này"),
-                                                  content: Text(
-                                                      "Bạn có muốn xoá thuốc ${widget.prescription.detail!.drug!.name} không?"),
-                                                  actions: [
-                                                    TextButton(
-                                                        onPressed: () async {
-                                                          await deleteDrug(
-                                                              context);
-                                                          if (context.mounted) {
-                                                            Navigator.pop(
-                                                                context);
-                                                          }
-                                                        },
-                                                        child:
-                                                            const Text("Có")),
-                                                    TextButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child:
-                                                            const Text("Không"))
-                                                  ],
-                                                ));
-                                        break;
-                                      default:
-                                        break;
-                                    }
+                                            break;
+                                          case MedicationItemAction.delete:
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    AlertDialog.adaptive(
+                                                      title: const Text(
+                                                          "Xoá thuốc này"),
+                                                      content: Text(
+                                                          "Bạn có muốn xoá thuốc ${widget.prescription.detail!.drug!.name} không?"),
+                                                      actions: [
+                                                        TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              await deleteDrug(
+                                                                  context);
+                                                              if (context
+                                                                  .mounted) {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              }
+                                                            },
+                                                            child: const Text(
+                                                                "Có")),
+                                                        TextButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: const Text(
+                                                                "Không"))
+                                                      ],
+                                                    ));
+                                            break;
+                                          default:
+                                            break;
+                                        }
+                                      },
+                                    );
                                   },
                                 )
                               ])

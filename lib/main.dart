@@ -52,6 +52,9 @@ class _MainAppState extends State<MainApp> {
   @override
   void initState() {
     super.initState();
+     WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<CartPageProvider>(context, listen: false).fetchDrugCart();
+    });
   }
 
   @override
