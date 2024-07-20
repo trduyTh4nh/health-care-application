@@ -4,7 +4,6 @@ import 'package:app_well_mate/api/auth/api_repo.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/profile_model.dart';
 import 'package:app_well_mate/screen/admin/hospital_management_page.dart';
-import 'package:app_well_mate/screen/upload_img_avt.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
