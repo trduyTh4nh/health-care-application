@@ -73,75 +73,73 @@ class _AddDrugPageState extends State<AddDrugPage> {
                 children: pages,
               ),
             ),
-            Consumer<AddPageProvider>(builder: (context, value, child) {
-              void checkIsPageValid() {
-                if (_currentPageIndex == 2) {
-                  value.isValid =
-                      value.scheduleDetailModel.isNotEmpty || value.habit != 0;
-                }
-                if (_currentPageIndex == 1) {
-                  value.isValid = true;
-                }
-                FocusManager.instance.primaryFocus?.unfocus();
-              }
-
-              return Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  children: [
-                    _currentPageIndex != 0
-                        ? Expanded(
-                            child: FilledButton(
-                                onPressed: () {
-                                  if (_currentPageIndex == 0) {
-                                    _currentPageIndex = -1;
-                                  }
-                                  _currentPageIndex--;
-                                  _pageController.animateToPage(
-                                      _currentPageIndex,
-                                      duration:
-                                          const Duration(milliseconds: 500),
-                                      curve: Curves.easeInOutCubicEmphasized);
-                                  checkIsPageValid();
-                                  setState(() {});
-                                },
-                                child: const Text("Trước")),
-                          )
-                        : const SizedBox(),
-                    SizedBox(
-                      width: _currentPageIndex == 0 ? 0 : 10,
-                    ),
-                    Expanded(
-                      child: ElevatedButton(
-                          onPressed: value.isValid
-                              ? () {
-                                  if (_currentPageIndex >= pages.length - 1) {
-                                    Navigator.pop(context);
-                                    //TODO: Add thuốc khi có back-end.
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                       const SnackBar(
-                                            content: Text("Đã thêm thuốc.")));
-                                    return;
-                                  }
-                                  _currentPageIndex++;
-                                  _pageController.animateToPage(
-                                      _currentPageIndex,
-                                      duration: const Duration(milliseconds: 500),
-                                      curve: Curves.easeInOutCubicEmphasized);
-                                  checkIsPageValid();
-                                  setState(() {});
-                                }
-                              : null,
-                          child: Text(_currentPageIndex == pages.length - 1
-                              ? "Thêm"
-                              : "Tiếp")),
-                    ),
-                  ],
-                ),
-              );
-            })
           ],
         ),
+        bottomNavigationBar:
+            Consumer<AddPageProvider>(builder: (context, value, child) {
+          void checkIsPageValid() {
+            if (_currentPageIndex == 2) {
+              value.isValid =
+                  value.scheduleDetailModel.isNotEmpty || value.habit != 0;
+            }
+            if (_currentPageIndex == 1) {
+              value.isValid = true;
+            }
+            FocusManager.instance.primaryFocus?.unfocus();
+          }
+
+          return Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              children: [
+                _currentPageIndex != 0
+                    ? Expanded(
+                        child: FilledButton(
+                            onPressed: () {
+                              if (_currentPageIndex == 0) {
+                                _currentPageIndex = -1;
+                              }
+                              _currentPageIndex--;
+                              _pageController.animateToPage(_currentPageIndex,
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.easeInOutCubicEmphasized);
+                              checkIsPageValid();
+                              setState(() {});
+                            },
+                            child: const Text("Trước")),
+                      )
+                    : const SizedBox(),
+                SizedBox(
+                  width: _currentPageIndex == 0 ? 0 : 10,
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                      onPressed: value.isValid
+                          ? () {
+                              if (_currentPageIndex >= pages.length - 1) {
+                                Navigator.pop(context);
+                                //TODO: Add thuốc khi có back-end.
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text("Đã thêm thuốc.")));
+                                return;
+                              }
+                              _currentPageIndex++;
+                              _pageController.animateToPage(_currentPageIndex,
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.easeInOutCubicEmphasized);
+                              checkIsPageValid();
+                              setState(() {});
+                            }
+                          : null,
+                      child: Text(_currentPageIndex == pages.length - 1
+                          ? "Thêm"
+                          : "Tiếp")),
+                ),
+              ],
+            ),
+          );
+        }),
       ),
     );
   }

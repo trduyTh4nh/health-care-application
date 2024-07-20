@@ -1,90 +1,108 @@
-import 'package:app_well_mate/model/drug_model.dart';
-import 'package:app_well_mate/model/prescription_detail_model.dart';
-import 'package:app_well_mate/utils/app.colors.dart';
+import 'package:app_well_mate/providers/cart_page_provider.dart';
+import 'package:app_well_mate/screen/drug_details.dart';
+import 'package:app_well_mate/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:provider/provider.dart';
 
 enum MedicationItemAction { delete, edit, snooze, buy, confirm, info }
 
-class WidgetBuyMedicine extends StatelessWidget {
-  final List<PrescriptionDetailModel> selectedDrugs;
+class WidgetBuyMedicine extends StatefulWidget {
+  const WidgetBuyMedicine({super.key});
 
-  const WidgetBuyMedicine({required this.selectedDrugs, Key? key}) : super(key: key);
+  @override
+  State<WidgetBuyMedicine> createState() => _WidgetBuyMedicine();
+}
 
+class _WidgetBuyMedicine extends State<WidgetBuyMedicine> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: selectedDrugs.map((item) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: Row(
-                    children: [
-                      Container(
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                            color: AppColors.greyColor,
-                                            borderRadius: BorderRadius.circular(50)),
-                                        child: Image.network(
-                                          item.drug!.drugImage ?? '',
-                                          width: 50,
-                                          height: 50,
-                                        ),
-                                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+      body: Consumer<CartPageProvider>(
+        builder: (context, value, child) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: ListView.builder(
+              itemCount: value.listChecked.length,
+              itemBuilder: (context, index) {
+                var item = value.listChecked[index];
+                return Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
                           children: [
-                            Text(
-                              item.drug!.name ?? '',
-                              style: Theme.of(context).textTheme.bodyLarge,
+                            Image.network(
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(Icons.image),
+                              // drug!.drugImage ?? ''
+                              item.drug!.drugImage ?? '',
+
+                              width: 50,
+                              height: 50,
                             ),
-                            Text(
-                              "${item.quantity} vỉ - ${item.drug!.price ?? 0} đ / vỉ",
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                            Text(
-                              "${(item.drug!.price ?? 0) * (item.quantity ?? 1)} đ",
-                              style: Theme.of(context).textTheme.titleMedium,
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(item.drug!.name!,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge),
+                                  Row(
+                                    children: [
+                                      Text(
+                                          "${item.quantity} ${item.drug!.unit}- ${convertCurrency(item.drug!.price)}/${item.drug!.unit}")
+                                    ],
+                                  ),
+                                  Text(convertCurrency(item.drug!.price),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium),
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                      PopupMenuButton(
-                        itemBuilder: (context) => const [
-                          PopupMenuItem(
-                            value: MedicationItemAction.delete,
-                            child: ListTile(
-                              leading: Icon(Symbols.delete),
-                              title: Text("Xoá đơn thuốc"),
-                            ),
-                          ),
-                          PopupMenuItem(
-                            value: MedicationItemAction.info,
-                            child: ListTile(
-                              leading: Icon(Symbols.info),
-                              title: Text("Xem thông tin"),
-                            ),
-                          ),
-                        ],
-                        onSelected: (value) {
-                          // Handle actions
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                const Divider(),
-              ],
-            );
-          }).toList(),
-        ),
+                        PopupMenuButton(
+                          style: Theme.of(context).iconButtonTheme.style,
+                          itemBuilder: (context) => const [
+                            PopupMenuItem(
+                                value: MedicationItemAction.delete,
+                                child: ListTile(
+                                    leading: Icon(Symbols.delete),
+                                    title: Text("Xoá đơn thuốc "))),
+                            PopupMenuItem(
+                                value: MedicationItemAction.info,
+                                child: ListTile(
+                                    leading: Icon(Symbols.info),
+                                    title: Text("Xem thông tin "))),
+                          ],
+                          onSelected: (value) {
+                            switch (value) {
+                              case MedicationItemAction.info:
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const Drugdetails(),
+                                    ));
+                                break;
+                              default:
+                                break;
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                    const Divider()
+                  ],
+                );
+              },
+            ),
+          );
+        },
       ),
     );
   }

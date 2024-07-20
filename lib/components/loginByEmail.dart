@@ -1,7 +1,10 @@
 import 'package:app_well_mate/api/auth/api_repo.dart';
 import 'package:app_well_mate/const/current_page.dart';
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/model/user.dart';
+import 'package:app_well_mate/screen/admin/admin_page.dart';
 import 'package:app_well_mate/screen/signup.dart';
+import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,6 +17,7 @@ class LoginByEmail extends StatefulWidget {
 }
 
 class _LoginByEmailState extends State<LoginByEmail> {
+  late User user;
   bool isLoading = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -28,6 +32,12 @@ class _LoginByEmailState extends State<LoginByEmail> {
     setState(() {
       isLoading = false;
     });
+    int role = await SecureStorage.getUserRole();
+    if (role == 2) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => AdminPage()));
+      return;
+    }
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
       if (r) {
@@ -35,6 +45,10 @@ class _LoginByEmailState extends State<LoginByEmail> {
             context, MaterialPageRoute(builder: (context) => currentpage));
       }
     }
+    // else if(user.role == 1){
+    //   Navigator.push(
+    //          context, MaterialPageRoute(builder: (context) => AppPage()));
+    // }
   }
 
   @override

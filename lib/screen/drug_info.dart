@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:app_well_mate/api/drug/drug_repo.dart';
 import 'package:app_well_mate/api/schedule/schedule_repo.dart';
 import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
@@ -21,7 +22,8 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 
 class DrugInfoPage extends StatefulWidget {
-  const DrugInfoPage({super.key, this.notifiItem, this.model, this.idScheSelected = 0});
+  const DrugInfoPage(
+      {super.key, this.notifiItem, this.model, this.idScheSelected = 0});
   final NotificationModel? notifiItem;
   final ScheduleDetailModel? model;
   final int idScheSelected;
@@ -56,8 +58,8 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
   getSchedules() async {
     listScheduleDetail =
         await repo.findAllSchedulesBy(widget.model!.detail!.idPreDetail ?? -1);
-    
     idScheSelected = widget.idScheSelected;
+    setState(() {});
     log(idScheSelected.toString());
     renderListSchedule();
   }
@@ -82,20 +84,16 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
   void renderListSchedule() {
     List<ScheduleDetailModel> times1 =
         listScheduleDetail!.map((element) => element).toList();
-
     _timesMorning1 = times1
         .where((e) => e.timeOfUse!.hour >= 0 && e.timeOfUse!.hour <= 12)
         .toList();
-
     _timesMorning1
         .sort((a, b) => a.timeOfUse!.hour.compareTo(b.timeOfUse!.hour));
-
     _timesAfternoon1 = times1
         .where((e) => e.timeOfUse!.hour > 12 && e.timeOfUse!.hour <= 18)
         .toList();
     _timesAfternoon1
         .sort((a, b) => a.timeOfUse!.hour.compareTo(b.timeOfUse!.hour));
-
     _timesNight1 = times1
         .where((e) => e.timeOfUse!.hour > 18 && e.timeOfUse!.hour <= 24)
         .toList();
@@ -150,6 +148,11 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                           rightDotColor: colorScheme.error,
                           size: 48,
                         ),
+                      );
+                    }
+                    if (listScheduleDetail!.isEmpty) {
+                      return Center(
+                        child: Text("Thuốc không hợp lệ"),
                       );
                     }
                     return CustomScrollView(
@@ -598,7 +601,9 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                     Symbols.snooze,
                     color: Colors.black,
                   ),
-                  onPressed: () {},
+                  onPressed: listScheduleDetail!.isEmpty || idScheSelected == 0
+                      ? null
+                      : () {},
                 ),
               ),
               const SizedBox(
@@ -620,20 +625,36 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                   icon: const Icon(
                     Symbols.check,
                   ),
-                  onPressed: () {
-                    // ngay chỗ này cần
-                    setState(() {
-                      ScheduleDetailModel updatedScheDetail =
-                          listScheduleDetail!.firstWhere(
+                  onPressed: listScheduleDetail!.isEmpty || idScheSelected == 0
+                      ? null
+                      : () async {
+                          // ngay chỗ này cần
+                          showDialog(
+                              context: context,
+                              builder: (c) => const AlertDialog(
+                                    icon: SizedBox(
+                                        width: 24,
+                                        height: 24,
+                                        child: CircularProgressIndicator()),
+                                    title: Text("Vui lòng chờ"),
+                                  ));
+                          int index = listScheduleDetail!.indexWhere(
                               (e) => e.idScheduleDetail == idScheSelected);
-                      updatedScheDetail.status = "Completed";
-                      listScheduleDetail?[listScheduleDetail!.indexWhere(
-                              (element) =>
-                                  element.idScheduleDetail == idScheSelected)] =
-                          updatedScheDetail;
-                    });
-                    renderListSchedule();
-                  },
+                          int res =
+                              await DrugRepo().updateSchedule(idScheSelected);
+                          if (res == 1 && context.mounted) {
+                            setState(() {
+                              listScheduleDetail![index].lastConfirmed =
+                                  DateTime.now();
+                            });
+                            showCustomSnackBar(
+                                context, "Đã ghi nhận uống thuốc này.");
+                          } else if (context.mounted) {
+                            showCustomSnackBar(
+                                context, "Lỗi khi cập nhật đơn thuốc");
+                          }
+                          renderListSchedule();
+                        },
                 ),
               )
             ],
@@ -651,10 +672,7 @@ void updateElement(int id, ScheduleDetailModel updatedModel) {
     _listFetch[index] = updatedModel;
     // Notify listeners about the change (if applicable)
     // notifyListeners();
-  } else {
-    // Handle the case where the element with the ID is not found
-    print("Element with ID $id not found in the list.");
-  }
+  } else {}
 }
 
 Widget timerWidget() {

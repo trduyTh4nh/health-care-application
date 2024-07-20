@@ -6,6 +6,7 @@ import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 
 class DrugRepo {
   API api = API();
@@ -13,21 +14,80 @@ class DrugRepo {
     List<ScheduleDetailModel> lst = [];
     int userId = await SecureStorage.getUserId();
     String token = await SecureStorage.getToken();
-    Response res = await api.sendRequest.get("/drug/getAllDrugBy/$userId",
-        options: Options(headers: header(token)));
-    var data = res.data["metadata"];
-    for (var e in data) {
-      for (var e1 in e["drugAppDetailPromises"]) {
-        for (var e2 in e1["scheduleDetail"]) {
-          PrescriptionDetailModel? model = PrescriptionDetailModel.fromJson(e1);
-          model.drug = DrugModel.fromJson(e1["drug"]);
-          ScheduleDetailModel s = ScheduleDetailModel.fromJson(e2);
-          s.detail = model;
-          lst.add(s);
+    try {
+      Response res = await api.sendRequest.get("/drug/getAllDrugBy/$userId",
+          options: Options(headers: header(token)));
+      var data = res.data["metadata"];
+      for (var e in data) {
+        for (var e1 in e["drugAppDetailPromises"]) {
+          for (var e2 in e1["scheduleDetail"]) {
+            PrescriptionDetailModel? model =
+                PrescriptionDetailModel.fromJson(e1);
+            model.drug = DrugModel.fromJson(e1["drug"]);
+            ScheduleDetailModel s = ScheduleDetailModel.fromJson(e2);
+            s.detail = model;
+            lst.add(s);
+          }
         }
       }
+      lst = lst
+          .where((e) =>
+              DateFormat("yyyy-MM-dd").format(e.lastConfirmed!) !=
+              DateFormat("yyyy-MM-dd").format(DateTime.now()))
+          .toList();
+      return lst;
+    } catch (ex) {
+      log(ex.toString());
+      return [];
     }
-    return lst;
+  }
+
+  Future<List<ScheduleDetailModel>> getScheduleBy(int id) async {
+    List<ScheduleDetailModel> lst = [];
+    String token = await SecureStorage.getToken();
+    try {
+      Response res = await api.sendRequest.get("/drug/getAllDrugAppBy/$id",
+          options: Options(headers: header(token)));
+      var data = res.data["metadata"];
+      for (var e in data) {
+        for (var e1 in e["drugAppDetailPromises"]) {
+          for (var e2 in e1["scheduleDetail"]) {
+            PrescriptionDetailModel? model =
+                PrescriptionDetailModel.fromJson(e1);
+            model.drug = DrugModel.fromJson(e1["drug"]);
+            ScheduleDetailModel s = ScheduleDetailModel.fromJson(e2);
+            s.detail = model;
+            lst.add(s);
+          }
+        }
+      }
+      return lst;
+    } catch (ex) {
+      log(ex.toString());
+      return [];
+    }
+  }
+
+  Future<List<ScheduleDetailModel>?> getPreDetail(int id) async {
+    List<ScheduleDetailModel> lst = [];
+    String token = await SecureStorage.getToken();
+    try {
+      Response res = await api.sendRequest.get(
+          "/drug/getAllApplicationDetail/$id",
+          options: Options(headers: header(token)));
+      final data = res.data["metadata"];
+      for (var element in data) {
+        ScheduleDetailModel tmp = ScheduleDetailModel();
+        tmp.detail = PrescriptionDetailModel.fromJson(element);
+        tmp.detail!.drug = DrugModel.fromJson(element["drug"]);
+        lst.add(tmp);
+      }
+      //TODO: Filter ngày cuối cùng uống sau khi khứa thanh sửa
+      return lst;
+    } catch (ex) {
+      log(ex.toString());
+      return null;
+    }
   }
 
   Future<String> deletePrescriptionDetail(int id) async {
@@ -51,6 +111,60 @@ class DrugRepo {
         return excep.response!.data["code"].toString();
       }
       return "Lỗi vô định";
+    }
+  }
+
+  Future<List<DrugModel>?> getAllDrug() async {
+    String token = await SecureStorage.getToken();
+    try {
+      List<DrugModel> lst = [];
+      Response res = await api.sendRequest.get("/drug/getAllDrugSystem",
+          options: Options(headers: header(token)));
+      var data = res.data["metadata"];
+      if (data is List) {
+        lst = data.map((e) => DrugModel.fromJson(e)).toList();
+      }
+      log(lst.toString());
+      return lst;
+    } catch (ex) {
+      log(ex.toString());
+      return null;
+    }
+  }
+
+  Future<List<DrugModel>?> getAllDrugWithQuery(String query) async {
+    String token = await SecureStorage.getToken();
+    try {
+      List<DrugModel> lst = [];
+      Response res = await api.sendRequest.get(
+          "/drug/searchDrug?searchText=$query",
+          options: Options(headers: header(token)));
+      var data = res.data["metadata"];
+      if (data is List) {
+        lst = data.map((e) => DrugModel.fromJson(e)).toList();
+      }
+      log(lst.toString());
+      return lst;
+    } catch (ex) {
+      log(ex.toString());
+      return null;
+    }
+  }
+
+  Future<int> updateSchedule(int id) async {
+    String token = await SecureStorage.getToken();
+    int idUser = await SecureStorage.getUserId();
+    try {
+      Response res = await api.sendRequest.put(
+          "/schedule/updateScheduleDetail/$id",
+          data: {
+            "id_user": idUser
+          },
+          options: Options(headers: header(token)));
+      return res.data["metadata"][0];
+    } catch (ex) {
+      log(ex.toString());
+      return 0;
     }
   }
 }
