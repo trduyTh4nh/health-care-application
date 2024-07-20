@@ -1,3 +1,6 @@
+import 'dart:ffi';
+import 'dart:math';
+
 import 'package:app_well_mate/api/cart/cart_repo.dart';
 import 'package:app_well_mate/model/drug_cart_detail_model.dart';
 import 'package:app_well_mate/model/drug_model.dart';
@@ -46,6 +49,13 @@ class CartPageProvider extends ChangeNotifier {
 
   void toggleCheck(int index) {
     _isChecked[index] = !_isChecked[index];
+    calculateTotalPrice();
+    listDrugChecked();
+  }
+
+  void toggleAllChecks() {
+    bool newValue = !_isChecked.every((element) => element);
+    _isChecked = List<bool>.filled(listDrugCart.length, newValue);
     calculateTotalPrice();
     listDrugChecked();
   }

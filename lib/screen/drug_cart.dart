@@ -22,7 +22,10 @@ class _CartPageState extends State<CartPage> {
         title: const Text('Giỏ hàng'),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Provider.of<CartPageProvider>(context, listen: false)
+                    .toggleAllChecks();
+              },
               icon: const Badge(
                 child: Icon(Icons.checklist),
                 smallSize: 0,
@@ -114,47 +117,43 @@ class _CartPageState extends State<CartPage> {
                                   ],
                                 ),
                               ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: AppColors.greyColor,
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    IconButton(
-                                      iconSize: 15.0,
-                                      icon: const Icon(
-                                        Icons.arrow_back_ios_new_rounded,
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: AppColors.greyColor,
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      IconButton(
+                                        iconSize: 15.0,
+                                        icon: const Icon(
+                                          Icons.arrow_back_ios_new_rounded,
+                                        ),
+                                        onPressed: () {
+                                          item.quantity == 1
+                                              ? showCustomSnackBar(context,
+                                                  "Bạn không thể giảm thêm được nữa")
+                                              : value.updateQuantityDetial(
+                                                  item.idDrugCartDetail!, -1);
+                                        },
                                       ),
-                                      // onPressed: () async {
-                                      //   await CartRepo().updateQuantityCartDetail(
-                                      //       item.idDrugCartDetail!, -1);
-                                      //   setState(() {
-                                      //     item.quantity;
-                                      //   });
-                                      // },
-                                      onPressed: () {
-                                        item.quantity == 1
-                                            ? showCustomSnackBar(context,
-                                                "Bạn không thể giảm thêm được nữa")
-                                            : value.updateQuantityDetial(
-                                                item.idDrugCartDetail!, -1);
-                                      },
-                                    ),
-                                    Text('${item.quantity}',
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    IconButton(
-                                      iconSize: 15.0,
-                                      icon: const Icon(
-                                          Icons.arrow_forward_ios_rounded),
-                                      onPressed: () {
-                                        value.updateQuantityDetial(
-                                            item.idDrugCartDetail!, 1);
-                                      },
-                                    ),
-                                  ],
+                                      Text('${item.quantity}',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      IconButton(
+                                        iconSize: 15.0,
+                                        icon: const Icon(
+                                            Icons.arrow_forward_ios_rounded),
+                                        onPressed: () {
+                                          value.updateQuantityDetial(
+                                              item.idDrugCartDetail!, 1);
+                                        },
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                               const Divider(),
@@ -164,22 +163,37 @@ class _CartPageState extends State<CartPage> {
                       ),
               ),
               //           //PHAN NAY TINH TONG TIEN
-              const SizedBox(height: 16),
-              Text(
-                'Tổng tiền:${convertCurrency(value.totalPrice)} ',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MedicinesOrder(),
-                    ),
-                  );
-                },
-                child: const Text('Mua thuốc'),
-              ),
+              SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 16),
+                      Text(
+                        'Tổng tiền: ',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      Text(
+                        convertCurrency(value.totalPrice),
+                        style: Theme.of(context).textTheme.displayMedium,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MedicinesOrder(),
+                            ),
+                          );
+                        },
+                        child: const Text('Mua thuốc'),
+                      ),
+                    ],
+                  ),
+                ),
+              )
             ],
           );
         },
