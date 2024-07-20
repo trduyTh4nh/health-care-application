@@ -7,10 +7,9 @@ import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:app_well_mate/screen/FFMI.dart';
 import 'package:app_well_mate/screen/medicine_purchase_history.dart';
-import 'package:app_well_mate/model/drug_model.dart';
-import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/screen/notification.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
@@ -21,6 +20,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:app_well_mate/screen/drug_cart.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -44,6 +44,7 @@ class _HomeState extends State<Home> {
   ];
   Future<void> getSchedule() async {
     data = await repo.getSchedule();
+    data = data.where((e) => e.lastConfirmed != DateTime.now()).toList();
   }
 
   onDelete(int id, BuildContext context) {
@@ -51,6 +52,12 @@ class _HomeState extends State<Home> {
       data.removeWhere((e) => e.idPreDetail == id);
     });
     showCustomSnackBar(context, "Xoá thuốc thành công");
+  }
+
+  onUpdate(int id, BuildContext context) {
+    setState(() {
+      data.removeWhere((e) => e.idScheduleDetail == id);
+    });
   }
 
   Future<void>? future;
@@ -102,17 +109,26 @@ class _HomeState extends State<Home> {
               ),
               actions: [
                 //KHÔNG ĐƯỢC CONST!!!!!
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const CartPage()));
-                    },
-                    icon: const Icon(
-                      Symbols.shopping_cart,
-                      size: 24,
-                    )),
+                Consumer<CartPageProvider>(builder: (context, value, child) {
+                  return Badge(
+                    label: Text(
+                      "${value.listDrugCart.length}",
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    child: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const CartPage()));
+                        },
+                        icon: const Icon(
+                          Symbols.shopping_cart,
+                          size: 24,
+                        )),
+                  );
+                }),
+
                 IconButton(
                     onPressed: () {
                       Navigator.push(
@@ -154,14 +170,18 @@ class _HomeState extends State<Home> {
                   }
                   expiredData = data
                       .where((e) =>
-                          toSecond(e.timeOfUse!) < toSecond(TimeOfDay.now()))
+                          (toSecond(e.timeOfUse!) <
+                              toSecond(TimeOfDay.now())) &&
+                          e.status != "not_done")
                       .toList();
                   upcomingData = data
                       .where((e) =>
-                          toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) >
-                              -3600 &&
-                          toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) <
-                              0)
+                          (toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) >
+                                  -3600 &&
+                              toSecond(TimeOfDay.now()) -
+                                      toSecond(e.timeOfUse!) <
+                                  0) &&
+                          e.status != "not_done")
                       .toList();
                   return CustomScrollView(
                     //các sliver được đối xử như các "màn hình ảo" riêng biệt, cho nên chúng độc lập với nhau về constrant, size...
@@ -294,19 +314,57 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       SliverList.separated(
-                        itemCount: expiredData.length,
-                        itemBuilder: (context, index) => MedicationItem(
-                          onDelete: (preDetailId) {
-                            onDelete(preDetailId, context);
-                          },
-                          prescription: expiredData[index],
-                          titleText: index == 0 ? "Quá giờ uống thuốc" : null,
-                        ),
+                        itemCount: data.isEmpty ? 1 : expiredData.length,
+                        itemBuilder: (context, index) => data.isNotEmpty
+                            ? MedicationItem(
+                                onUpdate: (scheid) {
+                                  onUpdate(scheid, context);
+                                },
+                                onDelete: (preDetailId) {
+                                  onDelete(preDetailId, context);
+                                },
+                                prescription: expiredData[index],
+                                titleText:
+                                    index == 0 ? "Quá giờ uống thuốc" : null,
+                              )
+                            : Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        "🙌",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineLarge!
+                                            .copyWith(fontSize: 100),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "Làm tốt lắm!",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineMedium,
+                                      ),
+                                      const Text(
+                                        "Bạn đã hoàn thành đợt thuốc ngày hôm nay!",
+                                        textAlign: TextAlign.center,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
                         separatorBuilder: (context, index) => const SizedBox(),
                       ),
                       SliverList.separated(
                           itemCount: upcomingData.length,
                           itemBuilder: (context, index) => MedicationItem(
+                                onUpdate: (scheid) {
+                                  onUpdate(scheid, context);
+                                },
                                 onDelete: (preDetailId) {
                                   onDelete(preDetailId, context);
                                 },

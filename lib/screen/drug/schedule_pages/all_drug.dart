@@ -1,42 +1,80 @@
 import 'dart:math';
 
+import 'package:app_well_mate/api/drug/drug_repo.dart';
 import 'package:app_well_mate/components/medication_item.dart';
+import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 class AllDrug extends StatefulWidget {
-  const AllDrug({super.key});
-
+  const AllDrug({super.key, this.prescriptionId = -1});
+  final int prescriptionId;
   @override
   State<AllDrug> createState() => _AllDrugState();
 }
 
 class _AllDrugState extends State<AllDrug> {
-  List<ScheduleDetailModel> mockData = List.generate(
-      10,
-      (e) => ScheduleDetailModel(
-            detail: PrescriptionDetailModel(
-                drug: DrugModel(name: "Paracetamol"),
-                quantity: Random().nextInt(100),
-                quantityUsed: 0,
-                amountPerConsumption: Random().nextInt(10),
-                notes: "Trước khi ăn"),
-          ));
+  List<ScheduleDetailModel>? data = [];
+  DrugRepo repo = DrugRepo();
+  getData() async {
+    data = await repo.getPreDetail(widget.prescriptionId);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.only(bottom: 20 + 16 + 32),
-      itemCount: mockData.length,
-      itemBuilder: (context, index) =>
-          MedicationItem(prescription: mockData[index]),
-      separatorBuilder: (context, index) => const Divider(
-        indent: 20,
-        endIndent: 20,
-      ),
-    );
+    return FutureBuilder(
+        future: getData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: LoadingAnimationWidget.flickr(
+                leftDotColor: colorScheme.primary,
+                rightDotColor: colorScheme.error,
+                size: 48,
+              ),
+            );
+          }
+          if (data == null) {
+            return const Center(
+              child: Text("Lỗi"),
+            );
+          }
+          if (data!.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Không có thuốc",
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  const Text(
+                    "Hãy thêm thuốc bằng cách ấn vào biểu tượng ở góc dưới phải của màn hình",
+                    textAlign: TextAlign.center,
+                  )
+                ],
+              ),
+            );
+          }
+          return ListView.separated(
+            padding: const EdgeInsets.only(bottom: 20 + 16 + 32),
+            itemCount: data!.length,
+            itemBuilder: (context, index) =>
+                MedicationItem(prescription: data![index]),
+            separatorBuilder: (context, index) => const Divider(
+              indent: 20,
+              endIndent: 20,
+            ),
+          );
+        });
   }
 }
