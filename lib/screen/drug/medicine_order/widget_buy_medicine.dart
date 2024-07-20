@@ -1,4 +1,3 @@
-import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:app_well_mate/screen/drug_details.dart';
 import 'package:app_well_mate/utils/util.dart';
@@ -8,12 +7,14 @@ import 'package:provider/provider.dart';
 
 enum MedicationItemAction { delete, edit, snooze, buy, confirm, info }
 
-class WidgetBuyMedicine extends StatelessWidget {
-  final List<PrescriptionDetailModel> selectedDrugs;
+class WidgetBuyMedicine extends StatefulWidget {
+  const WidgetBuyMedicine({super.key});
 
-  const WidgetBuyMedicine({required this.selectedDrugs, Key? key})
-      : super(key: key);
+  @override
+  State<WidgetBuyMedicine> createState() => _WidgetBuyMedicine();
+}
 
+class _WidgetBuyMedicine extends State<WidgetBuyMedicine> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,6 +1,7 @@
 import 'package:app_well_mate/api/cart/cart_repo.dart';
 import 'package:app_well_mate/model/drug_cart_detail_model.dart';
 import 'package:app_well_mate/model/drug_model.dart';
+import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:flutter/material.dart';
 
