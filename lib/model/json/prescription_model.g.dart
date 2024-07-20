@@ -8,7 +8,7 @@ part of '../prescription_model.dart';
 
 PrescriptionModel _$PrescriptionModelFromJson(Map<String, dynamic> json) =>
     PrescriptionModel(
-      idPre: (json['idPre'] as num?)?.toInt(),
+      idPre: (json['id'] as num?)?.toInt(),
       idUser: (json['idUser'] as num?)?.toInt(),
       idHospital: (json['idHospital'] as num?)?.toInt(),
       createdDate: json['createdDate'] == null

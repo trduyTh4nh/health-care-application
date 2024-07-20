@@ -3,6 +3,7 @@ import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 typedef void DataCallback(int index);
@@ -64,7 +65,7 @@ class _TimeItemState extends State<TimeItem> {
     checkState();
 
     Color colorBackground = (!checkCurrentTime)
-        ? widget.scheDetail.status == 'Pending'
+        ? DateFormat("yyyy-MM-dd").format(widget.scheDetail.lastConfirmed!) == DateFormat("yyyy-MM-dd").format(DateTime.now())
             ? AppColor.primaryGrayTinted
             : widget.isSelected!
                 ? AppColor.gray
