@@ -1,5 +1,7 @@
-import 'package:app_well_mate/main.dart';
 import 'package:flutter/material.dart';
+import 'package:app_well_mate/api/address/address_repo.dart';
+import 'package:app_well_mate/model/address_model.dart';
+import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 enum MedicationItemAction { delete, edit, snooze, buy, confirm }
@@ -13,13 +15,47 @@ class WidgetPaymentMedicine extends StatefulWidget {
 
 class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
   String paymentMethod = 'Momo';
-  String? diaChi;
+  AddressModel? selectedAddress;
   final _userName = TextEditingController();
+  Future<List<AddressModel>>? _addressesFuture;
+  final TextEditingController _newAddressController = TextEditingController();
+  final TextEditingController _editAddressController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAddresses();
+  }
+
+  void _deleteAddress(int id) async {
+    await AddressRepo().deleteAddress(id);
+    _loadAddresses();
+  }
+
+  void _loadAddresses() async {
+    String? token = await SecureStorage.getToken();
+    setState(() {
+      _addressesFuture = AddressRepo().getAddressByUserId(token!);
+    });
+  }
+
+  void _addAddress(String newAddress) async {
+    String? token = await SecureStorage.getToken();
+    await AddressRepo().addAddress(newAddress, token);
+    _loadAddresses();
+  }
+
+  void _updateAddress(int idAddress, String newAddress) async {
+    String? token = await SecureStorage.getToken();
+    await AddressRepo().UpdateAddress(idAddress, newAddress, token);
+    _loadAddresses();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final sizeWight = MediaQuery.of(context).size.width;
+    final sizeWidth = MediaQuery.of(context).size.width;
     final sizeHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -86,7 +122,6 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                       backgroundColor: Colors.white,
                       context: context,
                       builder: (context) {
-                        // return showBottomSheet(sizeHeight: sizeHeight);
                         return SingleChildScrollView(
                           child: Padding(
                             padding: const EdgeInsets.only(
@@ -114,9 +149,6 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                               .bodyLarge,
                                         ),
                                       ),
-                                      // SizedBox(
-                                      //   height: 20,
-                                      // ),
                                       Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -156,10 +188,6 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                           )
                                         ],
                                       ),
-
-                                      // SizedBox(
-                                      //   height: 12,
-                                      // ),
                                       SizedBox(
                                         height: 10,
                                       ),
@@ -192,63 +220,134 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                 ),
               ),
               Text("Địa chỉ giao hàng"),
-              Container(
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [SwitchExample(), Text("Giao hàng tận nơi")],
-                  )
-                ],
-              )),
-              Container(
-                width: double.infinity,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Radio<String>(
-                          value: "Diachi1",
-                          groupValue: diaChi,
-                          onChanged: (String? value) {
+              FutureBuilder<List<AddressModel>>(
+                future: _addressesFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(
+                        child: Text("Lỗi khi tải địa chỉ: ${snapshot.error}"));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(child: Text("Không có địa chỉ nào"));
+                  }
+
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      final address = snapshot.data![index];
+                      var item=snapshot.data![index];
+                      return ListTile(
+                        title: Text(address.address ?? 'Địa chỉ không rõ'),
+                        leading: Radio<AddressModel>(
+                          value: address,
+                          groupValue: selectedAddress,
+                          onChanged: (AddressModel? value) {
                             setState(() {
-                              diaChi = value!;
-                              // if (value == diaChi) {
-                              //   diaChi = null;
-                              // } else {
-                              //   diaChi = value;
-                              // }
+                              selectedAddress = value;
                             });
                           },
                         ),
-                        Container(
-                          width: sizeWight * 1.8 / 3,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "100 đường Example, Thành phố Hồ Chí Minh, Việt Nam",
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                              Text("Địa chỉ 1"),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    PopupMenuButton(
-                      style: Theme.of(context).iconButtonTheme.style,
-                      itemBuilder: (context) => const [
-                        PopupMenuItem(
-                            value: MedicationItemAction.delete,
-                            child: ListTile(
+                        trailing: PopupMenuButton(
+                          itemBuilder: (context) => [
+                            PopupMenuItem(
+                              value: MedicationItemAction.delete,
+                              child: ListTile(
                                 leading: Icon(Symbols.delete),
-                                title: Text("Xoá địa chỉ này"))),
-                      ],
-                    ),
-                  ],
-                ),
+                                title: Text("Xoá địa chỉ này"),
+                                onTap: () {
+                                  // if (selectedAddress != null) {
+                                  //   _deleteAddress(selectedAddress?.id_address[index]);
+                                  //   print(selectedAddress!.id_address!);
+                                  // } else {
+                                  //   print('Không có địa chỉ nào được chọn để xóa.');
+                                  // }
+                                  _deleteAddress(
+                                    item.id_address!
+                                  );
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ),
+                            PopupMenuItem(
+                              value: MedicationItemAction.edit,
+                              child: ListTile(
+                                leading: Icon(Symbols.edit),
+                                title: Text("Chỉnh sửa địa chỉ này"),
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    backgroundColor: Colors.white,
+                                    context: context,
+                                    builder: (context) {
+                                      return SingleChildScrollView(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                                            left: 12,
+                                            right: 12,
+                                            top: 12,
+                                          ),
+                                          child: Container(
+                                            height: 0.51 * sizeHeight,
+                                            child: SingleChildScrollView(
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(
+                                                    horizontal: 12),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Center(
+                                                      child: Text(
+                                                        "Chỉnh sửa địa chỉ",
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyLarge,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 15,
+                                                    ),
+                                                    Text("Thông tin địa chỉ"),
+                                                    TextFormField(
+                                                      controller: _editAddressController,
+                                                      decoration: InputDecoration(
+                                                        labelText: address.address,
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(18.0),
+                                                      child: SizedBox(
+                                                        width: double.infinity,
+                                                        child: ElevatedButton(
+                                                          onPressed: () {
+                                                            _updateAddress(address.id_address!, _editAddressController.text);
+                                                            Navigator.pop(context);
+                                                          },
+                                                          child: const Text("Xong"),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15),
@@ -259,7 +358,6 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                       backgroundColor: Colors.white,
                       context: context,
                       builder: (context) {
-                        // return showBottomSheet(sizeHeight: sizeHeight);
                         return SingleChildScrollView(
                           child: Padding(
                             padding: EdgeInsets.only(
@@ -286,45 +384,15 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                               .bodyLarge,
                                         ),
                                       ),
-                                      const Text("Thông tin liên hệ"),
-                                      // SizedBox(
-                                      //   height: 20,
-                                      // ),
-                                      Column(
-                                        children: [
-                                          TextFormField(
-                                            controller: _userName,
-                                            decoration: InputDecoration(
-                                              labelText: "Họ và tên",
-                                            ),
-                                          ),
-                                          TextField(
-                                            decoration: InputDecoration(
-                                                labelText: "Số điện thoại"),
-                                          )
-                                        ],
-                                      ),
                                       const SizedBox(
                                         height: 15,
                                       ),
                                       Text("Thông tin địa chỉ"),
                                       TextFormField(
+                                        controller: _newAddressController,
                                         decoration: InputDecoration(
                                             labelText:
-                                                "Tỉnh/Thành phố, Quận/Huyện, Phường/Xã"),
-                                      ),
-                                      TextFormField(
-                                        decoration: InputDecoration(
-                                            labelText:
-                                                "Tên đường, Tòa nhà, Số nhà"),
-                                      ),
-                                      SizedBox(
-                                        height: 12,
-                                      ),
-                                      Text("Đặt làm mặc định"),
-                                      SwitchExample(),
-                                      SizedBox(
-                                        height: 12,
+                                                "Nhập địa chỉ mới tại đây"),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(18.0),
@@ -332,6 +400,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                           width: double.infinity,
                                           child: ElevatedButton(
                                             onPressed: () {
+                                              _addAddress(_newAddressController.text);
                                               Navigator.pop(context);
                                             },
                                             child: const Text("Xong"),
@@ -361,32 +430,6 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class SwitchExample extends StatefulWidget {
-  const SwitchExample({super.key});
-
-  @override
-  State<SwitchExample> createState() => _SwitchExampleState();
-}
-
-class _SwitchExampleState extends State<SwitchExample> {
-  bool light = true;
-
-  @override
-  Widget build(BuildContext context) {
-    return Switch(
-      // This bool value toggles the switch.
-      value: light,
-      activeColor: colorScheme.primary,
-      onChanged: (bool value) {
-        // This is called when the user toggles the switch.
-        setState(() {
-          light = value;
-        });
-      },
     );
   }
 }
