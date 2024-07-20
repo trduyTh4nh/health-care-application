@@ -1,3 +1,5 @@
+import 'package:app_well_mate/api/application/application_repo.dart';
+import 'package:app_well_mate/api/drug/drug_repo.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/hospital_model.dart';
@@ -7,6 +9,17 @@ import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:flutter/material.dart';
 
 class AddPageProvider extends ChangeNotifier {
+  DrugRepo repo = DrugRepo();
+  ApplicationRepo appRepo = ApplicationRepo();
+  List<PrescriptionModel> _preList = [];
+  List<PrescriptionModel> get preList => _preList;
+  set preList(List<PrescriptionModel> newVal) {
+    _preList = newVal;
+    notifyListeners();
+  }
+  fetchApplication() async {
+    _preList = (await appRepo.getPrescription()) ?? [];
+  }
   TimeOfDay _startDate = TimeOfDay(hour: 6, minute: 0);
   TimeOfDay get startDate => _startDate;
   set startDate(TimeOfDay newVal) {
@@ -37,7 +50,20 @@ class AddPageProvider extends ChangeNotifier {
       }
     }
   }
-
+  
+  List<DrugModel> _drugModelList = [];
+  set drugModelList(List<DrugModel> newVal) {
+    _drugModelList = newVal;
+    notifyListeners();
+  }
+  List<DrugModel> get drugModelList => _drugModelList;
+  fetchModelList() async {
+    _drugModelList = (await repo.getAllDrug()) ?? [];
+  }
+  String searchQuery = "";
+  searchDrug(String query) async {
+    _drugModelList = (await repo.getAllDrugWithQuery(query)) ?? [];
+  }
   List<ScheduleDetailModel?> _scheduleDetailModel = [];
   set scheduleDetailModel(List<ScheduleDetailModel?> newVal) {
     _scheduleDetailModel = newVal;
@@ -60,21 +86,10 @@ class AddPageProvider extends ChangeNotifier {
   }
 
   List<ScheduleDetailModel?> get scheduleDetailModel => _scheduleDetailModel;
-  final PrescriptionModel? _prescriptionModel = PrescriptionModel(
-      idPre: 0,
-      idUser: 0,
-      idHospital: 0,
-      createdDate: DateTime.now(),
-      doctorName: "Tiêu Trí Quang",
-      status: "",
-      prescriptionDetails: [],
-      hospital: HospitalModel(
-          address: "Quận 10",
-          name: "Bệnh viện example",
-          createdDate: DateTime.now()));
+  PrescriptionModel? _prescriptionModel;
   PrescriptionModel? get prescriptionModel => _prescriptionModel;
   set prescriptionModel(PrescriptionModel? newVal) {
-    prescriptionModel = newVal;
+    _prescriptionModel = newVal;
   }
 
   PrescriptionDetailModel? _prescriptionDetail =
@@ -95,9 +110,9 @@ class AddPageProvider extends ChangeNotifier {
 
   void addDetailToPrescription(PrescriptionDetailModel detail) {
     if (_prescriptionModel!.prescriptionDetails == null) {
-      _prescriptionModel.prescriptionDetails = [];
+      _prescriptionModel!.prescriptionDetails = [];
     }
-    _prescriptionModel.prescriptionDetails!.add(detail);
+    _prescriptionModel!.prescriptionDetails!.add(detail);
     notifyListeners();
   }
 

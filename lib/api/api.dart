@@ -8,6 +8,7 @@ class API {
   API() {
     baseUrl = dotenv.env["API_URL"];
     _dio.options.baseUrl = "$baseUrl/v1/api";
+    _dio.options.connectTimeout = const Duration(minutes: 1);
   }
 
   Dio get sendRequest => _dio;

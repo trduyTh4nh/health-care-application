@@ -171,7 +171,7 @@ class _DrugInfoState extends State<DrugInfo> {
                 ),
                 SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
                       "Lịch uống thuốc",
                       style: Theme.of(context)

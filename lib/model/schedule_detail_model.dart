@@ -15,14 +15,15 @@ class ScheduleDetailModel {
   TimeOfDay? timeOfUse; // thời gian sử dụng ví dụ thuốc Hapacol dùng [2:00, 3:30, 10:20]
   PrescriptionDetailModel? detail;
   TimeOfDay? time;
-
+  DateTime? lastConfirmed;
   ScheduleDetailModel(
       {this.idScheduleDetail,
       this.idPreDetail,
       this.idSchedule,
       this.status,
       this.timeOfUse,
-      this.detail,});
+      this.detail,
+      this.lastConfirmed});
 
   factory ScheduleDetailModel.fromJson(Map<String, dynamic> json) {
       String timeOfUse = json["time_use"] ?? "00:00:00";
@@ -34,6 +35,7 @@ class ScheduleDetailModel {
         idScheduleDetail: json["id_schedule_detail"] ?? 0,
         status: json["status"] ? "done" : "not_done",
         timeOfUse: tod,
+        lastConfirmed: DateTime.parse(json["last_confirm"] ?? "1975-04-30")
       );
   }
   Map<String, dynamic> toJson() => _$ScheduleDetailModelToJson(this);
