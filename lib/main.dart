@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
 
@@ -52,7 +51,7 @@ class _MainAppState extends State<MainApp> {
   @override
   void initState() {
     super.initState();
-     WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<CartPageProvider>(context, listen: false).fetchDrugCart();
     });
   }

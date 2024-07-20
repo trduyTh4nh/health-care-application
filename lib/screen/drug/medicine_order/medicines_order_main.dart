@@ -20,9 +20,9 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
   int _currentPageIndex = 0;
   final PageController _pageController = PageController();
   final List<Widget> _pages = [
-    WidgetBuyMedicine(),
-    WidgetPaymentMedicine(),
-    WidgetCompleteMedicine(),
+    const WidgetBuyMedicine(),
+    const WidgetPaymentMedicine(),
+    const WidgetCompleteMedicine(),
   ];
   final List<String> _tittle = [
     "Mua thuốc",
@@ -102,15 +102,16 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                                       }
                                       _pageController.animateToPage(
                                           _currentPageIndex,
-                                          duration: Duration(milliseconds: 500),
+                                          duration:
+                                              const Duration(milliseconds: 500),
                                           curve:
                                               Curves.easeInOutCubicEmphasized);
 
                                       setState(() {});
                                     },
-                                    child: Text("Quay lại"),
+                                    child: const Text("Quay lại"),
                                   )
-                                : SizedBox.shrink(),
+                                : const SizedBox.shrink(),
                             _currentPageIndex != _pages.length - 1
                                 ? ElevatedButton(
                                     onPressed: () {
@@ -121,12 +122,13 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                                       _currentPageIndex++;
                                       _pageController.animateToPage(
                                           _currentPageIndex,
-                                          duration: Duration(milliseconds: 500),
+                                          duration:
+                                              const Duration(milliseconds: 500),
                                           curve:
                                               Curves.easeInOutCubicEmphasized);
                                       setState(() {});
                                     },
-                                    child: Text("Tiếp theo"),
+                                    child: const Text("Tiếp theo"),
                                   )
                                 : Expanded(
                                     child: SizedBox(
