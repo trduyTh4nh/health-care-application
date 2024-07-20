@@ -31,10 +31,15 @@ class PrescriptionModel {
       this.hospital,
       this.roomRevisit});
 
-  factory PrescriptionModel.fromJson(Map<String, dynamic> json) =>
-      _$PrescriptionModelFromJson(json);
+  factory PrescriptionModel.fromJson(Map<String, dynamic> json) {
+    return PrescriptionModel(
+      idPre: json["id"] ?? -1,
+      createdDate: DateTime.parse(json["created_date"]),
+      doctorName: json["doctor_name"],
+      status: json["status"]
+    );
+  }
   Map<String, dynamic> toJson() => _$PrescriptionModelToJson(this);
-
 
   // Getter for prescriptionDetails
   List<PrescriptionDetailModel> get medications => prescriptionDetails ?? [];
@@ -178,14 +183,14 @@ List<PrescriptionModel> generateSamplePrescriptions() {
       revisitDate: DateTime.now(),
       roomRevisit: "A91",
       hospital: HospitalModel(
-        idHospital: 100,
-        name: "Phòng khám đa khoa bệnh viện Đại Học Y Dược",
-        address: "413, Điện Biên Phủ, Phường 10, Quận 3",
-        phone: "0988362384",
-        createdDate: DateTime.now(),
-        contactInformation: "bsdhyd@gmail.com",
-        avatars: "https://upload.wikimedia.org/wikipedia/vi/thumb/4/42/Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_Y_D%C6%B0%E1%BB%A3c%2C_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_Hu%E1%BA%BF.svg/1024px-Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_Y_D%C6%B0%E1%BB%A3c%2C_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_Hu%E1%BA%BF.svg.png"
-      ),
+          idHospital: 100,
+          name: "Phòng khám đa khoa bệnh viện Đại Học Y Dược",
+          address: "413, Điện Biên Phủ, Phường 10, Quận 3",
+          phone: "0988362384",
+          createdDate: DateTime.now(),
+          contactInformation: "bsdhyd@gmail.com",
+          avatars:
+              "https://upload.wikimedia.org/wikipedia/vi/thumb/4/42/Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_Y_D%C6%B0%E1%BB%A3c%2C_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_Hu%E1%BA%BF.svg/1024px-Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_Y_D%C6%B0%E1%BB%A3c%2C_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_Hu%E1%BA%BF.svg.png"),
       prescriptionDetails: [
         PrescriptionDetailModel(
           idPreDetail: 1001,
@@ -252,4 +257,3 @@ List<PrescriptionModel> generateSamplePrescriptions() {
     ),
   ];
 }
-
