@@ -1,6 +1,15 @@
+import 'dart:io';
+
+import 'package:app_well_mate/api/auth/api_repo.dart';
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/model/profile_model.dart';
+import 'package:app_well_mate/screen/admin/hospital_management_page.dart';
+import 'package:app_well_mate/screen/upload_img_avt.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditInfomationUser extends StatefulWidget {
   const EditInfomationUser({super.key});
@@ -10,29 +19,57 @@ class EditInfomationUser extends StatefulWidget {
 }
 
 class _EditInfomationUserState extends State<EditInfomationUser> {
-  final TextEditingController hoTenController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
   final TextEditingController heightController = TextEditingController();
   final TextEditingController birthDayController = TextEditingController();
 
   DateTime? selectedDate;
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null && picked != selectedDate) {
+  String avatarPath = 'assets/images/avtUser.png';
+  final ImagePicker picker = ImagePicker();
+  bool isApiCallprocess = false;
+
+  late Future<bool> futureUpdateProfile;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
       setState(() {
-        selectedDate = picked;
-        birthDayController.text =
-            "${picked.day}-${picked.month}-${picked.year}";
+        avatarPath = image.path;
       });
     }
+  }
+
+  Future<void> updateProfile() async {
+    setState(() {
+      isApiCallprocess = true;
+    });
+
+    ProfileModel profile = ProfileModel(
+        height: int.parse(heightController.text),
+        weight: int.parse(weightController.text),
+        gender: "nam",
+        age: int.parse(birthDayController.text),
+        address: addressController.text,
+        avtUser: avatarPath);
+    ApiRepo apiRepo = ApiRepo();
+    bool success = await apiRepo.updateProfile(profile, avatarPath);
+
+    setState(() {
+      isApiCallprocess = false;
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(success ? "cập nhật thành công!" : "cập nhật thất bại!"),
+      backgroundColor: success ? AppColors.primaryColor : colorScheme.error,
+    ));
   }
 
   @override
@@ -45,7 +82,7 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
             children: [
               Container(
                 height: MediaQuery.of(context).size.height * 2 / 5,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   gradient: const LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
@@ -85,16 +122,28 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                     Center(
                       child: Stack(
                         children: [
+                          if (isApiCallprocess)
+                            Center(
+                              child: LoadingAnimationWidget.flickr(
+                                leftDotColor: colorScheme.primary,
+                                rightDotColor: colorScheme.error,
+                                size: 48,
+                              ),
+                            ),
                           // Hình ảnh AVT
-                          Image.asset(
-                            'assets/images/avtUser.png',
+                          CircleAvatar(
+                            radius: 80,
+                            backgroundImage: FileImage(File(avatarPath)),
+                            child: avatarPath.isEmpty
+                                ? const Icon(Icons.person, size: 50)
+                                : null,
                           ),
                           // Biểu tượng "edit" nằm trên hình ảnh AVT
                           Positioned(
                             bottom: 2,
                             right: -16,
                             child: RawMaterialButton(
-                              onPressed: () {},
+                              onPressed: pickImage,
                               elevation: 2.0,
                               fillColor: const Color(0xFFF5F6F9),
                               padding: const EdgeInsets.all(15.0),
@@ -143,71 +192,6 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Họ Tên',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      TextField(
-                        controller: hoTenController,
-                        decoration: const InputDecoration(
-                          hintText: 'Trần Thanh Duy',
-                          hintStyle: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                            fontStyle: FontStyle.normal,
-                            color: Color.fromARGB(255, 206, 206, 206),
-                          ),
-                          contentPadding: EdgeInsetsDirectional.symmetric(
-                              vertical: 10, horizontal: 0),
-                          border: UnderlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.grey, width: 3),
-                          ),
-                          focusedErrorBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: AppColors.primaryColor, width: 3),
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.greyColor,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      Text(
-                        "Email",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      TextField(
-                        controller: emailController,
-                        decoration: const InputDecoration(
-                          hintText: 'thanhduy69@gmail.com',
-                          hintStyle: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                            fontStyle: FontStyle.normal,
-                            color: Color.fromARGB(255, 206, 206, 206),
-                          ),
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 10, horizontal: 0),
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.primaryColor,
-                              width: 2,
-                            ),
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: AppColors.greyColor,
-                              width: 2,
-                            ),
-                          ),
-                        ),
-                      ),
                       const SizedBox(
                         height: 16,
                       ),
@@ -246,13 +230,13 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                         height: 16,
                       ),
                       Text(
-                        "Số điện thoại",
+                        "Giới tính",
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       TextField(
-                        controller: phoneController,
+                        controller: genderController,
                         decoration: const InputDecoration(
-                          hintText: '0908291415',
+                          hintText: 'Nam',
                           hintStyle: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.normal,
@@ -347,24 +331,50 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                         height: 16,
                       ),
                       Text(
-                        'Ngày sinh',
+                        'Tuổi',
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
-                      TextFormField(
+                      // TextFormField(
+                      //   controller: birthDayController,
+                      //   onTap: () {
+                      //     _selectDate(context);
+                      //   },
+                      //   readOnly: true,
+                      //   decoration: const InputDecoration(
+                      //     hintText: 'Chọn ngày sinh',
+                      //     hintStyle: TextStyle(
+                      //       fontSize: 14,
+                      //       fontWeight: FontWeight.normal,
+                      //       fontStyle: FontStyle.normal,
+                      //       color: Color.fromARGB(255, 206, 206, 206),
+                      //     ),
+                      //     suffixIcon: Icon(Icons.calendar_month),
+                      //     contentPadding:
+                      //         EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+                      //     border: UnderlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color: AppColors.primaryColor,
+                      //         width: 2,
+                      //       ),
+                      //     ),
+                      //     enabledBorder: UnderlineInputBorder(
+                      //       borderSide: BorderSide(
+                      //         color: AppColors.greyColor,
+                      //         width: 2,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      TextField(
                         controller: birthDayController,
-                        onTap: () {
-                          _selectDate(context);
-                        },
-                        readOnly: true,
                         decoration: const InputDecoration(
-                          hintText: 'Chọn ngày sinh',
+                          hintText: '20',
                           hintStyle: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.normal,
                             fontStyle: FontStyle.normal,
                             color: Color.fromARGB(255, 206, 206, 206),
                           ),
-                          suffixIcon: Icon(Icons.calendar_month),
                           contentPadding:
                               EdgeInsets.symmetric(vertical: 10, horizontal: 0),
                           border: UnderlineInputBorder(
@@ -396,13 +406,18 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 0, vertical: 12),
-                              child: Text(
-                                'Cập nhật',
-                                style: TextStyle(
-                                  color: Colors.white,
+                            child: Container(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 0, vertical: 12),
+                                child: ElevatedButton(
+                                  onPressed: updateProfile,
+                                  child: const Text(
+                                    'Cập nhật',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
