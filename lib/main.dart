@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:app_well_mate/api/auth/api_repo.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
+import 'package:app_well_mate/model/user_info_model.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:app_well_mate/providers/notification_provider.dart';
 
@@ -213,19 +215,27 @@ class AppPage extends StatefulWidget {
 
 class _AppPageState extends State<AppPage> {
   int _selectedPage = 0;
+  Future<InfoUserModel?>? userData;
   final List<Widget> _pages = [
     const Home(),
     const SearchPage(),
     const ScanPage(),
     const MedicationPage(),
-    const Thongtincanhan(),
+    // const Thongtincanhan(),
+
     const ThemeScreen()
   ];
 
-  void _onTap(index) {
-    setState(() {
-      _selectedPage = index;
-    });
+  // void _onTap(index) {
+  //   setState(() {
+  //     _selectedPage = index;
+  //   });
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+    userData = ApiRepo().getInfoUser();
   }
 
   @override
@@ -262,9 +272,40 @@ class _AppPageState extends State<AppPage> {
           onTap: _onTap,
         ),
         body: Center(
-          child: _pages[_selectedPage],
+          child: _selectedPage == 4
+              ? FutureBuilder<InfoUserModel?>(
+                  future: userData,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else if (snapshot.hasData) {
+                      var userInfo = snapshot.data;
+                      return Thongtincanhan();
+                    } else {
+                      return Text('No user data available');
+                    }
+                  },
+                )
+              : _pages[_selectedPage],
         ),
       ),
     );
   }
+
+  void _onTap(int index) {
+    setState(() {
+      _selectedPage = index;
+    });
+  }
 }
+        // body: Center(
+
+        //   child: _pages[_selectedPage],
+        // ),
+        
+//       ),
+//     );
+//   }
+// }
