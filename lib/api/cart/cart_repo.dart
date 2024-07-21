@@ -55,7 +55,7 @@ class CartRepo {
           options: Options(headers: header(token)));
       var data = res.data['metadata'];
 
-      log("Body : ${data}");
+      // log("Body : ${data}");
       if (res.statusCode == 200) {
         if ((data is! List)) {
           var filteredData = data['listFiltered'];
@@ -75,7 +75,7 @@ class CartRepo {
     }
   }
 
-  Future<void> insertDrugToCart(DrugModel grug) async {
+  Future<int> insertDrugToCart(DrugModel grug) async {
     String token = await SecureStorage.getToken();
     int idUser = await SecureStorage.getUserId();
     Map<String, dynamic> body = {
@@ -87,12 +87,14 @@ class CartRepo {
           data: body, options: Options(headers: header(token)));
       if (res.statusCode == 200) {
         print("Insert Success");
+        return res.statusCode!;
       } else {
-        print("Insert Drug Into Cart Error");
+        return 403;
       }
     } catch (ex) {
       print(ex);
       print("Error Drug into Cart");
+      return 403;
     }
   }
 

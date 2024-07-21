@@ -1,8 +1,10 @@
+import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:app_well_mate/api/address/address_repo.dart';
 import 'package:app_well_mate/model/address_model.dart';
 import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:provider/provider.dart';
 
 enum MedicationItemAction { delete, edit, snooze, buy, confirm }
 
@@ -35,7 +37,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
   void _loadAddresses() async {
     String? token = await SecureStorage.getToken();
     setState(() {
-      _addressesFuture = AddressRepo().getAddressByUserId(token!);
+      _addressesFuture = AddressRepo().getAddressByUserId(token);
     });
   }
 
@@ -52,6 +54,12 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final sizeWidth = MediaQuery.of(context).size.width;
     final sizeHeight = MediaQuery.of(context).size.height;
@@ -63,7 +71,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Phương thức thanh toán"),
+              const Text("Phương thức thanh toán"),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -130,7 +138,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                               right: 12,
                               top: 20,
                             ),
-                            child: Container(
+                            child: SizedBox(
                               child: SingleChildScrollView(
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -156,15 +164,15 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                           const Text("Thông tin liên hệ"),
                                           TextFormField(
                                             controller: _userName,
-                                            decoration: InputDecoration(
+                                            decoration: const InputDecoration(
                                               labelText: "Tên thẻ ngân hàng",
                                             ),
                                           ),
-                                          TextField(
+                                          const TextField(
                                             decoration: InputDecoration(
                                                 labelText: "Số thẻ ngân hàng"),
                                           ),
-                                          Row(
+                                          const Row(
                                             children: [
                                               Expanded(
                                                 flex: 3,
@@ -188,7 +196,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                           )
                                         ],
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         height: 10,
                                       ),
                                       SizedBox(
@@ -219,17 +227,17 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                   ),
                 ),
               ),
-              Text("Địa chỉ giao hàng"),
+              const Text("Địa chỉ giao hàng"),
               FutureBuilder<List<AddressModel>>(
                 future: _addressesFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return Center(
                         child: Text("Lỗi khi tải địa chỉ: ${snapshot.error}"));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text("Không có địa chỉ nào"));
+                    return const Center(child: Text("Không có địa chỉ nào"));
                   }
 
                   return ListView.builder(
@@ -237,114 +245,126 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
                       final address = snapshot.data![index];
-                      var item=snapshot.data![index];
-                      return ListTile(
-                        title: Text(address.address ?? 'Địa chỉ không rõ'),
-                        leading: Radio<AddressModel>(
-                          value: address,
-                          groupValue: selectedAddress,
-                          onChanged: (AddressModel? value) {
-                            setState(() {
-                              selectedAddress = value;
-                            });
-                          },
-                        ),
-                        trailing: PopupMenuButton(
-                          itemBuilder: (context) => [
-                            PopupMenuItem(
-                              value: MedicationItemAction.delete,
-                              child: ListTile(
-                                leading: Icon(Symbols.delete),
-                                title: Text("Xoá địa chỉ này"),
-                                onTap: () {
-                                  // if (selectedAddress != null) {
-                                  //   _deleteAddress(selectedAddress?.id_address[index]);
-                                  //   print(selectedAddress!.id_address!);
-                                  // } else {
-                                  //   print('Không có địa chỉ nào được chọn để xóa.');
-                                  // }
-                                  _deleteAddress(
-                                    item.id_address!
-                                  );
-                                  Navigator.pop(context);
-                                },
-                              ),
+                      return Consumer<CartPageProvider>(
+                        builder: (context, cartProvider, child) {
+                          return ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            title: Text(address.address ?? 'Địa chỉ không rõ'),
+                            leading: Radio<AddressModel>(
+                              value: address,
+                              groupValue: cartProvider.selectedAddress,
+                              onChanged: (AddressModel? value) {
+                                cartProvider.setSelectedAddress(value!);
+                              },
                             ),
-                            PopupMenuItem(
-                              value: MedicationItemAction.edit,
-                              child: ListTile(
-                                leading: Icon(Symbols.edit),
-                                title: Text("Chỉnh sửa địa chỉ này"),
-                                onTap: () {
-                                  showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.white,
-                                    context: context,
-                                    builder: (context) {
-                                      return SingleChildScrollView(
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context).viewInsets.bottom,
-                                            left: 12,
-                                            right: 12,
-                                            top: 12,
-                                          ),
-                                          child: Container(
-                                            height: 0.51 * sizeHeight,
-                                            child: SingleChildScrollView(
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(
-                                                    horizontal: 12),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Center(
-                                                      child: Text(
-                                                        "Chỉnh sửa địa chỉ",
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyLarge,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      height: 15,
-                                                    ),
-                                                    Text("Thông tin địa chỉ"),
-                                                    TextFormField(
-                                                      controller: _editAddressController,
-                                                      decoration: InputDecoration(
-                                                        labelText: address.address,
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.all(18.0),
-                                                      child: SizedBox(
-                                                        width: double.infinity,
-                                                        child: ElevatedButton(
-                                                          onPressed: () {
-                                                            _updateAddress(address.id_address!, _editAddressController.text);
-                                                            Navigator.pop(context);
-                                                          },
-                                                          
-                                                          child: const Text("Xong"),
+                            trailing: PopupMenuButton(
+                              itemBuilder: (context) => [
+                                PopupMenuItem(
+                                  value: MedicationItemAction.delete,
+                                  child: ListTile(
+                                    leading: const Icon(Symbols.delete),
+                                    title: const Text("Xoá địa chỉ này"),
+                                    onTap: () {
+                                      _deleteAddress(address.id_address!);
+                                      Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                                PopupMenuItem(
+                                  value: MedicationItemAction.edit,
+                                  child: ListTile(
+                                    leading: const Icon(Symbols.edit),
+                                    title: const Text("Chỉnh sửa địa chỉ này"),
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        isScrollControlled: true,
+                                        backgroundColor: Colors.white,
+                                        context: context,
+                                        builder: (context) {
+                                          return SingleChildScrollView(
+                                            child: Padding(
+                                              padding: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom,
+                                                left: 12,
+                                                right: 12,
+                                                top: 12,
+                                              ),
+                                              child: SizedBox(
+                                                height: 0.51 * sizeHeight,
+                                                child: SingleChildScrollView(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 12),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Center(
+                                                          child: Text(
+                                                            "Chỉnh sửa địa chỉ",
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyLarge,
+                                                          ),
                                                         ),
-                                                      ),
-                                                    )
-                                                  ],
+                                                        const SizedBox(
+                                                          height: 15,
+                                                        ),
+                                                        const Text(
+                                                            "Thông tin địa chỉ"),
+                                                        TextFormField(
+                                                          controller:
+                                                              _editAddressController,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            labelText:
+                                                                address.address,
+                                                          ),
+                                                        ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(18.0),
+                                                          child: SizedBox(
+                                                            width:
+                                                                double.infinity,
+                                                            child:
+                                                                ElevatedButton(
+                                                              onPressed: () {
+                                                                _updateAddress(
+                                                                    address
+                                                                        .id_address!,
+                                                                    _editAddressController
+                                                                        .text);
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: const Text(
+                                                                  "Xong"),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ),
+                                          );
+                                        },
                                       );
                                     },
-                                  );
-                                },
-                              ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          );
+                        },
                       );
                     },
                   );
@@ -367,7 +387,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                               right: 12,
                               top: 12,
                             ),
-                            child: Container(
+                            child: SizedBox(
                               height: 0.51 * sizeHeight,
                               child: SingleChildScrollView(
                                 child: Padding(
@@ -388,10 +408,10 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                       const SizedBox(
                                         height: 15,
                                       ),
-                                      Text("Thông tin địa chỉ"),
+                                      const Text("Thông tin địa chỉ"),
                                       TextFormField(
                                         controller: _newAddressController,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                             labelText:
                                                 "Nhập địa chỉ mới tại đây"),
                                       ),
@@ -401,7 +421,8 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                           width: double.infinity,
                                           child: ElevatedButton(
                                             onPressed: () {
-                                              _addAddress(_newAddressController.text);
+                                              _addAddress(
+                                                  _newAddressController.text);
                                               Navigator.pop(context);
                                             },
                                             child: const Text("Xong"),
@@ -420,7 +441,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                   },
                   child: Row(
                     children: [
-                      Icon(Icons.add),
+                      const Icon(Icons.add),
                       Text("Thêm địa chỉ giao hàng",
                           style: Theme.of(context).textTheme.titleMedium),
                     ],

@@ -1,6 +1,7 @@
 import 'package:app_well_mate/api/application/application_repo.dart';
 import 'package:app_well_mate/components/fab_menu_button.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
+import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:app_well_mate/screen/drug/schedule_pages/all_drug.dart';
 import 'package:app_well_mate/screen/drug/schedule_pages/drug_done.dart';
 import 'package:app_well_mate/screen/drug/schedule_pages/drug_today.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:app_well_mate/model/prescription_model.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:provider/provider.dart';
 
 class MedicationPage extends StatefulWidget {
   const MedicationPage({super.key});
@@ -56,17 +58,19 @@ class _MedicationPageState extends State<MedicationPage> {
             ],
           ),
           actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CartPage()));
-                },
-                icon: const Icon(
+            IconButton(onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const CartPage()));
+            }, icon:
+                Consumer<CartPageProvider>(builder: (context, value, child) {
+              return Badge(
+                label: Text(value.listDrugCart.length.toString()),
+                child: const Icon(
                   Symbols.shopping_cart,
                   size: 24,
-                )),
+                ),
+              );
+            })),
             IconButton(
                 onPressed: () {
                   Navigator.push(
@@ -111,7 +115,10 @@ class _MedicationPageState extends State<MedicationPage> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.wifi_off_outlined, size: 34,),
+                      Icon(
+                        Icons.wifi_off_outlined,
+                        size: 34,
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -179,7 +186,9 @@ class _MedicationPageState extends State<MedicationPage> {
                   ),
                   Expanded(
                     child: TabBarView(children: [
-                      DrugToday(idPre: selected!.idPre ?? -1,),
+                      DrugToday(
+                        idPre: selected!.idPre ?? -1,
+                      ),
                       DrugDone(),
                       AllDrug(
                         prescriptionId: selected!.idPre ?? -1,

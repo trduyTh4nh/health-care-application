@@ -36,7 +36,7 @@ Future main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (context) => CartPageProvider(),
-    )
+    ),
   ], child: const MainApp()));
 }
 
@@ -99,7 +99,7 @@ class _MainAppState extends State<MainApp> {
                     .titleMedium!
                     .copyWith(color: colorScheme.onPrimary),
                 insetPadding: const EdgeInsets.all(40),
-                shape: RoundedRectangleBorder(
+                shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(16),
                       topRight: Radius.circular(16)),
