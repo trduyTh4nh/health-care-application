@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:app_well_mate/api/api.dart';
 import 'package:app_well_mate/model/profile_model.dart';
 import 'package:app_well_mate/model/user.dart';
+import 'package:app_well_mate/model/user_info_model.dart';
 import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -73,26 +73,31 @@ class ApiRepo {
     }
   }
 
-  // static Future<bool> uploadImages(String imageSingleFiles) async {
-  //   var url = Uri.http("192.168.100.136:3107", "/v1/api/image-upload");
+  Future<InfoUserModel?> getInfoUser() async {
+    try {
+      String token = await SecureStorage.getToken();
+      int userId = await SecureStorage.getUserId();
 
-  //   var request = http.MultipartRequest('POST', url);
+      Response res = await api.sendRequest.get(
+        '/user/getUserInformation/$userId',
+        options: Options(headers: header(token)),
+      );
 
-  //   if (imageSingleFiles.isNotEmpty) {
-  //     http.MultipartFile singleFile =
-  //         await http.MultipartFile.fromPath("singlefile", imageSingleFiles);
-
-  //     request.files.add(singleFile);
-  //   }
-
-  //   var response = await request.send();
-
-  //   if (response.statusCode == 200) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
+      print('Raw JSON Data: ${res.data}');
+      if (res.statusCode == 200) {
+        var data = res.data["metadata"];
+        InfoUserModel infoUserModel = InfoUserModel.fromJson(data);
+        print('Parsed Data: ${infoUserModel.profile?.weight}');
+        return infoUserModel;
+      } else {
+        print("Failed to get user information");
+        return null;
+      }
+    } catch (ex) {
+      print("Failed Get User Info : $ex");
+      rethrow;
+    }
+  }
 
   Future<bool> updateProfile(
       ProfileModel profile, String imageSingleFiles) async {
@@ -107,6 +112,8 @@ class ApiRepo {
         "gender": profile.gender,
         "age": profile.age,
         "address": profile.address,
+        "phone": profile.phone,
+        "full_name": profile.fullName,
       });
       Response res = await api.sendRequest.put(
         '/user/updateProfile/$user',
