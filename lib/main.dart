@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
+import 'package:app_well_mate/providers/notification_provider.dart';
 
 import 'package:app_well_mate/screen/home.dart';
 import 'package:app_well_mate/screen/login.dart';
@@ -36,7 +37,10 @@ Future main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (context) => CartPageProvider(),
-    )
+    ),
+    ChangeNotifierProvider(create: (context) {
+      return NotificationProvider();
+    })
   ], child: const MainApp()));
 }
 
@@ -99,7 +103,7 @@ class _MainAppState extends State<MainApp> {
                     .titleMedium!
                     .copyWith(color: colorScheme.onPrimary),
                 insetPadding: const EdgeInsets.all(40),
-                shape: RoundedRectangleBorder(
+                shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(16),
                       topRight: Radius.circular(16)),
@@ -222,6 +226,14 @@ class _AppPageState extends State<AppPage> {
     setState(() {
       _selectedPage = index;
     });
+  }
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((t) {
+      Provider.of<NotificationProvider>(context, listen: false).requestPermission(context);
+    });
+    super.initState();
   }
 
   @override

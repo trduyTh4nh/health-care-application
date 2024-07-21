@@ -1,5 +1,7 @@
 import 'package:app_well_mate/const/color_scheme.dart';
+import 'package:app_well_mate/main.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 enum MedicationItemAction { delete, edit, snooze, buy, confirm }
@@ -33,7 +35,11 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
                         SizedBox(
                           width: 24,
                           height: 24,
-                          child: CircularProgressIndicator()),
+                          child: LoadingAnimationWidget.flickr(
+                                            leftDotColor: colorScheme.primary,
+                                            rightDotColor: colorScheme.error,
+                                            size: 48,
+                                          ),),
                         const SizedBox(
                           width: 15,
                         ),
