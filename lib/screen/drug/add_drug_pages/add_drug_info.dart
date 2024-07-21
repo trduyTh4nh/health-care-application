@@ -29,6 +29,7 @@ class _AddDrugInfoPageState extends State<AddDrugInfoPage> {
   getApplications() async {
     lst = await repo.getPrescription();
   }
+
   @override
   void initState() {
     applicationFuture = getApplications();
@@ -73,21 +74,17 @@ class _AddDrugInfoPageState extends State<AddDrugInfoPage> {
                                       Theme.of(context).textTheme.displaySmall),
                             ),
                             TextField(
-                              onEditingComplete:() {
+                              onEditingComplete: () {
                                 future = value.searchDrug(controller.text);
-                                setState(() {
-                                  
-                                });
+                                setState(() {});
                                 value.searchQuery = controller.text;
                               },
                               controller: controller,
                               decoration: InputDecoration(
                                   label: const Text("Tìm kiếm"),
                                   suffixIcon: IconButton(
-                                    onPressed: () {
-                                      
-                                    },
-                                    icon: const Icon(Icons.search))),
+                                      onPressed: () {},
+                                      icon: const Icon(Icons.search))),
                             )
                           ],
                         ),
@@ -180,11 +177,15 @@ class _AddDrugInfoPageState extends State<AddDrugInfoPage> {
                     color: AppColors.greyColor,
                     borderRadius: BorderRadius.circular(16),
                     child: DropdownButton(
-                        hint: const SizedBox(
+                        hint: SizedBox(
                           width: 20,
                           height: 20,
-                          child: CircularProgressIndicator()
+                          child: LoadingAnimationWidget.flickr(
+                            leftDotColor: colorScheme.primary,
+                            rightDotColor: colorScheme.error,
+                            size: 48,
                           ),
+                        ),
                         borderRadius: BorderRadius.circular(16),
                         icon: const Icon(Icons.keyboard_arrow_down_rounded),
                         padding: const EdgeInsets.symmetric(horizontal: 20),

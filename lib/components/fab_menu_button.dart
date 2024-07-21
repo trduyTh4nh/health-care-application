@@ -5,8 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FabMenuButton extends StatefulWidget {
-  const FabMenuButton({super.key});
-
+  const FabMenuButton({super.key, this.afterFinishAddingItem});
+  final Function()? afterFinishAddingItem;
   @override
   State<FabMenuButton> createState() => _FabMenuButtonState();
 }
@@ -55,8 +55,15 @@ class _FabMenuButtonState extends State<FabMenuButton>
         ),
         FloatingActionButton(
           heroTag: "2",
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder:(context) => const AddDrugPage(),));
+          onPressed: () async {
+            await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AddDrugPage(),
+                ));
+            if(widget.afterFinishAddingItem != null){
+              widget.afterFinishAddingItem!();
+            }
           },
           backgroundColor: actionButtonColor,
           child: const Icon(Icons.add),
@@ -64,8 +71,11 @@ class _FabMenuButtonState extends State<FabMenuButton>
         FloatingActionButton(
           heroTag: "3",
           onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder:(context) => const CartPage(),));
-
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CartPage(),
+                ));
           },
           backgroundColor: actionButtonColor,
           child: const Icon(Icons.shopping_cart_outlined),

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:app_well_mate/api/drug/drug_repo.dart';
+import 'package:app_well_mate/components/info_component.dart';
 import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
@@ -9,6 +10,7 @@ import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 class DrugToday extends StatefulWidget {
   const DrugToday({super.key, this.idPre = -1});
@@ -75,34 +77,15 @@ class _DrugTodayState extends State<DrugToday>
           eveningData
               .sort((a, b) => a.timeOfUse!.hour.compareTo(b.timeOfUse!.hour));
           if (mockData.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "🙌",
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineLarge!
-                          .copyWith(fontSize: 100),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Làm tốt lắm!",
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                    const Text(
-                      "Bạn đã hoàn thành đợt thuốc ngày hôm nay!",
-                      textAlign: TextAlign.center,
-                    )
-                  ],
-                ),
+            return const Center(
+                child: Padding(
+              padding: EdgeInsets.all(20.0),
+              child: ErrorInfo(
+                title: "Làm tốt lắm",
+                subtitle: "Bạn đã uống hết đợt thuốc hôm nay",
+                icon: Symbols.check_circle,
               ),
-            );
+            ));
           }
           return CustomScrollView(
             slivers: [
