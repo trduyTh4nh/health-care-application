@@ -120,14 +120,16 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                             : null,
                       ),
                       const SizedBox(width: 12),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(fullName ?? "Full Name",
-                              style: Theme.of(context).textTheme.titleLarge!),
-                          Text(userName ?? "User",
-                              style: Theme.of(context).textTheme.bodyMedium!)
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(fullName ?? "Full Name",
+                                style: Theme.of(context).textTheme.titleLarge!),
+                            Text(userName ?? "User",
+                                style: Theme.of(context).textTheme.bodyMedium!)
+                          ],
+                        ),
                       )
                     ],
                   ),
