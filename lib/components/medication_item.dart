@@ -1,17 +1,13 @@
-import 'package:app_well_mate/api/cart/cart_repo.dart';
 import 'package:app_well_mate/api/drug/drug_repo.dart';
 import 'package:app_well_mate/components/custom_elevated_button.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
-import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
-import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
 import 'package:app_well_mate/screen/drug_info.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 
@@ -308,19 +304,14 @@ class _MedicationItemState extends State<MedicationItem> {
                                           onSelected: (value) {
                                             switch (value) {
                                               case MedicationItemAction.buy:
-                                                // Navigator.push(
-                                                //     context,
-                                                //     MaterialPageRoute(
-                                                //       builder: (context) =>
-                                                //           const MedicinesOrder(),
-                                                //     ));
                                                 Provider.of<CartPageProvider>(
                                                         context,
                                                         listen: false)
-                                                    .addDrugtoCart(widget
-                                                        .prescription
-                                                        .detail!
-                                                        .drug!);
+                                                    .addDrugtoCart(
+                                                        widget.prescription
+                                                            .detail!.drug!,
+                                                        context);
+
                                                 break;
                                               case MedicationItemAction.delete:
                                                 showDialog(

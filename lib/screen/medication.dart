@@ -4,6 +4,7 @@ import 'package:app_well_mate/components/info_component.dart';
 import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/main.dart';
+
 import 'package:app_well_mate/screen/drug/schedule_pages/all_drug.dart';
 import 'package:app_well_mate/screen/drug/schedule_pages/drug_done.dart';
 import 'package:app_well_mate/screen/drug/schedule_pages/drug_today.dart';
@@ -16,6 +17,7 @@ import 'package:app_well_mate/model/prescription_model.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:provider/provider.dart';
 
 class MedicationPage extends StatefulWidget {
   const MedicationPage({super.key});
