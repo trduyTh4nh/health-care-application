@@ -1,4 +1,6 @@
+import 'package:app_well_mate/main.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/widget_prescriptionstatus_cancel_medicine.dart';
 
@@ -31,8 +33,15 @@ class _WidgetPrescriptionstatusMedicine
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
-                const SizedBox(
-                    width: 24, height: 24, child: CircularProgressIndicator()),
+                SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: LoadingAnimationWidget.flickr(
+                    leftDotColor: colorScheme.primary,
+                    rightDotColor: colorScheme.error,
+                    size: 48,
+                  ),
+                ),
                 const SizedBox(
                   width: 15,
                 ),
@@ -97,7 +106,6 @@ class _WidgetPrescriptionstatusMedicine
                                   ),
                                 ],
                               ),
-                              
                             ],
                           ),
                           const Divider(),
@@ -157,8 +165,7 @@ class _WidgetPrescriptionstatusMedicine
                   Text("Địa chỉ giao hàng"),
                   Text(
                     "100 đường Example, Thành phố Hồ Chí Minh, Việt Nam",
-                    style:
-                        Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   SizedBox(
                     height: 20,

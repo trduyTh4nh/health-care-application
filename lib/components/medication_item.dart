@@ -47,8 +47,8 @@ class _MedicationItemState extends State<MedicationItem> {
     }
   }
 
-  onTap() async {
-    if (widget.prescription.detail!.quantityUsed == 0) {
+  confirm() async {
+    if (widget.prescription.detail!.quantity! - widget.prescription.detail!.quantityUsed! == 0) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text("Bạn đã hết thuốc"),
         action: SnackBarAction(
@@ -75,7 +75,7 @@ class _MedicationItemState extends State<MedicationItem> {
         ? (toSecond(TimeOfDay.now()) - toSecond(widget.prescription.timeOfUse!))
         : -1;
     TimeOfDay timeDiff = toTime(timeDiffSec.abs());
-    Color accent = timeDiffSec > 0 && widget.prescription.status != "completed"
+    Color accent = timeDiffSec > 0 || widget.prescription.status != "Completed"
         ? colorScheme.error
         : colorScheme.primary;
     return FutureBuilder(
@@ -86,7 +86,7 @@ class _MedicationItemState extends State<MedicationItem> {
             opacity = 0.2;
           } else {
             accent =
-                timeDiffSec > 0 && widget.prescription.status != "completed"
+                timeDiffSec > 0 && widget.prescription.status != "Completed"
                     ? colorScheme.error
                     : colorScheme.primary;
             opacity = 1;
@@ -186,7 +186,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                         Column(
                                           children: [
                                             widget.prescription.status !=
-                                                    "completed"
+                                                    "Completed"
                                                 ? Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -200,7 +200,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                                               onTap: () {
                                                                 setState(() {
                                                                   future =
-                                                                      onTap();
+                                                                      confirm();
                                                                 });
                                                               },
                                                               child: Icon(
@@ -259,8 +259,11 @@ class _MedicationItemState extends State<MedicationItem> {
                                           itemBuilder: (context) => [
                                             PopupMenuItem(
                                                 enabled: widget.prescription
-                                                        .idScheduleDetail !=
-                                                    null,
+                                                            .idScheduleDetail !=
+                                                        null &&
+                                                    widget.prescription
+                                                            .status !=
+                                                        "Completed",
                                                 value: MedicationItemAction
                                                     .confirm,
                                                 child: const ListTile(
@@ -270,8 +273,11 @@ class _MedicationItemState extends State<MedicationItem> {
                                                         "Xác nhận đã uống"))),
                                             PopupMenuItem(
                                                 enabled: widget.prescription
-                                                        .idScheduleDetail !=
-                                                    null,
+                                                            .idScheduleDetail !=
+                                                        null &&
+                                                    widget.prescription
+                                                            .status !=
+                                                        "Completed",
                                                 value:
                                                     MedicationItemAction.snooze,
                                                 child: const ListTile(
@@ -286,13 +292,6 @@ class _MedicationItemState extends State<MedicationItem> {
                                                         Symbols.shopping_bag),
                                                     title: Text(
                                                         "Thêm vào giỏ hàng"))),
-                                            const PopupMenuItem(
-                                                value:
-                                                    MedicationItemAction.edit,
-                                                child: ListTile(
-                                                    leading: Icon(Symbols.edit),
-                                                    title:
-                                                        Text("Sửa thuốc này"))),
                                             const PopupMenuItem(
                                                 value:
                                                     MedicationItemAction.delete,
@@ -346,6 +345,10 @@ class _MedicationItemState extends State<MedicationItem> {
                                                           ],
                                                         ));
                                                 break;
+                                              case MedicationItemAction.confirm:
+                                                future = confirm();
+                                                setState(() {});
+                                                break;
                                               default:
                                                 break;
                                             }
@@ -366,8 +369,10 @@ class _MedicationItemState extends State<MedicationItem> {
                                         const SizedBox(
                                           width: 5,
                                         ),
-                                        Text(
-                                            "Ngày ${widget.prescription.detail!.amountPerConsumption} ${widget.prescription.detail!.drug!.unit}")
+                                        Expanded(
+                                          child: Text(
+                                              "Ngày ${widget.prescription.detail!.amountPerConsumption} ${widget.prescription.detail!.drug!.unit}"),
+                                        )
                                       ],
                                     ),
                                   ),
@@ -401,7 +406,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                           width: 5,
                                         ),
                                         Text(
-                                            "${widget.prescription.detail!.quantityUsed}/${widget.prescription.detail!.quantity}")
+                                            "${widget.prescription.detail!.quantity! - widget.prescription.detail!.quantityUsed!}/${widget.prescription.detail!.quantity}")
                                       ],
                                     ),
                                   ),
@@ -433,7 +438,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                   )
                                 ],
                               ),
-                              widget.prescription.detail!.quantityUsed == 0 &&
+                              widget.prescription.detail!.quantity! - widget.prescription.detail!.quantityUsed! <= 0 &&
                                       showWarning
                                   ? Column(
                                       children: [

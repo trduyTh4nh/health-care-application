@@ -1,7 +1,9 @@
 import 'package:app_well_mate/model/drug_cart_detail_model.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:app_well_mate/utils/util.dart';
+import 'package:app_well_mate/main.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 enum MedicationItemAction { delete, edit, snooze, buy, confirm }
@@ -35,7 +37,11 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
                           SizedBox(
                               width: 24,
                               height: 24,
-                              child: CircularProgressIndicator()),
+                              child: LoadingAnimationWidget.flickr(
+                                            leftDotColor: colorScheme.primary,
+                                            rightDotColor: colorScheme.error,
+                                            size: 48,
+                                          ),),
                           const SizedBox(
                             width: 15,
                           ),

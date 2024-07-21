@@ -1,8 +1,10 @@
+import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:app_well_mate/api/address/address_repo.dart';
 import 'package:app_well_mate/model/address_model.dart';
 import 'package:app_well_mate/storage/secure_storage.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 
@@ -232,7 +234,11 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                 future: _addressesFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return Center(child: LoadingAnimationWidget.flickr(
+                                            leftDotColor: colorScheme.primary,
+                                            rightDotColor: colorScheme.error,
+                                            size: 48,
+                                          ),);
                   } else if (snapshot.hasError) {
                     return Center(
                         child: Text("Lỗi khi tải địa chỉ: ${snapshot.error}"));

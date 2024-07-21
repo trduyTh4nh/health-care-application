@@ -1,6 +1,7 @@
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/screen/drug_cart.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 enum MedicationItemAction { delete, edit, snooze, buy, confirm }
@@ -32,8 +33,15 @@ class _WidgetPrescriptionstatusCancelMedicine
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               children: [
-                const SizedBox(
-                    width: 24, height: 24, child: CircularProgressIndicator()),
+                SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: LoadingAnimationWidget.flickr(
+                    leftDotColor: colorScheme.primary,
+                    rightDotColor: colorScheme.error,
+                    size: 48,
+                  ),
+                ),
                 SizedBox(
                   width: 15,
                 ),
@@ -158,8 +166,7 @@ class _WidgetPrescriptionstatusCancelMedicine
                   Text("Địa chỉ giao hàng"),
                   Text(
                     "100 đường Example, Thành phố Hồ Chí Minh, Việt Nam",
-                    style:
-                        Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Text(
                     "Tổng tiền",
