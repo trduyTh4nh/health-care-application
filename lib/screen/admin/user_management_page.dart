@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:app_well_mate/components/item_user_profile.dart';
+import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/user.dart';
 import 'package:app_well_mate/screen/admin/user_profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class UserManagementAdmin extends StatefulWidget {
@@ -127,7 +129,13 @@ class _UserManagementAdminState extends State<UserManagementAdmin> {
         ],
       ),
       body: isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(
+              child: LoadingAnimationWidget.flickr(
+                leftDotColor: colorScheme.primary,
+                rightDotColor: colorScheme.error,
+                size: 48,
+              ),
+            )
           : Column(
               children: [
                 Padding(

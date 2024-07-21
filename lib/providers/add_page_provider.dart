@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app_well_mate/api/application/application_repo.dart';
 import 'package:app_well_mate/api/drug/drug_repo.dart';
 import 'package:app_well_mate/const/functions.dart';
@@ -6,6 +8,7 @@ import 'package:app_well_mate/model/hospital_model.dart';
 import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/model/prescription_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
+import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:flutter/material.dart';
 
 class AddPageProvider extends ChangeNotifier {
@@ -138,5 +141,19 @@ class AddPageProvider extends ChangeNotifier {
     _habit = newVal;
     _isValid = true;
     notifyListeners();
+  }
+  DrugRepo drugRepo = DrugRepo();
+  Future<Map<String, dynamic>?> saveDrugToApp() async {
+    int idUser = await SecureStorage.getUserId();
+    Map<String, dynamic> data = {
+      "id_drug": _prescriptionDetail!.drug!.idDrug ?? -1,
+      "id_application": _prescriptionModel!.idPre ?? -1,
+      "quantity": _prescriptionDetail!.quantity,
+      "list_schedule_detail": _scheduleDetailModel.map((e) => "${e!.timeOfUse!.hour.toString().padLeft(2, '0')}:${e.timeOfUse!.minute.toString().padLeft(2, '0')}:00").toList(),
+      "amount_per_consumption": _prescriptionDetail!.amountPerConsumption ?? 0,
+      "id_user": idUser
+    };
+    var res = await drugRepo.addDrugToApp(data);
+    return res; 
   }
 }

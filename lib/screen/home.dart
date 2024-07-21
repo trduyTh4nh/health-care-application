@@ -3,12 +3,14 @@ import 'dart:ui';
 
 import 'package:app_well_mate/api/auth/api_repo.dart';
 import 'package:app_well_mate/api/drug/drug_repo.dart';
+import 'package:app_well_mate/components/info_component.dart';
 import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
+import 'package:app_well_mate/providers/notification_provider.dart';
 import 'package:app_well_mate/screen/FFMI.dart';
 import 'package:app_well_mate/screen/medicine_purchase_history.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
@@ -134,23 +136,23 @@ class _HomeState extends State<Home> {
               actions: [
                 //KHÔNG ĐƯỢC CONST!!!!!
                 Consumer<CartPageProvider>(builder: (context, value, child) {
-                  return Badge(
-                    label: Text(
-                      "${value.listDrugCart.length}",
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const CartPage()));
-                        },
-                        icon: const Icon(
+                  return IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const CartPage()));
+                      },
+                      icon: Badge(
+                        label: Text(
+                          "${value.listDrugCart.length}",
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        child: const Icon(
                           Symbols.shopping_cart,
                           size: 24,
-                        )),
-                  );
+                        ),
+                      ));
                 }),
 
                 IconButton(
@@ -351,35 +353,10 @@ class _HomeState extends State<Home> {
                                 titleText:
                                     index == 0 ? "Quá giờ uống thuốc" : null,
                               )
-                            : Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        "🙌",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineLarge!
-                                            .copyWith(fontSize: 100),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        "Làm tốt lắm!",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineMedium,
-                                      ),
-                                      const Text(
-                                        "Bạn đã hoàn thành đợt thuốc ngày hôm nay!",
-                                        textAlign: TextAlign.center,
-                                      )
-                                    ],
-                                  ),
-                                ),
+                            : const ErrorInfo(
+                                title: "Làm tốt lắm",
+                                subtitle: "Bạn đã uống hết đợt thuốc hôm nay",
+                                icon: Symbols.check_circle,
                               ),
                         separatorBuilder: (context, index) => const SizedBox(),
                       ),

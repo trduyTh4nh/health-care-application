@@ -25,6 +25,20 @@ class ScheduleRepo {
     }
   }
 
+  Future<ScheduleDetailModel?> insertScheduleDetail(Map<String, dynamic> map) async {
+    String token = await SecureStorage.getToken();
+    try {
+      Response res = await api.sendRequest.post(
+          "/schedule/insertScheduleDetail",
+          data: map,
+          options: Options(headers: header(token)));
+      return ScheduleDetailModel.fromJson(res.data['metadata']);
+    } catch (ex) {
+      log(ex.toString());
+      return null;
+    }
+  }
+
   Future<String> deleteScheduleBy(int id) async {
     String token = await SecureStorage.getToken();
     try {

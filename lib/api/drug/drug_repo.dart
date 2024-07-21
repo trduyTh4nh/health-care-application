@@ -124,7 +124,6 @@ class DrugRepo {
       if (data is List) {
         lst = data.map((e) => DrugModel.fromJson(e)).toList();
       }
-      log(lst.toString());
       return lst;
     } catch (ex) {
       log(ex.toString());
@@ -157,14 +156,53 @@ class DrugRepo {
     try {
       Response res = await api.sendRequest.put(
           "/schedule/updateScheduleDetail/$id",
-          data: {
-            "id_user": idUser
-          },
+          data: {"id_user": idUser},
           options: Options(headers: header(token)));
       return res.data["metadata"][0];
     } catch (ex) {
       log(ex.toString());
       return 0;
+    }
+  }
+
+  Future<List<ScheduleDetailModel>?> getLog() async {
+    String token = await SecureStorage.getToken();
+    int idUser = await SecureStorage.getUserId();
+    List<ScheduleDetailModel> lst = [];
+    try {
+      Response res = await api.sendRequest.get("/log/getAllLogs/$idUser",
+          data: {"id_user": idUser}, options: Options(headers: header(token)));
+      var data = res.data["metadata"];
+      if (data is List) {
+        lst = data.map((e) {
+          ScheduleDetailModel tmp =
+              ScheduleDetailModel.fromJson(e["scheduleDetail"]);
+          tmp.status = "Completed";
+          tmp.detail = PrescriptionDetailModel.fromJson(
+              e["scheduleDetail"]["drugAppDetail"]);
+          tmp.detail!.drug =
+              DrugModel.fromJson(e["scheduleDetail"]["drugAppDetail"]["drug"]);
+          return tmp;
+        }).toList();
+      }
+      return lst;
+    } catch (ex) {
+      log(ex.toString());
+      return null;
+    }
+  }
+
+  Future<Map<String, dynamic>?> addDrugToApp(
+      Map<String, dynamic> data) async {
+    String token = await SecureStorage.getToken();
+    try {
+      Response res = await api.sendRequest.post("/drug/addDrugCustom",
+          data: data, options: Options(headers: header(token)));
+      var dataRes = res.data["metadata"];
+      return dataRes;
+    } catch (ex) {
+      log(ex.toString());
+      return null;
     }
   }
 }

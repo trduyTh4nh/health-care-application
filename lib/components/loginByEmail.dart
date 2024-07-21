@@ -19,6 +19,7 @@ class LoginByEmail extends StatefulWidget {
 class _LoginByEmailState extends State<LoginByEmail> {
   late User user;
   bool isLoading = false;
+  bool _isSecurePassword = true;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   ApiRepo repo = ApiRepo();
@@ -49,6 +50,18 @@ class _LoginByEmailState extends State<LoginByEmail> {
     //   Navigator.push(
     //          context, MaterialPageRoute(builder: (context) => AppPage()));
     // }
+  }
+
+  Widget tooglePassword() {
+    return IconButton(
+        onPressed: () {
+          setState(() {
+            _isSecurePassword = !_isSecurePassword;
+          });
+        },
+        icon: _isSecurePassword
+            ? const Icon(Icons.visibility_off_outlined)
+            : const Icon(Icons.visibility_outlined));
   }
 
   @override
@@ -102,25 +115,27 @@ class _LoginByEmailState extends State<LoginByEmail> {
                       height: 32,
                     ),
                     TextField(
+                      obscureText: _isSecurePassword,
                       onChanged: (value) {
                         print(value);
                       },
                       controller: _passwordController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
+                          suffixIcon: tooglePassword(),
                           hintText: 'Password',
-                          hintStyle: TextStyle(
+                          hintStyle: const TextStyle(
                               fontSize: 16,
                               color: Color.fromARGB(255, 167, 167, 167)),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 20),
-                          border: UnderlineInputBorder(
+                          border: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(width: 3, color: Colors.grey)),
-                          prefixIcon: Icon(Icons.password),
-                          focusedBorder: UnderlineInputBorder(
+                          prefixIcon: const Icon(Icons.password),
+                          focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
                                   width: 3, color: AppColors.primaryColor)),
-                          enabledBorder: UnderlineInputBorder(
+                          enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
                                   width: 2, color: AppColors.greyColor))),
                     ),
