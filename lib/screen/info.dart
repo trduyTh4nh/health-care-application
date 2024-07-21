@@ -2,6 +2,7 @@ import 'package:app_well_mate/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -42,13 +43,21 @@ class InfoPage extends StatelessWidget {
               future: getVer(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return Center(
+                    child: LoadingAnimationWidget.flickr(
+                                            leftDotColor: colorScheme.primary,
+                                            rightDotColor: colorScheme.error,
+                                            size: 48,
+                                          ),
                   );
                 }
                 if (snapshot.data == null) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return Center(
+                    child: LoadingAnimationWidget.flickr(
+                                            leftDotColor: colorScheme.primary,
+                                            rightDotColor: colorScheme.error,
+                                            size: 48,
+                                          ),
                   );
                 }
                 return SingleChildScrollView(

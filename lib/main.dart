@@ -1,7 +1,10 @@
 import 'dart:async';
 
+import 'package:app_well_mate/api/auth/api_repo.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
+import 'package:app_well_mate/model/user_info_model.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
+import 'package:app_well_mate/providers/notification_provider.dart';
 
 import 'package:app_well_mate/screen/home.dart';
 import 'package:app_well_mate/screen/login.dart';
@@ -36,7 +39,10 @@ Future main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (context) => CartPageProvider(),
-    )
+    ),
+    ChangeNotifierProvider(create: (context) {
+      return NotificationProvider();
+    })
   ], child: const MainApp()));
 }
 
@@ -99,7 +105,7 @@ class _MainAppState extends State<MainApp> {
                     .titleMedium!
                     .copyWith(color: colorScheme.onPrimary),
                 insetPadding: const EdgeInsets.all(40),
-                shape: RoundedRectangleBorder(
+                shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(16),
                       topRight: Radius.circular(16)),
@@ -209,19 +215,31 @@ class AppPage extends StatefulWidget {
 
 class _AppPageState extends State<AppPage> {
   int _selectedPage = 0;
+  Future<InfoUserModel?>? userData;
   final List<Widget> _pages = [
     const Home(),
     const SearchPage(),
     const ScanPage(),
     const MedicationPage(),
-    const Thongtincanhan(),
+    // const Thongtincanhan(),
+
     const ThemeScreen()
   ];
 
-  void _onTap(index) {
-    setState(() {
-      _selectedPage = index;
+  // void _onTap(index) {
+  //   setState(() {
+  //     _selectedPage = index;
+  //   });
+  // }
+
+
+  @override
+  void initState() {
+    userData = ApiRepo().getInfoUser();
+    WidgetsBinding.instance.addPostFrameCallback((t) {
+      Provider.of<NotificationProvider>(context, listen: false).requestPermission(context);
     });
+    super.initState();
   }
 
   @override
@@ -250,9 +268,40 @@ class _AppPageState extends State<AppPage> {
           onTap: _onTap,
         ),
         body: Center(
-          child: _pages[_selectedPage],
+          child: _selectedPage == 4
+              ? FutureBuilder<InfoUserModel?>(
+                  future: userData,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else if (snapshot.hasData) {
+                      var userInfo = snapshot.data;
+                      return Thongtincanhan();
+                    } else {
+                      return Text('No user data available');
+                    }
+                  },
+                )
+              : _pages[_selectedPage],
         ),
       ),
     );
   }
+
+  void _onTap(int index) {
+    setState(() {
+      _selectedPage = index;
+    });
+  }
 }
+        // body: Center(
+
+        //   child: _pages[_selectedPage],
+        // ),
+        
+//       ),
+//     );
+//   }
+// }

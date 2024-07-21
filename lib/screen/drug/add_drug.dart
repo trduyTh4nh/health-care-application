@@ -1,4 +1,7 @@
+import 'package:app_well_mate/model/prescription_detail_model.dart';
+import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/providers/add_page_provider.dart';
+import 'package:app_well_mate/providers/notification_provider.dart';
 import 'package:app_well_mate/screen/drug/add_drug_pages/add_drug_dosage.dart';
 import 'package:app_well_mate/screen/drug/add_drug_pages/add_drug_habit.dart';
 import 'package:app_well_mate/screen/drug/add_drug_pages/add_drug_info.dart';
@@ -115,13 +118,41 @@ class _AddDrugPageState extends State<AddDrugPage> {
                 Expanded(
                   child: ElevatedButton(
                       onPressed: value.isValid
-                          ? () {
+                          ? () async {
                               if (_currentPageIndex >= pages.length - 1) {
-                                Navigator.pop(context);
-                                //TODO: Add thuốc khi có back-end.
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text("Đã thêm thuốc.")));
+                                var res = await value.saveDrugToApp();
+                                if (context.mounted) {
+                                  if (res != null) {
+                                    PrescriptionDetailModel preDetail =
+                                        PrescriptionDetailModel.fromJson(
+                                            res["drugAppDetail"]);
+                                    for (var element
+                                        in res["scheduleDetailResult"]) {
+                                      ScheduleDetailModel model =
+                                          ScheduleDetailModel.fromJson(element);
+                                      if (context.mounted) {
+                                        await Provider.of<NotificationProvider>(
+                                                context,
+                                                listen: false)
+                                            .scheduleNotification(
+                                                model,
+                                                value.prescriptionDetail!.drug!,
+                                                preDetail.idPreDetail!);
+                                      }
+                                    }
+                                    if (context.mounted) {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              content: Text("Đã thêm thuốc.")));
+                                    }
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(
+                                            content:
+                                                Text("Không thể thêm thuốc.")));
+                                  }
+                                }
                                 return;
                               }
                               _currentPageIndex++;

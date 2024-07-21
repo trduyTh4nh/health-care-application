@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:app_well_mate/api/drug/drug_repo.dart';
+import 'package:app_well_mate/components/info_component.dart';
 import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug_model.dart';
@@ -24,7 +25,6 @@ class _AllDrugState extends State<AllDrug> {
   getData() async {
     data = await repo.getPreDetail(widget.prescriptionId);
   }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -46,23 +46,11 @@ class _AllDrugState extends State<AllDrug> {
           }
           if (data!.isEmpty) {
             return Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "Không có thuốc",
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                  const Text(
-                    "Hãy thêm thuốc bằng cách ấn vào biểu tượng ở góc dưới phải của màn hình",
-                    textAlign: TextAlign.center,
-                  )
-                ],
-              ),
+              child: ErrorInfo(
+                title: "Không có thuốc",
+                subtitle: "Hãy thêm thuốc bằng cách ấn vào biểu tượng ở góc phải màn hình",
+                icon: Symbols.pill_off,
+              )
             );
           }
           return ListView.separated(

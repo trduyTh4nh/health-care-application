@@ -110,6 +110,7 @@ class _CartPageState extends State<CartPage> {
                                     IconButton(
                                       icon: const Icon(Icons.delete),
                                       onPressed: () {
+                                        // showDialog(context: context, builder: builder)
                                         value.deleteDrugCartFromCart(
                                             item.idDrugCartDetail!);
                                       },
@@ -179,16 +180,22 @@ class _CartPageState extends State<CartPage> {
                         convertCurrency(value.totalPrice),
                         style: Theme.of(context).textTheme.displayMedium,
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MedicinesOrder(),
-                            ),
-                          );
-                        },
-                        child: const Text('Mua thuốc'),
+                      Align(
+                        alignment: Alignment.center,
+                        child: ElevatedButton(
+                          onPressed: value.listChecked.isEmpty
+                              ? null
+                              : () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const MedicinesOrder(),
+                                    ),
+                                  );
+                                },
+                          child: const Text('Mua thuốc'),
+                        ),
                       ),
                     ],
                   ),

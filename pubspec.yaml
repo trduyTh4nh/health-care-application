@@ -38,6 +38,8 @@ dependencies:
   shared_preferences: ^2.2.2
   image_picker: ^1.1.2
   connectivity_plus: ^6.0.3
+  android_intent_plus: ^5.0.2
+  app_settings: ^5.1.1
  
 
 flutter_launcher_icons:
