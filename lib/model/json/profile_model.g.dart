@@ -1,10 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of '../profile_model.dart';
-
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
 
 ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
       idProfile: (json['idProfile'] as num?)?.toInt(),
@@ -15,6 +9,8 @@ ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
       address: json['address'] as String?,
       idUser: (json['id_user'] as num?)?.toInt(),
       avtUser: (json['avatar'] as String?),
+      phone: (json['phone'] as String?),
+      fullName: (json['full_name'] as String?),
     );
 
 Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
@@ -27,4 +23,6 @@ Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
       'address': instance.address,
       'id_user': instance.idUser,
       'singlefile': instance.avtUser,
+      'phone': instance.phone,
+      'full_name': instance.fullName,
     };

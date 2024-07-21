@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:app_well_mate/api/auth/api_repo.dart';
 import 'package:app_well_mate/api/drug/drug_repo.dart';
 import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/components/shotcut.dart';
@@ -35,6 +36,12 @@ class _HomeState extends State<Home> {
   List<ScheduleDetailModel> expiredData = [];
   List<ScheduleDetailModel> upcomingData = [];
   bool showBanner = true;
+
+  //lay avatar and userName
+  Future<void>? future;
+  String? userName;
+  String? avatar;
+
   final List<String> _banners = [
     "banner1.json",
     "banner2.json",
@@ -42,6 +49,18 @@ class _HomeState extends State<Home> {
     "dotorjson.json",
     "fight_the_virus.json"
   ];
+
+  Future<void> fetchData() async {
+    await getSchedule();
+    var userInfo = await ApiRepo().getInfoUser();
+    if (userInfo != null) {
+      setState(() {
+        userName = userInfo.userName;
+        avatar = userInfo.profile!.avatar;
+      });
+    }
+  }
+
   Future<void> getSchedule() async {
     data = await repo.getSchedule();
     data = data.where((e) => e.lastConfirmed != DateTime.now()).toList();
@@ -60,10 +79,10 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Future<void>? future;
   @override
   void initState() {
     future = getSchedule();
+    future = fetchData();
     super.initState();
   }
 
@@ -89,9 +108,14 @@ class _HomeState extends State<Home> {
               title: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        "https://images-ext-1.discordapp.net/external/GzOumY3Ty-mCaQNSxtMOVR5BPLNstdlilADmc80Wfm8/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/515061888258670602/69eaf1984e071ba575fe531b70b200c3.png?format=webp&quality=lossless&width=452&height=452"),
+                  CircleAvatar(
+                    //   backgroundImage: NetworkImage(
+                    //       "https://images-ext-1.discordapp.net/external/GzOumY3Ty-mCaQNSxtMOVR5BPLNstdlilADmc80Wfm8/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/515061888258670602/69eaf1984e071ba575fe531b70b200c3.png?format=webp&quality=lossless&width=452&height=452"),
+                    // ),
+                    backgroundImage: avatar != null
+                        ? NetworkImage(avatar!)
+                        : const NetworkImage(
+                            'https://images-ext-1.discordapp.net/external/GzOumY3Ty-mCaQNSxtMOVR5BPLNstdlilADmc80Wfm8/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/515061888258670602/69eaf1984e071ba575fe531b70b200c3.png?format=webp&quality=lossless&width=452&height=452'),
                   ),
                   const SizedBox(
                     width: 20,
@@ -101,7 +125,7 @@ class _HomeState extends State<Home> {
                     children: [
                       Text("Xin chào,",
                           style: Theme.of(context).textTheme.titleLarge!),
-                      Text("Trí Quang",
+                      Text(userName ?? "User",
                           style: Theme.of(context).textTheme.bodyMedium!)
                     ],
                   )
