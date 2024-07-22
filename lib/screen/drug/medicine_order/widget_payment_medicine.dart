@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,14 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
   Future<List<AddressModel>>? _addressesFuture;
   final TextEditingController _newAddressController = TextEditingController();
   final TextEditingController _editAddressController = TextEditingController();
+  final TextEditingController _nameStreetController = TextEditingController();
+
+  final TextEditingController _nameAddressController = TextEditingController();
+  final TextEditingController _cityNameController = TextEditingController();
+  final TextEditingController _coundtryCodeController = TextEditingController();
+  final TextEditingController _postalController = TextEditingController();
+  final TextEditingController _phoneNumberressController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -53,6 +63,19 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
     String? token = await SecureStorage.getToken();
     await AddressRepo().UpdateAddress(idAddress, newAddress, token);
     _loadAddresses();
+  }
+
+  String getAddress() {
+    String address = _nameStreetController.text +
+        "," +
+        _cityNameController.text +
+        "," +
+        _coundtryCodeController.text +
+        "," +
+        _postalController.text +
+        "," +
+        _phoneNumberressController.text;
+    return address;
   }
 
   @override
@@ -234,11 +257,13 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                 future: _addressesFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: LoadingAnimationWidget.flickr(
-                                            leftDotColor: colorScheme.primary,
-                                            rightDotColor: colorScheme.error,
-                                            size: 48,
-                                          ),);
+                    return Center(
+                      child: LoadingAnimationWidget.flickr(
+                        leftDotColor: colorScheme.primary,
+                        rightDotColor: colorScheme.error,
+                        size: 48,
+                      ),
+                    );
                   } else if (snapshot.hasError) {
                     return Center(
                         child: Text("Lỗi khi tải địa chỉ: ${snapshot.error}"));
@@ -416,10 +441,41 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                       ),
                                       const Text("Thông tin địa chỉ"),
                                       TextFormField(
-                                        controller: _newAddressController,
+                                        controller: _nameStreetController,
                                         decoration: const InputDecoration(
-                                            labelText:
-                                                "Nhập địa chỉ mới tại đây"),
+                                            labelText: "Nhập tên đường"),
+                                      ),
+                                      TextFormField(
+                                        controller: _cityNameController,
+                                        decoration: const InputDecoration(
+                                            labelText: "Nhập thành phố"),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextFormField(
+                                              controller:
+                                                  _coundtryCodeController,
+                                              decoration: const InputDecoration(
+                                                  labelText: "Coundtry code"),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Expanded(
+                                            child: TextFormField(
+                                              controller: _postalController,
+                                              decoration: const InputDecoration(
+                                                  labelText: "Postal code"),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      TextFormField(
+                                        controller: _phoneNumberressController,
+                                        decoration: const InputDecoration(
+                                            labelText: "Số điện thoại"),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(18.0),
@@ -427,8 +483,10 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                           width: double.infinity,
                                           child: ElevatedButton(
                                             onPressed: () {
-                                              _addAddress(
-                                                  _newAddressController.text);
+                                              String allinFo = getAddress();
+                                              print(
+                                                  "day la tat ca thong tin dia chi: $allinFo");
+                                              _addAddress(allinFo);
                                               Navigator.pop(context);
                                             },
                                             child: const Text("Xong"),

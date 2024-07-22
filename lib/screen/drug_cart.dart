@@ -15,6 +15,8 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   //model cho gio hang hien thi
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -84,19 +86,22 @@ class _CartPageState extends State<CartPage> {
                       ),
                       Align(
                         alignment: Alignment.center,
-                        child: ElevatedButton(
-                          onPressed: value.listChecked.isEmpty
-                              ? null
-                              : () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const MedicinesOrder(),
-                                    ),
-                                  );
-                                },
-                          child: const Text('Mua thuốc'),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: value.listChecked.isEmpty
+                                ? null
+                                : () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MedicinesOrder(),
+                                      ),
+                                    );
+                                  },
+                            child: const Text('Mua thuốc'),
+                          ),
                         ),
                       ),
                     ],
