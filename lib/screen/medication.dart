@@ -11,6 +11,7 @@ import 'package:app_well_mate/screen/drug/schedule_pages/drug_today.dart';
 import 'package:app_well_mate/screen/drug_cart.dart';
 import 'package:app_well_mate/screen/medicine_purchase_history.dart';
 import 'package:app_well_mate/screen/notification.dart';
+import 'package:app_well_mate/screen/scan.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:app_well_mate/model/prescription_model.dart';
@@ -128,7 +129,14 @@ class _MedicationPageState extends State<MedicationPage>
                 action: Shortcut(
                   icon: Icons.camera_alt_outlined,
                   text: "Quét mã",
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (c) => const ScanPage(
+                                  automaticallyImplyLeading: true,
+                                )));
+                  },
                 ),
               );
             }

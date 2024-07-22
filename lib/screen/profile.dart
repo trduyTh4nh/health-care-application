@@ -45,7 +45,6 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
     var userInfo = await ApiRepo().getInfoUser();
     if (userInfo != null) {
       userInfomation = userInfo;
-
       setState(() {
         userInfomation = userInfo;
         avatar = userInfo.profile?.avatar ?? '';

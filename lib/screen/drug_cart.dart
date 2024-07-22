@@ -1,8 +1,10 @@
+import 'package:app_well_mate/components/info_component.dart';
 import 'package:app_well_mate/components/item_drug_cart_detail.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:app_well_mate/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/medicines_order_main.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 
 class CartPage extends StatefulWidget {
@@ -46,8 +48,11 @@ class _CartPageState extends State<CartPage> {
               Expanded(
                 child: value.listDrugCart.isEmpty
                     ? const Center(
-                        child: Text("Khong co san pham can thanh toan"),
-                      )
+                        child: ErrorInfo(
+                        title: "Không có sản phẩm nào trong giỏ hàng",
+                        subtitle: "Vui lòng thêm một sản phẩm vào giỏ",
+                        icon: Symbols.shopping_cart_off,
+                      ))
                     : ListView.builder(
                         itemCount: value.listDrugCart.length,
                         itemBuilder: (context, index) {

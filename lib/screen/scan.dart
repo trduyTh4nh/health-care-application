@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:app_well_mate/api/application/application_repo.dart';
+import 'package:app_well_mate/screen/prescription_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
@@ -36,23 +37,16 @@ class _ScanPageState extends State<ScanPage> with WidgetsBindingObserver {
                           builder: (context) =>
                               const SimpleBarcodeScannerPage(),
                         ));
-                    if (res is String) {
+                    if (res is String && context.mounted) {
                       result = res;
-
-                      int r = await repo.scanApplication(int.parse(res));
-                      if (r == 1) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Quét thành công!")));
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Quét không thành công!")));
-                      }
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PrescriptionPreview(
+                                  idPre: int.parse(result))));
                     }
                     setState(() {
-                      if (res is String) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("RESULT: $result")));
-                      }
+                      
                     });
                   },
                   child: Image.asset('assets/images/loader.gif')),
