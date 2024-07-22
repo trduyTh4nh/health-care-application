@@ -40,6 +40,14 @@ class ApplicationRepo {
       }
       return 0;
     } catch (ex) {
+      if(ex is DioException){
+        DioException excep = ex;
+        String s = ex.response!.data["message"].toString();
+        if(s == "You does not have permission!"){
+          return -1;
+        }
+        return -2;
+      }
       log(ex.toString());
       return 0;
     }

@@ -11,6 +11,7 @@ import 'package:app_well_mate/screen/drug/drug_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:timezone/browser.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -38,7 +39,10 @@ class NotificationProvider extends ChangeNotifier {
     return tz.TZDateTime(
         tz.local, now.year, now.month, now.day, time.hour, time.minute, 0);
   }
-
+  tz.TZDateTime nextDay(TimeOfDay time) {
+    nextInstanceOfTime(time);
+    
+  }
   scheduleNotification(ScheduleDetailModel model, DrugModel drug, int detailId) async {
     const AndroidNotificationDetails details =
         AndroidNotificationDetails("c1", "notif test",

@@ -1,4 +1,5 @@
 import 'package:app_well_mate/api/drug/drug_repo.dart';
+import 'package:app_well_mate/components/custom_dialog.dart';
 import 'package:app_well_mate/components/custom_elevated_button.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
@@ -48,7 +49,9 @@ class _MedicationItemState extends State<MedicationItem> {
   }
 
   confirm() async {
-    if (widget.prescription.detail!.quantity! - widget.prescription.detail!.quantityUsed! == 0) {
+    if (widget.prescription.detail!.quantity! -
+            widget.prescription.detail!.quantityUsed! ==
+        0) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text("Bạn đã hết thuốc"),
         action: SnackBarAction(
@@ -317,33 +320,18 @@ class _MedicationItemState extends State<MedicationItem> {
                                                 showDialog(
                                                     context: context,
                                                     builder: (context) =>
-                                                        AlertDialog.adaptive(
-                                                          title: const Text(
-                                                              "Xoá thuốc này"),
-                                                          content: Text(
-                                                              "Bạn có muốn xoá thuốc ${widget.prescription.detail!.drug!.name} ${widget.prescription.lastConfirmed} không?"),
-                                                          actions: [
-                                                            TextButton(
-                                                                onPressed: () {
-                                                                  future =
-                                                                      deleteDrugMaster(
-                                                                          context);
-                                                                  setState(
-                                                                      () {});
-                                                                },
-                                                                child:
-                                                                    const Text(
-                                                                        "Có")),
-                                                            TextButton(
-                                                                onPressed: () {
-                                                                  Navigator.pop(
+                                                        CustomDialog(
+                                                            title:
+                                                                "Xoá thuốc này",
+                                                            subtitle:
+                                                                "Bạn có muốn xoá thuốc này không?",
+                                                            icon: Symbols.delete,
+                                                            onPositive: () {
+                                                              future =
+                                                                  deleteDrugMaster(
                                                                       context);
-                                                                },
-                                                                child:
-                                                                    const Text(
-                                                                        "Không"))
-                                                          ],
-                                                        ));
+                                                              setState(() {});
+                                                            }));
                                                 break;
                                               case MedicationItemAction.confirm:
                                                 future = confirm();
@@ -438,7 +426,10 @@ class _MedicationItemState extends State<MedicationItem> {
                                   )
                                 ],
                               ),
-                              widget.prescription.detail!.quantity! - widget.prescription.detail!.quantityUsed! <= 0 &&
+                              widget.prescription.detail!.quantity! -
+                                              widget.prescription.detail!
+                                                  .quantityUsed! <=
+                                          0 &&
                                       showWarning
                                   ? Column(
                                       children: [
