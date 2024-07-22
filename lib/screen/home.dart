@@ -59,6 +59,7 @@ class _HomeState extends State<Home> {
       data.removeWhere((e) => e.idScheduleDetail == id);
     });
   }
+  
 
   Future<void>? future;
   @override

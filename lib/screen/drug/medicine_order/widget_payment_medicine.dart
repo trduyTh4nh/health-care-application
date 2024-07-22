@@ -50,6 +50,17 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
     await AddressRepo().UpdateAddress(idAddress, newAddress, token);
     _loadAddresses();
   }
+  void _onPaymentMethodChanged(String? value) {
+    setState(() {
+      paymentMethod = value!;
+    });
+  }
+
+  void _onAddressSelected(AddressModel? address) {
+    setState(() {
+      selectedAddress = address;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

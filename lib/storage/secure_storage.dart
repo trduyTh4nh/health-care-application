@@ -29,4 +29,5 @@ class SecureStorage {
     var userJson = jsonDecode(user ?? "");
     return userJson["role"];
   }
+
 }

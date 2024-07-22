@@ -78,4 +78,5 @@ class CartPageProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+  
 }

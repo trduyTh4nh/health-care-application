@@ -9,7 +9,7 @@ import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-
+String? currentPassword;
 class LoginByEmail extends StatefulWidget {
   const LoginByEmail({super.key});
   @override
@@ -29,6 +29,11 @@ class _LoginByEmailState extends State<LoginByEmail> {
     String msg = "";
     bool r = await repo.login(_emailController.text, _passwordController.text);
     msg = r ? "Đăng nhập thành công" : "Email hoặc mật khẩu không khớp";
+    // lụm nó cho thầy
+     if (r) {
+      currentPassword = _passwordController.text;
+      print("lấy pass ra cho thầy: $currentPassword");
+    }
     setState(() {
       isLoading = false;
     });
