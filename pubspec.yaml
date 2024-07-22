@@ -22,7 +22,6 @@ dependencies:
   fl_chart: ^0.68.0
   mobile_scanner: ^5.1.1
   simple_barcode_scanner: ^0.1.1
-  lottie: ^3.1.2
   package_info_plus: ^8.0.0
   animated_custom_dropdown: ^1.0.0
   blur: ^4.0.0
@@ -41,6 +40,9 @@ dependencies:
   android_intent_plus: ^5.0.2
   app_settings: ^5.1.1
   barcode: ^2.2.8
+  flutter_paypal_checkout: ^1.0.1
+  lottie: ^3.1.2
+
  
 
 flutter_launcher_icons:
@@ -50,6 +52,9 @@ flutter_launcher_icons:
   adaptive_icon_background: "#ffffff"
   adaptive_icon_monochrome: "assets/images/icon/monochrome.png"
   adaptive_icon_foreground: "assets/images/icon/foreground.png"
+
+dependency_overrides:
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:
