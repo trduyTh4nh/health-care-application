@@ -7,12 +7,13 @@ class PaymentRepo {
   API api = API();
 
   Future<bool> payment(
-      id_address, id_user, total_price, listDrugCart, token) async {
+      id_address, id_user, total_price, listDrugCart, token, id_paypal) async {
     Map<String, dynamic> body = {
       'id_address': id_address,
       'id_user': id_user,
       'total_price': total_price,
       'listDrugCart': listDrugCart,
+      'id_paypal': id_paypal
     };
 
     log(body.toString());

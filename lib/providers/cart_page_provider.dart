@@ -38,6 +38,24 @@ class CartPageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeCart() async {
+    final checkedSet = Set.from(listChecked);
+
+    final drugsToRemove =
+        listDrugCart.where((drug) => checkedSet.contains(drug)).toList();
+
+    await Future.wait(drugsToRemove
+        .map((drug) => CartRepo().deleteDrugFromCart(drug.idCart!)));
+
+    notifyListeners();
+  }
+
+  void deleteDrugCartFromCart(int id) async {
+    print("id của thuốc bị xóa: $id");
+    String result = await CartRepo().deleteDrugFromCart(id);
+    await fetchDrugCart();
+  }
+
   void addDrugtoCart(DrugModel drug, BuildContext context) async {
     int res = await CartRepo().insertDrugToCart(drug);
     if (res == 200) {
@@ -48,12 +66,6 @@ class CartPageProvider extends ChangeNotifier {
       log("item already exsists");
       showCustomSnackBar(context, "Đã có thuốc trong giỏ");
     }
-  }
-
-  void deleteDrugCartFromCart(int id) async {
-    print("id của thuốc bị xóa: $id");
-    String result = await CartRepo().deleteDrugFromCart(id);
-    await fetchDrugCart();
   }
 
   void updateQuantityDetial(int drugcartDetail, int quantity) async {

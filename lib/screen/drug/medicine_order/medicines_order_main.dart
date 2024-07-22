@@ -180,12 +180,12 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                                               (value.totalPrice / 23000)
                                                   .round();
 
-                                          for (var i = 0;
-                                              i < listDrugCartDetail.length;
-                                              i++) {
-                                            log("id_drug: ${listDrugCartDetail[i].drug!.idDrug}");
-                                            log("quantity: ${listDrugCartDetail[i].quantity}");
-                                          }
+                                          // for (var i = 0;
+                                          //     i < listDrugCartDetail.length;
+                                          //     i++) {
+                                          //   log("id_drug: ${listDrugCartDetail[i].drug!.idDrug}");
+                                          //   log("quantity: ${listDrugCartDetail[i].quantity}");
+                                          // }
 
                                           List<Map<String, dynamic>>
                                               drugCartList =
@@ -196,14 +196,26 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                                             };
                                           }).toList();
 
-                                          // Map<String, dynamic> requestBody = {
-                                          //   "listDrugCart": drugCartList
-                                          // };
+                                          var listAddress = address!.split(',');
 
-                                          // String jsonString =
-                                          //     jsonEncode(requestBody);
+                                          for (var element in listAddress) {
+                                            log(element);
+                                          }
 
-                                          // print("requestBody: ${jsonString}");
+                                          var line1 = listAddress[0];
+                                          var city = listAddress[1];
+                                          var countryCode = listAddress[2];
+                                          var postalCode = listAddress[3];
+                                          var phone = listAddress[4];
+
+                                          Map<String, dynamic> requestBody = {
+                                            "listDrugCart": drugCartList
+                                          };
+
+                                          String jsonString =
+                                              jsonEncode(requestBody);
+
+                                          print("requestBody: ${jsonString}");
 
                                           Navigator.of(context)
                                               .push(MaterialPageRoute(
@@ -225,16 +237,15 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                                                     "currency": "USD",
                                                   },
                                                   "description":
-                                                      "Hello đây là description.",
+                                                      "Cổng thanh toán thuốc WELL-MATE",
                                                   "item_list": {
                                                     "shipping_address": {
                                                       "recipient_name": name,
-                                                      "line1":
-                                                          "123 Đường Lê Lợi, Phường Bến Nghé",
-                                                      "city": "Hồ Chí Minh",
+                                                      "line1": line1,
+                                                      "city": city,
                                                       "country_code": "VN",
-                                                      "postal_code": "700000",
-                                                      "phone": "+84 912345678",
+                                                      "postal_code": postalCode,
+                                                      "phone": phone,
                                                     }
                                                   }
                                                 }
@@ -243,24 +254,36 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                                                   "Contact us for any questions on your order.",
                                               onSuccess: (Map params) async {
                                                 log("onSuccess: ${params}");
-                                                // PaymentRepo paymentRepo = new PaymentRepo();
 
-                                                // bool isPay =
-                                                //     await paymentRepo.payment(
-                                                //         idAddress,
-                                                //         idUser,
-                                                //         value.totalPrice,
-                                                //         drugCartList,
-                                                //         token);
+                                                PaymentRepo paymentRepo =
+                                                    new PaymentRepo();
 
-                                                // if(isPay){
-                                                //    showCustomSnackBar(context,
-                                                //     "Thanh toán thành công!");
-                                                // }
-                                                // else{
-                                                //   showCustomSnackBar(context, "Thanh toán thất bại!");
-                                                // }
-                                               
+                                                log("onSuccess: ${params}");
+
+                                                // Directly access the nested id field
+                                                String idPaypal =
+                                                    params['data']['id'];
+
+                                                // Print the id
+                                                print('id_paypal: $idPaypal');
+
+                                                bool isPay =
+                                                    await paymentRepo.payment(
+                                                        idAddress,
+                                                        idUser,
+                                                        value.totalPrice,
+                                                        drugCartList,
+                                                        token,
+                                                        idPaypal);
+
+                                                if (isPay) {
+                                                  showCustomSnackBar(context,
+                                                      "Thanh toán thành công!");
+                                                  value.removeCart();
+                                                } else {
+                                                  showCustomSnackBar(context,
+                                                      "Thanh toán thất bại!");
+                                                }
                                               },
                                               onError: (error) {
                                                 print("onError: $error");
