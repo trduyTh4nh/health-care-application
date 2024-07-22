@@ -25,4 +25,31 @@ class ApplicationRepo {
       return null;
     }
   }
+
+  Future<int> scanApplication(int id) async {
+    int idUser = await SecureStorage.getUserId();
+    String token = await SecureStorage.getToken();
+    log(id.toString());
+    try {
+      Response res = await api.sendRequest.put("/drug/scan",
+          data: {"id_user": idUser, "id_application": id},
+          options: Options(headers: header(token)));
+      log(res.data.toString());
+      if (res.statusCode == 200) {
+        return 1;
+      }
+      return 0;
+    } catch (ex) {
+      if(ex is DioException){
+        DioException excep = ex;
+        String s = ex.response!.data["message"].toString();
+        if(s == "You does not have permission!"){
+          return -1;
+        }
+        return -2;
+      }
+      log(ex.toString());
+      return 0;
+    }
+  }
 }

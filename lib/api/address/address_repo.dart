@@ -41,8 +41,6 @@ class AddressRepo {
     };
     Response res = await api.sendRequest.post('/address/addAddress',
           options: Options(headers: header(token)), data: body);
-    print(newAddress);
-    print(userId);
     return res.statusCode == 200;
   }
    Future<bool> UpdateAddress(int id_address, String newAddress, String token) async{

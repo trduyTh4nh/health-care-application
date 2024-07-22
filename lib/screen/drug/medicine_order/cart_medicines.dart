@@ -20,7 +20,7 @@ class _CartMedicines extends State<CartMedicines> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Giỏ hàng"),
+        title: const Text("Giỏ hàng"),
       ),
       body: SingleChildScrollView(
         child: Column(
