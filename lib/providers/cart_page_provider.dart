@@ -28,6 +28,8 @@ class CartPageProvider extends ChangeNotifier {
   double get totalPrice => _totalPrice;
 
   Future<void> fetchDrugCart() async {
+    removeAddress();
+    listChecked = [];
     int userId = await SecureStorage.getUserId();
     List<DrugCartDetailModel> items =
         await CartRepo().getAllDrugInCartttt(userId);

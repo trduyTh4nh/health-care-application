@@ -42,7 +42,7 @@ ScheduleDetailModel {
       idScheduleDetail: json["id_schedule_detail"] ?? 0,
       status: json["status"] ? "done" : "not_done",
       timeOfUse: tod,
-      lastConfirmed: DateTime.tryParse(json["last_confirm"] ?? "1900-01-01") ?? DateTime(1900)
+      lastConfirmed: DateTime.tryParse(json["last_confirm"] ?? "1900-01-01")
     );
   }
   Map<String, dynamic> toJson() => _$ScheduleDetailModelToJson(this);

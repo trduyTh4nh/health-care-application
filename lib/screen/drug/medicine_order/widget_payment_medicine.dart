@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/model/notification_model.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:app_well_mate/api/address/address_repo.dart';
@@ -20,10 +23,18 @@ class WidgetPaymentMedicine extends StatefulWidget {
 class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
   String paymentMethod = 'Momo';
   AddressModel? selectedAddress;
-  final _userName = TextEditingController();
+  bool isAdd = true;
   Future<List<AddressModel>>? _addressesFuture;
   final TextEditingController _newAddressController = TextEditingController();
   final TextEditingController _editAddressController = TextEditingController();
+  final TextEditingController _nameStreetController = TextEditingController();
+
+  final TextEditingController _nameAddressController = TextEditingController();
+  final TextEditingController _cityNameController = TextEditingController();
+  final TextEditingController _coundtryCodeController = TextEditingController();
+  final TextEditingController _postalController = TextEditingController();
+  final TextEditingController _phoneNumberressController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -55,6 +66,19 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
     _loadAddresses();
   }
 
+  String getAddress() {
+    String address = _nameStreetController.text +
+        "," +
+        _cityNameController.text +
+        "," +
+        _coundtryCodeController.text +
+        "," +
+        _postalController.text +
+        "," +
+        _phoneNumberressController.text;
+    return address;
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -73,172 +97,18 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("Phương thức thanh toán"),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Radio(
-                        value: "Visa",
-                        groupValue: paymentMethod,
-                        onChanged: (value) {
-                          setState(() {
-                            paymentMethod = value!;
-                          });
-                        },
-                      ),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(25),
-                          child: Image.network(
-                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGxsoe7iPccCnGraliGFCLCvbg3bO3PDtELQ&s"),
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Visa",
-                              style: Theme.of(context).textTheme.titleMedium),
-                          const Text("******12"),
-                        ],
-                      )
-                    ],
-                  ),
-                  PopupMenuButton(
-                    style: Theme.of(context).iconButtonTheme.style,
-                    itemBuilder: (context) => const [
-                      PopupMenuItem(
-                          value: MedicationItemAction.delete,
-                          child: ListTile(
-                              leading: Icon(Symbols.delete),
-                              title: Text("Xoá thẻ ngân hàng  này"))),
-                    ],
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: InkWell(
-                  onTap: () {
-                    showModalBottomSheet(
-                      isScrollControlled: true,
-                      backgroundColor: Colors.white,
-                      context: context,
-                      builder: (context) {
-                        return SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: 50,
-                              left: 12,
-                              right: 12,
-                              top: 20,
-                            ),
-                            child: SizedBox(
-                              child: SingleChildScrollView(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Center(
-                                        child: Text(
-                                          "Thêm thẻ",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge,
-                                        ),
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Text("Thông tin liên hệ"),
-                                          TextFormField(
-                                            controller: _userName,
-                                            decoration: const InputDecoration(
-                                              labelText: "Tên thẻ ngân hàng",
-                                            ),
-                                          ),
-                                          const TextField(
-                                            decoration: InputDecoration(
-                                                labelText: "Số thẻ ngân hàng"),
-                                          ),
-                                          const Row(
-                                            children: [
-                                              Expanded(
-                                                flex: 3,
-                                                child: TextField(
-                                                  decoration: InputDecoration(
-                                                      labelText:
-                                                          "Ngày hết hạn(MM/YY)"),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 20,
-                                              ),
-                                              Expanded(
-                                                flex: 1,
-                                                child: TextField(
-                                                  decoration: InputDecoration(
-                                                      labelText: "Mã CVV"),
-                                                ),
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      SizedBox(
-                                        width: double.infinity,
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text("Xong"),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  child: Row(
-                    children: [
-                      Icon(Icons.add),
-                      Text("Thêm thẻ ngân hàng",
-                          style: Theme.of(context).textTheme.titleMedium),
-                    ],
-                  ),
-                ),
-              ),
               const Text("Địa chỉ giao hàng"),
               FutureBuilder<List<AddressModel>>(
                 future: _addressesFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: LoadingAnimationWidget.flickr(
-                                            leftDotColor: colorScheme.primary,
-                                            rightDotColor: colorScheme.error,
-                                            size: 48,
-                                          ),);
+                    return Center(
+                      child: LoadingAnimationWidget.flickr(
+                        leftDotColor: colorScheme.primary,
+                        rightDotColor: colorScheme.error,
+                        size: 48,
+                      ),
+                    );
                   } else if (snapshot.hasError) {
                     return Center(
                         child: Text("Lỗi khi tải địa chỉ: ${snapshot.error}"));
@@ -251,11 +121,14 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
                       final address = snapshot.data![index];
+                      //dung de tach chuoi dc lay tu api
+                      final splitString = address.address!.split(",");
+                      final addressTrue = "${splitString[0]} ${splitString[1]}";
                       return Consumer<CartPageProvider>(
                         builder: (context, cartProvider, child) {
                           return ListTile(
                             contentPadding: EdgeInsets.zero,
-                            title: Text(address.address ?? 'Địa chỉ không rõ'),
+                            title: Text(addressTrue),
                             leading: Radio<AddressModel>(
                               value: address,
                               groupValue: cartProvider.selectedAddress,
@@ -282,87 +155,94 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                     leading: const Icon(Symbols.edit),
                                     title: const Text("Chỉnh sửa địa chỉ này"),
                                     onTap: () {
-                                      showModalBottomSheet(
-                                        isScrollControlled: true,
-                                        backgroundColor: Colors.white,
-                                        context: context,
-                                        builder: (context) {
-                                          return SingleChildScrollView(
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                    .viewInsets
-                                                    .bottom,
-                                                left: 12,
-                                                right: 12,
-                                                top: 12,
-                                              ),
-                                              child: SizedBox(
-                                                height: 0.51 * sizeHeight,
-                                                child: SingleChildScrollView(
-                                                  child: Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 12),
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Center(
-                                                          child: Text(
-                                                            "Chỉnh sửa địa chỉ",
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .bodyLarge,
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 15,
-                                                        ),
-                                                        const Text(
-                                                            "Thông tin địa chỉ"),
-                                                        TextFormField(
-                                                          controller:
-                                                              _editAddressController,
-                                                          decoration:
-                                                              InputDecoration(
-                                                            labelText:
-                                                                address.address,
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(18.0),
-                                                          child: SizedBox(
-                                                            width:
-                                                                double.infinity,
-                                                            child:
-                                                                ElevatedButton(
-                                                              onPressed: () {
-                                                                _updateAddress(
-                                                                    address
-                                                                        .id_address!,
-                                                                    _editAddressController
-                                                                        .text);
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                              child: const Text(
-                                                                  "Xong"),
-                                                            ),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
+                                      isAdd = false;
+
+                                      // showModalBottomSheet(
+                                      //   isScrollControlled: true,
+                                      //   backgroundColor: Colors.white,
+                                      //   context: context,
+                                      //   builder: (context) {
+                                      //     return SingleChildScrollView(
+                                      //       child: Padding(
+                                      //         padding: EdgeInsets.only(
+                                      //           bottom: MediaQuery.of(context)
+                                      //               .viewInsets
+                                      //               .bottom,
+                                      //           left: 12,
+                                      //           right: 12,
+                                      //           top: 12,
+                                      //         ),
+                                      //         child: SizedBox(
+                                      //           height: 0.51 * sizeHeight,
+                                      //           child: SingleChildScrollView(
+                                      //             child: Padding(
+                                      //               padding: const EdgeInsets
+                                      //                   .symmetric(
+                                      //                   horizontal: 12),
+                                      //               child: Column(
+                                      //                 crossAxisAlignment:
+                                      //                     CrossAxisAlignment
+                                      //                         .start,
+                                      //                 children: [
+                                      //                   Center(
+                                      //                     child: Text(
+                                      //                       "Chỉnh sửa địa chỉ",
+                                      //                       style: Theme.of(
+                                      //                               context)
+                                      //                           .textTheme
+                                      //                           .bodyLarge,
+                                      //                     ),
+                                      //                   ),
+                                      //                   const SizedBox(
+                                      //                     height: 15,
+                                      //                   ),
+                                      //                   const Text(
+                                      //                       "Thông tin địa chỉ"),
+                                      //                   TextFormField(
+                                      //                     controller:
+                                      //                         _editAddressController,
+                                      //                     decoration:
+                                      //                         InputDecoration(
+                                      //                       labelText:
+                                      //                           address.address,
+                                      //                     ),
+                                      //                   ),
+                                      //                   Padding(
+                                      //                     padding:
+                                      //                         const EdgeInsets
+                                      //                             .all(18.0),
+                                      //                     child: SizedBox(
+                                      //                       width:
+                                      //                           double.infinity,
+                                      //                       child:
+                                      //                           ElevatedButton(
+                                      //                         onPressed: () {
+                                      //                           _updateAddress(
+                                      //                               address
+                                      //                                   .id_address!,
+                                      //                               _editAddressController
+                                      //                                   .text);
+                                      //                           Navigator.pop(
+                                      //                               context);
+                                      //                         },
+                                      //                         child: const Text(
+                                      //                             "Xong"),
+                                      //                       ),
+                                      //                     ),
+                                      //                   )
+                                      //                 ],
+                                      //               ),
+                                      //             ),
+                                      //           ),
+                                      //         ),
+                                      //       ),
+                                      //     );
+                                      //   },
+                                      // );
+                                      newMethod(
+                                        context,
+                                        sizeHeight,
+                                        isAdd,
                                       );
                                     },
                                   ),
@@ -380,70 +260,8 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 child: InkWell(
                   onTap: () {
-                    showModalBottomSheet(
-                      isScrollControlled: true,
-                      backgroundColor: Colors.white,
-                      context: context,
-                      builder: (context) {
-                        return SingleChildScrollView(
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom,
-                              left: 12,
-                              right: 12,
-                              top: 12,
-                            ),
-                            child: SizedBox(
-                              height: 0.51 * sizeHeight,
-                              child: SingleChildScrollView(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 12),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Center(
-                                        child: Text(
-                                          "Thêm địa chỉ mới",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 15,
-                                      ),
-                                      const Text("Thông tin địa chỉ"),
-                                      TextFormField(
-                                        controller: _newAddressController,
-                                        decoration: const InputDecoration(
-                                            labelText:
-                                                "Nhập địa chỉ mới tại đây"),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(18.0),
-                                        child: SizedBox(
-                                          width: double.infinity,
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              _addAddress(
-                                                  _newAddressController.text);
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text("Xong"),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    );
+                    isAdd = true;
+                    newMethod(context, sizeHeight, isAdd);
                   },
                   child: Row(
                     children: [
@@ -458,6 +276,119 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<dynamic> newMethod(BuildContext context, double sizeHeight, bool isAdd,
+      [AddressModel? addressA]) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      context: context,
+      builder: (context) {
+        return SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+              left: 12,
+              right: 12,
+              top: 12,
+            ),
+            child: SizedBox(
+              height: 0.51 * sizeHeight,
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Text(
+                          isAdd ? "Thêm địa chỉ mới" : "Chỉnh sửa địa chỉ",
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      const Text("Thông tin địa chỉ"),
+                      TextFormField(
+                        controller: _nameStreetController,
+                        decoration: isAdd
+                            ? const InputDecoration(labelText: "Nhập tên đường")
+                            : InputDecoration(hintText: "aaa"),
+                      ),
+                      TextFormField(
+                        controller: _cityNameController,
+                        decoration: isAdd
+                            ? const InputDecoration(labelText: "Nhập thành phố")
+                            : InputDecoration(hintText: "aaa"),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: _coundtryCodeController,
+                              decoration: isAdd
+                                  ? const InputDecoration(
+                                      labelText: "Coundtry code")
+                                  : InputDecoration(hintText: ""),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              controller: _postalController,
+                              decoration: isAdd
+                                  ? const InputDecoration(
+                                      labelText: "Postal code")
+                                  : InputDecoration(hintText: ""),
+                            ),
+                          ),
+                        ],
+                      ),
+                      TextFormField(
+                        controller: _phoneNumberressController,
+                        decoration: isAdd
+                            ? const InputDecoration(labelText: "Số điện thoại")
+                            : InputDecoration(hintText: ""),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(18.0),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: isAdd
+                                ? () {
+                                    String allinFo = getAddress();
+                                    print(
+                                        "day la tat ca thong tin dia chi: $allinFo");
+                                    _addAddress(allinFo);
+                                    Navigator.pop(context);
+                                    _nameStreetController.clear();
+                                    _cityNameController.clear();
+                                    _coundtryCodeController.clear();
+                                    _postalController.clear();
+                                    _phoneNumberressController.clear();
+                                  }
+                                : () {
+                                    // _updateAddress(
+                                    //     addressA!.id_address!, newAddress);
+                                  },
+                            child: const Text("Xong"),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

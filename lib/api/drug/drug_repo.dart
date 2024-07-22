@@ -35,8 +35,10 @@ class DrugRepo {
               DateFormat("yyyy-MM-dd").format(e.lastConfirmed!) !=
               DateFormat("yyyy-MM-dd").format(DateTime.now()))
           .toList();
+      log(lst.toString());
       return lst;
     } catch (ex) {
+      log("error");
       log(ex.toString());
       return [];
     }
@@ -61,6 +63,11 @@ class DrugRepo {
           }
         }
       }
+      lst = lst
+          .where((e) =>
+              DateFormat("yyyy-MM-dd").format(e.lastConfirmed!) !=
+              DateFormat("yyyy-MM-dd").format(DateTime.now()))
+          .toList();
       return lst;
     } catch (ex) {
       log(ex.toString());
@@ -192,8 +199,7 @@ class DrugRepo {
     }
   }
 
-  Future<Map<String, dynamic>?> addDrugToApp(
-      Map<String, dynamic> data) async {
+  Future<Map<String, dynamic>?> addDrugToApp(Map<String, dynamic> data) async {
     String token = await SecureStorage.getToken();
     try {
       Response res = await api.sendRequest.post("/drug/addDrugCustom",

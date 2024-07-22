@@ -10,7 +10,6 @@ import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
-import 'package:app_well_mate/providers/notification_provider.dart';
 import 'package:app_well_mate/screen/FFMI.dart';
 import 'package:app_well_mate/screen/medicine_purchase_history.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
@@ -65,7 +64,7 @@ class _HomeState extends State<Home> {
 
   Future<void> getSchedule() async {
     data = await repo.getSchedule();
-    data = data.where((e) => e.lastConfirmed != DateTime.now()).toList();
+    print(data);
   }
 
   onDelete(int id, BuildContext context) {
@@ -83,7 +82,6 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    future = getSchedule();
     future = fetchData();
     super.initState();
   }
@@ -114,10 +112,8 @@ class _HomeState extends State<Home> {
                     //   backgroundImage: NetworkImage(
                     //       "https://images-ext-1.discordapp.net/external/GzOumY3Ty-mCaQNSxtMOVR5BPLNstdlilADmc80Wfm8/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/515061888258670602/69eaf1984e071ba575fe531b70b200c3.png?format=webp&quality=lossless&width=452&height=452"),
                     // ),
-                    backgroundImage: avatar != null
-                        ? NetworkImage(avatar!)
-                        : const NetworkImage(
-                            'https://images-ext-1.discordapp.net/external/GzOumY3Ty-mCaQNSxtMOVR5BPLNstdlilADmc80Wfm8/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/515061888258670602/69eaf1984e071ba575fe531b70b200c3.png?format=webp&quality=lossless&width=452&height=452'),
+                    backgroundImage:
+                        avatar != null ? NetworkImage(avatar!) : null,
                   ),
                   const SizedBox(
                     width: 20,
@@ -196,18 +192,14 @@ class _HomeState extends State<Home> {
                   }
                   expiredData = data
                       .where((e) =>
-                          (toSecond(e.timeOfUse!) <
-                              toSecond(TimeOfDay.now())) &&
-                          e.status != "not_done")
+                          (toSecond(e.timeOfUse!) < toSecond(TimeOfDay.now())))
                       .toList();
                   upcomingData = data
-                      .where((e) =>
-                          (toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) >
-                                  -3600 &&
-                              toSecond(TimeOfDay.now()) -
-                                      toSecond(e.timeOfUse!) <
-                                  0) &&
-                          e.status != "not_done")
+                      .where((e) => (toSecond(TimeOfDay.now()) -
+                                  toSecond(e.timeOfUse!) >
+                              -3600 &&
+                          toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) <
+                              0))
                       .toList();
                   return CustomScrollView(
                     //các sliver được đối xử như các "màn hình ảo" riêng biệt, cho nên chúng độc lập với nhau về constrant, size...
