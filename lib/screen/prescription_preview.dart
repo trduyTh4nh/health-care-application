@@ -7,12 +7,14 @@ import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
+import 'package:app_well_mate/providers/notification_provider.dart';
 import 'package:barcode/barcode.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 class PrescriptionPreview extends StatefulWidget {
@@ -26,6 +28,7 @@ class _PrescriptionPreviewState extends State<PrescriptionPreview> {
   String? svg;
   DrugRepo repo = DrugRepo();
   ApplicationRepo appRepo = ApplicationRepo();
+  DrugRepo drugRepo = DrugRepo();
   Future<void>? future;
   List<ScheduleDetailModel>? data = [];
   Future<void>? addFuture;
@@ -36,10 +39,18 @@ class _PrescriptionPreviewState extends State<PrescriptionPreview> {
 
   addToApplication(BuildContext context) async {
     int res = await appRepo.scanApplication(widget.idPre);
-    if (context.mounted) {
-      if (res == 1) {
-        Navigator.pop(context);
-        showCustomSnackBar(context, "Thêm đơn thuốc thành công!");
+    List<ScheduleDetailModel>? lst = await drugRepo.getPreDetail(widget.idPre);
+    if (context.mounted && lst != null) {
+      if (context.mounted) {
+        if (res == 1) {
+          for (var element in lst) {
+            Provider.of<NotificationProvider>(context, listen: false)
+                .scheduleNotification(element, element.detail!.drug!,
+                    element.detail!.idPreDetail ?? -1);
+          }
+          Navigator.pop(context);
+          showCustomSnackBar(context, "Thêm đơn thuốc thành công!");
+        }
       } else if (res == -1) {
         Navigator.pop(context);
         showDialog(
@@ -273,7 +284,7 @@ class _PrescriptionPreviewState extends State<PrescriptionPreview> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        e.detail!.notes!,
+                                        "${e.detail!.amountPerConsumption} ${e.detail!.drug!.unit} 1 ngày",
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelMedium,

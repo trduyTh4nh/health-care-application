@@ -37,7 +37,8 @@ class _ScanPageState extends State<ScanPage> with WidgetsBindingObserver {
                           builder: (context) =>
                               const SimpleBarcodeScannerPage(),
                         ));
-                    if (res is String && context.mounted) {
+                    if (res is String && context.mounted && res != '-1') {
+                      
                       result = res;
                       Navigator.push(
                           context,

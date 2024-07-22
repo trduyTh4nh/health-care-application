@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:app_well_mate/components/info_component.dart';
 import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug.dart';
@@ -7,17 +8,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class DrugInfo extends StatefulWidget {
-  const DrugInfo({super.key, this.drug});
+  const DrugInfo({super.key, this.drug, this.preId});
   final Drug? drug;
+  final int? preId;
   @override
   State<DrugInfo> createState() => _DrugInfoState();
 }
 
 class _DrugInfoState extends State<DrugInfo> {
-  List<TimeOfDay> _times = List.generate(
-      Random().nextInt(10),
-      (e) =>
-          TimeOfDay(hour: Random().nextInt(24), minute: Random().nextInt(60)));
+  List<TimeOfDay> _times = [];
   List<TimeOfDay> _timesMorning = [];
   List<TimeOfDay> _timesAfternoon = [];
   List<TimeOfDay> _timesNight = [];
@@ -46,11 +45,6 @@ class _DrugInfoState extends State<DrugInfo> {
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        title: Opacity(
-            opacity: _opacity,
-            child: Text(
-              widget.drug!.name ?? "",
-            )),
         actions: [
           PopupMenuButton(
             style: Theme.of(context).iconButtonTheme.style,
@@ -84,7 +78,7 @@ class _DrugInfoState extends State<DrugInfo> {
           )
         ],
       ),
-      body: Column(
+      body: widget.drug == null && widget.preId == null ? ErrorInfo(title: "Không có thuốc", subtitle: "Bạn đáng lẽ không được vào đây khi không có thuốc....") : Column(
         children: [
           Expanded(
             child: CustomScrollView(

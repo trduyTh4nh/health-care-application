@@ -65,6 +65,9 @@ class _HomeState extends State<Home> {
 
   Future<void> getSchedule() async {
     data = await repo.getSchedule();
+
+    Provider.of<NotificationProvider>(context, listen: false)
+        .initNotification(data);
     print(data);
   }
 
@@ -113,9 +116,8 @@ class _HomeState extends State<Home> {
                     //   backgroundImage: NetworkImage(
                     //       "https://images-ext-1.discordapp.net/external/GzOumY3Ty-mCaQNSxtMOVR5BPLNstdlilADmc80Wfm8/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/515061888258670602/69eaf1984e071ba575fe531b70b200c3.png?format=webp&quality=lossless&width=452&height=452"),
                     // ),
-                    backgroundImage: avatar != null
-                        ? NetworkImage(avatar!)
-                        : null,
+                    backgroundImage:
+                        avatar != null ? NetworkImage(avatar!) : null,
                   ),
                   const SizedBox(
                     width: 20,
@@ -167,17 +169,22 @@ class _HomeState extends State<Home> {
                       child: Icon(Symbols.deployed_code),
                     )),
 
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const NotificationPage()));
-                    },
-                    icon: const Icon(
+                IconButton(onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NotificationPage()));
+                }, icon: Consumer<NotificationProvider>(
+                    builder: (context, value, child) {
+                  return Badge(
+                    largeSize: value.acts.isEmpty ? 0 : null,
+                    label: Text(value.acts.length.toString()),
+                    child: Icon(
                       Symbols.notifications,
                       size: 24,
-                    ))
+                    ),
+                  );
+                }))
               ],
             ),
             //Nôm na là cách tối ưu nhất để nhét nhiều ListView chung với các View cứng khác.
@@ -194,16 +201,14 @@ class _HomeState extends State<Home> {
                   }
                   expiredData = data
                       .where((e) =>
-                          (toSecond(e.timeOfUse!) <
-                              toSecond(TimeOfDay.now())))
+                          (toSecond(e.timeOfUse!) < toSecond(TimeOfDay.now())))
                       .toList();
                   upcomingData = data
-                      .where((e) =>
-                          (toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) >
-                                  -3600 &&
-                              toSecond(TimeOfDay.now()) -
-                                      toSecond(e.timeOfUse!) <
-                                  0))
+                      .where((e) => (toSecond(TimeOfDay.now()) -
+                                  toSecond(e.timeOfUse!) >
+                              -3600 &&
+                          toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) <
+                              0))
                       .toList();
                   return CustomScrollView(
                     //các sliver được đối xử như các "màn hình ảo" riêng biệt, cho nên chúng độc lập với nhau về constrant, size...
