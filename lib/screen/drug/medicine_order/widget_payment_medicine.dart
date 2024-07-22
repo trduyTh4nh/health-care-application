@@ -305,18 +305,16 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                             child: ElevatedButton(
                               onPressed: isAdd
                                   ? () {
-                                      if (_formKey.currentState!.validate()) {
                                         print("dang vo ham");
                                         String allinFo = getAddress();
                                         _addAddress(allinFo);
                                         Navigator.pop(context);
 
-                                        // _nameStreetController.clear();
-                                        // _cityNameController.clear();
-                                        // _coundtryCodeController.clear();
-                                        // _postalController.clear();
-                                        // _phoneNumberressController.clear();
-                                      }
+                                        _nameStreetController.clear();
+                                        _cityNameController.clear();
+                                        _coundtryCodeController.clear();
+                                        _postalController.clear();
+                                        _phoneNumberressController.clear();
                                     }
                                   : () {
                                       String newAddress = getAddress();
