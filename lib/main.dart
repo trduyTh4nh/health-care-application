@@ -232,13 +232,19 @@ class _AppPageState extends State<AppPage> {
     const ThemeScreen()
   ];
   initNotification(){
-
+  // void _onTap(index) {
+  //   setState(() {
+  //     _selectedPage = index;
+  //   });
+  // }
   }
+
   @override
   void initState() {
     userData = ApiRepo().getInfoUser();
     WidgetsBinding.instance.addPostFrameCallback((t) {
-      Provider.of<NotificationProvider>(context, listen: false).requestPermission(context);
+      Provider.of<NotificationProvider>(context, listen: false)
+          .requestPermission(context);
     });
     super.initState();
   }
