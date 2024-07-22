@@ -232,12 +232,12 @@ class _AppPageState extends State<AppPage> {
   //   });
   // }
 
-
   @override
   void initState() {
     userData = ApiRepo().getInfoUser();
     WidgetsBinding.instance.addPostFrameCallback((t) {
-      Provider.of<NotificationProvider>(context, listen: false).requestPermission(context);
+      Provider.of<NotificationProvider>(context, listen: false)
+          .requestPermission(context);
     });
     super.initState();
   }

@@ -21,6 +21,8 @@ class WidgetPaymentMedicine extends StatefulWidget {
 }
 
 class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
+  final _formKey = GlobalKey<FormState>();
+
   String paymentMethod = 'Momo';
   AddressModel? selectedAddress;
   bool isAdd = true;
@@ -28,7 +30,6 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
   final TextEditingController _newAddressController = TextEditingController();
   final TextEditingController _editAddressController = TextEditingController();
   final TextEditingController _nameStreetController = TextEditingController();
-
   final TextEditingController _nameAddressController = TextEditingController();
   final TextEditingController _cityNameController = TextEditingController();
   final TextEditingController _coundtryCodeController = TextEditingController();
@@ -40,6 +41,15 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
   void initState() {
     super.initState();
     _loadAddresses();
+  }
+
+  String? validatorPhoneNumber(String? value) {
+    if (value == null) {
+      return 'Vui lòng nhập số điện thoại';
+    } else if (int.parse(value) != 10) {
+      return 'Số điện thoại không hợp lệ';
+    }
+    return null;
   }
 
   void _deleteAddress(int id) async {
@@ -67,27 +77,26 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
   }
 
   String getAddress() {
-    String address = _nameStreetController.text +
-        "," +
-        _cityNameController.text +
-        "," +
-        _coundtryCodeController.text +
-        "," +
-        _postalController.text +
-        "," +
-        _phoneNumberressController.text;
+    String address =
+        "${_nameStreetController.text},${_cityNameController.text},${_coundtryCodeController.text},${_postalController.text},${_phoneNumberressController.text}";
     return address;
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
+    _newAddressController.dispose();
+    _editAddressController.dispose();
+    _nameStreetController.dispose();
+    _nameAddressController.dispose();
+    _cityNameController.dispose();
+    _coundtryCodeController.dispose();
+    _postalController.dispose();
+    _phoneNumberressController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final sizeWidth = MediaQuery.of(context).size.width;
     final sizeHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -121,7 +130,6 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
                       final address = snapshot.data![index];
-                      //dung de tach chuoi dc lay tu api
                       final splitString = address.address!.split(",");
                       final addressTrue = "${splitString[0]} ${splitString[1]}";
                       return Consumer<CartPageProvider>(
@@ -156,94 +164,16 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                     title: const Text("Chỉnh sửa địa chỉ này"),
                                     onTap: () {
                                       isAdd = false;
-
-                                      // showModalBottomSheet(
-                                      //   isScrollControlled: true,
-                                      //   backgroundColor: Colors.white,
-                                      //   context: context,
-                                      //   builder: (context) {
-                                      //     return SingleChildScrollView(
-                                      //       child: Padding(
-                                      //         padding: EdgeInsets.only(
-                                      //           bottom: MediaQuery.of(context)
-                                      //               .viewInsets
-                                      //               .bottom,
-                                      //           left: 12,
-                                      //           right: 12,
-                                      //           top: 12,
-                                      //         ),
-                                      //         child: SizedBox(
-                                      //           height: 0.51 * sizeHeight,
-                                      //           child: SingleChildScrollView(
-                                      //             child: Padding(
-                                      //               padding: const EdgeInsets
-                                      //                   .symmetric(
-                                      //                   horizontal: 12),
-                                      //               child: Column(
-                                      //                 crossAxisAlignment:
-                                      //                     CrossAxisAlignment
-                                      //                         .start,
-                                      //                 children: [
-                                      //                   Center(
-                                      //                     child: Text(
-                                      //                       "Chỉnh sửa địa chỉ",
-                                      //                       style: Theme.of(
-                                      //                               context)
-                                      //                           .textTheme
-                                      //                           .bodyLarge,
-                                      //                     ),
-                                      //                   ),
-                                      //                   const SizedBox(
-                                      //                     height: 15,
-                                      //                   ),
-                                      //                   const Text(
-                                      //                       "Thông tin địa chỉ"),
-                                      //                   TextFormField(
-                                      //                     controller:
-                                      //                         _editAddressController,
-                                      //                     decoration:
-                                      //                         InputDecoration(
-                                      //                       labelText:
-                                      //                           address.address,
-                                      //                     ),
-                                      //                   ),
-                                      //                   Padding(
-                                      //                     padding:
-                                      //                         const EdgeInsets
-                                      //                             .all(18.0),
-                                      //                     child: SizedBox(
-                                      //                       width:
-                                      //                           double.infinity,
-                                      //                       child:
-                                      //                           ElevatedButton(
-                                      //                         onPressed: () {
-                                      //                           _updateAddress(
-                                      //                               address
-                                      //                                   .id_address!,
-                                      //                               _editAddressController
-                                      //                                   .text);
-                                      //                           Navigator.pop(
-                                      //                               context);
-                                      //                         },
-                                      //                         child: const Text(
-                                      //                             "Xong"),
-                                      //                       ),
-                                      //                     ),
-                                      //                   )
-                                      //                 ],
-                                      //               ),
-                                      //             ),
-                                      //           ),
-                                      //         ),
-                                      //       ),
-                                      //     );
-                                      //   },
-                                      // );
+                                      _nameStreetController.text =
+                                          splitString[0];
+                                      _cityNameController.text = splitString[1];
+                                      _coundtryCodeController.text =
+                                          splitString[2];
+                                      _postalController.text = splitString[3];
+                                      _phoneNumberressController.text =
+                                          splitString[4];
                                       newMethod(
-                                        context,
-                                        sizeHeight,
-                                        isAdd,
-                                      );
+                                          context, sizeHeight, isAdd, address);
                                     },
                                   ),
                                 ),
@@ -261,6 +191,11 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                 child: InkWell(
                   onTap: () {
                     isAdd = true;
+                    // _nameStreetController.clear();
+                    // _cityNameController.clear();
+                    // _coundtryCodeController.clear();
+                    // _postalController.clear();
+                    // _phoneNumberressController.clear();
                     newMethod(context, sizeHeight, isAdd);
                   },
                   child: Row(
@@ -299,89 +234,102 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: Text(
-                          isAdd ? "Thêm địa chỉ mới" : "Chỉnh sửa địa chỉ",
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      const Text("Thông tin địa chỉ"),
-                      TextFormField(
-                        controller: _nameStreetController,
-                        decoration: isAdd
-                            ? const InputDecoration(labelText: "Nhập tên đường")
-                            : InputDecoration(hintText: "aaa"),
-                      ),
-                      TextFormField(
-                        controller: _cityNameController,
-                        decoration: isAdd
-                            ? const InputDecoration(labelText: "Nhập thành phố")
-                            : InputDecoration(hintText: "aaa"),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              controller: _coundtryCodeController,
-                              decoration: isAdd
-                                  ? const InputDecoration(
-                                      labelText: "Coundtry code")
-                                  : InputDecoration(hintText: ""),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              controller: _postalController,
-                              decoration: isAdd
-                                  ? const InputDecoration(
-                                      labelText: "Postal code")
-                                  : InputDecoration(hintText: ""),
-                            ),
-                          ),
-                        ],
-                      ),
-                      TextFormField(
-                        controller: _phoneNumberressController,
-                        decoration: isAdd
-                            ? const InputDecoration(labelText: "Số điện thoại")
-                            : InputDecoration(hintText: ""),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: isAdd
-                                ? () {
-                                    String allinFo = getAddress();
-                                    print(
-                                        "day la tat ca thong tin dia chi: $allinFo");
-                                    _addAddress(allinFo);
-                                    Navigator.pop(context);
-                                    _nameStreetController.clear();
-                                    _cityNameController.clear();
-                                    _coundtryCodeController.clear();
-                                    _postalController.clear();
-                                    _phoneNumberressController.clear();
-                                  }
-                                : () {
-                                    // _updateAddress(
-                                    //     addressA!.id_address!, newAddress);
-                                  },
-                            child: const Text("Xong"),
+                  child: Form(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Text(
+                            isAdd ? "Thêm địa chỉ mới" : "Chỉnh sửa địa chỉ",
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                         ),
-                      )
-                    ],
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        const Text("Thông tin địa chỉ"),
+                        TextFormField(
+                          validator: (nameAddress) => nameAddress!.isEmpty
+                              ? "Vui lòng nhập tên đường!"
+                              : null,
+                          controller: _nameStreetController,
+                          decoration: const InputDecoration(
+                              labelText: "Nhập tên đường"),
+                        ),
+                        TextFormField(
+                          validator: (nameCity) => nameCity!.isEmpty
+                              ? "Vui lòng nhập tên thành phố!"
+                              : null,
+                          controller: _cityNameController,
+                          decoration: const InputDecoration(
+                              labelText: "Nhập thành phố"),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                validator: (coundtryCode) =>
+                                    coundtryCode!.isEmpty
+                                        ? "Vui lòng nhập mã vùng!"
+                                        : null,
+                                controller: _coundtryCodeController,
+                                decoration:
+                                    const InputDecoration(labelText: "Mã vùng"),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: TextFormField(
+                                validator: (postalCode) => postalCode!.isEmpty
+                                    ? "Vui lòng nhập postal code!"
+                                    : null,
+                                controller: _postalController,
+                                decoration: const InputDecoration(
+                                    labelText: "Postal code"),
+                              ),
+                            ),
+                          ],
+                        ),
+                        TextFormField(
+                          validator: validatorPhoneNumber,
+                          controller: _phoneNumberressController,
+                          decoration:
+                              const InputDecoration(labelText: "Số điện thoại"),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: isAdd
+                                  ? () {
+                                      if (_formKey.currentState!.validate()) {
+                                        print("dang vo ham");
+                                        String allinFo = getAddress();
+                                        _addAddress(allinFo);
+                                        Navigator.pop(context);
+
+                                        // _nameStreetController.clear();
+                                        // _cityNameController.clear();
+                                        // _coundtryCodeController.clear();
+                                        // _postalController.clear();
+                                        // _phoneNumberressController.clear();
+                                      }
+                                    }
+                                  : () {
+                                      String newAddress = getAddress();
+                                      _updateAddress(
+                                          addressA!.id_address!, newAddress);
+                                      Navigator.pop(context);
+                                    },
+                              child: const Text("Xong"),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
