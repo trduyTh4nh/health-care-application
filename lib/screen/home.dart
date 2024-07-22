@@ -82,6 +82,7 @@ class _HomeState extends State<Home> {
       data.removeWhere((e) => e.idScheduleDetail == id);
     });
   }
+  
 
   @override
   void initState() {
