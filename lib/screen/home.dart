@@ -64,6 +64,9 @@ class _HomeState extends State<Home> {
 
   Future<void> getSchedule() async {
     data = await repo.getSchedule();
+
+    Provider.of<NotificationProvider>(context, listen: false)
+        .initNotification(data);
     print(data);
   }
 
@@ -165,17 +168,22 @@ class _HomeState extends State<Home> {
                       child: Icon(Symbols.deployed_code),
                     )),
 
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const NotificationPage()));
-                    },
-                    icon: const Icon(
+                IconButton(onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NotificationPage()));
+                }, icon: Consumer<NotificationProvider>(
+                    builder: (context, value, child) {
+                  return Badge(
+                    largeSize: value.acts.isEmpty ? 0 : null,
+                    label: Text(value.acts.length.toString()),
+                    child: Icon(
                       Symbols.notifications,
                       size: 24,
-                    ))
+                    ),
+                  );
+                }))
               ],
             ),
             //Nôm na là cách tối ưu nhất để nhét nhiều ListView chung với các View cứng khác.

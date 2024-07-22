@@ -44,6 +44,22 @@ class DrugRepo {
     }
   }
 
+  Future<PrescriptionDetailModel?> getDrugBy(int id) async {
+    String token = await SecureStorage.getToken();
+    try {
+      Response res = await api.sendRequest.get("/drug/getDrugFromDetail",
+          data: {"id_app_detail": id},
+          options: Options(headers: header(token)));
+      final data = res.data["metadata"];
+      PrescriptionDetailModel tmp = PrescriptionDetailModel.fromJson(data);
+      tmp.drug = DrugModel.fromJson(data["drug"]);
+      return tmp;
+    } catch (ex) {
+      log(ex.toString());
+      return null;
+    }
+  }
+
   Future<List<ScheduleDetailModel>> getScheduleBy(int id) async {
     List<ScheduleDetailModel> lst = [];
     String token = await SecureStorage.getToken();
