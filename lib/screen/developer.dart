@@ -302,7 +302,7 @@ class _DeveloperScreenState extends State<DeveloperScreen> {
             SliverList.separated(
                 itemCount: value.rqs.length,
                 itemBuilder: (c, i) =>
-                    Text("${value.rqs[i].id} : ${value.rqs[i].title} : ${value.rqs[i].body}"),
+                    Text("${value.rqs[i].id} : ${value.rqs[i].title} : ${value.rqs[i].body} : ${value.rqs[i].payload}"),
                 separatorBuilder: (c, i) => const Divider()),
             SliverToBoxAdapter(
               child: FilledButton(

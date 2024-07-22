@@ -410,7 +410,8 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                       const Divider(),
                       Container(
                         child: InkWell(
-                          onTap: () {
+                          onTap: () async {
+                            ApiRepo().logOut(context);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
