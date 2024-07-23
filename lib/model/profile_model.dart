@@ -5,7 +5,6 @@ part 'json/profile_model.g.dart';
 // @JsonSerializable()
 class ProfileModel {
   int? idProfile;
-
   int? height;
   int? weight;
   int? age;
@@ -13,6 +12,8 @@ class ProfileModel {
   String? address;
   int? idUser; // khóa ngoại
   String? avtUser;
+  String? phone;
+  String? fullName;
   ProfileModel(
       {this.idProfile,
       this.height,
@@ -21,7 +22,9 @@ class ProfileModel {
       this.gender,
       this.address,
       this.idUser,
-      this.avtUser});
+      this.avtUser,
+      this.fullName,
+      this.phone});
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>
       _$ProfileModelFromJson(json);
   Map<String, dynamic> toJson() => _$ProfileModelToJson(this);

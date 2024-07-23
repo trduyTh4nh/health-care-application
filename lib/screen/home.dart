@@ -1,13 +1,16 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:app_well_mate/api/auth/api_repo.dart';
 import 'package:app_well_mate/api/drug/drug_repo.dart';
+import 'package:app_well_mate/components/info_component.dart';
 import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
+import 'package:app_well_mate/providers/notification_provider.dart';
 import 'package:app_well_mate/screen/FFMI.dart';
 import 'package:app_well_mate/screen/medicine_purchase_history.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
@@ -35,6 +38,12 @@ class _HomeState extends State<Home> {
   List<ScheduleDetailModel> expiredData = [];
   List<ScheduleDetailModel> upcomingData = [];
   bool showBanner = true;
+
+  //lay avatar and userName
+  Future<void>? future;
+  String? userName;
+  String? avatar;
+
   final List<String> _banners = [
     "banner1.json",
     "banner2.json",
@@ -42,9 +51,24 @@ class _HomeState extends State<Home> {
     "dotorjson.json",
     "fight_the_virus.json"
   ];
+
+  Future<void> fetchData() async {
+    await getSchedule();
+    var userInfo = await ApiRepo().getInfoUser();
+    if (userInfo != null) {
+      setState(() {
+        userName = userInfo.userName;
+        avatar = userInfo.profile!.avatar;
+      });
+    }
+  }
+
   Future<void> getSchedule() async {
     data = await repo.getSchedule();
-    data = data.where((e) => e.lastConfirmed != DateTime.now()).toList();
+
+    Provider.of<NotificationProvider>(context, listen: false)
+        .initNotification(data);
+    print(data);
   }
 
   onDelete(int id, BuildContext context) {
@@ -59,11 +83,11 @@ class _HomeState extends State<Home> {
       data.removeWhere((e) => e.idScheduleDetail == id);
     });
   }
+  
 
-  Future<void>? future;
   @override
   void initState() {
-    future = getSchedule();
+    future = fetchData();
     super.initState();
   }
 
@@ -89,9 +113,12 @@ class _HomeState extends State<Home> {
               title: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        "https://images-ext-1.discordapp.net/external/GzOumY3Ty-mCaQNSxtMOVR5BPLNstdlilADmc80Wfm8/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/515061888258670602/69eaf1984e071ba575fe531b70b200c3.png?format=webp&quality=lossless&width=452&height=452"),
+                  CircleAvatar(
+                    //   backgroundImage: NetworkImage(
+                    //       "https://images-ext-1.discordapp.net/external/GzOumY3Ty-mCaQNSxtMOVR5BPLNstdlilADmc80Wfm8/%3Fsize%3D4096/https/cdn.discordapp.com/avatars/515061888258670602/69eaf1984e071ba575fe531b70b200c3.png?format=webp&quality=lossless&width=452&height=452"),
+                    // ),
+                    backgroundImage:
+                        avatar != null ? NetworkImage(avatar!) : null,
                   ),
                   const SizedBox(
                     width: 20,
@@ -101,7 +128,7 @@ class _HomeState extends State<Home> {
                     children: [
                       Text("Xin chào,",
                           style: Theme.of(context).textTheme.titleLarge!),
-                      Text("Trí Quang",
+                      Text(userName ?? "User",
                           style: Theme.of(context).textTheme.bodyMedium!)
                     ],
                   )
@@ -110,23 +137,23 @@ class _HomeState extends State<Home> {
               actions: [
                 //KHÔNG ĐƯỢC CONST!!!!!
                 Consumer<CartPageProvider>(builder: (context, value, child) {
-                  return Badge(
-                    label: Text(
-                      "${value.listDrugCart.length}",
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const CartPage()));
-                        },
-                        icon: const Icon(
+                  return IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const CartPage()));
+                      },
+                      icon: Badge(
+                        label: Text(
+                          "${value.listDrugCart.length}",
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        child: const Icon(
                           Symbols.shopping_cart,
                           size: 24,
-                        )),
-                  );
+                        ),
+                      ));
                 }),
 
                 IconButton(
@@ -143,17 +170,22 @@ class _HomeState extends State<Home> {
                       child: Icon(Symbols.deployed_code),
                     )),
 
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const NotificationPage()));
-                    },
-                    icon: const Icon(
+                IconButton(onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NotificationPage()));
+                }, icon: Consumer<NotificationProvider>(
+                    builder: (context, value, child) {
+                  return Badge(
+                    largeSize: value.acts.isEmpty ? 0 : null,
+                    label: Text(value.acts.length.toString()),
+                    child: Icon(
                       Symbols.notifications,
                       size: 24,
-                    ))
+                    ),
+                  );
+                }))
               ],
             ),
             //Nôm na là cách tối ưu nhất để nhét nhiều ListView chung với các View cứng khác.
@@ -170,18 +202,14 @@ class _HomeState extends State<Home> {
                   }
                   expiredData = data
                       .where((e) =>
-                          (toSecond(e.timeOfUse!) <
-                              toSecond(TimeOfDay.now())) &&
-                          e.status != "not_done")
+                          (toSecond(e.timeOfUse!) < toSecond(TimeOfDay.now())))
                       .toList();
                   upcomingData = data
-                      .where((e) =>
-                          (toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) >
-                                  -3600 &&
-                              toSecond(TimeOfDay.now()) -
-                                      toSecond(e.timeOfUse!) <
-                                  0) &&
-                          e.status != "not_done")
+                      .where((e) => (toSecond(TimeOfDay.now()) -
+                                  toSecond(e.timeOfUse!) >
+                              -3600 &&
+                          toSecond(TimeOfDay.now()) - toSecond(e.timeOfUse!) <
+                              0))
                       .toList();
                   return CustomScrollView(
                     //các sliver được đối xử như các "màn hình ảo" riêng biệt, cho nên chúng độc lập với nhau về constrant, size...
@@ -327,35 +355,10 @@ class _HomeState extends State<Home> {
                                 titleText:
                                     index == 0 ? "Quá giờ uống thuốc" : null,
                               )
-                            : Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        "🙌",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineLarge!
-                                            .copyWith(fontSize: 100),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        "Làm tốt lắm!",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineMedium,
-                                      ),
-                                      const Text(
-                                        "Bạn đã hoàn thành đợt thuốc ngày hôm nay!",
-                                        textAlign: TextAlign.center,
-                                      )
-                                    ],
-                                  ),
-                                ),
+                            : const ErrorInfo(
+                                title: "Làm tốt lắm",
+                                subtitle: "Bạn đã uống hết đợt thuốc hôm nay",
+                                icon: Symbols.check_circle,
                               ),
                         separatorBuilder: (context, index) => const SizedBox(),
                       ),

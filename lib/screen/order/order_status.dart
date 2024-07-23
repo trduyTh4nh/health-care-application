@@ -1,4 +1,5 @@
 import 'package:app_well_mate/const/color_scheme.dart';
+import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/notification_model.dart';
 import 'package:app_well_mate/model/order_model.dart';
@@ -8,6 +9,7 @@ import 'package:app_well_mate/screen/order/func_order/index.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:app_well_mate/utils/util.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class OrderStatus extends StatefulWidget {
   const OrderStatus({super.key, required this.notifiItem});
@@ -295,7 +297,11 @@ class _OrderStatusState extends State<OrderStatus> {
                   _listDrug![index].price!;
 
               if (_listPrescriptionDetail == null || _listDrug == null) {
-                return const CircularProgressIndicator();
+                return LoadingAnimationWidget.flickr(
+                  leftDotColor: colorScheme.primary,
+                  rightDotColor: colorScheme.error,
+                  size: 48,
+                );
               } else {
                 return Padding(
                   padding:
@@ -348,7 +354,11 @@ class _OrderStatusState extends State<OrderStatus> {
                                               fontWeight: FontWeight.bold,
                                               fontSize: 14),
                                     )
-                                  : const CircularProgressIndicator(),
+                                  : LoadingAnimationWidget.flickr(
+                                      leftDotColor: colorScheme.primary,
+                                      rightDotColor: colorScheme.error,
+                                      size: 48,
+                                    ),
                             ],
                           )
                         ],

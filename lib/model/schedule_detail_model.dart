@@ -6,7 +6,8 @@ import 'package:json_annotation/json_annotation.dart';
 part 'json/schedule_detail_model.g.dart';
 
 @JsonSerializable()
-class ScheduleDetailModel {
+class 
+ScheduleDetailModel {
   int? idScheduleDetail;
 
   int? idPreDetail; // khóa ngoại
@@ -25,7 +26,11 @@ class ScheduleDetailModel {
       this.timeOfUse,
       this.detail,
       this.lastConfirmed});
-
+  @override
+  String toString() {
+    // TODO: implement toString
+    return timeOfUse.toString();
+  }
   factory ScheduleDetailModel.fromJson(Map<String, dynamic> json) {
     String timeOfUse = json["time_use"] ?? "00:00:00";
     List<String> convert = timeOfUse.split(":");
@@ -37,7 +42,7 @@ class ScheduleDetailModel {
       idScheduleDetail: json["id_schedule_detail"] ?? 0,
       status: json["status"] ? "done" : "not_done",
       timeOfUse: tod,
-      lastConfirmed: DateTime.tryParse(json["last_confirm"] ?? "1900-01-01") ?? DateTime(1900)
+      lastConfirmed: DateTime.tryParse(json["last_confirm"] ?? "1900-01-01")
     );
   }
   Map<String, dynamic> toJson() => _$ScheduleDetailModelToJson(this);

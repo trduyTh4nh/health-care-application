@@ -179,10 +179,10 @@ class _SearchDetailPageState extends State<SearchDetailPage> {
                 children: [
                   ElevatedButton(
                     style: ButtonStyle(
-                      fixedSize: MaterialStateProperty.all<Size>(
-                          Size(20, 20)), // Đặt chiều rộng và chiều cao cố định
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                          EdgeInsets.all(8.0)), // Đặt padding
+                      fixedSize: WidgetStateProperty.all<Size>(
+                         const Size(20, 20)), 
+                      padding: WidgetStateProperty.all<EdgeInsets>(
+                         const EdgeInsets.all(8.0)), 
                     ),
                     child: Icon(
                         isShowInfo ? Icons.arrow_drop_up : Icons.arrow_drop_down),

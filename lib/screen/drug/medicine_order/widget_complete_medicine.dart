@@ -1,6 +1,9 @@
-import 'package:app_well_mate/const/color_scheme.dart';
+import 'package:app_well_mate/components/item_complete.dart';
+import 'package:app_well_mate/providers/cart_page_provider.dart';
+import 'package:app_well_mate/main.dart';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:provider/provider.dart';
 
 enum MedicationItemAction { delete, edit, snooze, buy, confirm }
 
@@ -13,160 +16,141 @@ class WidgetCompleteMedicine extends StatefulWidget {
 
 class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
   bool isChecked = false;
+
+  String getAdress(String name) {
+    final splitString = name.split(",");
+    final addressTrue = "${splitString[0]} ${splitString[1]}";
+    return addressTrue;
+  }
+
   @override
   Widget build(BuildContext context) {
     final sizeHeight = MediaQuery.of(context).size.height;
-    final sizeWight = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator()),
-                        const SizedBox(
-                          width: 15,
-                        ),
-                        Expanded(
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: Text(
-                              "Đơn thuốc đang được chuẩn bị bởi nhà thuốc",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge!
-                                  .copyWith(fontSize: 24),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    height: sizeHeight * 0.40,
-                    child: Padding(
+    return Consumer<CartPageProvider>(builder: (context, value, child) {
+      return Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: ListView.builder(
-                        itemCount: 10,
-                        itemBuilder: (context, index) {
-                          return Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      const CircleAvatar(
-                                        radius: 20,
-                                        backgroundImage: NetworkImage(
-                                            'https://i.giphy.com/BSx6mzbW1ew7K.webp'),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text("Panadol Extra",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge),
-                                            Text("3 vỉ _ 8.000 đ / vỉ",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .labelSmall),
-                                            Text("25.000 đ",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleMedium),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const Divider(),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Material(
-            elevation: 50,
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 15),
-                    child: Text("Phương thức thanh toán"),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
+                      child: Row(
                         children: [
-                          Container(
-                            height: 50,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(25),
-                              child: Image.network(
-                                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGxsoe7iPccCnGraliGFCLCvbg3bO3PDtELQ&s"),
+                          SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: LoadingAnimationWidget.flickr(
+                              leftDotColor: colorScheme.primary,
+                              rightDotColor: colorScheme.error,
+                              size: 48,
                             ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Visa",
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium),
-                              Text("******12"),
-                            ],
+                          const SizedBox(
+                            width: 15,
+                          ),
+                          Expanded(
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: Text(
+                                "Đơn thuốc đang được chuẩn bị bởi nhà thuốc",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(fontSize: 24),
+                              ),
+                            ),
                           )
                         ],
                       ),
-                      
-                    ],
-                  ),
-                  Text("Địa chỉ giao hàng"),
-                  Text(
-                    "100 đường Example, Thành phố Hồ Chí Minh, Việt Nam",
-                    style:
-                        Theme.of(context).textTheme.titleMedium,
-                  )
-                ],
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Consumer<CartPageProvider>(
+                        builder: (context, value, child) {
+                      return SizedBox(
+                        height: sizeHeight * 0.40,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: ListView.builder(
+                            itemCount: value.listChecked.length,
+                            itemBuilder: (context, index) {
+                              var item = value.listChecked[index];
+                              return Column(
+                                children: [
+                                  item_complete(drug: item),
+                                  const Divider(),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                      );
+                    }),
+                  ],
+                ),
               ),
             ),
-          )
-        ],
-      ),
-    );
+            Material(
+              elevation: 50,
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 15),
+                      child: Text("Phương thức thanh toán"),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              height: 50,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(25),
+                                child: Image.network(
+                                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGxsoe7iPccCnGraliGFCLCvbg3bO3PDtELQ&s"),
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Visa",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium),
+                                const Text("******12"),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    const Text("Địa chỉ giao hàng"),
+                    Text(
+                      getAdress(value.selectedAddress!.address!),
+                      style: Theme.of(context).textTheme.titleMedium,
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+    });
   }
 }
