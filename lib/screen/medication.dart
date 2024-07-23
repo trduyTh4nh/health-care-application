@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:app_well_mate/api/application/application_repo.dart';
+import 'package:app_well_mate/api/auth/api_repo.dart';
 import 'package:app_well_mate/components/fab_menu_button.dart';
 import 'package:app_well_mate/components/info_component.dart';
 import 'package:app_well_mate/components/shotcut.dart';
@@ -12,8 +15,10 @@ import 'package:app_well_mate/screen/drug/schedule_pages/drug_today.dart';
 import 'package:app_well_mate/screen/drug_cart.dart';
 import 'package:app_well_mate/screen/medicine_purchase_history.dart';
 import 'package:app_well_mate/screen/notification.dart';
+import 'package:app_well_mate/screen/profile.dart';
 import 'package:app_well_mate/screen/scan.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:app_well_mate/model/prescription_model.dart';
 import 'package:intl/intl.dart';
@@ -128,6 +133,39 @@ class _MedicationPageState extends State<MedicationPage>
                   rightDotColor: colorScheme.error,
                   size: 48,
                 ),
+              );
+            }
+            if (snapshot.hasError) {
+              if (snapshot.error is DioException) {
+                DioException excep = snapshot.error as DioException;
+                if (excep.response!.data["message"] ==
+                    "Missing authorization token") {
+                  return ErrorInfo(
+                    title: "Phiên đăng nhập đã hết hạn",
+                    subtitle:
+                        "Vui lòng đăng nhập lại.",
+                    icon: Symbols.error,
+                    action: ElevatedButton(onPressed: () {
+                      ApiRepo().logOut(context);
+                      Navigator.pop(context);
+                    }, child: const Text("Đăng nhập lại")),
+                  );
+                }
+                log(excep.response!.data["message"].toString());
+                return ErrorInfo(
+                  title: "Lỗi ứng dụng",
+                  subtitle:
+                      "Ứng dụng đang bị lỗi, vui lòng thử lại sau. ${snapshot.error}",
+                  icon: Symbols.error,
+                );
+              }
+              return Center(child: Text('Error: ${snapshot.error}'));
+            }
+            if (lst == null) {
+              return const ErrorInfo(
+                title: "Lỗi ứng dụng",
+                subtitle: "Ứng dụng đang bị lỗi, vui lòng thử lại sau,",
+                icon: Symbols.error,
               );
             }
             if (lst!.isEmpty) {
