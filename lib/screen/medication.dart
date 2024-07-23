@@ -4,6 +4,7 @@ import 'package:app_well_mate/components/info_component.dart';
 import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/providers/cart_page_provider.dart';
 
 import 'package:app_well_mate/screen/drug/schedule_pages/all_drug.dart';
 import 'package:app_well_mate/screen/drug/schedule_pages/drug_done.dart';
@@ -11,6 +12,7 @@ import 'package:app_well_mate/screen/drug/schedule_pages/drug_today.dart';
 import 'package:app_well_mate/screen/drug_cart.dart';
 import 'package:app_well_mate/screen/medicine_purchase_history.dart';
 import 'package:app_well_mate/screen/notification.dart';
+import 'package:app_well_mate/screen/scan.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:app_well_mate/model/prescription_model.dart';
@@ -64,15 +66,24 @@ class _MedicationPageState extends State<MedicationPage>
           ],
         ),
         actions: [
-          IconButton(
+          Consumer<CartPageProvider>(builder: (context, value, child) {
+            return IconButton(
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const CartPage()));
               },
-              icon: const Icon(
-                Symbols.shopping_cart,
-                size: 24,
-              )),
+              icon: Badge(
+                label: Text(
+                  "${value.listDrugCart.length}",
+                  style: const TextStyle(color: Colors.white),
+                ),
+                child: const Icon(
+                  Symbols.shopping_cart,
+                  size: 24,
+                ),
+              ),
+            );
+          }),
           IconButton(
               onPressed: () {
                 Navigator.push(
@@ -128,7 +139,14 @@ class _MedicationPageState extends State<MedicationPage>
                 action: Shortcut(
                   icon: Icons.camera_alt_outlined,
                   text: "Quét mã",
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (c) => const ScanPage(
+                                  automaticallyImplyLeading: true,
+                                )));
+                  },
                 ),
               );
             }

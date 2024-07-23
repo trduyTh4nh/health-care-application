@@ -45,7 +45,6 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
     var userInfo = await ApiRepo().getInfoUser();
     if (userInfo != null) {
       userInfomation = userInfo;
-
       setState(() {
         userInfomation = userInfo;
         avatar = userInfo.profile?.avatar ?? '';
@@ -411,7 +410,8 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                       const Divider(),
                       Container(
                         child: InkWell(
-                          onTap: () {
+                          onTap: () async {
+                            ApiRepo().logOut(context);
                             Navigator.push(
                               context,
                               MaterialPageRoute(

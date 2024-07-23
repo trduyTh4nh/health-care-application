@@ -1,26 +1,55 @@
+import 'dart:async';
 import 'dart:developer';
-import 'dart:io';
-
-import 'package:android_intent_plus/android_intent.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:app_well_mate/components/info_component.dart';
+import 'package:app_well_mate/components/item_hospital.dart';
+import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
-import 'package:app_well_mate/screen/admin/admin_page.dart';
-import 'package:app_well_mate/screen/drug/drug_info.dart';
+import 'package:app_well_mate/screen/drug_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
+@pragma('vm:entry-point')
+void tapNotificationBackground(NotificationResponse res) {
+  print("notification ${res.id}, ${res.actionId}");
+}
+
 class NotificationProvider extends ChangeNotifier {
   List<PendingNotificationRequest> rqs = [];
+  List<ActiveNotification> acts = [];
+  StreamController<String?> selectNotificationStream =
+      StreamController<String?>.broadcast();
   FlutterLocalNotificationsPlugin plugin = FlutterLocalNotificationsPlugin();
   removeWaitList() async {
     await plugin.cancelAll();
     await updateNotifRequests();
     notifyListeners();
+  }
+
+  initStream() {
+    selectNotificationStream.stream.listen((e) {
+      log("Select action");
+    });
+  }
+
+  updateActiveNotification() async {
+    acts = await plugin.getActiveNotifications();
+    notifyListeners();
+  }
+
+  initNotification(List<ScheduleDetailModel> lst) async {
+    await updateNotifRequests();
+    if (rqs.isEmpty) {
+      for (var element in lst) {
+        scheduleNotification(
+            element, element.detail!.drug!, element.detail!.idPreDetail!);
+      }
+    }
   }
 
   NotificationProvider() {
@@ -29,9 +58,12 @@ class NotificationProvider extends ChangeNotifier {
   }
   updateNotifRequests() async {
     rqs = await plugin.pendingNotificationRequests();
+    await updateActiveNotification();
+    notifyListeners();
   }
 
   tz.TZDateTime nextInstanceOfTime(TimeOfDay time) {
+    log("next instance of time");
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation('Asia/Ho_Chi_Minh'));
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
@@ -39,68 +71,95 @@ class NotificationProvider extends ChangeNotifier {
         tz.local, now.year, now.month, now.day, time.hour, time.minute, 0);
   }
 
-  scheduleNotification(ScheduleDetailModel model, DrugModel drug, int detailId) async {
+  tz.TZDateTime nextInstanceOfTimeDelayed(Duration duration, TimeOfDay time) {
+    tz.initializeTimeZones();
+    tz.setLocalLocation(tz.getLocation('Asia/Ho_Chi_Minh'));
+    tz.TZDateTime now = tz.TZDateTime.now(tz.local).add(duration);
+    return tz.TZDateTime(
+        tz.local, now.year, now.month, now.day, time.hour, time.minute, 0);
+  }
+
+  scheduleNotification(
+      ScheduleDetailModel model, DrugModel drug, int detailId) async {
+    DateFormat format = DateFormat("yyyy-MM-dd");
+    bool isConfirmed =
+        format.format(model.lastConfirmed!) == format.format(DateTime.now());
     const AndroidNotificationDetails details =
         AndroidNotificationDetails("c1", "notif test",
             channelDescription: "channel notif chay suon",
             importance: Importance.high,
             priority: Priority.high,
-            actions: [
-              AndroidNotificationAction('xnut', 'Xác nhận'),
-              AndroidNotificationAction('snooze', 'Nhắc tôi sau 10p')
-            ],
             ticker: 'ticker');
     const NotificationDetails notifDetails =
         NotificationDetails(android: details);
     await plugin.zonedSchedule(
-        payload: detailId.toString(),
-        model.idScheduleDetail ?? -1,
-        "Đã đến giờ uống thuốc ${drug.name}",
-        "Ấn vào đây để xem thêm",
-        nextInstanceOfTime(model.timeOfUse!),
-        notifDetails,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        matchDateTimeComponents: DateTimeComponents.time);
+      payload: detailId.toString(),
+      model.idScheduleDetail ?? -1,
+      "Đã đến giờ uống thuốc ${drug.name}",
+      "Ấn vào đây để xem thêm",
+      isConfirmed
+          ? nextInstanceOfTimeDelayed(const Duration(days: 1), model.timeOfUse!)
+          : nextInstanceOfTime(model.timeOfUse!),
+      notifDetails,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      matchDateTimeComponents: DateTimeComponents.time,
+    );
+  }
+
+  snoozeNotification(ScheduleDetailModel model, DrugModel drug, int detailId,
+      Duration duration) async {
+    DateFormat format = DateFormat("yyyy-MM-dd");
+    bool isConfirmed =
+        format.format(model.lastConfirmed!) == format.format(DateTime.now());
+    const AndroidNotificationDetails details =
+        AndroidNotificationDetails("c1", "notif test",
+            channelDescription: "channel notif chay suon",
+            importance: Importance.high,
+            priority: Priority.high,
+            ticker: 'ticker');
+    const NotificationDetails notifDetails =
+        NotificationDetails(android: details);
+    await plugin.zonedSchedule(
+      payload: detailId.toString(),
+      -(model.idScheduleDetail ?? 1),
+      "Đã đến giờ uống thuốc ${drug.name}",
+      "Ấn vào đây để xem thêm",
+      tz.TZDateTime.now(tz.local).add(duration),
+      notifDetails,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+    );
   }
 
   requestPermission(BuildContext context) async {
+    initStream();
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('pill');
     InitializationSettings settings =
         const InitializationSettings(android: initializationSettingsAndroid);
-    plugin.initialize(
-      settings,
-      onDidReceiveNotificationResponse: (r) {
-        
-        switch (r.notificationResponseType) {
-          case NotificationResponseType.selectedNotification:
-            Navigator.push(
-                context, MaterialPageRoute(builder: (c) => const DrugInfo()));
-            break;
-          default:
-            plugin.cancel(r.id!);
-            if (r.actionId == "xnut") {
-              log("Xác nhận");
-            } else {
-              log("Khác");
-            }
-            break;
-        }
-      },
-    );
+    plugin.initialize(settings, onDidReceiveNotificationResponse: (r) {
+      switch (r.notificationResponseType) {
+        case NotificationResponseType.selectedNotification:
+          log(r.payload ?? "null");
+          navigatorKey.currentState!.push(MaterialPageRoute(
+              builder: (c) =>
+                  DrugInfoPage(idPre: int.parse(r.payload ?? "-1"))));
+          break;
+        case NotificationResponseType.selectedNotificationAction:
+          selectNotificationStream.add(r.actionId);
+          break;
+      }
+    }, onDidReceiveBackgroundNotificationResponse: tapNotificationBackground);
     bool res = await plugin
             .resolvePlatformSpecificImplementation<
                 AndroidFlutterLocalNotificationsPlugin>()!
             .requestNotificationsPermission() ??
         false;
     if (res && context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Đã cấp quyền thông báo")));
       await updateNotifRequests();
       notifyListeners();
-      
     } else if (context.mounted) {
       showDialog(
           context: context,
@@ -159,15 +218,12 @@ class NotificationProvider extends ChangeNotifier {
             channelDescription: "channel notif chay suon",
             importance: Importance.high,
             priority: Priority.high,
-            actions: [
-              AndroidNotificationAction('xnut', 'Xác nhận'),
-              AndroidNotificationAction('snooze', 'Nhắc tôi sau 10p')
-            ],
             ticker: 'ticker');
     const NotificationDetails notifDetails =
         NotificationDetails(android: details);
     await plugin.show(0, "Đã đến giờ uống thuốc",
-        "Đã đến giờ uống thuốc Paracetamol", notifDetails);
+        "Đã đến giờ uống thuốc Paracetamol", notifDetails,
+        payload: "17");
     await updateNotifRequests();
   }
 }

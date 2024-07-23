@@ -1,4 +1,5 @@
 import 'package:app_well_mate/api/drug/drug_repo.dart';
+import 'package:app_well_mate/components/custom_dialog.dart';
 import 'package:app_well_mate/components/custom_elevated_button.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
@@ -6,6 +7,7 @@ import 'package:app_well_mate/const/functions.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
+import 'package:app_well_mate/providers/notification_provider.dart';
 import 'package:app_well_mate/screen/drug_info.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -47,8 +49,10 @@ class _MedicationItemState extends State<MedicationItem> {
     }
   }
 
-  confirm() async {
-    if (widget.prescription.detail!.quantity! - widget.prescription.detail!.quantityUsed! == 0) {
+  confirm(BuildContext context) async {
+    if (widget.prescription.detail!.quantity! -
+            widget.prescription.detail!.quantityUsed! ==
+        0) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text("Bạn đã hết thuốc"),
         action: SnackBarAction(
@@ -61,6 +65,16 @@ class _MedicationItemState extends State<MedicationItem> {
     int res =
         await repo.updateSchedule(widget.prescription.idScheduleDetail ?? -1);
     if (widget.onUpdate != null && res == 1 && context.mounted) {
+      int timeDiffSec = widget.prescription.timeOfUse != null
+          ? (toSecond(TimeOfDay.now()) -
+              toSecond(widget.prescription.timeOfUse!))
+          : -1;
+      if (timeDiffSec < 0) {
+        await Provider.of<NotificationProvider>(context, listen: false).scheduleNotification(
+            widget.prescription,
+            widget.prescription.detail!.drug!,
+            widget.prescription.idPreDetail!);
+      }
       widget.onUpdate!(widget.prescription.idScheduleDetail ?? -1);
       showCustomSnackBar(context, "Đã ghi nhận uống thuốc này.");
     } else if (context.mounted) {
@@ -200,7 +214,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                                               onTap: () {
                                                                 setState(() {
                                                                   future =
-                                                                      confirm();
+                                                                      confirm(context);
                                                                 });
                                                               },
                                                               child: Icon(
@@ -317,36 +331,22 @@ class _MedicationItemState extends State<MedicationItem> {
                                                 showDialog(
                                                     context: context,
                                                     builder: (context) =>
-                                                        AlertDialog.adaptive(
-                                                          title: const Text(
-                                                              "Xoá thuốc này"),
-                                                          content: Text(
-                                                              "Bạn có muốn xoá thuốc ${widget.prescription.detail!.drug!.name} ${widget.prescription.lastConfirmed} không?"),
-                                                          actions: [
-                                                            TextButton(
-                                                                onPressed: () {
-                                                                  future =
-                                                                      deleteDrugMaster(
-                                                                          context);
-                                                                  setState(
-                                                                      () {});
-                                                                },
-                                                                child:
-                                                                    const Text(
-                                                                        "Có")),
-                                                            TextButton(
-                                                                onPressed: () {
-                                                                  Navigator.pop(
+                                                        CustomDialog(
+                                                            title:
+                                                                "Xoá thuốc này",
+                                                            subtitle:
+                                                                "Bạn có muốn xoá thuốc này không?",
+                                                            icon:
+                                                                Symbols.delete,
+                                                            onPositive: () {
+                                                              future =
+                                                                  deleteDrugMaster(
                                                                       context);
-                                                                },
-                                                                child:
-                                                                    const Text(
-                                                                        "Không"))
-                                                          ],
-                                                        ));
+                                                              setState(() {});
+                                                            }));
                                                 break;
                                               case MedicationItemAction.confirm:
-                                                future = confirm();
+                                                future = confirm(context);
                                                 setState(() {});
                                                 break;
                                               default:
@@ -438,7 +438,10 @@ class _MedicationItemState extends State<MedicationItem> {
                                   )
                                 ],
                               ),
-                              widget.prescription.detail!.quantity! - widget.prescription.detail!.quantityUsed! <= 0 &&
+                              widget.prescription.detail!.quantity! -
+                                              widget.prescription.detail!
+                                                  .quantityUsed! <=
+                                          0 &&
                                       showWarning
                                   ? Column(
                                       children: [

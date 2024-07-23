@@ -1,6 +1,5 @@
-import 'package:app_well_mate/model/drug_cart_detail_model.dart';
+import 'package:app_well_mate/components/item_complete.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
-import 'package:app_well_mate/utils/util.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -17,6 +16,13 @@ class WidgetCompleteMedicine extends StatefulWidget {
 
 class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
   bool isChecked = false;
+
+  String getAdress(String name) {
+    final splitString = name.split(",");
+    final addressTrue = "${splitString[0]} ${splitString[1]}";
+    return addressTrue;
+  }
+
   @override
   Widget build(BuildContext context) {
     final sizeHeight = MediaQuery.of(context).size.height;
@@ -35,13 +41,14 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
                       child: Row(
                         children: [
                           SizedBox(
-                              width: 24,
-                              height: 24,
-                              child: LoadingAnimationWidget.flickr(
-                                            leftDotColor: colorScheme.primary,
-                                            rightDotColor: colorScheme.error,
-                                            size: 48,
-                                          ),),
+                            width: 24,
+                            height: 24,
+                            child: LoadingAnimationWidget.flickr(
+                              leftDotColor: colorScheme.primary,
+                              rightDotColor: colorScheme.error,
+                              size: 48,
+                            ),
+                          ),
                           const SizedBox(
                             width: 15,
                           ),
@@ -125,16 +132,16 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleMedium),
-                                Text("******12"),
+                                const Text("******12"),
                               ],
                             )
                           ],
                         ),
                       ],
                     ),
-                    Text("Địa chỉ giao hàng"),
+                    const Text("Địa chỉ giao hàng"),
                     Text(
-                      value.selectedAddress!.address!,
+                      getAdress(value.selectedAddress!.address!),
                       style: Theme.of(context).textTheme.titleMedium,
                     )
                   ],
@@ -145,46 +152,5 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
         ),
       );
     });
-  }
-}
-
-class item_complete extends StatelessWidget {
-  item_complete({super.key, required this.drug});
-  DrugCartDetailModel drug;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Image.network(
-              errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.image),
-              // drug!.drugImage ?? '',
-              drug.drug!.drugImage ?? '',
-              width: 50,
-              height: 50,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(drug.drug!.name!,
-                      style: Theme.of(context).textTheme.bodyLarge),
-                  Text(
-                      "${drug.quantity} ${drug.drug!.unit}_ ${convertCurrency(drug.drug!.price)}/ ${drug.drug!.unit}",
-                      style: Theme.of(context).textTheme.labelSmall),
-                  Text(convertCurrency(drug.drug!.price!),
-                      style: Theme.of(context).textTheme.titleMedium),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
   }
 }

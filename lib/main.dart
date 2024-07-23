@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:app_well_mate/api/auth/api_repo.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/model/user_info_model.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:app_well_mate/providers/notification_provider.dart';
-
 import 'package:app_well_mate/screen/home.dart';
 import 'package:app_well_mate/screen/login.dart';
 import 'package:app_well_mate/screen/medication.dart';
@@ -20,7 +18,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
-
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 ColorScheme colorScheme = ColorScheme(
     brightness: Brightness.light,
     primary: const Color(0xFF6B94FF),
@@ -54,6 +52,10 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   StreamSubscription<List<ConnectivityResult>>? subscription;
+  Future<void> getUserAndToken() async {
+
+  }
+  Future<void>? future;
   @override
   void initState() {
     super.initState();
@@ -70,7 +72,12 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        navigatorKey: navigatorKey,
         theme: ThemeData(
+            badgeTheme: BadgeThemeData(
+              textColor: colorScheme.onPrimary,
+              padding: const EdgeInsets.symmetric(horizontal: 6)
+            ),
             colorScheme: colorScheme,
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: ButtonStyle(
@@ -214,6 +221,7 @@ class AppPage extends StatefulWidget {
 }
 
 class _AppPageState extends State<AppPage> {
+  
   int _selectedPage = 0;
   Future<InfoUserModel?>? userData;
   final List<Widget> _pages = [
@@ -221,23 +229,22 @@ class _AppPageState extends State<AppPage> {
     const SearchPage(),
     const ScanPage(),
     const MedicationPage(),
-    // const Thongtincanhan(),
-
     const ThemeScreen()
   ];
-
+  initNotification(){
   // void _onTap(index) {
   //   setState(() {
   //     _selectedPage = index;
   //   });
   // }
-
+  }
 
   @override
   void initState() {
     userData = ApiRepo().getInfoUser();
     WidgetsBinding.instance.addPostFrameCallback((t) {
-      Provider.of<NotificationProvider>(context, listen: false).requestPermission(context);
+      Provider.of<NotificationProvider>(context, listen: false)
+          .requestPermission(context);
     });
     super.initState();
   }
@@ -273,14 +280,13 @@ class _AppPageState extends State<AppPage> {
                   future: userData,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     } else if (snapshot.hasError) {
                       return Text('Error: ${snapshot.error}');
                     } else if (snapshot.hasData) {
-                      var userInfo = snapshot.data;
                       return Thongtincanhan();
                     } else {
-                      return Text('No user data available');
+                      return const Text('No user data available');
                     }
                   },
                 )

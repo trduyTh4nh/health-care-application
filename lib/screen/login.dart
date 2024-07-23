@@ -19,7 +19,6 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     super.initState();
     _pageViewController = PageController();
   }
-
   @override
   void dispose() {
     super.dispose();

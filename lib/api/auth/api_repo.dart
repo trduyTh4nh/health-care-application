@@ -5,11 +5,14 @@ import 'package:app_well_mate/api/api.dart';
 import 'package:app_well_mate/model/profile_model.dart';
 import 'package:app_well_mate/model/user.dart';
 import 'package:app_well_mate/model/user_info_model.dart';
+import 'package:app_well_mate/providers/cart_page_provider.dart';
+import 'package:app_well_mate/providers/notification_provider.dart';
 import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class ApiRepo {
   API api = API();
@@ -132,5 +135,10 @@ class ApiRepo {
       print("Failled update Profile: $ex");
       rethrow;
     }
+  }
+  logOut(BuildContext context) async {
+    await SecureStorage.storage.deleteAll();
+    await Provider.of<NotificationProvider>(context, listen: false).removeWaitList();
+    Provider.of<CartPageProvider>(context, listen: false).listDrugCart = [];
   }
 }

@@ -35,10 +35,28 @@ class DrugRepo {
               DateFormat("yyyy-MM-dd").format(e.lastConfirmed!) !=
               DateFormat("yyyy-MM-dd").format(DateTime.now()))
           .toList();
+      log(lst.toString());
       return lst;
     } catch (ex) {
+      log("error");
       log(ex.toString());
       return [];
+    }
+  }
+
+  Future<PrescriptionDetailModel?> getDrugBy(int id) async {
+    String token = await SecureStorage.getToken();
+    try {
+      Response res = await api.sendRequest.get("/drug/getDrugFromDetail",
+          data: {"id_app_detail": id},
+          options: Options(headers: header(token)));
+      final data = res.data["metadata"];
+      PrescriptionDetailModel tmp = PrescriptionDetailModel.fromJson(data);
+      tmp.drug = DrugModel.fromJson(data["drug"]);
+      return tmp;
+    } catch (ex) {
+      log(ex.toString());
+      return null;
     }
   }
 
@@ -61,6 +79,11 @@ class DrugRepo {
           }
         }
       }
+      lst = lst
+          .where((e) =>
+              DateFormat("yyyy-MM-dd").format(e.lastConfirmed!) !=
+              DateFormat("yyyy-MM-dd").format(DateTime.now()))
+          .toList();
       return lst;
     } catch (ex) {
       log(ex.toString());
@@ -192,8 +215,7 @@ class DrugRepo {
     }
   }
 
-  Future<Map<String, dynamic>?> addDrugToApp(
-      Map<String, dynamic> data) async {
+  Future<Map<String, dynamic>?> addDrugToApp(Map<String, dynamic> data) async {
     String token = await SecureStorage.getToken();
     try {
       Response res = await api.sendRequest.post("/drug/addDrugCustom",
