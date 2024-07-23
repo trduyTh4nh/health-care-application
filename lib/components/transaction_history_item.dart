@@ -1,4 +1,5 @@
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/model/history_stransaction_model.dart';
 import 'package:app_well_mate/model/payment_model.dart';
 import 'package:app_well_mate/screen/transaction_detail.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
@@ -8,7 +9,8 @@ import 'package:material_symbols_icons/symbols.dart';
 
 class TransactionHistoryItem extends StatefulWidget {
   const TransactionHistoryItem({super.key, required this.data});
-  final PaymentModel data;
+  // final PaymentModel data;
+  final HistoryStransactionModel data;
   @override
   State<TransactionHistoryItem> createState() => _TransactionHistoryItemState();
 }
@@ -18,11 +20,24 @@ class _TransactionHistoryItemState extends State<TransactionHistoryItem> {
   NumberFormat numFormat = NumberFormat("##,###.##");
   late Color primaryColor =
       widget.data.status! ? AppColors.primaryColor : colorScheme.error;
+
   @override
   Widget build(BuildContext context) {
+    String displayDate;
+    try {
+      // If createDate is null or empty, use a default value or an empty string
+      DateTime date =
+          widget.data.createDate != null && widget.data.createDate!.isNotEmpty
+              ? DateTime.parse(widget.data.createDate!)
+              : DateTime.now(); // or provide another default date
+      displayDate = format.format(date);
+    } catch (e) {
+      displayDate = 'Ngày không hợp lệ'; // Provide an error message
+    }
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (c) => TransactionDetail()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (c) => TransactionDetail()));
       },
       child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -36,13 +51,17 @@ class _TransactionHistoryItemState extends State<TransactionHistoryItem> {
                     Container(
                       decoration: BoxDecoration(
                           color: primaryColor,
-                          borderRadius: const BorderRadius.all(Radius.circular(50))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(50))),
                       child: const Padding(
                         padding: EdgeInsets.all(16),
                         child: SizedBox(
                             width: 24,
                             height: 24,
-                            child: Icon(Symbols.attach_money, color: AppColors.backgroundColor,)),
+                            child: Icon(
+                              Symbols.attach_money,
+                              color: AppColors.backgroundColor,
+                            )),
                       ),
                     ),
                     const SizedBox(
@@ -56,15 +75,14 @@ class _TransactionHistoryItemState extends State<TransactionHistoryItem> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  "Giao dịch lúc ${format.format(widget.data.datePay ?? DateTime.now())}",
+                                  // "Giao dịch lúc ${format.format(widget.data.createDate ?? DateTime.now())}",
+                                  "Giao dịch lúc $displayDate",
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ),
                             ],
                           ),
-                          Text(
-                              "${widget.data.order!.orderDetailList!.length} thuốc • ${widget.data.paymentMethod}"),
-                          Text("${numFormat.format(widget.data.totalMoney)} ₫"),
+                          Text("${numFormat.format(widget.data.totalPrice)} ₫"),
                         ],
                       ),
                     )
