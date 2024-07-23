@@ -75,6 +75,17 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
     await AddressRepo().UpdateAddress(idAddress, newAddress, token);
     _loadAddresses();
   }
+  void _onPaymentMethodChanged(String? value) {
+    setState(() {
+      paymentMethod = value!;
+    });
+  }
+
+  void _onAddressSelected(AddressModel? address) {
+    setState(() {
+      selectedAddress = address;
+    });
+  }
 
   String getAddress() {
     String address =
@@ -305,18 +316,16 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                             child: ElevatedButton(
                               onPressed: isAdd
                                   ? () {
-                                      if (_formKey.currentState!.validate()) {
                                         print("dang vo ham");
                                         String allinFo = getAddress();
                                         _addAddress(allinFo);
                                         Navigator.pop(context);
 
-                                        // _nameStreetController.clear();
-                                        // _cityNameController.clear();
-                                        // _coundtryCodeController.clear();
-                                        // _postalController.clear();
-                                        // _phoneNumberressController.clear();
-                                      }
+                                        _nameStreetController.clear();
+                                        _cityNameController.clear();
+                                        _coundtryCodeController.clear();
+                                        _postalController.clear();
+                                        _phoneNumberressController.clear();
                                     }
                                   : () {
                                       String newAddress = getAddress();
