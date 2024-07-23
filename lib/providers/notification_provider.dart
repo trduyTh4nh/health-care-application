@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:notification_listener_service/notification_listener_service.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -84,12 +85,12 @@ class NotificationProvider extends ChangeNotifier {
     DateFormat format = DateFormat("yyyy-MM-dd");
     bool isConfirmed =
         format.format(model.lastConfirmed!) == format.format(DateTime.now());
-    const AndroidNotificationDetails details =
-        AndroidNotificationDetails("c1", "notif test",
-            channelDescription: "channel notif chay suon",
-            importance: Importance.high,
-            priority: Priority.high,
-            ticker: 'ticker');
+    const AndroidNotificationDetails details = AndroidNotificationDetails(
+        "c1", "notif test",
+        channelDescription: "channel notif chay suon",
+        importance: Importance.high,
+        priority: Priority.high,
+        ticker: 'ticker');
     const NotificationDetails notifDetails =
         NotificationDetails(android: details);
     await plugin.zonedSchedule(
@@ -108,17 +109,19 @@ class NotificationProvider extends ChangeNotifier {
     );
   }
 
+  initPlatformState() async {}
+  void startListening() async {}
   snoozeNotification(ScheduleDetailModel model, DrugModel drug, int detailId,
       Duration duration) async {
     DateFormat format = DateFormat("yyyy-MM-dd");
     bool isConfirmed =
         format.format(model.lastConfirmed!) == format.format(DateTime.now());
-    const AndroidNotificationDetails details =
-        AndroidNotificationDetails("c1", "notif test",
-            channelDescription: "channel notif chay suon",
-            importance: Importance.high,
-            priority: Priority.high,
-            ticker: 'ticker');
+    const AndroidNotificationDetails details = AndroidNotificationDetails(
+        "c1", "notif test",
+        channelDescription: "channel notif chay suon",
+        importance: Importance.high,
+        priority: Priority.high,
+        ticker: 'ticker');
     const NotificationDetails notifDetails =
         NotificationDetails(android: details);
     await plugin.zonedSchedule(
@@ -134,18 +137,89 @@ class NotificationProvider extends ChangeNotifier {
   }
 
   requestPermission(BuildContext context) async {
+    /// check if notification permession is enebaled
+    final bool status = await NotificationListenerService.isPermissionGranted();
+    if (!status) {
+      bool s1 = await NotificationListenerService.requestPermission();
+      if (!s1) {
+        if (context.mounted) {
+          await showDialog(
+              context: context,
+              builder: (context) => Dialog(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const ErrorInfo(
+                            title: "Cấp quyền thông báo",
+                            subtitle:
+                                "Hãy cấp quyền theo dõi thông báo cho ứng dụng để có thể lưu các thông báo mà bạn đã lỡ!",
+                            icon: Symbols.notifications_active,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                    onPressed: () async {
+                                      NotificationListenerService
+                                          .requestPermission();
+                                    },
+                                    child: const Text("Cấp quyền")),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: FilledButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text("Không, cảm ơn")),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ));
+        }
+      }
+    }
+    NotificationListenerService.notificationsStream.listen((event) {
+      if (event.packageName == "com.example.app_well_mate" &&
+          !(event.hasRemoved!)) {
+        log("Current notification: $event");
+        updateNotifRequests();
+      }
+    });
+
+    /// stream the incoming notification events
+    log("request notif");
     initStream();
+    var darwinInitializationSettings = DarwinInitializationSettings(
+      onDidReceiveLocalNotification: (id, title, body, payload) {
+        print("receive notif");
+      },
+    );
+    DarwinInitializationSettings initializationSettingsDarwin =
+        darwinInitializationSettings;
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('pill');
-    InitializationSettings settings =
-        const InitializationSettings(android: initializationSettingsAndroid);
+    InitializationSettings settings = InitializationSettings(
+        android: initializationSettingsAndroid,
+        iOS: initializationSettingsDarwin);
     plugin.initialize(settings, onDidReceiveNotificationResponse: (r) {
       switch (r.notificationResponseType) {
         case NotificationResponseType.selectedNotification:
           log(r.payload ?? "null");
           navigatorKey.currentState!.push(MaterialPageRoute(
               builder: (c) =>
-                  DrugInfoPage(idPre: int.parse(r.payload ?? "-1"))));
+                  DrugInfoPage(idPre: int.parse(r.payload ?? "-1"), idScheSelected: (r.id ?? -1) < 0 ? -r.id! : r.id!,)));
           break;
         case NotificationResponseType.selectedNotificationAction:
           selectNotificationStream.add(r.actionId);
@@ -213,12 +287,12 @@ class NotificationProvider extends ChangeNotifier {
   }
 
   showNotification() async {
-    const AndroidNotificationDetails details =
-        AndroidNotificationDetails("c1", "notif test",
-            channelDescription: "channel notif chay suon",
-            importance: Importance.high,
-            priority: Priority.high,
-            ticker: 'ticker');
+    const AndroidNotificationDetails details = AndroidNotificationDetails(
+        "c1", "notif test",
+        channelDescription: "channel notif chay suon",
+        importance: Importance.high,
+        priority: Priority.high,
+        ticker: 'ticker');
     const NotificationDetails notifDetails =
         NotificationDetails(android: details);
     await plugin.show(0, "Đã đến giờ uống thuốc",

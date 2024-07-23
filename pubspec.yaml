@@ -41,6 +41,7 @@ dependencies:
   android_intent_plus: ^5.0.2
   app_settings: ^5.1.1
   barcode: ^2.2.8
+  notification_listener_service: ^0.3.3
  
 
 flutter_launcher_icons:

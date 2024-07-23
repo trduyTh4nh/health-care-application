@@ -231,9 +231,6 @@ class _AppPageState extends State<AppPage> {
     const MedicationPage(),
     const ThemeScreen()
   ];
-  initNotification(){
-
-  }
   @override
   void initState() {
     userData = ApiRepo().getInfoUser();
@@ -245,6 +242,7 @@ class _AppPageState extends State<AppPage> {
 
   @override
   Widget build(BuildContext context) {
+    
     return PopScope(
       canPop: false,
       child: Scaffold(

@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:app_well_mate/api/auth/api_repo.dart';
+import 'package:app_well_mate/components/custom_dialog.dart';
+import 'package:app_well_mate/components/info_component.dart';
 import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/user_info_model.dart';
@@ -16,6 +20,7 @@ import 'package:app_well_mate/screen/policy.dart';
 import 'package:app_well_mate/screen/quick_action/bmi_page.dart';
 import 'package:app_well_mate/screen/scan.dart';
 import 'package:app_well_mate/screen/transaction_history.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -76,6 +81,27 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
             ),
           );
         } else if (snapshot.hasError) {
+          if (snapshot.error is DioException) {
+            DioException excep = snapshot.error as DioException;
+            if (excep.response!.data["message"] ==
+                "Missing authorization token") {
+              return ErrorInfo(
+                title: "Phiên đăng nhập đã hết hạn",
+                subtitle: "Vui lòng đăng nhập lại.",
+                icon: Symbols.error,
+                action: ElevatedButton(
+                    onPressed: () {
+                      ApiRepo().logOut(context);
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Đăng nhập lại")),
+              );
+            }
+            log(excep.response!.data["message"].toString());
+            return Center(
+              child: Text("Error: ${excep.response!.data["message"]}"),
+            );
+          }
           return Center(child: Text('Error: ${snapshot.error}'));
         }
 
@@ -411,13 +437,24 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                       Container(
                         child: InkWell(
                           onTap: () async {
-                            ApiRepo().logOut(context);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Login(),
-                              ),
-                            );
+                            showDialog(
+                                context: context,
+                                builder: (c) => CustomDialog(
+                                    title: "Đăng xuất",
+                                    icon: Symbols.logout,
+                                    subtitle:
+                                        "Bạn có muốn đăng xuất không? Bạn sẽ không được nhận thông báo uống thuốc nữa",
+                                    onPositive: () async {
+                                      await ApiRepo().logOut(context);
+                                      if (context.mounted) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => const Login(),
+                                          ),
+                                        );
+                                      }
+                                    }));
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16),
@@ -466,4 +503,22 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
       },
     );
   }
+}
+
+void showSessionExpiredDialog(BuildContext context) {
+  Future.delayed(Duration.zero, () {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => CustomDialog(
+            positiveText: "Ok",
+            onlyOption: true,
+            title: "Phiên đăng nhập của bạn đã hết hạn",
+            subtitle: "Vui lòng đăng nhập lại",
+            onPositive: () async {
+              await ApiRepo().logOut(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Login()));
+            }));
+  });
 }
