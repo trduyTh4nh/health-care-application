@@ -28,12 +28,33 @@ class CartPageProvider extends ChangeNotifier {
   double get totalPrice => _totalPrice;
 
   Future<void> fetchDrugCart() async {
+    removeAddress();
+    listChecked = [];
+    _totalPrice = 0;
     int userId = await SecureStorage.getUserId();
     List<DrugCartDetailModel> items =
         await CartRepo().getAllDrugInCartttt(userId);
     listDrugCart = items;
     _isChecked = List<bool>.filled(listDrugCart.length, false);
     notifyListeners();
+  }
+
+  void removeCart() async {
+    final checkedSet = Set.from(listChecked);
+
+    final drugsToRemove =
+        listDrugCart.where((drug) => checkedSet.contains(drug)).toList();
+
+    await Future.wait(drugsToRemove
+        .map((drug) => CartRepo().deleteDrugFromCart(drug.idCart!)));
+
+    notifyListeners();
+  }
+
+  void deleteDrugCartFromCart(int id) async {
+    print("id của thuốc bị xóa: $id");
+    String result = await CartRepo().deleteDrugFromCart(id);
+    await fetchDrugCart();
   }
 
   void addDrugtoCart(DrugModel drug, BuildContext context) async {
@@ -46,12 +67,6 @@ class CartPageProvider extends ChangeNotifier {
       log("item already exsists");
       showCustomSnackBar(context, "Đã có thuốc trong giỏ");
     }
-  }
-
-  void deleteDrugCartFromCart(int id) async {
-    print("id của thuốc bị xóa: $id");
-    String result = await CartRepo().deleteDrugFromCart(id);
-    await fetchDrugCart();
   }
 
   void updateQuantityDetial(int drugcartDetail, int quantity) async {
@@ -92,4 +107,5 @@ class CartPageProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+  
 }

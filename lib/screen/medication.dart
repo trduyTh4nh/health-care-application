@@ -7,6 +7,7 @@ import 'package:app_well_mate/components/info_component.dart';
 import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/providers/cart_page_provider.dart';
 
 import 'package:app_well_mate/screen/drug/schedule_pages/all_drug.dart';
 import 'package:app_well_mate/screen/drug/schedule_pages/drug_done.dart';
@@ -70,15 +71,24 @@ class _MedicationPageState extends State<MedicationPage>
           ],
         ),
         actions: [
-          IconButton(
+          Consumer<CartPageProvider>(builder: (context, value, child) {
+            return IconButton(
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const CartPage()));
               },
-              icon: const Icon(
-                Symbols.shopping_cart,
-                size: 24,
-              )),
+              icon: Badge(
+                label: Text(
+                  "${value.listDrugCart.length}",
+                  style: const TextStyle(color: Colors.white),
+                ),
+                child: const Icon(
+                  Symbols.shopping_cart,
+                  size: 24,
+                ),
+              ),
+            );
+          }),
           IconButton(
               onPressed: () {
                 Navigator.push(
