@@ -34,19 +34,8 @@ class itemDrugCartDetail extends StatelessWidget {
                 },
               ),
               const SizedBox(width: 8),
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                    color: AppColors.greyColor,
-                    borderRadius: BorderRadius.circular(50)),
-                child: Image.network(
-                  errorBuilder: (context, error, stackTrace) =>
-                      const Icon(Icons.image),
-                  // drug!.drugImage ?? '',
-                  item.drug!.drugImage ?? '',
-                  width: 50,
-                  height: 50,
-                ),
+              CircleAvatar(
+                backgroundImage: NetworkImage(item.drug!.drugImage ?? ""),
               ),
               const SizedBox(width: 8),
               Expanded(

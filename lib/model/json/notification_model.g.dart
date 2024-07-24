@@ -15,13 +15,13 @@ NotificationModel _$NotificationModelFromJson(Map<String, dynamic> json) =>
       priority: json['priority'].toString() as String?,
       status: json['status'] as bool?,
       userId: (json['id_user'] as num?)?.toInt(),
-      idOrder: (json['idOrder'] as num?)?.toInt(),
+      idOrder: (json['id_invoice'] as num?)?.toInt(),
       idPayment: (json['id_invoice'] as num?)?.toInt(),
-      idDonThuocCT: (json['schedule_detail']['id_app_detail'] as num?)?.toInt(),
+      idDonThuocCT: (json['schedule_detail'] == null ? -1 : json['schedule_detail']['id_app_detail'] as num?)?.toInt(),
       idScheduleDetail: (json['id_schedule_detail'] as num?)?.toInt()
     )
       ..isComfirmed = json['is_confirmed'] as bool?
-      ..idDonThuocCT = (json['schedule_detail']['id_app_detail'] as num?)?.toInt();
+      ..idDonThuocCT = (json['schedule_detail'] == null ? -1 : json['schedule_detail']['id_app_detail'] as num?)?.toInt();
 
 Map<String, dynamic> _$NotificationModelToJson(NotificationModel instance) =>
     <String, dynamic>{

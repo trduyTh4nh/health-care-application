@@ -30,7 +30,7 @@ class MedicationItem extends StatefulWidget {
   final ScheduleDetailModel prescription;
   final String? titleText;
   final Function(int preDetailId)? onDelete;
-  final Function(int scheid)? onUpdate;
+  final Function(int scheid, int idPreDetail)? onUpdate;
   @override
   State<MedicationItem> createState() => _MedicationItemState();
 }
@@ -59,30 +59,48 @@ class _MedicationItemState extends State<MedicationItem> {
     if (widget.prescription.detail!.quantity! -
             widget.prescription.detail!.quantityUsed! ==
         0) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text("Bạn đã hết thuốc"),
-        action: SnackBarAction(
-          label: "Mua thêm",
-          onPressed: () {},
-        ),
-      ));
+      showDialog(
+          context: context,
+          builder: (context) => Consumer<CartPageProvider>(
+            builder: (context, value, child) {
+              return CustomDialog(
+                    title: "Bạn đã hết thuốc",
+                    subtitle: "Hãy ấn 'thêm thuốc vào giỏ' để mua thêm",
+                    onPositive: () {
+                      value.addDrugtoCart(widget.prescription.detail!.drug!, context);
+                    },
+                    positiveText: "Thêm vào giỏ",
+                    negativeText: "Không, cảm ơn",
+                    icon: Symbols.pill_off,
+                  );
+            }
+          ));
       return;
     }
     int res =
         await repo.updateSchedule(widget.prescription.idScheduleDetail ?? -1);
     if (widget.onUpdate != null && res == 1 && context.mounted) {
-      int timeDiffSec = widget.prescription.timeOfUse != null
-          ? (toSecond(TimeOfDay.now()) -
-              toSecond(widget.prescription.timeOfUse!))
-          : -1;
-      if (timeDiffSec < 0) {
-        await Provider.of<NotificationProvider>(context, listen: false)
-            .scheduleNotification(
-                widget.prescription,
-                widget.prescription.detail!.drug!,
-                widget.prescription.idPreDetail!);
+      if (widget.prescription.detail!.quantityUsed! + 1 ==
+          widget.prescription.detail!.quantity) {
+        int idUser = await SecureStorage.getUserId();
+        Provider.of<NotificationProvider>(context, listen: false)
+            .showNotificationWithContent(
+                "Đã hết thuốc ${widget.prescription.detail!.drug!.name}",
+                "Ấn vào đây để xem thêm",
+                widget.prescription.detail!.idPreDetail ?? -1);
+        NotificationRepo().insertNotification({
+          "content": "Đã hết thuốc ${widget.prescription.detail!.drug!.name}",
+          "time": DateTime.now().toString(),
+          "id_user": idUser,
+          "isconfirmed": false,
+          "id_invoice": null,
+          "priority": 4,
+          "id_schedule_detail":
+              (widget.prescription.idScheduleDetail ?? 0).abs()
+        });
       }
-      widget.onUpdate!(widget.prescription.idScheduleDetail ?? -1);
+      widget.onUpdate!(widget.prescription.idScheduleDetail ?? -1,
+          widget.prescription.detail!.idPreDetail ?? -1);
       int idUser = await SecureStorage.getUserId();
       await notifRepo.insertNotification({
         "content":

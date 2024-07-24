@@ -24,20 +24,10 @@ class _DrugItemState extends State<DrugItem> {
           Expanded(
             child: Row(
               children: [
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  width: 60,
-                  decoration: BoxDecoration(
-                    color: AppColor.gray,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Image.network(
-                      widget.drugModel.drugImage ?? "",
-                      errorBuilder: (context, error, stackTrace) {
-                        return Icon(Icons.image);
-                      },
-                    ),
-                ),
+                CircleAvatar(
+                backgroundImage: NetworkImage(widget.drugModel.drugImage ?? ""),
+                onBackgroundImageError: (exception, stackTrace) => const Icon(Symbols.pill),
+              ),
                 const SizedBox(
                   width: 8,
                 ),

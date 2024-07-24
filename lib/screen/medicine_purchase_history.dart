@@ -1,5 +1,6 @@
 import 'package:app_well_mate/components/purchase_history_item.dart';
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/model/payment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -12,6 +13,9 @@ class MedicinePurchaseHistory extends StatefulWidget {
 }
 
 class _MedicinePurchaseHistoryState extends State<MedicinePurchaseHistory> {
+  List<PaymentModel> lst = [];
+  Future<void>? future;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

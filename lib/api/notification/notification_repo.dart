@@ -9,9 +9,12 @@ class NotificationRepo {
   API api = API();
   Future<int> insertNotification(Map<String, dynamic> notif) async {
     String token = await SecureStorage.getToken();
-    try{
-      Response res = await api.sendRequest.post("/notification/createNotification", data: notif, options: Options(headers: header(token)));
-      if(res.statusCode == 200){
+    try {
+      Response res = await api.sendRequest.post(
+          "/notification/createNotification",
+          data: notif,
+          options: Options(headers: header(token)));
+      if (res.statusCode == 200) {
         return 1;
       }
       return 0;
@@ -20,24 +23,40 @@ class NotificationRepo {
       rethrow;
     }
   }
+
   Future<List<NotificationModel>?> getNotifications() async {
     String token = await SecureStorage.getToken();
     int idUser = await SecureStorage.getUserId();
     List<NotificationModel> lst = [];
-    try{
-      Response res = await api.sendRequest.get("/notification/getAllNotification/$idUser", options: Options(headers: header(token)));
+    try {
+      Response res = await api.sendRequest.get(
+          "/notification/getAllNotification/$idUser",
+          options: Options(headers: header(token)));
       final data = res.data["metadata"];
-      log(data.toString());
-      if(data is List){
+      if (data is List) {
         lst = data.map((e) => NotificationModel.fromJson(e)).toList();
       }
-      if(res.statusCode == 200){
+      if (res.statusCode == 200) {
         return lst;
       }
       return null;
-    } on DioException catch (ex) {
+    } catch (ex) {
+      if (ex is NoSuchMethodError) {
+        NoSuchMethodError exs = ex;
+        log(exs.stackTrace.toString());
+      }
       log(ex.toString());
       rethrow;
+    }
+  }
+  Future<bool> deleteNotification(int id) async {
+    String token = await SecureStorage.getToken();
+    try{
+      Response res = await api.sendRequest.delete("/notification/deleteNotification/$id", options: Options(headers: header(token)));
+      return res.statusCode == 200;
+    }catch (ex) {
+      log(ex.toString());
+      return false;
     }
   }
 }

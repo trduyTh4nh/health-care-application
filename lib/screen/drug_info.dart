@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:app_well_mate/api/drug/drug_repo.dart';
 import 'package:app_well_mate/api/notification/notification_repo.dart';
 import 'package:app_well_mate/api/schedule/schedule_repo.dart';
+import 'package:app_well_mate/components/custom_dialog.dart';
 import 'package:app_well_mate/components/info_component.dart';
 import 'package:app_well_mate/components/medication_item.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
@@ -71,7 +72,11 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
     }
     listScheduleDetail =
         await repo.findAllSchedulesBy(prescriptionDetail!.idPreDetail ?? -1);
-    idScheSelected = widget.idScheSelected;
+    if (prescriptionDetail!.quantityUsed == prescriptionDetail!.quantity) {
+      idScheSelected = 0;
+    } else {
+      idScheSelected = widget.idScheSelected;
+    }
     setState(() {});
     log(idScheSelected.toString());
     renderListSchedule();
@@ -228,6 +233,7 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                                           ),
                                         );
                                       }
+
                                       if (listScheduleDetail!.isEmpty) {
                                         return Center(
                                           child: ErrorInfo(
@@ -284,7 +290,7 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                                                       width: 8,
                                                     ),
                                                     Text(
-                                                      'Số lượng: ${prescriptionDetail!.quantityUsed}/${prescriptionDetail!.quantity ?? "0"}',
+                                                      'Số lượng: ${prescriptionDetail!.quantity! - prescriptionDetail!.quantityUsed!}/${prescriptionDetail!.quantity ?? "0"}',
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .bodyLarge,
@@ -352,6 +358,22 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                                                   .copyWith(fontSize: 18),
                                             ),
                                           ),
+                                          if (prescriptionDetail!
+                                                  .quantityUsed ==
+                                              prescriptionDetail!.quantity)
+                                            SliverFillRemaining(
+                                              child: Center(
+                                                child: ErrorInfo(
+                                                  title: "Đã hết thuốc này",
+                                                  subtitle:
+                                                      "Bạn đã uống hết thuốc này. Vui lòng mua thêm",
+                                                  icon: Symbols.pill_off,
+                                                ),
+                                              ),
+                                            ),
+                                          if (prescriptionDetail!
+                                                  .quantityUsed !=
+                                              prescriptionDetail!.quantity)
                                           SliverList.separated(
                                             itemCount: _timesMorning1.length,
                                             itemBuilder: (context, index) {
@@ -361,41 +383,27 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                                                         showDialog(
                                                           context: context,
                                                           builder: (context) =>
-                                                              AlertDialog(
-                                                            icon: const Icon(Icons
-                                                                .warning_rounded),
-                                                            title: const Text(
-                                                                "Xoá lịch uống thuốc"),
-                                                            content: const Text(
-                                                                "Bạn có chắc là muốn xoá lịch uống thuốc này không?"),
-                                                            actions: [
-                                                              TextButton(
-                                                                  onPressed:
-                                                                      () async {
-                                                                    await deleteSchedule(
-                                                                        id,
-                                                                        context);
-                                                                    listScheduleDetail
-                                                                        ?.removeWhere((e) =>
-                                                                            e.idScheduleDetail ==
-                                                                            id);
-                                                                    renderListSchedule();
-                                                                    setState(
-                                                                        () {});
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: Text(
-                                                                      "Có")),
-                                                              TextButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: Text(
-                                                                      "Không"))
-                                                            ],
+                                                              CustomDialog(
+                                                            icon: Icons
+                                                                .warning_rounded,
+                                                            title:
+                                                                "Xoá lịch uống thuốc",
+                                                            subtitle:
+                                                                "Bạn có chắc là muốn xoá lịch uống thuốc này không?",
+                                                            onPositive:
+                                                                () async {
+                                                              await deleteSchedule(
+                                                                  id, context);
+                                                              listScheduleDetail
+                                                                  ?.removeWhere(
+                                                                      (e) =>
+                                                                          e.idScheduleDetail ==
+                                                                          id);
+                                                              renderListSchedule();
+                                                              setState(() {});
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
                                                           ),
                                                         );
                                                       },
@@ -434,6 +442,9 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                                               height: 10,
                                             ),
                                           ),
+                                          if (prescriptionDetail!
+                                                  .quantityUsed !=
+                                              prescriptionDetail!.quantity)
                                           SliverList.separated(
                                             itemCount: _timesAfternoon1.length,
                                             itemBuilder: (context, index) {
@@ -444,41 +455,27 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                                                         showDialog(
                                                           context: context,
                                                           builder: (context) =>
-                                                              AlertDialog(
-                                                            icon: const Icon(Icons
-                                                                .warning_rounded),
-                                                            title: const Text(
-                                                                "Xoá lịch uống thuốc"),
-                                                            content: const Text(
-                                                                "Bạn có chắc là muốn xoá lịch uống thuốc này không?"),
-                                                            actions: [
-                                                              TextButton(
-                                                                  onPressed:
-                                                                      () async {
-                                                                    await deleteSchedule(
-                                                                        id,
-                                                                        context);
-                                                                    listScheduleDetail
-                                                                        ?.removeWhere((e) =>
-                                                                            e.idScheduleDetail ==
-                                                                            id);
-                                                                    renderListSchedule();
-                                                                    setState(
-                                                                        () {});
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: Text(
-                                                                      "Có")),
-                                                              TextButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: Text(
-                                                                      "Không"))
-                                                            ],
+                                                              CustomDialog(
+                                                            icon: Icons
+                                                                .warning_rounded,
+                                                            title:
+                                                                "Xoá lịch uống thuốc",
+                                                            subtitle:
+                                                                "Bạn có chắc là muốn xoá lịch uống thuốc này không?",
+                                                            onPositive:
+                                                                () async {
+                                                              await deleteSchedule(
+                                                                  id, context);
+                                                              listScheduleDetail
+                                                                  ?.removeWhere(
+                                                                      (e) =>
+                                                                          e.idScheduleDetail ==
+                                                                          id);
+                                                              renderListSchedule();
+                                                              setState(() {});
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
                                                           ),
                                                         );
                                                       },
@@ -518,6 +515,9 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                                               height: 10,
                                             ),
                                           ),
+                                          if (prescriptionDetail!
+                                                  .quantityUsed !=
+                                              prescriptionDetail!.quantity)
                                           SliverList.separated(
                                             itemCount: _timesNight1.length,
                                             itemBuilder: (context, index) {
@@ -527,41 +527,27 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                                                         showDialog(
                                                           context: context,
                                                           builder: (context) =>
-                                                              AlertDialog(
-                                                            icon: const Icon(Icons
-                                                                .warning_rounded),
-                                                            title: const Text(
-                                                                "Xoá lịch uống thuốc"),
-                                                            content: const Text(
-                                                                "Bạn có chắc là muốn xoá lịch uống thuốc này không?"),
-                                                            actions: [
-                                                              TextButton(
-                                                                  onPressed:
-                                                                      () async {
-                                                                    await deleteSchedule(
-                                                                        id,
-                                                                        context);
-                                                                    listScheduleDetail
-                                                                        ?.removeWhere((e) =>
-                                                                            e.idScheduleDetail ==
-                                                                            id);
-                                                                    renderListSchedule();
-                                                                    setState(
-                                                                        () {});
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: Text(
-                                                                      "Có")),
-                                                              TextButton(
-                                                                  onPressed:
-                                                                      () {
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  },
-                                                                  child: Text(
-                                                                      "Không"))
-                                                            ],
+                                                              CustomDialog(
+                                                            icon: Icons
+                                                                .warning_rounded,
+                                                            title:
+                                                                "Xoá lịch uống thuốc",
+                                                            subtitle:
+                                                                "Bạn có chắc là muốn xoá lịch uống thuốc này không?",
+                                                            onPositive:
+                                                                () async {
+                                                              await deleteSchedule(
+                                                                  id, context);
+                                                              listScheduleDetail
+                                                                  ?.removeWhere(
+                                                                      (e) =>
+                                                                          e.idScheduleDetail ==
+                                                                          id);
+                                                              renderListSchedule();
+                                                              setState(() {});
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
                                                           ),
                                                         );
                                                       },
@@ -607,6 +593,9 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                                           const SliverToBoxAdapter(
                                             child: Divider(),
                                           ),
+                                          if (prescriptionDetail!
+                                                  .quantityUsed !=
+                                              prescriptionDetail!.quantity)
                                           SliverToBoxAdapter(
                                             child: InkWell(
                                               onTap: () async {
@@ -644,14 +633,20 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                                                   ScheduleDetailModel? res =
                                                       await repo
                                                           .insertScheduleDetail({
-                                                    "id_app_detail": 
+                                                    "id_app_detail":
                                                         prescriptionDetail!
-                                                        .idPreDetail ?? -1,
+                                                                .idPreDetail ??
+                                                            -1,
                                                     // ignore: prefer_null_aware_operators
-                                                    "id_schedule": widget.model == null ? null : widget
-                                                        .model!.idSchedule,
-                                                    "quantity_used": prescriptionDetail!
-                                                        .quantityUsed ?? -1,
+                                                    "id_schedule":
+                                                        widget.model == null
+                                                            ? null
+                                                            : widget.model!
+                                                                .idSchedule,
+                                                    "quantity_used":
+                                                        prescriptionDetail!
+                                                                .quantityUsed ??
+                                                            -1,
                                                     "time_use":
                                                         "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}:00"
                                                   });

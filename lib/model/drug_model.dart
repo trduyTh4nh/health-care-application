@@ -46,6 +46,7 @@ class DrugModel {
       sideEffect: json["side_effect"] ?? "",
       productionDate: json["production_date"] ?? "",
       price: double.parse(json["price"]),
+      drugImage: json["image"],
       description: json["description"] ?? "",
       code: json["code"],
       unit: json["unit"]);

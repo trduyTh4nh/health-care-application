@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:timezone/timezone.dart';
 
 part 'json/notification_model.g.dart';
 
@@ -35,19 +36,19 @@ class NotificationModel {
   Map<String, dynamic> toJson() => _$NotificationModelToJson(this);
 
   String convertTime(DateTime time) {
-    final now = DateTime.now();
-    final difference = now.difference(time);
-
+    final now = TZDateTime.now(local);
+    final tzTime = TZDateTime.from(time, local);
+    final difference = now.difference(tzTime);
     if (difference.inMinutes < 1) {
-      return "Vừa xong";
+      return "Vừa xong • ${DateFormat("hh:mm").format(tzTime)}";
     } else if (difference.inMinutes < 60) {
-      return "${difference.inMinutes} Phút trước";
+      return "${difference.inMinutes} Phút trước • ${DateFormat("HH:mm").format(tzTime)}";
     } else if (difference.inHours < 24) {
-      return "${difference.inHours} Giờ trước";
+      return "${difference.inHours} Giờ trước • ${DateFormat("HH:mm").format(tzTime)}";
     } else if (difference.inDays < 7) {
-      return "${difference.inDays} Ngày trước";
+      return "${difference.inDays} Ngày trước • ${DateFormat("dd/MM/yyyy HH:mm").format(tzTime)}";
     } else {
-      return "${(difference.inDays / 7).floor()} Tuần trước";
+      return "${(difference.inDays / 7).floor()} Tuần trước • ${DateFormat("dd/MM/yyyy HH:mm").format(tzTime)}";
     }
   }
 }
