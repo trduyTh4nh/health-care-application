@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:app_well_mate/components/custom_elevated_check_btn.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/notification_model.dart';
@@ -24,15 +26,15 @@ class _NotifyComponentState extends State<NotifyComponent> {
   Widget checkWidgetReturn(String cateWidget) {
     // ignore: unnecessary_null_comparison
     if (cateWidget != null) {
-      if (cateWidget == 'delivery' || cateWidget == 'confirm') {
+      if (cateWidget == '2' || cateWidget == 'confirm') {
         return OrderStatus(
           notifiItem: widget.notifiItem,
         );
       } else if (cateWidget == 'important') {
-        
         return HospitalDetailPage(notifiItem: widget.notifiItem);
       } else {
-        return DrugInfoPage(idPre: widget.notifiItem.idDonThuocCT!,);
+        log(widget.notifiItem.idDonThuocCT.toString());
+        return DrugInfoPage(idPre: widget.notifiItem.idDonThuocCT!, idScheSelected: widget.notifiItem.idScheduleDetail ?? 0,);
       }
     } else {
       return const ErrorPage();
@@ -52,7 +54,7 @@ class _NotifyComponentState extends State<NotifyComponent> {
                     checkWidgetReturn(widget.notifiItem.priority!)));
       },
       child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -80,7 +82,7 @@ class _NotifyComponentState extends State<NotifyComponent> {
                         children: [
                           widget.isImportant
                               ? Text(
-                                  'Quan trọng ${widget.notifiItem.idDonThuocCT}',
+                                  'Quan trọng',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodySmall!
@@ -91,9 +93,11 @@ class _NotifyComponentState extends State<NotifyComponent> {
                               : const SizedBox(),
                           Text(
                             widget.notifiItem.content!,
+                            maxLines: 3,
+                            
                             style: Theme.of(context).textTheme.bodyLarge,
                             softWrap: true,
-                            overflow: TextOverflow.visible,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           Text(
                             widget.notifiItem
@@ -106,16 +110,7 @@ class _NotifyComponentState extends State<NotifyComponent> {
                     const SizedBox(
                       width: 2,
                     ),
-                    (widget.notifiItem.status ?? false)
-                        ? const SizedBox()
-                        : CustomElevatedBtnCheck(
-                            onTap: () {},
-                            child:  Icon(
-                              Symbols.check,
-                              color: Colors.white,
-                            ),
-                            color: colorBox,
-                          )
+                    
                   ],
                 ),
               ),

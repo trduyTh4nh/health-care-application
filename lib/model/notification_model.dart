@@ -16,7 +16,7 @@ class NotificationModel {
   int? idDonThuocCT; // khóa ngoại
   int? idOrder; // khóa ngoại
   int? idPayment; // khóa ngoại
-
+  int? idScheduleDetail;
   NotificationModel(
       {this.id,
       this.content,
@@ -27,7 +27,8 @@ class NotificationModel {
       this.idDonThuocCT,
       this.idOrder,
       this.idPayment,
-      this.isComfirmed});
+      this.isComfirmed,
+      this.idScheduleDetail});
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) =>
       _$NotificationModelFromJson(json);

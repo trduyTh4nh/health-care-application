@@ -18,6 +18,6 @@ Map<String, dynamic> header(String token) {
       "Access-Control-Allow-Origin": "*",
       'Content-Type': 'application/json',
       'Accept': '*/*',
-      'Authorization': 'Bearer $token'
+      'Authorization': 'Bearer $token',
     };
   }

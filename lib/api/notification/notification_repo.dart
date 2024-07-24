@@ -1,6 +1,7 @@
+import 'dart:developer';
+
 import 'package:app_well_mate/api/api.dart';
 import 'package:app_well_mate/model/notification_model.dart';
-import 'package:app_well_mate/screen/search/component_crawl.dart';
 import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:dio/dio.dart';
 
@@ -15,7 +16,7 @@ class NotificationRepo {
       }
       return 0;
     } on DioException catch (ex) {
-      log(ex);
+      log(ex.toString());
       rethrow;
     }
   }
@@ -35,7 +36,7 @@ class NotificationRepo {
       }
       return null;
     } on DioException catch (ex) {
-      log(ex);
+      log(ex.toString());
       rethrow;
     }
   }

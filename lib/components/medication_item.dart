@@ -1,4 +1,5 @@
 import 'package:app_well_mate/api/drug/drug_repo.dart';
+import 'package:app_well_mate/api/notification/notification_repo.dart';
 import 'package:app_well_mate/components/custom_dialog.dart';
 import 'package:app_well_mate/components/custom_elevated_button.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
@@ -9,11 +10,15 @@ import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:app_well_mate/providers/notification_provider.dart';
 import 'package:app_well_mate/screen/drug_info.dart';
+import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 
 enum MedicationItemAction { delete, edit, snooze, buy, confirm }
+
+Duration delayDuration = const Duration(minutes: 10);
 
 class MedicationItem extends StatefulWidget {
   const MedicationItem(
@@ -33,6 +38,7 @@ class MedicationItem extends StatefulWidget {
 class _MedicationItemState extends State<MedicationItem> {
   bool showWarning = true;
   DrugRepo repo = DrugRepo();
+  NotificationRepo notifRepo = NotificationRepo();
   Future<void>? future;
   deleteDrug(BuildContext context) async {
     try {
@@ -77,6 +83,17 @@ class _MedicationItemState extends State<MedicationItem> {
                 widget.prescription.idPreDetail!);
       }
       widget.onUpdate!(widget.prescription.idScheduleDetail ?? -1);
+      int idUser = await SecureStorage.getUserId();
+      await notifRepo.insertNotification({
+        "content":
+            "Bạn đã ghi nhận uống thuốc ${widget.prescription.detail!.drug!.name}",
+        "time": DateTime.now().toString(),
+        "id_user": idUser,
+        "isconfirmed": false,
+        "id_invoice": null,
+        "priority": 3,
+        "id_schedule_detail": (widget.prescription.idScheduleDetail ?? 0).abs()
+      });
       showCustomSnackBar(context, "Đã ghi nhận uống thuốc này.");
     } else if (context.mounted) {
       showCustomSnackBar(context, "Lỗi khi cập nhật đơn thuốc");
@@ -247,8 +264,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                                                               .prescription
                                                                               .detail!
                                                                               .idPreDetail!,
-                                                                          const Duration(
-                                                                              seconds: 1));
+                                                                          delayDuration);
                                                                       if (context
                                                                           .mounted) {
                                                                         showCustomSnackBar(
@@ -361,8 +377,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                                             .prescription
                                                             .detail!
                                                             .idPreDetail!,
-                                                        const Duration(
-                                                            minutes: 10));
+                                                        delayDuration);
                                                 if (context.mounted) {
                                                   showCustomSnackBar(context,
                                                       "Hệ thống sẽ thông báo lại sau 10 phút về giờ uống thuốc của thuốc này.");

@@ -60,8 +60,8 @@ class _NotificationPageState extends State<NotificationPage> {
             _listRed = notifications!
                 .where((e) =>
                     (e.priority! == '1' ||
-                        e.priority! == '2' ||
-                        e.priority! == '3') &&
+                        e.priority! == '4' ||
+                        e.priority! == '5') &&
                     checkExpire(e.time!))
                 .toList();
             // sort
@@ -72,14 +72,17 @@ class _NotificationPageState extends State<NotificationPage> {
                 .toList();
             _listBlue.sort((a, b) => b.time!.compareTo(a.time!));
             return Container(
-              padding: const EdgeInsets.only(left: 24, right: 24),
+              
               child: CustomScrollView(
                 slivers: [
                   SliverToBoxAdapter(
-                    child: Text(
-                      'Quan trọng',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: Text(
+                        'Quan trọng',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ),  
                   ),
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
@@ -126,8 +129,11 @@ class _NotificationPageState extends State<NotificationPage> {
                         List<Widget> children = [];
 
                         if (arrRecently.isNotEmpty) {
-                          children.add(Text('Gần đây',
-                              style: Theme.of(context).textTheme.bodyLarge));
+                          children.add(Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            child: Text('Gần đây',
+                                style: Theme.of(context).textTheme.bodyLarge),
+                          ));
                           children.addAll(arrRecently.map((notification) {
                             return NotifyComponent(
                                 notifiItem: notification, isImportant: false);
@@ -135,8 +141,11 @@ class _NotificationPageState extends State<NotificationPage> {
                         }
 
                         if (arrYesterday.isNotEmpty) {
-                          children.add(Text('Hôm qua',
-                              style: Theme.of(context).textTheme.bodyLarge));
+                          children.add(Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            child: Text('Hôm qua',
+                                style: Theme.of(context).textTheme.bodyLarge),
+                          ));
                           children.addAll(arrYesterday.map((notification) {
                             return NotifyComponent(
                                 notifiItem: notification, isImportant: false);
@@ -144,8 +153,11 @@ class _NotificationPageState extends State<NotificationPage> {
                         }
 
                         if (arrFurther.isNotEmpty) {
-                          children.add(Text('Xa hơn',
-                              style: Theme.of(context).textTheme.bodyLarge));
+                          children.add(Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            child: Text('Xa hơn',
+                                style: Theme.of(context).textTheme.bodyLarge),
+                          ));
                           children.addAll(arrFurther.map((notification) {
                             return NotifyComponent(
                                 notifiItem: notification, isImportant: false);
@@ -153,8 +165,8 @@ class _NotificationPageState extends State<NotificationPage> {
                         }
 
                         return Column(
-                          children: children,
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          children: children,
                         );
                       },
                       childCount: 1,

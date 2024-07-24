@@ -51,7 +51,6 @@ class _LoginByEmailState extends State<LoginByEmail> {
       // lụm nó cho thầy
       if (r) {
         currentPassword = _passwordController.text;
-        print("lấy pass ra cho thầy: $currentPassword");
       }
       setState(() {
         isLoading = false;

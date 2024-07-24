@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:app_well_mate/api/drug/drug_repo.dart';
+import 'package:app_well_mate/api/notification/notification_repo.dart';
 import 'package:app_well_mate/api/schedule/schedule_repo.dart';
 import 'package:app_well_mate/components/info_component.dart';
 import 'package:app_well_mate/components/medication_item.dart';
@@ -12,9 +13,11 @@ import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/notification_model.dart';
 import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
+import 'package:app_well_mate/providers/notification_provider.dart';
 import 'package:app_well_mate/screen/drug/drug_item.dart';
 import 'package:app_well_mate/screen/drug/func_drug/index.dart';
 import 'package:app_well_mate/screen/drug/prescription_item.dart';
+import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
@@ -226,11 +229,11 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                                         );
                                       }
                                       if (listScheduleDetail!.isEmpty) {
-                                        return const Center(
+                                        return Center(
                                           child: ErrorInfo(
                                             title: "Thuốc không hợp lệ",
                                             subtitle:
-                                                "Có thể hệ thống đã bị lỗi, vui lòng thử lại sau.",
+                                                "Có thể hệ thống đã bị lỗi, vui lòng thử lại sau. ${widget.idPre}",
                                             icon: Symbols.pill_off,
                                           ),
                                         );
@@ -641,18 +644,16 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                                                   ScheduleDetailModel? res =
                                                       await repo
                                                           .insertScheduleDetail({
-                                                    "id_app_detail": widget
-                                                        .model!
-                                                        .detail!
-                                                        .idPreDetail,
-                                                    "id_schedule": widget
+                                                    "id_app_detail": 
+                                                        prescriptionDetail!
+                                                        .idPreDetail ?? -1,
+                                                    // ignore: prefer_null_aware_operators
+                                                    "id_schedule": widget.model == null ? null : widget
                                                         .model!.idSchedule,
-                                                    "quantity_used": widget
-                                                        .model!
-                                                        .detail!
-                                                        .quantityUsed,
+                                                    "quantity_used": prescriptionDetail!
+                                                        .quantityUsed ?? -1,
                                                     "time_use":
-                                                        "${time.hour}:${time.minute}:00"
+                                                        "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}:00"
                                                   });
                                                   if (res != null &&
                                                       context.mounted) {
@@ -752,14 +753,13 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
           child: Row(
             children: [
               Expanded(
-                child: ElevatedButton.icon(
+                child: FilledButton.icon(
                   style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 14, horizontal: 10),
-                      backgroundColor: AppColor.smoker),
-                  label: Text(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 14, horizontal: 10),
+                  ),
+                  label: const Text(
                     'Báo lại cho tôi sau 10 phút',
-                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   icon: const Icon(
                     Symbols.snooze,
@@ -767,7 +767,20 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                   ),
                   onPressed: listScheduleDetail!.isEmpty || idScheSelected == 0
                       ? null
-                      : () {},
+                      : () async {
+                          await Provider.of<NotificationProvider>(context,
+                                  listen: false)
+                              .snoozeNotification(
+                                  listScheduleDetail!.firstWhere((e) =>
+                                      e.idScheduleDetail == idScheSelected),
+                                  drugModel ?? widget.model!.detail!.drug!,
+                                  widget.idPre,
+                                  delayDuration);
+                          if (context.mounted) {
+                            showCustomSnackBar(context,
+                                "Hệ thống sẽ thông báo lại sau 10 phút về giờ uống thuốc của thuốc này.");
+                          }
+                        },
                 ),
               ),
               const SizedBox(
@@ -781,10 +794,6 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                   ),
                   label: Text(
                     'Đánh dấu đã uống',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(color: Colors.white),
                   ),
                   icon: const Icon(
                     Symbols.check,
@@ -824,15 +833,28 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                               (e) => e.idScheduleDetail == idScheSelected);
                           int res =
                               await DrugRepo().updateSchedule(idScheSelected);
-                          if (res == 1 && context.mounted) {
+                          if (res == 1) {
+                            int idUser = await SecureStorage.getUserId();
+                            await NotificationRepo().insertNotification({
+                              "content":
+                                  "Bạn đã ghi nhận uống thuốc ${drugModel != null ? drugModel!.name : widget.model!.detail!.drug!.name}",
+                              "time": DateTime.now().toString(),
+                              "id_user": idUser,
+                              "isconfirmed": false,
+                              "id_invoice": null,
+                              "priority": 3,
+                              "id_schedule_detail": idScheSelected
+                            });
                             setState(() {
                               listScheduleDetail![index].lastConfirmed =
                                   DateTime.now();
                               idScheSelected = 0;
                             });
-                            showCustomSnackBar(
-                                context, "Đã ghi nhận uống thuốc này.");
-                            Navigator.of(context, rootNavigator: true).pop();
+                            if (context.mounted) {
+                              showCustomSnackBar(
+                                  context, "Đã ghi nhận uống thuốc này.");
+                              Navigator.of(context, rootNavigator: true).pop();
+                            }
                           } else if (context.mounted) {
                             showCustomSnackBar(
                                 context, "Lỗi khi cập nhật đơn thuốc");
