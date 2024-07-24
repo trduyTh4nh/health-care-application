@@ -83,11 +83,13 @@ class _HomeState extends State<Home> {
       data.removeWhere((e) => e.idScheduleDetail == id);
     });
   }
-  
 
   @override
   void initState() {
     future = fetchData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<CartPageProvider>(context, listen: false).fetchDrugCart();
+    });
     super.initState();
   }
 
@@ -180,7 +182,7 @@ class _HomeState extends State<Home> {
                   return Badge(
                     largeSize: value.acts.isEmpty ? 0 : null,
                     label: Text(value.acts.length.toString()),
-                    child: Icon(
+                    child: const Icon(
                       Symbols.notifications,
                       size: 24,
                     ),

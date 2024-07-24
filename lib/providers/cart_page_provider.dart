@@ -28,6 +28,7 @@ class CartPageProvider extends ChangeNotifier {
   double get totalPrice => _totalPrice;
 
   Future<void> fetchDrugCart() async {
+    print("dang fetch data cartpage");
     removeAddress();
     listChecked = [];
     _totalPrice = 0;

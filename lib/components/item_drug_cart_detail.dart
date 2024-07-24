@@ -9,11 +9,13 @@ class itemDrugCartDetail extends StatelessWidget {
       {super.key,
       required this.item,
       required this.value,
-      required this.index});
+      required this.index,
+      required this.setLoading});
 
   final DrugCartDetailModel item;
   var value;
   var index;
+  final void Function(bool) setLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -51,30 +53,42 @@ class itemDrugCartDetail extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(item.drug!.name!,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(fontWeight: FontWeight.bold)),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 2 / 3,
+                      child: Text(item.drug!.name!,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(fontWeight: FontWeight.bold)),
+                    ),
                     const SizedBox(height: 4),
                     Text(convertCurrency(item.drug!.price!))
                   ],
                 ),
               ),
               const SizedBox(width: 8),
-              Text(item.drug!.unit ?? "",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(fontWeight: FontWeight.bold)),
-              const SizedBox(width: 8),
-              IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () {
-                  // showDialog(context: context, builder: builder)
-                  value.deleteDrugCartFromCart(item.idDrugCartDetail!);
-                },
-              ),
+              Row(
+                children: [
+                  Text(item.drug!.unit ?? "",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold)),
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () async {
+                      // showDialog(context: context, builder: builder)
+                      setLoading(true);
+
+                      await value
+                          .deleteDrugCartFromCart(item.idDrugCartDetail!);
+                      setLoading(false);
+                    },
+                  ),
+                ],
+              )
             ],
           ),
         ),
