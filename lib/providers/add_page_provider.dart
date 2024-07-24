@@ -150,7 +150,7 @@ class AddPageProvider extends ChangeNotifier {
       "id_application": _prescriptionModel!.idPre ?? -1,
       "quantity": _prescriptionDetail!.quantity,
       "list_schedule_detail": _scheduleDetailModel.map((e) => "${e!.timeOfUse!.hour.toString().padLeft(2, '0')}:${e.timeOfUse!.minute.toString().padLeft(2, '0')}:00").toList(),
-      "amount_per_consumption": _prescriptionDetail!.amountPerConsumption ?? 0,
+      "amount_per_consumption": habit,
       "id_user": idUser
     };
     var res = await drugRepo.addDrugToApp(data);

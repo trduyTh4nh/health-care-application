@@ -6,6 +6,7 @@ import 'package:app_well_mate/components/info_component.dart';
 import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/user_info_model.dart';
+import 'package:app_well_mate/providers/notification_provider.dart';
 import 'package:app_well_mate/screen/changeRePassword.dart';
 import 'package:app_well_mate/screen/developer.dart';
 import 'package:app_well_mate/screen/drug_manage.dart';
@@ -27,6 +28,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:provider/provider.dart';
 import 'login.dart';
 import 'package:app_well_mate/screen/user_information.dart';
 
@@ -175,20 +177,24 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                       largeSize: 0,
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const NotificationPage(),
-                        ),
-                      );
-                    },
-                    icon: const Icon(
-                      Symbols.notifications,
-                      size: 24,
-                    ),
-                  ),
+                  IconButton(onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const NotificationPage(),
+                      ),
+                    );
+                  }, icon: Consumer<NotificationProvider>(
+                      builder: (context, value, child) {
+                    return Badge(
+                      largeSize: value.acts.isEmpty ? 0 : null,
+                      label: Text(value.acts.length.toString()),
+                      child: const Icon(
+                        Symbols.notifications,
+                        size: 24,
+                      ),
+                    );
+                  })),
                 ],
               ),
               body: SingleChildScrollView(

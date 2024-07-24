@@ -8,6 +8,7 @@ import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
+import 'package:app_well_mate/providers/notification_provider.dart';
 
 import 'package:app_well_mate/screen/drug/schedule_pages/all_drug.dart';
 import 'package:app_well_mate/screen/drug/schedule_pages/drug_done.dart';
@@ -101,17 +102,22 @@ class _MedicationPageState extends State<MedicationPage>
                 largeSize: 0,
                 child: Icon(Symbols.deployed_code),
               )),
-          IconButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const NotificationPage()));
-              },
-              icon: const Icon(
+          IconButton(onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const NotificationPage()));
+          }, icon:
+              Consumer<NotificationProvider>(builder: (context, value, child) {
+            return Badge(
+              largeSize: value.acts.isEmpty ? 0 : null,
+              label: Text(value.acts.length.toString()),
+              child: Icon(
                 Symbols.notifications,
                 size: 24,
-              ))
+              ),
+            );
+          }))
         ],
       ),
       // floatingActionButton: const Column(
@@ -142,13 +148,14 @@ class _MedicationPageState extends State<MedicationPage>
                     "Missing authorization token") {
                   return ErrorInfo(
                     title: "Phiên đăng nhập đã hết hạn",
-                    subtitle:
-                        "Vui lòng đăng nhập lại.",
+                    subtitle: "Vui lòng đăng nhập lại.",
                     icon: Symbols.error,
-                    action: ElevatedButton(onPressed: () {
-                      ApiRepo().logOut(context);
-                      Navigator.pop(context);
-                    }, child: const Text("Đăng nhập lại")),
+                    action: ElevatedButton(
+                        onPressed: () {
+                          ApiRepo().logOut(context);
+                          Navigator.pop(context);
+                        },
+                        child: const Text("Đăng nhập lại")),
                   );
                 }
                 log(excep.response!.data["message"].toString());
