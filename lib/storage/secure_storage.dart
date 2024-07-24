@@ -6,6 +6,9 @@ class SecureStorage {
   static AndroidOptions _getOptions() =>
       const AndroidOptions(encryptedSharedPreferences: true);
   static final storage = FlutterSecureStorage(aOptions: _getOptions());
+  static clearToken() async {
+    await storage.delete(key: "token");
+  }
   static Future<bool> saveUser(String token, String user) async {
     try {
       await storage.write(key: "token", value: token);

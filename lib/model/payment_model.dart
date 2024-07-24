@@ -37,7 +37,8 @@ List<PaymentModel> generatePaymentList(int amount) {
     amount,
     (i) => PaymentModel(
         idPayment: i,
-        datePay: DateTime(2024, Random().nextInt(12), Random().nextInt(28), Random().nextInt(24), Random().nextInt(60), Random().nextInt(60)),
+        datePay: DateTime(2024, Random().nextInt(12), Random().nextInt(28),
+            Random().nextInt(24), Random().nextInt(60), Random().nextInt(60)),
         paymentMethod: paymentMethod[Random().nextInt(2)],
         status: Random().nextInt(2) == 0,
         notes: "test",
