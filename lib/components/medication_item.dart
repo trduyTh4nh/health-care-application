@@ -70,10 +70,11 @@ class _MedicationItemState extends State<MedicationItem> {
               toSecond(widget.prescription.timeOfUse!))
           : -1;
       if (timeDiffSec < 0) {
-        await Provider.of<NotificationProvider>(context, listen: false).scheduleNotification(
-            widget.prescription,
-            widget.prescription.detail!.drug!,
-            widget.prescription.idPreDetail!);
+        await Provider.of<NotificationProvider>(context, listen: false)
+            .scheduleNotification(
+                widget.prescription,
+                widget.prescription.detail!.drug!,
+                widget.prescription.idPreDetail!);
       }
       widget.onUpdate!(widget.prescription.idScheduleDetail ?? -1);
       showCustomSnackBar(context, "Đã ghi nhận uống thuốc này.");
@@ -213,8 +214,8 @@ class _MedicationItemState extends State<MedicationItem> {
                                                               color: accent,
                                                               onTap: () {
                                                                 setState(() {
-                                                                  future =
-                                                                      confirm(context);
+                                                                  future = confirm(
+                                                                      context);
                                                                 });
                                                               },
                                                               child: Icon(
@@ -234,7 +235,27 @@ class _MedicationItemState extends State<MedicationItem> {
                                                                     color:
                                                                         accent,
                                                                     onTap:
-                                                                        () {},
+                                                                        () async {
+                                                                      await Provider.of<NotificationProvider>(context, listen: false).snoozeNotification(
+                                                                          widget
+                                                                              .prescription,
+                                                                          widget
+                                                                              .prescription
+                                                                              .detail!
+                                                                              .drug!,
+                                                                          widget
+                                                                              .prescription
+                                                                              .detail!
+                                                                              .idPreDetail!,
+                                                                          const Duration(
+                                                                              seconds: 1));
+                                                                      if (context
+                                                                          .mounted) {
+                                                                        showCustomSnackBar(
+                                                                            context,
+                                                                            "Hệ thống sẽ thông báo lại sau 10 phút về giờ uống thuốc của thuốc này.");
+                                                                      }
+                                                                    },
                                                                     child: Icon(
                                                                       Icons
                                                                           .snooze,
@@ -315,7 +336,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                                     title:
                                                         Text("Xoá thuốc này"))),
                                           ],
-                                          onSelected: (value) {
+                                          onSelected: (value) async {
                                             switch (value) {
                                               case MedicationItemAction.buy:
                                                 Provider.of<CartPageProvider>(
@@ -326,6 +347,26 @@ class _MedicationItemState extends State<MedicationItem> {
                                                             .detail!.drug!,
                                                         context);
 
+                                                break;
+                                              case MedicationItemAction.snooze:
+                                                await Provider.of<
+                                                            NotificationProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .snoozeNotification(
+                                                        widget.prescription,
+                                                        widget.prescription
+                                                            .detail!.drug!,
+                                                        widget
+                                                            .prescription
+                                                            .detail!
+                                                            .idPreDetail!,
+                                                        const Duration(
+                                                            minutes: 10));
+                                                if (context.mounted) {
+                                                  showCustomSnackBar(context,
+                                                      "Hệ thống sẽ thông báo lại sau 10 phút về giờ uống thuốc của thuốc này.");
+                                                }
                                                 break;
                                               case MedicationItemAction.delete:
                                                 showDialog(

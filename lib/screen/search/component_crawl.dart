@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:app_well_mate/main.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class ComponentCrawl extends StatefulWidget {
   const ComponentCrawl(
@@ -57,121 +59,191 @@ class _ComponentCrawlState extends State<ComponentCrawl> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Thông tin bệnh'),
-      ),
-      body: isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : ListView.builder(
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                final disease = diseases[widget.position!];
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        disease['title'] ?? 'Không có tiêu đề',
-                        style:
-                            Theme.of(context).textTheme.titleLarge?.copyWith(
-                                  fontWeight: FontWeight.bold,
+    return Stack(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xff6a94ff), Colors.white],
+          )),
+          // height: MediaQuery.of(context).size.height * 1 / 2,
+        ),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: colorScheme.surface.withAlpha(100),
+            title: const Text('Thông tin bệnh'),
+          ),
+          body: isLoading
+              ? Center(
+                  child: LoadingAnimationWidget.flickr(
+                  leftDotColor: colorScheme.primary,
+                  rightDotColor: colorScheme.error,
+                  size: 48,
+                ))
+              : ListView.builder(
+                  itemCount: 1,
+                  itemBuilder: (context, index) {
+                    final disease = diseases[widget.position];
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Row(
+                            children: [
+                              if (disease['image'] != null)
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.network(
+                                    disease['image'],
+                                    height: 150,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                      ),
-                      const SizedBox(height: 8.0),
-                      if (disease['image'] != null)
-                        Image.network(
-                          disease['image'],
-                          height: 150,
-                          fit: BoxFit.cover,
-                        ),
-                      Text(
-                        disease['doctor'] ?? '',
-                        style:
-                            Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  fontStyle: FontStyle.italic,
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: SizedBox(
+                                  width: 220,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        maxLines: 2,
+                                        disease['title'] ?? 'Không có tiêu đề',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                      Text(
+                                        disease['doctor'] ?? '',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.copyWith(
+                                              fontStyle: FontStyle.italic,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                      ),
-                      const SizedBox(height: 8.0),
-                      Text(
-                        disease['description'] ?? 'Không có mô tả',
-                        style:
-                            Theme.of(context).textTheme.bodySmall?.copyWith(
-                                  fontStyle: FontStyle.italic,
-                                ),
-                      ),
-                      const SizedBox(height: 16.0),
-                      if (disease['data'] != null) ...[
-                        // Hiển thị thông tin từ `data`
-                        for (var item in disease['data']) ...[
-                          Text(
-                            item['h2'] ?? '',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge
-                                ?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
                           ),
                           const SizedBox(height: 8.0),
-                          if (item['h2_p'] != null) ...[
-                            ...((item['h2_p'] as List<dynamic>)
-                                .map((paragraph) {
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 4.0),
-                                child: Text(
-                                  paragraph,
-                                  style:
-                                      Theme.of(context).textTheme.bodySmall,
-                                ),
-                              );
-                            })).toList(),
-                            const SizedBox(height: 8.0),
-                          ],
-                          if (item['h3_p'] != null) ...[
-                            ...((item['h3_p'] as List<dynamic>)
-                                .map((h3_p_item) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    h3_p_item['h3'] ?? '',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.7),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              disease['description'] ?? 'Không có mô tả',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(
+                                    fontStyle: FontStyle.italic,
                                   ),
-                                  const SizedBox(height: 4.0),
-                                  ...((h3_p_item['p'] as List<dynamic>)
-                                      .map((paragraph) {
-                                    return Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 4.0),
+                            ),
+                          ),
+                          const SizedBox(height: 16.0),
+                          if (disease['data'] != null) ...[
+                            // Hiển thị thông tin từ `data`
+                            for (var item in disease['data']) ...[
+                              Text(
+                                item['h2'] ?? '',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
+                              const SizedBox(height: 8.0),
+                              if (item['h2_p'] != null) ...[
+                                ...((item['h2_p'] as List<dynamic>)
+                                    .map((paragraph) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 4.0),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white.withOpacity(0.7),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
                                       child: Text(
                                         paragraph,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodySmall,
+                                            .labelLarge,
                                       ),
-                                    );
-                                  })).toList(),
-                                  const SizedBox(height: 8.0),
-                                ],
-                              );
-                            })).toList(),
+                                    ),
+                                  );
+                                })).toList(),
+                                const SizedBox(height: 8.0),
+                              ],
+                              if (item['h3_p'] != null) ...[
+                                ...((item['h3_p'] as List<dynamic>)
+                                    .map((h3_p_item) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                        padding: const EdgeInsets.all(12),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(0.7),
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                        ),
+                                        child: Text(
+                                          h3_p_item['h3'] ?? '',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge
+                                              ?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4.0),
+                                      ...((h3_p_item['p'] as List<dynamic>)
+                                          .map((paragraph) {
+                                        return Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 4.0),
+                                          child: Text(
+                                            paragraph,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
+                                          ),
+                                        );
+                                      })).toList(),
+                                      const SizedBox(height: 8.0),
+                                    ],
+                                  );
+                                })).toList(),
+                              ],
+                            ],
                           ],
                         ],
-                      ],
-                    ],
-                  ),
-                );
-              },
-            ),
+                      ),
+                    );
+                  },
+                ),
+        ),
+      ],
     );
   }
 }

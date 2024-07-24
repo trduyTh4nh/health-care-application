@@ -8,6 +8,7 @@ import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/prescription_detail_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/providers/notification_provider.dart';
+import 'package:app_well_mate/screen/search/component_crawl.dart';
 import 'package:barcode/barcode.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,57 +34,13 @@ class _PrescriptionPreviewState extends State<PrescriptionPreview> {
   List<ScheduleDetailModel>? data = [];
   Future<void>? addFuture;
   getData() async {
-    data = await repo.getPreDetail(widget.idPre);
+    data = await repo.getScheduleBy(widget.idPre);
     setState(() {});
   }
 
-  addToApplication(BuildContext context) async {
+  Future<int> addToApplication(BuildContext context) async {
     int res = await appRepo.scanApplication(widget.idPre);
-    List<ScheduleDetailModel>? lst = await drugRepo.getPreDetail(widget.idPre);
-    if (context.mounted && lst != null) {
-      if (context.mounted) {
-        if (res == 1) {
-          for (var element in lst) {
-            Provider.of<NotificationProvider>(context, listen: false)
-                .scheduleNotification(element, element.detail!.drug!,
-                    element.detail!.idPreDetail ?? -1);
-          }
-          Navigator.pop(context);
-          showCustomSnackBar(context, "Thêm đơn thuốc thành công!");
-        }
-      } else if (res == -1) {
-        Navigator.pop(context);
-        showDialog(
-            context: context,
-            builder: (context) => CustomDialog(
-                  icon: Symbols.person,
-                  title: "Đơn thuốc này đã có người sở hữu.",
-                  subtitle:
-                      "Điều này có nghĩa là đã có người đã quét đơn thuốc này và thêm đơn này vào tài khoản của họ.",
-                  onPositive: () async {
-                    String result;
-                    var res = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const SimpleBarcodeScannerPage(),
-                        ));
-                    if (res is String && context.mounted) {
-                      result = res;
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PrescriptionPreview(
-                                  idPre: int.parse(result))));
-                    }
-                  },
-                  positiveText: "Quét lại",
-                  negativeText: "Không, cảm ơn",
-                ));
-      } else {
-        showCustomSnackBar(context, "Lỗi khi thêm đơn thuốc. Mã lỗi $res");
-      }
-    }
+    return res;
   }
 
   @override
@@ -129,10 +86,62 @@ class _PrescriptionPreviewState extends State<PrescriptionPreview> {
             Expanded(
               child: ElevatedButton(
                   onPressed: data != null
-                      ? () {
-                          setState(() {
-                            addFuture = addToApplication(context);
-                          });
+                      ? () async {
+                          int res = await addToApplication(context);
+                          if (res == 1) {
+                            List<ScheduleDetailModel>? lst =
+                                await drugRepo.getScheduleBy(widget.idPre);
+                            log(lst);
+                            for (var element in lst ?? []) {
+                              log(element.toString());
+                              await Provider.of<NotificationProvider>(context,
+                                      listen: false)
+                                  .scheduleNotification(
+                                      element,
+                                      element.detail!.drug!,
+                                      element.detail!.idPreDetail ?? -1);
+                            }
+                            if (context.mounted) {
+                              Navigator.pop(context);
+                              showCustomSnackBar(
+                                  context, "Thêm đơn thuốc thành công!");
+                            }
+                          } else if (res == -1) {
+                            Navigator.pop(context);
+                            showDialog(
+                                context: context,
+                                builder: (context) => CustomDialog(
+                                      icon: Symbols.person,
+                                      title:
+                                          "Đơn thuốc này đã có người sở hữu.",
+                                      subtitle:
+                                          "Điều này có nghĩa là đã có người đã quét đơn thuốc này và thêm đơn này vào tài khoản của họ.",
+                                      onPositive: () async {
+                                        String result;
+                                        var res = await Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SimpleBarcodeScannerPage(),
+                                            ));
+                                        if (res is String && context.mounted) {
+                                          result = res;
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PrescriptionPreview(
+                                                          idPre: int.parse(
+                                                              result))));
+                                        }
+                                      },
+                                      positiveText: "Quét lại",
+                                      negativeText: "Không, cảm ơn",
+                                    ));
+                          } else {
+                            showCustomSnackBar(
+                                context, "Lỗi khi thêm đơn thuốc. Mã lỗi $res");
+                          }
                         }
                       : null,
                   child: FutureBuilder(
@@ -284,7 +293,7 @@ class _PrescriptionPreviewState extends State<PrescriptionPreview> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        "${e.detail!.amountPerConsumption} ${e.detail!.drug!.unit} 1 ngày",
+                                        "Uống lúc ${e.timeOfUse!.hour.toString().padLeft(2, '0')}:${e.timeOfUse!.minute.toString().padLeft(2, '0')} mỗi ngày",
                                         style: Theme.of(context)
                                             .textTheme
                                             .labelMedium,

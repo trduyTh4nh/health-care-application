@@ -4,7 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class ErrorInfo extends StatelessWidget {
-  const ErrorInfo({super.key, required this.title, required this.subtitle, this.action, this.icon});
+  const ErrorInfo(
+      {super.key,
+      required this.title,
+      required this.subtitle,
+      this.action,
+      this.icon});
   final String title;
   final String subtitle;
   final IconData? icon;
@@ -17,11 +22,16 @@ class ErrorInfo extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            icon != null ? Icon(
-              icon,
-              size: 32,
-              color: colorScheme.primary,
-            ) : const SizedBox(),
+            icon != null
+                ? Icon(
+                    icon,
+                    size: 32,
+                    color: colorScheme.primary,
+                  )
+                : const SizedBox(),
+            const SizedBox(
+              height: 10,
+            ),
             Text(
               title,
               style: Theme.of(context).textTheme.headlineLarge,
@@ -31,6 +41,7 @@ class ErrorInfo extends StatelessWidget {
               subtitle,
               textAlign: TextAlign.center,
             ),
+            if (action != null) const SizedBox(height: 11),
             action ?? const SizedBox()
           ],
         ),

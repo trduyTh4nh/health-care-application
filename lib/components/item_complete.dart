@@ -26,8 +26,11 @@ class item_complete extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(drug.drug!.name!,
-                      style: Theme.of(context).textTheme.bodyLarge),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 2 / 3,
+                    child: Text(drug.drug!.name!,
+                        style: Theme.of(context).textTheme.bodyLarge),
+                  ),
                   Text(
                       "${drug.quantity} ${drug.drug!.unit}_ ${convertCurrency(drug.drug!.price)}/ ${drug.drug!.unit}",
                       style: Theme.of(context).textTheme.labelSmall),
