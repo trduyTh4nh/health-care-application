@@ -248,7 +248,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                                                               .detail!
                                                                               .idPreDetail!,
                                                                           const Duration(
-                                                                              minutes: 10));
+                                                                              seconds: 1));
                                                                       if (context
                                                                           .mounted) {
                                                                         showCustomSnackBar(

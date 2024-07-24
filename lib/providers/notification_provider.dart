@@ -198,8 +198,9 @@ class NotificationProvider extends ChangeNotifier {
           "time": DateTime.now().toString(),
           "id_user": idUser,
           "isconfirmed": false,
+          "id_invoice": null,
           "priority": 1,
-          "id_schedule_detail": event.id ?? -1
+          "id_schedule_detail": (event.id ?? 0).abs()
         });
         updateNotifRequests();
       }
