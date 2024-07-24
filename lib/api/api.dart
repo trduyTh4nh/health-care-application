@@ -13,11 +13,22 @@ class API {
 
   Dio get sendRequest => _dio;
 }
+
 Map<String, dynamic> header(String token) {
-    return {
-      "Access-Control-Allow-Origin": "*",
-      'Content-Type': 'application/json',
-      'Accept': '*/*',
-      'Authorization': 'Bearer $token'
-    };
-  }
+  return {
+    "Access-Control-Allow-Origin": "*",
+    'Content-Type': 'application/json',
+    'Accept': '*/*',
+    'Authorization': 'Bearer $token'
+  };
+}
+
+Map<String, dynamic> adminHeader(String token, String adminToken) {
+  return {
+    "Access-Control-Allow-Origin": "*",
+    'Content-Type': 'application/json',
+    'Accept': '*/*',
+    'Authorization': 'Bearer $token',
+    'x-admin-key': adminToken
+  };
+}
