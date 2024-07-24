@@ -106,13 +106,15 @@ class _ComponentCrawlState extends State<ComponentCrawl> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 8),
                                 child: SizedBox(
-                                  width: 220,
+                                  width:
+                                      MediaQuery.of(context).size.width * 1 / 2,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 3,
                                         disease['title'] ?? 'Không có tiêu đề',
                                         style: Theme.of(context)
                                             .textTheme
@@ -226,7 +228,7 @@ class _ComponentCrawlState extends State<ComponentCrawl> {
                                             paragraph,
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .bodySmall,
+                                                .labelLarge,
                                           ),
                                         );
                                       })).toList(),

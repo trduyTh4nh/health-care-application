@@ -38,7 +38,6 @@ class _WidgetBuyMedicine extends State<WidgetBuyMedicine> {
                                   const Icon(Icons.image),
                               // drug!.drugImage ?? ''
                               item.drug!.drugImage ?? '',
-
                               width: 50,
                               height: 50,
                             ),

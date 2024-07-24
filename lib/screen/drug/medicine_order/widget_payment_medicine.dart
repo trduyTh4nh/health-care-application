@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:app_well_mate/components/auto_complete_widget.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/notification_model.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
@@ -49,14 +50,15 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
     print("set state cho ");
     setState(() {
       _postalController.text = province['postal_code'];
-      _coundtryCodeController.text = province['area_code'];
+      _coundtryCodeController.text = province['area_code'].toString();
+      _cityNameController.text = province['name'];
     });
   }
 
   String? validatorPhoneNumber(String? value) {
     if (value == null) {
       return 'Vui lòng nhập số điện thoại';
-    } else if (value.length != 10) {
+    } else if (value.length != 10 || value.contains(".")) {
       // Changed to check length of the phone number
       return 'Số điện thoại không hợp lệ';
     }
@@ -116,6 +118,16 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
     _coundtryCodeController.dispose();
     _postalController.dispose();
     _phoneNumberressController.dispose();
+  }
+
+  void destroyDataAddress() {
+    setState(() {
+      _nameStreetController.clear();
+      _cityNameController.clear();
+      _coundtryCodeController.clear();
+      _postalController.clear();
+      _phoneNumberressController.clear();
+    });
   }
 
   @override
@@ -196,7 +208,12 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                       _phoneNumberressController.text =
                                           splitString[4];
                                       newMethod(
-                                          context, sizeHeight, isAdd, address);
+                                        context,
+                                        sizeHeight,
+                                        isAdd,
+                                        onProvinceSelected,
+                                        address,
+                                      );
                                     },
                                   ),
                                 ),
@@ -214,7 +231,8 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                 child: InkWell(
                   onTap: () {
                     isAdd = true;
-                    newMethod(context, sizeHeight, isAdd);
+                    destroyDataAddress();
+                    newMethod(context, sizeHeight, isAdd, onProvinceSelected);
                   },
                   child: Row(
                     children: [
@@ -233,6 +251,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
   }
 
   Future<dynamic> newMethod(BuildContext context, double sizeHeight, bool isAdd,
+      void Function(Map<String, dynamic> province) onProvinceSelected,
       [AddressModel? addressA]) {
     return showModalBottomSheet(
       isScrollControlled: true,
@@ -269,26 +288,27 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                         TextFormField(
                           validator: (nameAddress) => nameAddress!.isEmpty
                               ? "Vui lòng nhập tên đường!"
-                              : "",
+                              : null,
                           controller: _nameStreetController,
                           decoration: const InputDecoration(
                               labelText: "Nhập tên đường"),
                         ),
-                        const Column(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Chọn khu vực'),
-                            AutocompleteBasicExample(),
+                            const Text('Chọn khu vực'),
+                            AutocompleteBasicExample(
+                              onProvinceSelected: onProvinceSelected,
+                              isAdd: isAdd,
+                              coundTryController: _cityNameController,
+                            ),
                           ],
                         ),
                         Row(
                           children: [
                             Expanded(
                               child: TextFormField(
-                                validator: (coundtryCode) =>
-                                    coundtryCode!.isEmpty
-                                        ? "Vui lòng nhập mã vùng!"
-                                        : "",
+                                readOnly: true,
                                 controller: _coundtryCodeController,
                                 decoration:
                                     const InputDecoration(labelText: "Mã vùng"),
@@ -299,9 +319,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                             ),
                             Expanded(
                               child: TextFormField(
-                                validator: (postalCode) => postalCode!.isEmpty
-                                    ? "Vui lòng nhập postal code!"
-                                    : "",
+                                readOnly: true,
                                 controller: _postalController,
                                 decoration: const InputDecoration(
                                     labelText: "Postal code"),
@@ -310,6 +328,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                           ],
                         ),
                         TextFormField(
+                          keyboardType: TextInputType.phone,
                           validator: validatorPhoneNumber,
                           controller: _phoneNumberressController,
                           decoration:
@@ -324,6 +343,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                   ? () {
                                       if (_formKey.currentState!.validate()) {
                                         String allinFo = getAddress();
+                                        print("ten day du: $allinFo");
                                         _addAddress(allinFo);
                                         Navigator.pop(context);
 
@@ -344,6 +364,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                       _coundtryCodeController.clear();
                                       _postalController.clear();
                                       _phoneNumberressController.clear();
+
                                       Navigator.pop(context);
                                     },
                               child: const Text("Xong"),
@@ -356,50 +377,6 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                 ),
               ),
             ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-class AutocompleteBasicExample extends StatelessWidget {
-  const AutocompleteBasicExample({super.key});
-
-  static final List<Map<String, dynamic>> _kOptions = vietNemprovince;
-
-  @override
-  Widget build(BuildContext context) {
-    return Autocomplete<String>(
-      optionsBuilder: (TextEditingValue textEditingValue) {
-        if (textEditingValue.text == '') {
-          return const Iterable<String>.empty();
-        }
-        return _kOptions.where((Map<String, dynamic> option) {
-          return option['name']
-              .toLowerCase()
-              .contains(textEditingValue.text.toLowerCase());
-        }).map((option) => option['name'] as String);
-      },
-      onSelected: (String selection) {
-        debugPrint('You just selected $selection');
-        // Gọi hàm onProvinceSelected với province đã chọn
-        final selectedProvince = _kOptions.firstWhere(
-            (Map<String, dynamic> option) => option['name'] == selection);
-        // Đặt các giá trị đã chọn vào các TextEditingController tương ứng
-        final parentState =
-            context.findAncestorStateOfType<_WidgetPaymentMedicine>();
-        parentState?.onProvinceSelected(selectedProvince);
-      },
-      fieldViewBuilder: (BuildContext context,
-          TextEditingController textEditingController,
-          FocusNode focusNode,
-          VoidCallback onFieldSubmitted) {
-        return TextFormField(
-          controller: textEditingController,
-          focusNode: focusNode,
-          decoration: const InputDecoration(
-            labelText: "Nhập thành phố",
           ),
         );
       },
