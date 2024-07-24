@@ -98,9 +98,12 @@ class CartPageProvider extends ChangeNotifier {
 
   void calculateTotalPrice() {
     _totalPrice = 0.0;
-    for (int i = 0; i < listDrugCart.length; i++) {
-      if (_isChecked[i]) {
-        _totalPrice += listDrugCart[i].drug!.price! * listDrugCart[i].quantity!;
+    if (listDrugCart.isNotEmpty) {
+      for (int i = 0; i < listDrugCart.length; i++) {
+        if (_isChecked[i]) {
+          _totalPrice +=
+              listDrugCart[i].drug!.price! * listDrugCart[i].quantity!;
+        }
       }
     }
   }

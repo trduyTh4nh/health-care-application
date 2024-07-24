@@ -37,7 +37,7 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         children: [
                           SizedBox(
@@ -46,17 +46,17 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
                             child: LoadingAnimationWidget.flickr(
                               leftDotColor: colorScheme.primary,
                               rightDotColor: colorScheme.error,
-                              size: 48,
+                              size: 32,
                             ),
                           ),
                           const SizedBox(
-                            width: 15,
+                            width: 20,
                           ),
                           Expanded(
                             child: SizedBox(
                               width: double.infinity,
                               child: Text(
-                                "Đơn thuốc đang được chuẩn bị bởi nhà thuốc",
+                                "Đang đợi thanh toán",
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleLarge!
@@ -95,58 +95,28 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
                 ),
               ),
             ),
-            Material(
-              elevation: 50,
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 15),
-                      child: Text("Phương thức thanh toán"),
+            Row(
+              children: [
+                Expanded(
+                  child: Material(
+                    elevation: 50,
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: value.selectedAddress != null ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("Địa chỉ giao hàng"),
+                          Text(
+                            getAdress(value.selectedAddress!.address!),
+                            style: Theme.of(context).textTheme.titleMedium,
+                          )
+                        ],
+                      ) : const SizedBox(),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              height: 50,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(25),
-                                child: Image.network(
-                                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGxsoe7iPccCnGraliGFCLCvbg3bO3PDtELQ&s"),
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("Visa",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium),
-                                const Text("******12"),
-                              ],
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
-                    const Text("Địa chỉ giao hàng"),
-                    Text(
-                      getAdress(value.selectedAddress!.address!),
-                      style: Theme.of(context).textTheme.titleMedium,
-                    )
-                  ],
+                  ),
                 ),
-              ),
+              ],
             )
           ],
         ),

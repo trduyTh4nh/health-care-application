@@ -92,8 +92,8 @@ class _DrugTodayState extends State<DrugToday>
               SliverList.separated(
                 itemCount: expiredData.length,
                 itemBuilder: (context, index) => MedicationItem(
-                  onUpdate: (scheid) {
-                    onUpdate(scheid);
+                  onUpdate: (scheid, preDetailId) {
+                    onUpdate(scheid, preDetailId);
                   },
                   prescription: expiredData[index],
                   titleText: index == 0 ? "Quá giờ uống thuốc" : null,
@@ -106,8 +106,8 @@ class _DrugTodayState extends State<DrugToday>
               SliverList.separated(
                 itemCount: morningData.length,
                 itemBuilder: (context, index) => MedicationItem(
-                  onUpdate: (scheid) {
-                    onUpdate(scheid);
+                  onUpdate: (scheid, preDetailId) {
+                    onUpdate(scheid, preDetailId);
                   },
                   prescription: morningData[index],
                   titleText: index == 0 ? "Sáng nay" : null,
@@ -120,8 +120,8 @@ class _DrugTodayState extends State<DrugToday>
               SliverList.separated(
                 itemCount: noonData.length,
                 itemBuilder: (context, index) => MedicationItem(
-                  onUpdate: (scheid) {
-                    onUpdate(scheid);
+                  onUpdate: (scheid, preDetailId) {
+                    onUpdate(scheid, preDetailId);
                   },
                   prescription: noonData[index],
                   titleText: index == 0 ? "Chiều nay" : null,
@@ -134,8 +134,8 @@ class _DrugTodayState extends State<DrugToday>
               SliverList.separated(
                 itemCount: eveningData.length,
                 itemBuilder: (context, index) => MedicationItem(
-                  onUpdate: (scheid) {
-                    onUpdate(scheid);
+                  onUpdate: (scheid, preDetailId) {
+                    onUpdate(scheid, preDetailId);
                   },
                   prescription: eveningData[index],
                   titleText: index == 0 ? "Tối nay" : null,
@@ -150,10 +150,15 @@ class _DrugTodayState extends State<DrugToday>
         });
   }
 
-  void onUpdate(int scheid) {
+  void onUpdate(int scheid, int preDetailId){
     setState(() {
       mockData.removeWhere((e) => e.idScheduleDetail == scheid);
     });
+    for (int i = 0; i < mockData.length; i++) {
+      if (mockData[i].idPreDetail! == preDetailId) {
+        mockData[i].detail!.quantityUsed = mockData[i].detail!.quantityUsed! + 1;
+      }
+    }
   }
 
   void onDelete(int id, BuildContext context) {

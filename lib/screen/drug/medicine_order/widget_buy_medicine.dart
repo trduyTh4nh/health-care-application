@@ -35,7 +35,7 @@ class _WidgetBuyMedicine extends State<WidgetBuyMedicine> {
                           children: [
                             Image.network(
                               errorBuilder: (context, error, stackTrace) =>
-                                  const Icon(Icons.image),
+                                  const Icon(Symbols.pill),
                               // drug!.drugImage ?? ''
                               item.drug!.drugImage ?? '',
                               width: 50,
@@ -72,34 +72,6 @@ class _WidgetBuyMedicine extends State<WidgetBuyMedicine> {
                               ),
                             ),
                           ],
-                        ),
-                        PopupMenuButton(
-                          style: Theme.of(context).iconButtonTheme.style,
-                          itemBuilder: (context) => const [
-                            PopupMenuItem(
-                                value: MedicationItemAction.delete,
-                                child: ListTile(
-                                    leading: Icon(Symbols.delete),
-                                    title: Text("Xoá đơn thuốc "))),
-                            PopupMenuItem(
-                                value: MedicationItemAction.info,
-                                child: ListTile(
-                                    leading: Icon(Symbols.info),
-                                    title: Text("Xem thông tin "))),
-                          ],
-                          onSelected: (value) {
-                            switch (value) {
-                              case MedicationItemAction.info:
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Drugdetails(),
-                                    ));
-                                break;
-                              default:
-                                break;
-                            }
-                          },
                         ),
                       ],
                     ),
