@@ -20,4 +20,13 @@ Map<String, dynamic> header(String token) {
       'Accept': '*/*',
       'Authorization': 'Bearer $token'
     };
-  }
+}
+Map<String, dynamic> adminHeader(String token, String adminToken){
+  return {
+    "Access-Control-Allow-Origin": "*",
+    'Content-Type': 'application/json',
+    'Accept': '*/*',
+    'Authorization': 'Bearer $token',
+    'x-admin-key': adminToken
+  };
+}
