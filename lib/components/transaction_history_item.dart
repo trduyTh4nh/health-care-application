@@ -19,7 +19,7 @@ class _TransactionHistoryItemState extends State<TransactionHistoryItem> {
   DateFormat format = DateFormat("dd/MM/yyyy HH:mm");
   NumberFormat numFormat = NumberFormat("##,###.##");
   late Color primaryColor =
-      widget.data.status! ? AppColors.primaryColor : colorScheme.error;
+       AppColors.primaryColor ;
 
   @override
   Widget build(BuildContext context) {
@@ -34,70 +34,58 @@ class _TransactionHistoryItemState extends State<TransactionHistoryItem> {
     } catch (e) {
       displayDate = 'Ngày không hợp lệ'; // Provide an error message
     }
-    return InkWell(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (c) => TransactionDetail()));
-      },
-      child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          color: primaryColor,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(50))),
-                      child: const Padding(
-                        padding: EdgeInsets.all(16),
-                        child: SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: Icon(
-                              Symbols.attach_money,
-                              color: AppColors.backgroundColor,
-                            )),
-                      ),
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        color: primaryColor,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(50))),
+                    child: const Padding(
+                      padding: EdgeInsets.all(16),
+                      child: SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: Icon(
+                            Symbols.attach_money,
+                            color: AppColors.backgroundColor,
+                          )),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  // "Giao dịch lúc ${format.format(widget.data.createDate ?? DateTime.now())}",
-                                  "Giao dịch lúc $displayDate",
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                // "Giao dịch lúc ${format.format(widget.data.createDate ?? DateTime.now())}",
+                                "Giao dịch lúc $displayDate",
+                                style: Theme.of(context).textTheme.bodyLarge,
                               ),
-                            ],
-                          ),
-                          Text("${numFormat.format(widget.data.totalPrice)} ₫"),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                            ),
+                          ],
+                        ),
+                        Text("${numFormat.format(widget.data.totalPrice)} ₫"),
+                      ],
+                    ),
+                  )
+                ],
               ),
-              Text(
-                widget.data.status! ? "Thành công" : "Thất bại",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(color: primaryColor),
-              )
-            ],
-          )),
-    );
+            ),
+            
+          ],
+        ));
   }
 }

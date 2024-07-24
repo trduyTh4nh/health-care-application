@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:app_well_mate/api/payment/payment_repo.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
+import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug_cart_detail_model.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:app_well_mate/screen/checkout.dart';
@@ -10,6 +11,7 @@ import 'package:app_well_mate/screen/drug/medicine_order/widget_buy_medicine.dar
 import 'package:app_well_mate/screen/drug/medicine_order/widget_complete_medicine.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/widget_payment_medicine.dart';
 import 'package:app_well_mate/screen/drug_cart.dart';
+import 'package:app_well_mate/screen/home.dart';
 import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:app_well_mate/utils/util.dart';
@@ -180,13 +182,6 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                                               (value.totalPrice / 23000)
                                                   .round();
 
-                                          // for (var i = 0;
-                                          //     i < listDrugCartDetail.length;
-                                          //     i++) {
-                                          //   log("id_drug: ${listDrugCartDetail[i].drug!.idDrug}");
-                                          //   log("quantity: ${listDrugCartDetail[i].quantity}");
-                                          // }
-
                                           List<Map<String, dynamic>>
                                               drugCartList =
                                               listDrugCartDetail.map((item) {
@@ -204,7 +199,6 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
 
                                           var line1 = listAddress[0];
                                           var city = listAddress[1];
-                                          var countryCode = listAddress[2];
                                           var postalCode = listAddress[3];
                                           var phone = listAddress[4];
 
@@ -279,6 +273,13 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                                                 if (isPay) {
                                                   showCustomSnackBar(context,
                                                       "Thanh toán thành công!");
+                                                  value.removeCart();
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            AppPage(),
+                                                      ));
                                                   value.removeCart();
                                                 } else {
                                                   showCustomSnackBar(context,

@@ -18,6 +18,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 ColorScheme colorScheme = ColorScheme(
     brightness: Brightness.light,
@@ -52,9 +53,7 @@ class MainApp extends StatefulWidget {
 
 class _MainAppState extends State<MainApp> {
   StreamSubscription<List<ConnectivityResult>>? subscription;
-  Future<void> getUserAndToken() async {
-
-  }
+  Future<void> getUserAndToken() async {}
   Future<void>? future;
   @override
   void initState() {
@@ -75,9 +74,8 @@ class _MainAppState extends State<MainApp> {
         navigatorKey: navigatorKey,
         theme: ThemeData(
             badgeTheme: BadgeThemeData(
-              textColor: colorScheme.onPrimary,
-              padding: const EdgeInsets.symmetric(horizontal: 6)
-            ),
+                textColor: colorScheme.onPrimary,
+                padding: const EdgeInsets.symmetric(horizontal: 6)),
             colorScheme: colorScheme,
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: ButtonStyle(
@@ -204,8 +202,8 @@ class _MainAppState extends State<MainApp> {
                 scrolledUnderElevation: 0, titleSpacing: 20, toolbarHeight: 75),
             inputDecorationTheme: InputDecorationTheme(
                 labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontFamily: GoogleFonts.inter(wordSpacing: 0, color: AppColor.gray)
-                        .fontFamily,
+                    fontFamily:
+                        GoogleFonts.inter(wordSpacing: 0, color: AppColor.gray).fontFamily,
                     color: AppColor.darkerGray),
                 border: UnderlineInputBorder(borderSide: BorderSide(color: AppColor.darkerGray)))),
         debugShowCheckedModeBanner: false,
@@ -221,7 +219,6 @@ class AppPage extends StatefulWidget {
 }
 
 class _AppPageState extends State<AppPage> {
-  
   int _selectedPage = 0;
   Future<InfoUserModel?>? userData;
   final List<Widget> _pages = [
@@ -231,12 +228,12 @@ class _AppPageState extends State<AppPage> {
     const MedicationPage(),
     const ThemeScreen()
   ];
-  initNotification(){
-  // void _onTap(index) {
-  //   setState(() {
-  //     _selectedPage = index;
-  //   });
-  // }
+  initNotification() {
+    // void _onTap(index) {
+    //   setState(() {
+    //     _selectedPage = index;
+    //   });
+    // }
   }
 
   @override
@@ -251,6 +248,7 @@ class _AppPageState extends State<AppPage> {
 
   @override
   Widget build(BuildContext context) {
+    
     return PopScope(
       canPop: false,
       child: Scaffold(

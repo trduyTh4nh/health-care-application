@@ -22,7 +22,7 @@ class ApplicationRepo {
       return lst;
     } catch (ex) {
       log(ex.toString());
-      return null;
+      rethrow;
     }
   }
 

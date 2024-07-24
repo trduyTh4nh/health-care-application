@@ -47,10 +47,18 @@ class _WidgetBuyMedicine extends State<WidgetBuyMedicine> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(item.drug!.name!,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        2 /
+                                        3,
+                                    child: Text(
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      item.drug!.name!,
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                  ),
                                   Row(
                                     children: [
                                       Text(
