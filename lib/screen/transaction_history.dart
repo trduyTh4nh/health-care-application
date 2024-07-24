@@ -6,6 +6,7 @@ import 'package:app_well_mate/model/notification_model.dart';
 import 'package:app_well_mate/model/payment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class TransactionHistoryScreen extends StatefulWidget {
   const TransactionHistoryScreen({super.key});
@@ -96,9 +97,12 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
               future: fututeInvoices,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const SliverFillRemaining(
-                    child: Center(child: CircularProgressIndicator()),
-                  );
+                  return Center(
+                      child: LoadingAnimationWidget.flickr(
+                    leftDotColor: colorScheme.primary,
+                    rightDotColor: colorScheme.error,
+                    size: 48,
+                  ));
                 } else if (snapshot.hasError) {
                   return const SliverFillRemaining(
                     child: Center(
