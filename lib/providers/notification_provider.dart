@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:app_settings/app_settings.dart';
+import 'package:app_well_mate/api/notification/notification_repo.dart';
 import 'package:app_well_mate/components/info_component.dart';
 import 'package:app_well_mate/components/item_hospital.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/screen/drug_info.dart';
+import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
@@ -23,6 +25,7 @@ void tapNotificationBackground(NotificationResponse res) {
 class NotificationProvider extends ChangeNotifier {
   List<PendingNotificationRequest> rqs = [];
   List<ActiveNotification> acts = [];
+
   StreamController<String?> selectNotificationStream =
       StreamController<String?>.broadcast();
   FlutterLocalNotificationsPlugin plugin = FlutterLocalNotificationsPlugin();
@@ -82,9 +85,6 @@ class NotificationProvider extends ChangeNotifier {
 
   scheduleNotification(
       ScheduleDetailModel model, DrugModel drug, int detailId) async {
-    DateFormat format = DateFormat("yyyy-MM-dd");
-    bool isConfirmed =
-        format.format(model.lastConfirmed!) == format.format(DateTime.now());
     const AndroidNotificationDetails details = AndroidNotificationDetails(
         "c1", "notif test",
         channelDescription: "channel notif chay suon",
@@ -98,9 +98,7 @@ class NotificationProvider extends ChangeNotifier {
       model.idScheduleDetail ?? -1,
       "Đã đến giờ uống thuốc ${drug.name}",
       "Ấn vào đây để xem thêm",
-      isConfirmed
-          ? nextInstanceOfTimeDelayed(const Duration(days: 1), model.timeOfUse!)
-          : nextInstanceOfTime(model.timeOfUse!),
+      nextInstanceOfTime(model.timeOfUse!),
       notifDetails,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
@@ -190,10 +188,19 @@ class NotificationProvider extends ChangeNotifier {
         }
       }
     }
-    NotificationListenerService.notificationsStream.listen((event) {
+    NotificationListenerService.notificationsStream.listen((event) async {
       if (event.packageName == "com.example.app_well_mate" &&
           !(event.hasRemoved!)) {
         log("Current notification: $event");
+        int idUser = await SecureStorage.getUserId();
+        NotificationRepo().insertNotification({
+          "content": event.title ?? "",
+          "time": DateTime.now().toString(),
+          "id_user": idUser,
+          "isconfirmed": false,
+          "priority": 1,
+          "id_schedule_detail": event.id ?? -1
+        });
         updateNotifRequests();
       }
     });
@@ -218,8 +225,10 @@ class NotificationProvider extends ChangeNotifier {
         case NotificationResponseType.selectedNotification:
           log(r.payload ?? "null");
           navigatorKey.currentState!.push(MaterialPageRoute(
-              builder: (c) =>
-                  DrugInfoPage(idPre: int.parse(r.payload ?? "-1"), idScheSelected: (r.id ?? -1) < 0 ? -r.id! : r.id!,)));
+              builder: (c) => DrugInfoPage(
+                    idPre: int.parse(r.payload ?? "-1"),
+                    idScheSelected: (r.id ?? -1) < 0 ? -r.id! : r.id!,
+                  )));
           break;
         case NotificationResponseType.selectedNotificationAction:
           selectNotificationStream.add(r.actionId);

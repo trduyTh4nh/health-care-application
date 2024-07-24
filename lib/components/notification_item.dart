@@ -32,7 +32,7 @@ class _NotifyComponentState extends State<NotifyComponent> {
         
         return HospitalDetailPage(notifiItem: widget.notifiItem);
       } else {
-        return DrugInfoPage(notifiItem: widget.notifiItem);
+        return DrugInfoPage(idPre: widget.notifiItem.idDonThuocCT!,);
       }
     } else {
       return const ErrorPage();
@@ -80,7 +80,7 @@ class _NotifyComponentState extends State<NotifyComponent> {
                         children: [
                           widget.isImportant
                               ? Text(
-                                  'Quan trọng',
+                                  'Quan trọng ${widget.notifiItem.idDonThuocCT}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodySmall!
@@ -106,7 +106,7 @@ class _NotifyComponentState extends State<NotifyComponent> {
                     const SizedBox(
                       width: 2,
                     ),
-                    widget.notifiItem.status!
+                    (widget.notifiItem.status ?? false)
                         ? const SizedBox()
                         : CustomElevatedBtnCheck(
                             onTap: () {},
