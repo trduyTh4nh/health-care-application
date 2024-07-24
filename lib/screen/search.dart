@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/disease_model.dart';
 import 'package:app_well_mate/screen/search/search_detail_rewrite.dart';
 import 'package:app_well_mate/screen/search/testcrawl_tile.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -21,7 +23,6 @@ class _SearchPageState extends State<SearchPage> {
   bool check_flash_option = true;
   bool isSeach = false;
   bool isLoading = false;
-
   @override
   void initState() {
     super.initState();
@@ -74,7 +75,10 @@ class _SearchPageState extends State<SearchPage> {
                 decoration: InputDecoration(
                   label: Text(
                     'Tìm kiếm',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: Colors.grey),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(4),
@@ -112,22 +116,21 @@ class _SearchPageState extends State<SearchPage> {
           ],
         ),
       ),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                isSeach
-                    ? Expanded(
-                        child: TestcrawlTile(
-                          keySearch: _searchController.text,
-                        ),
-                      )
-                    : const SizedBox(
-                        child: Text('Không có kết quả nào được tìm thấy!'),
-                      ),
-              ],
-            ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          isSeach
+              ? Expanded(
+                  child: TestcrawlTile(
+                    keySearch: _searchController.text,
+                  ),
+                )
+              : const Padding(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Text('Không có kết quả nào được tìm thấy!'),
+                ),
+        ],
+      ),
     );
   }
 }
