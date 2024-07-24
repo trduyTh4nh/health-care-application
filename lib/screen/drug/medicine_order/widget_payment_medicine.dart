@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/notification_model.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
+import 'package:app_well_mate/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:app_well_mate/api/address/address_repo.dart';
 import 'package:app_well_mate/model/address_model.dart';
@@ -22,6 +23,7 @@ class WidgetPaymentMedicine extends StatefulWidget {
 
 class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
   final _formKey = GlobalKey<FormState>();
+  List<Map<String, dynamic>> _filteredProvinces = [];
 
   String paymentMethod = 'Momo';
   AddressModel? selectedAddress;
@@ -41,6 +43,24 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
   void initState() {
     super.initState();
     _loadAddresses();
+  }
+
+  void filterProvinces(String query) {
+    final filteredProvinces = vietNemprovince.where((province) {
+      final nameLower = province['name']!.toLowerCase();
+      final queryLower = query.toLowerCase();
+      return nameLower.contains(queryLower);
+    }).toList();
+
+    setState(() {
+      _filteredProvinces = filteredProvinces;
+    });
+  }
+
+//set textcontroller tu chon thanh pho
+  void onProvinceSelected(Map<String, dynamic> province) {
+    _postalController.text = province['postal_code'];
+    _coundtryCodeController.text = province['area_code'];
   }
 
   String? validatorPhoneNumber(String? value) {
@@ -75,6 +95,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
     await AddressRepo().UpdateAddress(idAddress, newAddress, token);
     _loadAddresses();
   }
+
   void _onPaymentMethodChanged(String? value) {
     setState(() {
       paymentMethod = value!;
@@ -246,6 +267,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Form(
+                    key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -262,7 +284,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                         TextFormField(
                           validator: (nameAddress) => nameAddress!.isEmpty
                               ? "Vui lòng nhập tên đường!"
-                              : null,
+                              : "",
                           controller: _nameStreetController,
                           decoration: const InputDecoration(
                               labelText: "Nhập tên đường"),
@@ -270,8 +292,9 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                         TextFormField(
                           validator: (nameCity) => nameCity!.isEmpty
                               ? "Vui lòng nhập tên thành phố!"
-                              : null,
+                              : "",
                           controller: _cityNameController,
+                          onChanged: filterProvinces,
                           decoration: const InputDecoration(
                               labelText: "Nhập thành phố"),
                         ),
@@ -282,7 +305,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                 validator: (coundtryCode) =>
                                     coundtryCode!.isEmpty
                                         ? "Vui lòng nhập mã vùng!"
-                                        : null,
+                                        : "",
                                 controller: _coundtryCodeController,
                                 decoration:
                                     const InputDecoration(labelText: "Mã vùng"),
@@ -295,7 +318,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                               child: TextFormField(
                                 validator: (postalCode) => postalCode!.isEmpty
                                     ? "Vui lòng nhập postal code!"
-                                    : null,
+                                    : "",
                                 controller: _postalController,
                                 decoration: const InputDecoration(
                                     labelText: "Postal code"),
@@ -316,6 +339,8 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                             child: ElevatedButton(
                               onPressed: isAdd
                                   ? () {
+                                      print("dang vo add");
+                                      if (_formKey.currentState!.validate()) {
                                         print("dang vo ham");
                                         String allinFo = getAddress();
                                         _addAddress(allinFo);
@@ -326,11 +351,18 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                         _coundtryCodeController.clear();
                                         _postalController.clear();
                                         _phoneNumberressController.clear();
+                                      }
                                     }
                                   : () {
                                       String newAddress = getAddress();
+
                                       _updateAddress(
                                           addressA!.id_address!, newAddress);
+                                      _nameStreetController.clear();
+                                      _cityNameController.clear();
+                                      _coundtryCodeController.clear();
+                                      _postalController.clear();
+                                      _phoneNumberressController.clear();
                                       Navigator.pop(context);
                                     },
                               child: const Text("Xong"),
