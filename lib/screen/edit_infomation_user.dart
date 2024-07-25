@@ -319,8 +319,7 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                             return null;
                           },
                           decoration: const InputDecoration(
-                            hintText:
-                                '84 Thành Thái, Phường 10, Quận 10, TP. Hồ Chí Minh',
+                            hintText: 'địa chỉ...',
                             hintStyle: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.normal,

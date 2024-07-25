@@ -13,6 +13,7 @@ import 'package:barcode/barcode.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
@@ -213,10 +214,10 @@ class _PrescriptionPreviewState extends State<PrescriptionPreview> {
                           child: Table(
                             border: TableBorder.all(),
                             columnWidths: const <int, TableColumnWidth>{
-                              0: FlexColumnWidth(),
+                              0: FlexColumnWidth(2),
                               1: FlexColumnWidth(),
                               2: FlexColumnWidth(),
-                              3: FlexColumnWidth()
+                              3: FlexColumnWidth(1)
                             },
                             defaultVerticalAlignment:
                                 TableCellVerticalAlignment.middle,
@@ -231,7 +232,12 @@ class _PrescriptionPreviewState extends State<PrescriptionPreview> {
                                         "Tên thuốc",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .labelMedium,
+                                            .labelMedium!
+                                            .copyWith(
+                                                fontFamily: GoogleFonts.inter(
+                                                        fontWeight:
+                                                            FontWeight.bold)
+                                                    .fontFamily),
                                       ),
                                     ),
                                     Padding(
@@ -240,7 +246,12 @@ class _PrescriptionPreviewState extends State<PrescriptionPreview> {
                                         "Số lượng",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .labelMedium,
+                                            .labelMedium!
+                                            .copyWith(
+                                                fontFamily: GoogleFonts.inter(
+                                                        fontWeight:
+                                                            FontWeight.bold)
+                                                    .fontFamily),
                                       ),
                                     ),
                                     Padding(
@@ -249,7 +260,12 @@ class _PrescriptionPreviewState extends State<PrescriptionPreview> {
                                         "Đơn vị",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .labelMedium,
+                                            .labelMedium!
+                                            .copyWith(
+                                                fontFamily: GoogleFonts.inter(
+                                                        fontWeight:
+                                                            FontWeight.bold)
+                                                    .fontFamily),
                                       ),
                                     ),
                                     Padding(
@@ -258,7 +274,12 @@ class _PrescriptionPreviewState extends State<PrescriptionPreview> {
                                         "Ghi chú",
                                         style: Theme.of(context)
                                             .textTheme
-                                            .labelMedium,
+                                            .labelMedium!
+                                            .copyWith(
+                                                fontFamily: GoogleFonts.inter(
+                                                        fontWeight:
+                                                            FontWeight.bold)
+                                                    .fontFamily),
                                       ),
                                     ),
                                   ]),

@@ -312,25 +312,7 @@ class _HomeState extends State<Home> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.error_outline_outlined,
-                                              color: colorScheme.error,
-                                            ),
-                                            IconButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    showBanner = false;
-                                                  });
-                                                },
-                                                icon: const Icon(Icons.close))
-                                          ],
-                                        ),
+                                        
                                         Text(
                                           "Mùa này là mùa cảm cúm",
                                           style: Theme.of(context)

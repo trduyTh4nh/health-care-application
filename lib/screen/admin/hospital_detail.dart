@@ -1,19 +1,18 @@
 import 'package:app_well_mate/components/hero_widget.dart';
 import 'package:app_well_mate/main.dart';
-import 'package:app_well_mate/model/hospital.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:app_well_mate/model/hospital_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 // ignore: must_be_immutable
 class HospitalDetail extends StatelessWidget {
+  final HospitalModel hospital;
   HospitalDetail({super.key, required this.hospital});
-  Hospital hospital;
 
   @override
   Widget build(BuildContext context) {
-    String formattedDate = DateFormat('dd-MM-yyyy').format(hospital.createDate);
+    String formattedDate = DateFormat('dd-MM-yyyy').format(hospital.createdDate ?? DateTime.now());
 
     return Stack(
       children: [
@@ -45,27 +44,29 @@ class HospitalDetail extends StatelessWidget {
                 child: Column(
                   children: [
                     Hero(
-                      tag: hospital.idHospital,
+                      tag: hospital.idHospital ?? '', // Add a fallback value
                       child: Container(
                         height: 183,
                         width: 183,
                         decoration: const BoxDecoration(
                             shape: BoxShape.circle, color: Colors.white),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: Image.network(hospital.imageHospital),
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundImage: (hospital.avatars != null && hospital.avatars!.isNotEmpty)
+                              ? NetworkImage(hospital.avatars!)
+                              : const AssetImage('assets/images/quang_avt.jpeg') as ImageProvider,
                         ),
                       ),
                     ),
                     HeroWidget(
-                      tag: hospital.name,
+                      tag: hospital.name ?? '',
                       child: Text(
-                        hospital.name,
+                        hospital.name ?? 'N/A', 
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ),
                     HeroWidget(
-                      tag: hospital.createDate.toString(),
+                      tag: hospital.createdDate?.toString() ?? '', 
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -74,14 +75,14 @@ class HospitalDetail extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text("Mã KCB:"),
-                        Text(hospital.idHospital.toString())
-                      ],
-                    ),
-                    SizedBox(
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     const Text("Mã KCB:"),
+                    //     Text(hospital.idHospital?.toString() ?? 'N/A'), 
+                    //   ],
+                    // ),
+                    const SizedBox(
                       height: 20,
                     ),
                     Column(
@@ -121,33 +122,31 @@ class HospitalDetail extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 15),
-                          child: Container(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Icon(Symbols.corporate_fare),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text("Địa chỉ:"),
-                                Expanded(
-                                  child: Text(
-                                    " 84 Thành Thái, Phường 10, Quận 10, TP. Hồ Chí Minh",
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 15),
                           child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Icon(Symbols.emergency),
+                              const Icon(Symbols.corporate_fare),
                               const SizedBox(
                                 width: 10,
                               ),
-                              const Text("Liên hệ cấp cứu: 115 "),
+                              const Text("Địa chỉ:"),
+                              const Expanded(
+                                child: Text(
+                                  " 84 Thành Thái, Phường 10, Quận 10, TP. Hồ Chí Minh",
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          child: Row(
+                            children: [
+                              Icon(Symbols.emergency),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text("Liên hệ cấp cứu: 115 "),
                             ],
                           ),
                         ),
