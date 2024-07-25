@@ -190,7 +190,8 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                                               listDrugCartDetail.map((item) {
                                             return {
                                               "id_drug": item.drug!.idDrug,
-                                              "quantity": item.quantity
+                                              "quantity": item.quantity,
+                                              "id_app_detail": item.idAppDetail ?? -1,
                                             };
                                           }).toList();
 
@@ -272,8 +273,7 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                                                         drugCartList,
                                                         token,
                                                         idPaypal);
-                                                if (isPay != -1 &&
-                                                    context.mounted) {
+                                                if (isPay != -1) {
                                                   int idUser =
                                                       await SecureStorage
                                                           .getUserId();

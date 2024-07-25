@@ -56,10 +56,9 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
   }
 
   String? validatorPhoneNumber(String? value) {
-    if (value == null) {
+    if (value == null || value.isEmpty) {
       return 'Vui lòng nhập số điện thoại';
-    } else if (value.length != 10 || value.contains(".")) {
-      // Changed to check length of the phone number
+    } else if (!RegExp(r'^\d{10}$').hasMatch(value)) {
       return 'Số điện thoại không hợp lệ';
     }
     return null;
@@ -171,7 +170,11 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                         builder: (context, cartProvider, child) {
                           return ListTile(
                             contentPadding: EdgeInsets.zero,
-                            title: Text(addressTrue),
+                            title: Text(
+                              addressTrue,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                             leading: Radio<AddressModel>(
                               value: address,
                               groupValue: cartProvider.selectedAddress,
@@ -188,6 +191,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                     title: const Text("Xoá địa chỉ này"),
                                     onTap: () {
                                       _deleteAddress(address.id_address!);
+                                      cartProvider.refeshAddress();
                                       Navigator.pop(context);
                                     },
                                   ),

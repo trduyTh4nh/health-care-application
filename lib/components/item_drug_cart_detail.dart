@@ -67,13 +67,35 @@ class itemDrugCartDetail extends StatelessWidget {
                           .copyWith(fontWeight: FontWeight.bold)),
                   IconButton(
                     icon: const Icon(Icons.delete),
-                    onPressed: () async {
-                      // showDialog(context: context, builder: builder)
-                      setLoading(true);
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text("Xóa thuốc "),
+                            content: const Text(
+                                "Xác nhận xóa thuốc ra khỏi giỏ hàng? "),
+                            actions: <Widget>[
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("Hủy")),
+                              TextButton(
+                                  onPressed: () async {
+                                    Navigator.pop(context);
 
-                      await value
-                          .deleteDrugCartFromCart(item.idDrugCartDetail!);
-                      setLoading(false);
+                                    setLoading(true);
+
+                                    await value.deleteDrugCartFromCart(
+                                        item.idDrugCartDetail!);
+                                    setLoading(false);
+                                  },
+                                  child: const Text("OK"))
+                            ],
+                          );
+                        },
+                      );
                     },
                   ),
                 ],

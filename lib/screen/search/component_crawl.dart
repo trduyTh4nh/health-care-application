@@ -139,9 +139,18 @@ class _ComponentCrawlState extends State<ComponentCrawl> {
                             ],
                           ),
                           const SizedBox(
-                            height: 10,
+                            height: 15,
                           ),
-                          const SizedBox(height: 8.0),
+                          Text(
+                            disease['title'] ?? "Không có tiêu đề",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                          const SizedBox(height: 12),
                           Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
