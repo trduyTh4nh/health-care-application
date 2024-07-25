@@ -65,6 +65,8 @@ class CartPageProvider extends ChangeNotifier {
     await fetchDrugCart();
   }
 
+ 
+
   void refeshCart() async {
     int userId = await SecureStorage.getUserId();
     List<DrugCartDetailModel> items =
@@ -72,8 +74,8 @@ class CartPageProvider extends ChangeNotifier {
     listDrugCart = items;
   }
 
-  void addDrugtoCart(DrugModel drug, BuildContext context) async {
-    int res = await CartRepo().insertDrugToCart(drug);
+  void addDrugtoCart(DrugModel drug, BuildContext context, int idAppDetail) async {
+    int res = await CartRepo().insertDrugToCart(drug, idAppDetail);
     if (res == 200) {
       quantityMedicine += 1;
       log("Day la thuoc da duc them: ${drug.name}");

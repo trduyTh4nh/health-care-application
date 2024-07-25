@@ -61,20 +61,20 @@ class _MedicationItemState extends State<MedicationItem> {
         0) {
       showDialog(
           context: context,
-          builder: (context) => Consumer<CartPageProvider>(
-            builder: (context, value, child) {
-              return CustomDialog(
-                    title: "Bạn đã hết thuốc",
-                    subtitle: "Hãy ấn 'thêm thuốc vào giỏ' để mua thêm",
-                    onPositive: () {
-                      value.addDrugtoCart(widget.prescription.detail!.drug!, context);
-                    },
-                    positiveText: "Thêm vào giỏ",
-                    negativeText: "Không, cảm ơn",
-                    icon: Symbols.pill_off,
-                  );
-            }
-          ));
+          builder: (context) =>
+              Consumer<CartPageProvider>(builder: (context, value, child) {
+                return CustomDialog(
+                  title: "Bạn đã hết thuốc",
+                  subtitle: "Hãy ấn 'thêm thuốc vào giỏ' để mua thêm",
+                  onPositive: () {
+                    value.addDrugtoCart(widget.prescription.detail!.drug!,
+                        context, widget.prescription.detail!.idPreDetail ?? -1);
+                  },
+                  positiveText: "Thêm vào giỏ",
+                  negativeText: "Không, cảm ơn",
+                  icon: Symbols.pill_off,
+                );
+              }));
       return;
     }
     int res =
@@ -379,7 +379,11 @@ class _MedicationItemState extends State<MedicationItem> {
                                                     .addDrugtoCart(
                                                         widget.prescription
                                                             .detail!.drug!,
-                                                        context);
+                                                        context,
+                                                        widget
+                                                            .prescription
+                                                            .detail!
+                                                            .idPreDetail!);
 
                                                 break;
                                               case MedicationItemAction.snooze:
