@@ -2,6 +2,7 @@ import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/providers/add_page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 
@@ -34,8 +35,8 @@ class _AddDrugPageDosageState extends State<AddDrugPageDosage> {
               child: Column(
                 children: [
                   Center(
-                      child: SvgPicture.asset(
-                    'assets/images/undraw_completing.svg',
+                      child: Lottie.asset(
+                    'assets/images/Calendar.json',
                     height: 125,
                   )),
                   const SizedBox(height: 20),
