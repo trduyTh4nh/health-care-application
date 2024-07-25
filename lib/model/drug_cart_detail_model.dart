@@ -14,7 +14,7 @@ class DrugCartDetailModel {
   int? quantity;
   int? quantityDrugDetail;
   DrugCartModel? drugCart;
-
+  int? idAppDetail;
   DrugCartDetailModel(
       {this.idDrugCartDetail,
       this.idDrug,
@@ -23,7 +23,8 @@ class DrugCartDetailModel {
       this.quantityDrugDetail,
       this.drug,
       this.drugCart,
-      this.idCart});
+      this.idCart,
+      this.idAppDetail});
 
   factory DrugCartDetailModel.fromJson(Map<String, dynamic> json) =>
       _$DrugCartDetailModelFromJson(json);

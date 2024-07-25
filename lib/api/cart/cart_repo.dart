@@ -75,12 +75,13 @@ class CartRepo {
     }
   }
 
-  Future<int> insertDrugToCart(DrugModel grug) async {
+  Future<int> insertDrugToCart(DrugModel grug, int idAppDetail) async {
     String token = await SecureStorage.getToken();
     int idUser = await SecureStorage.getUserId();
     Map<String, dynamic> body = {
       'id_user': idUser,
       'id_drug': grug.idDrug,
+      'id_app_detail': idAppDetail
     };
     try {
       Response res = await api.sendRequest.post('/cart/insertDrugIntoCart',
