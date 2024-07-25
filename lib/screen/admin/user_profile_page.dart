@@ -1,19 +1,64 @@
+import 'package:app_well_mate/api/application/application_repo.dart';
 import 'package:app_well_mate/components/item_prescription_of_infomation_user.dart';
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/model/prescription_model.dart';
+import 'package:app_well_mate/model/user.dart';
+import 'package:app_well_mate/screen/search/component_crawl.dart';
 import 'package:flutter/material.dart';
 
 import 'package:material_symbols_icons/symbols.dart';
 
 class UserProfilePage extends StatefulWidget {
-  const UserProfilePage({super.key});
+  final User user;
+  const UserProfilePage({super.key, required this.user});
 
   @override
   State<UserProfilePage> createState() => _UserProfilePageState();
 }
 
 class _UserProfilePageState extends State<UserProfilePage> {
+  double calculateBMI(int weight, int heightInCm) {
+    double heightInMeters = heightInCm / 100.0;
+    // Tính BMI
+    return weight / (heightInMeters * heightInMeters);
+  }
+
+  List<PrescriptionModel>? prescriptions;
+  bool isLoadingPrescriptions = true;
+
+  @override
+  void initState() {
+    loadPrescriptions();
+    super.initState();
+  }
+
+  Future<void> loadPrescriptions() async {
+    try {
+      if (widget.user.idUser != null) {
+        List<PrescriptionModel>? fetchedPrescriptions =
+            await ApplicationRepo().getPrescriptionInUser(widget.user.idUser!);
+        setState(() {
+          prescriptions = fetchedPrescriptions;
+        });
+      } else {
+        log('User ID is null');
+      }
+    } catch (e) {
+      log('Error loading prescriptions: $e');
+    } finally {
+      setState(() {
+        isLoadingPrescriptions = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    int weight = (widget.user.profile?.weight ?? 0.0).toInt();
+    int heightInCm = (widget.user.profile?.height ?? 0.0).toInt();
+
+    double bmi = calculateBMI(weight, heightInCm);
+
     return Stack(
       children: [
         Positioned.fill(
@@ -46,13 +91,15 @@ class _UserProfilePageState extends State<UserProfilePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Center(
+                  Center(
                     child: Hero(
                       tag: "01",
                       child: CircleAvatar(
                         radius: 50,
-                        backgroundImage: NetworkImage(
-                            'https://i.giphy.com/BSx6mzbW1ew7K.webp'),
+                        backgroundImage: widget.user.profile?.avatar != null
+                            ? NetworkImage(widget.user.profile!.avatar!)
+                            : const NetworkImage(
+                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnSA1zygA3rubv-VK0DrVcQ02Po79kJhXo_A&s'),
                       ),
                     ),
                   ),
@@ -62,38 +109,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   Hero(
                     tag: "02",
                     child: Text(
-                      "Nguyễn Thành Duy",
+                      widget.user.userName ?? "User",
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Đăng ký ngày ",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        Text(
-                          "11-06-2024",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Mã người dùng:",
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      Text(
-                        "000043",
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ],
                   ),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 5),
@@ -111,31 +129,15 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           "Thông tin cơ bản",
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 15),
-                          child: Row(
-                            children: [
-                              const Icon(Symbols.pill),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              const Text("Đã mua "),
-                              Text(" 115 ",
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium),
-                              const Text(" thuốc"),
-                              const Text(" (13.194.131 VND)"),
-                            ],
-                          ),
+                        const SizedBox(
+                          height: 16,
                         ),
-                        const Row(
+                        Row(
                           children: [
-                            Icon(Symbols.email),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text("Email: "),
-                            Text("thanhduy69@gmail.com")
+                            const Icon(Symbols.email),
+                            const SizedBox(width: 10),
+                            const Text("Email: "),
+                            Text(widget.user.email ?? "Chưa có email"),
                           ],
                         ),
                         const SizedBox(
@@ -147,30 +149,32 @@ class _UserProfilePageState extends State<UserProfilePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const Column(
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
                                     children: [
-                                      Icon(Symbols.monitor_weight),
-                                      SizedBox(
+                                      const Icon(Symbols.monitor_weight),
+                                      const SizedBox(
                                         width: 10,
                                       ),
-                                      Text("Cân nặng: "),
-                                      Text(" 65kg")
+                                      const Text("Cân nặng: "),
+                                      Text(
+                                          "${widget.user.profile!.weight ?? 0} kg"),
                                     ],
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
                                   Row(
                                     children: [
-                                      Icon(Symbols.height),
-                                      SizedBox(
+                                      const Icon(Symbols.height),
+                                      const SizedBox(
                                         width: 10,
                                       ),
-                                      Text("Chiều cao: "),
-                                      Text("165kg")
+                                      const Text("Chiều cao: "),
+                                      Text(
+                                          "${widget.user.profile!.height ?? 0} cm"),
                                     ],
                                   ),
                                 ],
@@ -181,7 +185,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                       style: Theme.of(context)
                                           .textTheme
                                           .displaySmall),
-                                  Text(" 23.9",
+                                  Text(bmi.toStringAsFixed(1),
                                       style: Theme.of(context)
                                           .textTheme
                                           .displaySmall)
@@ -190,23 +194,39 @@ class _UserProfilePageState extends State<UserProfilePage> {
                             ],
                           ),
                         ),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.symmetric(vertical: 15),
                           child: Row(
                             children: [
-                              Icon(Symbols.cake),
-                              SizedBox(
+                              const Icon(Symbols.cake),
+                              const SizedBox(
                                 width: 10,
                               ),
-                              Text("Ngày sinh: "),
-                              Text("28-08-2003 (18 tuổi)"),
+                              const Text("Tuổi "),
+                              Text("${widget.user.profile?.age ?? 0} tuổi"),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          child: Row(
+                            children: [
+                              const Icon(Symbols.wc),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              const Text("Giới tính: "),
+                              Text(
+                                "${widget.user.profile!.gender?.trim() ?? 'N/A'}",
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
                             ],
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           child: Container(
-                            child: const Row(
+                            child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Icon(Symbols.corporate_fare),
@@ -215,25 +235,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                 ),
                                 Text("Địa chỉ:"),
                                 Expanded(
-                                  child: Text(
-                                    " 84 Thành Thái, Phường 10, Quận 10, TP. Hồ Chí Minh",
-                                  ),
+                                  child:
+                                      Text("${widget.user.profile!.address}"),
                                 ),
                               ],
                             ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          child: Row(
-                            children: [
-                              Icon(Symbols.calendar_month),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text("Ngày khám trước đó: "),
-                              Text("11/06/2024")
-                            ],
                           ),
                         ),
                         Text(
@@ -243,7 +249,15 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         const SizedBox(
                           height: 15,
                         ),
-                        const ItemPrescriptionOfInfomationUser(),
+                        isLoadingPrescriptions
+                            ? Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : prescriptions == null || prescriptions!.isEmpty
+                                ? const Text("Không có đơn thuốc")
+                                : ItemPrescriptionOfInfomationUser(
+                                    prescriptions: prescriptions!,
+                                  ),
                       ],
                     ),
                   )

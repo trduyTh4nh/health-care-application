@@ -59,7 +59,7 @@ class _DrugDoneState extends State<DrugDone> {
             return const Center(
               child: ErrorInfo(
                 title: "Hãy bắt đầu",
-                subtitle: "Hãy bắt đầu",
+                subtitle: "Hãy bắt đầu uống thuốc",
                 icon: Icons.star_border,
               ),
             );

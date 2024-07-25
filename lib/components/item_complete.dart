@@ -9,34 +9,37 @@ class item_complete extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          children: [
-            Image.network(
-              errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.image),
-              // drug!.drugImage ?? '',
-              drug.drug!.drugImage ?? '',
-              width: 50,
-              height: 50,
+        Image.network(
+          errorBuilder: (context, error, stackTrace) =>
+              const Icon(Icons.image),
+          // drug!.drugImage ?? '',
+          drug.drug!.drugImage ?? '',
+          width: 50,
+          height: 50,
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(drug.drug!.name!,
+                          style: Theme.of(context).textTheme.bodyLarge),
+                    ),
+                  ],
+                ),
+                Text(
+                    "${drug.quantity} ${drug.drug!.unit}_ ${convertCurrency(drug.drug!.price)}/ ${drug.drug!.unit}",
+                    style: Theme.of(context).textTheme.labelSmall),
+                Text(convertCurrency(drug.drug!.price!),
+                    style: Theme.of(context).textTheme.titleMedium),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(drug.drug!.name!,
-                      style: Theme.of(context).textTheme.bodyLarge),
-                  Text(
-                      "${drug.quantity} ${drug.drug!.unit}_ ${convertCurrency(drug.drug!.price)}/ ${drug.drug!.unit}",
-                      style: Theme.of(context).textTheme.labelSmall),
-                  Text(convertCurrency(drug.drug!.price!),
-                      style: Theme.of(context).textTheme.titleMedium),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       ],
     );

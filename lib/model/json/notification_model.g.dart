@@ -8,19 +8,20 @@ part of '../notification_model.dart';
 
 NotificationModel _$NotificationModelFromJson(Map<String, dynamic> json) =>
     NotificationModel(
-      id: (json['id'] as num?)?.toInt(),
+      id: (json['id_notify'] as num?)?.toInt(),
       content: json['content'] as String?,
       time:
           json['time'] == null ? null : DateTime.parse(json['time'] as String),
-      priority: json['priority'] as String?,
+      priority: json['priority'].toString() as String?,
       status: json['status'] as bool?,
-      userId: (json['userId'] as num?)?.toInt(),
-      idOrder: (json['idOrder'] as num?)?.toInt(),
-      idPayment: (json['idPayment'] as num?)?.toInt(),
-      idDonThuocCT: (json['idOrder'] as num?)?.toInt(),
+      userId: (json['id_user'] as num?)?.toInt(),
+      idOrder: (json['id_invoice'] as num?)?.toInt(),
+      idPayment: (json['id_invoice'] as num?)?.toInt(),
+      idDonThuocCT: (json['schedule_detail'] == null ? -1 : json['schedule_detail']['id_app_detail'] as num?)?.toInt(),
+      idScheduleDetail: (json['id_schedule_detail'] as num?)?.toInt()
     )
-      ..isComfirmed = json['isComfirmed'] as bool?
-      ..idDonThuocCT = (json['idDonThuocCT'] as num?)?.toInt();
+      ..isComfirmed = json['is_confirmed'] as bool?
+      ..idDonThuocCT = (json['schedule_detail'] == null ? -1 : json['schedule_detail']['id_app_detail'] as num?)?.toInt();
 
 Map<String, dynamic> _$NotificationModelToJson(NotificationModel instance) =>
     <String, dynamic>{

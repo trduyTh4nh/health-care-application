@@ -28,6 +28,7 @@ class CartPageProvider extends ChangeNotifier {
   double get totalPrice => _totalPrice;
 
   Future<void> fetchDrugCart() async {
+    print("dang fetch data cartpage");
     removeAddress();
     listChecked = [];
     _totalPrice = 0;
@@ -40,14 +41,20 @@ class CartPageProvider extends ChangeNotifier {
   }
 
   void removeCart() async {
-    final checkedSet = Set.from(listChecked);
+    // final checkedSet = Set.from(listChecked);
 
-    final drugsToRemove =
-        listDrugCart.where((drug) => checkedSet.contains(drug)).toList();
+    // final drugsToRemove =
+    //     listDrugCart.where((drug) => checkedSet.contains(drug)).toList();
 
-    await Future.wait(drugsToRemove
-        .map((drug) => CartRepo().deleteDrugFromCart(drug.idCart!)));
-
+    // await Future.wait(drugsToRemove
+    //     .map((drug) => CartRepo().deleteDrugFromCart(drug.idCart!)));
+    for (var element in listChecked) {
+      String result =
+          await CartRepo().deleteDrugFromCart(element.idDrugCartDetail!);
+      print("Đang remove ${element.drug!.name}");
+      print("Day la ket qua: $result");
+    }
+    await fetchDrugCart();
     notifyListeners();
   }
 
@@ -91,9 +98,12 @@ class CartPageProvider extends ChangeNotifier {
 
   void calculateTotalPrice() {
     _totalPrice = 0.0;
-    for (int i = 0; i < listDrugCart.length; i++) {
-      if (_isChecked[i]) {
-        _totalPrice += listDrugCart[i].drug!.price! * listDrugCart[i].quantity!;
+    if (listDrugCart.isNotEmpty) {
+      for (int i = 0; i < listDrugCart.length; i++) {
+        if (_isChecked[i]) {
+          _totalPrice +=
+              listDrugCart[i].drug!.price! * listDrugCart[i].quantity!;
+        }
       }
     }
   }
@@ -107,5 +117,4 @@ class CartPageProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-  
 }

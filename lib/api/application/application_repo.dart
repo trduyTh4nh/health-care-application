@@ -22,7 +22,7 @@ class ApplicationRepo {
       return lst;
     } catch (ex) {
       log(ex.toString());
-      return null;
+      rethrow;
     }
   }
 
@@ -40,16 +40,35 @@ class ApplicationRepo {
       }
       return 0;
     } catch (ex) {
-      if(ex is DioException){
+      if (ex is DioException) {
         DioException excep = ex;
         String s = ex.response!.data["message"].toString();
-        if(s == "You does not have permission!"){
+        if (s == "You does not have permission!") {
           return -1;
         }
         return -2;
       }
       log(ex.toString());
       return 0;
+    }
+  }
+
+  //Ham lay thuoc cua tung user
+  Future<List<PrescriptionModel>?> getPrescriptionInUser(int idUser) async {
+    List<PrescriptionModel> lst = [];
+    String token = await SecureStorage.getToken();
+    try {
+      Response res = await api.sendRequest.get(
+          "/drug/getAllApplication/$idUser",
+          options: Options(headers: header(token)));
+      final data = res.data["metadata"];
+      for (var element in data) {
+        lst.add(PrescriptionModel.fromJson(element));
+      }
+      return lst;
+    } catch (ex) {
+      log(ex.toString());
+      return null;
     }
   }
 }

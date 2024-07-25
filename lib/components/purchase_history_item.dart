@@ -21,60 +21,50 @@ class _PurchaseHistoryItemState extends State<PurchaseHistoryItem> {
                 builder: (context) =>
                     const WidgetPrescriptionstatusCancelMedicine()));
       },
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const CircleAvatar(
-            radius: 35,
-            backgroundColor: AppColors.greyColor,
-            child: Icon(
-              Icons.receipt_long,
-              size: 35,
-              color: Colors.black87,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const CircleAvatar(
+              radius: 28,
+              backgroundColor: AppColors.greyColor,
+              child: Icon(
+                Icons.receipt_long,
+                color: Colors.black87,
+              ),
             ),
-          ),
-          const SizedBox(
-            width: 16,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            const SizedBox(
+              width: 16,
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Đơn thuốc ngày 20-05-2024',
+                      style: Theme.of(context).textTheme.bodyLarge),
+                  Text(
+                    '5 thuốc',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  Text(
+                    '505.000 đ',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ],
+              ),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Đơn thuốc ngày 20-05-2024',
-                    style: Theme.of(context).textTheme.bodyLarge),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  '5 thuốc',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  '505.000 đ',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Symbols.deployed_code_history),
                 ),
               ],
             ),
-          ),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Symbols.deployed_code_history),
-                iconSize: 32,
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Symbols.arrow_right_alt),
-                iconSize: 32,
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
