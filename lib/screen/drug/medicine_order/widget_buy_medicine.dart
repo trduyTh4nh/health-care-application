@@ -31,68 +31,48 @@ class _WidgetBuyMedicine extends State<WidgetBuyMedicine> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            Image.network(
-                              errorBuilder: (context, error, stackTrace) =>
-                                  const Icon(Icons.image),
-                              // drug!.drugImage ?? ''
-                              item.drug!.drugImage ?? '',
-
-                              width: 50,
-                              height: 50,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(item.drug!.name!,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge),
-                                  Row(
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Image.network(
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Icon(Symbols.pill),
+                                // drug!.drugImage ?? ''
+                                item.drug!.drugImage ?? '',
+                                width: 50,
+                                height: 50,
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                          "${item.quantity} ${item.drug!.unit}- ${convertCurrency(item.drug!.price)}/${item.drug!.unit}")
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        item.drug!.name!,
+                                        style:
+                                            Theme.of(context).textTheme.bodyLarge,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                                "${item.quantity} ${item.drug!.unit}- ${convertCurrency(item.drug!.price)}/${item.drug!.unit}"),
+                                          )
+                                        ],
+                                      ),
+                                      Text(convertCurrency(item.drug!.price),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium),
                                     ],
                                   ),
-                                  Text(convertCurrency(item.drug!.price),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium),
-                                ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        PopupMenuButton(
-                          style: Theme.of(context).iconButtonTheme.style,
-                          itemBuilder: (context) => const [
-                            PopupMenuItem(
-                                value: MedicationItemAction.delete,
-                                child: ListTile(
-                                    leading: Icon(Symbols.delete),
-                                    title: Text("Xoá đơn thuốc "))),
-                            PopupMenuItem(
-                                value: MedicationItemAction.info,
-                                child: ListTile(
-                                    leading: Icon(Symbols.info),
-                                    title: Text("Xem thông tin "))),
-                          ],
-                          onSelected: (value) {
-                            switch (value) {
-                              case MedicationItemAction.info:
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const Drugdetails(),
-                                    ));
-                                break;
-                              default:
-                                break;
-                            }
-                          },
+                            ],
+                          ),
                         ),
                       ],
                     ),

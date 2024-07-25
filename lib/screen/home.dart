@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
-
+import 'dart:developer' as developer;
 import 'package:app_well_mate/api/auth/api_repo.dart';
 import 'package:app_well_mate/api/drug/drug_repo.dart';
 import 'package:app_well_mate/components/info_component.dart';
@@ -78,16 +78,23 @@ class _HomeState extends State<Home> {
     showCustomSnackBar(context, "Xoá thuốc thành công");
   }
 
-  onUpdate(int id, BuildContext context) {
-    setState(() {
-      data.removeWhere((e) => e.idScheduleDetail == id);
-    });
+  onUpdate(int id, int preDetailId, BuildContext context) {
+    data.removeWhere((e) => e.idScheduleDetail == id);
+    for (int i = 0; i < data.length; i++) {
+      if (data[i].idPreDetail! == preDetailId) {
+        developer.log("true");
+        data[i].detail!.quantityUsed = data[i].detail!.quantityUsed! + 1;
+      }
+    }
+    setState(() {});
   }
-  
 
   @override
   void initState() {
     future = fetchData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<CartPageProvider>(context, listen: false).fetchDrugCart();
+    });
     super.initState();
   }
 
@@ -180,7 +187,7 @@ class _HomeState extends State<Home> {
                   return Badge(
                     largeSize: value.acts.isEmpty ? 0 : null,
                     label: Text(value.acts.length.toString()),
-                    child: Icon(
+                    child: const Icon(
                       Symbols.notifications,
                       size: 24,
                     ),
@@ -305,25 +312,7 @@ class _HomeState extends State<Home> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.error_outline_outlined,
-                                              color: colorScheme.error,
-                                            ),
-                                            IconButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    showBanner = false;
-                                                  });
-                                                },
-                                                icon: const Icon(Icons.close))
-                                          ],
-                                        ),
+                                        
                                         Text(
                                           "Mùa này là mùa cảm cúm",
                                           style: Theme.of(context)
@@ -345,8 +334,8 @@ class _HomeState extends State<Home> {
                         itemCount: data.isEmpty ? 1 : expiredData.length,
                         itemBuilder: (context, index) => data.isNotEmpty
                             ? MedicationItem(
-                                onUpdate: (scheid) {
-                                  onUpdate(scheid, context);
+                                onUpdate: (scheid, preDetail) {
+                                  onUpdate(scheid, preDetail, context);
                                 },
                                 onDelete: (preDetailId) {
                                   onDelete(preDetailId, context);
@@ -365,8 +354,8 @@ class _HomeState extends State<Home> {
                       SliverList.separated(
                           itemCount: upcomingData.length,
                           itemBuilder: (context, index) => MedicationItem(
-                                onUpdate: (scheid) {
-                                  onUpdate(scheid, context);
+                                onUpdate: (scheid, preDetail) {
+                                  onUpdate(scheid, preDetail, context);
                                 },
                                 onDelete: (preDetailId) {
                                   onDelete(preDetailId, context);

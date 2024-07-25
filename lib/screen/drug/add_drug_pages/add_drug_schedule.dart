@@ -153,24 +153,32 @@ class _AddDrugSchedulePageState extends State<AddDrugSchedulePage> {
             itemBuilder: (context, index) => Material(
               borderRadius: const BorderRadius.all(Radius.circular(16)),
               child: Dismissible(
-                background: Material(color: colorScheme.error,
+                background: Material(
+                  color: colorScheme.error,
                   child: const Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(Icons.delete_outline, color: AppColors.backgroundColor,)
+                        Icon(
+                          Icons.delete_outline,
+                          color: AppColors.backgroundColor,
+                        )
                       ],
                     ),
                   ),
                 ),
-                secondaryBackground: Material(color: colorScheme.error,
+                secondaryBackground: Material(
+                  color: colorScheme.error,
                   child: const Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Icon(Icons.delete_outline, color: AppColors.backgroundColor,)
+                        Icon(
+                          Icons.delete_outline,
+                          color: AppColors.backgroundColor,
+                        )
                       ],
                     ),
                   ),
@@ -178,14 +186,27 @@ class _AddDrugSchedulePageState extends State<AddDrugSchedulePage> {
                 key: UniqueKey(),
                 onDismissed: (direction) {
                   value.removeFromScheduleDetailModel(index);
-                  setState(() {
-                    
-                  });
+                  setState(() {});
                   value.isValid = value.scheduleDetailModel.isNotEmpty;
                 },
                 child: InkWell(
                   borderRadius: const BorderRadius.all(Radius.circular(0)),
-                  onTap: () async {},
+                  onTap: () async {
+                    TimeOfDay t = value.scheduleDetailModel[index]!.timeOfUse!;
+                    t = await showTimePicker(
+                          context: context,
+                          initialTime: t,
+                          builder: (context, child) {
+                            return MediaQuery(
+                              data: MediaQuery.of(context)
+                                  .copyWith(alwaysUse24HourFormat: true),
+                              child: child!,
+                            );
+                          },
+                        ) ??
+                        t;
+                    value.editSchedule(index, t);
+                  },
                   child: Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 15),
@@ -193,20 +214,20 @@ class _AddDrugSchedulePageState extends State<AddDrugSchedulePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(children: [
-                            Icon(Symbols.alarm),
+                            const Icon(Symbols.alarm),
                             const SizedBox(
                               width: 10,
                             ),
                             Text(
                                 "${value.scheduleDetailModel[index]!.timeOfUse!.hour.toString().padLeft(2, '0')}:${value.scheduleDetailModel[index]!.timeOfUse!.minute.toString().padLeft(2, '0')}"),
                           ]),
-                          Icon(Icons.edit_outlined)
+                          const Icon(Icons.edit_outlined)
                         ],
                       )),
                 ),
               ),
             ),
-            separatorBuilder: (context, index) => Divider(
+            separatorBuilder: (context, index) => const Divider(
               indent: 20,
               endIndent: 20,
             ),
@@ -234,8 +255,8 @@ class _AddDrugSchedulePageState extends State<AddDrugSchedulePage> {
                           },
                         ) ??
                         t;
-                    value
-                        .addToScheduleDetailModel(ScheduleDetailModel(timeOfUse: t));
+                    value.addToScheduleDetailModel(
+                        ScheduleDetailModel(timeOfUse: t));
                     value.habit = 0;
                   },
                   child: const Padding(

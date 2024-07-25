@@ -77,7 +77,7 @@ class _BmiPageState extends State<BmiPage> {
     ];
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tính BMI"),
+        title: const Text("Tính BMI"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),

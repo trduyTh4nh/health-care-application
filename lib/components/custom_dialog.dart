@@ -13,7 +13,8 @@ class CustomDialog extends StatelessWidget {
       required this.onPositive,
       this.onNegative,
       this.positiveText,
-      this.negativeText});
+      this.negativeText,
+      this.onlyOption = false});
   final String title;
   final String subtitle;
   final IconData? icon;
@@ -21,6 +22,7 @@ class CustomDialog extends StatelessWidget {
   final void Function()? onNegative;
   final String? positiveText;
   final String? negativeText;
+  final bool onlyOption;
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -40,7 +42,7 @@ class CustomDialog extends StatelessWidget {
                   child: ElevatedButton(
                       onPressed: () async {
                         if (context.mounted) {
-                          Navigator.pop(context);
+                          Navigator.of(context, rootNavigator: true).pop();
                         }
                         onPositive();
                       },
@@ -48,18 +50,20 @@ class CustomDialog extends StatelessWidget {
                 ),
               ],
             ),
+            if(!onlyOption)
             const SizedBox(
               height: 10,
             ),
+            if(!onlyOption)
             Row(
               children: [
                 Expanded(
                   child: FilledButton(
                       onPressed: () {
+                        Navigator.of(context, rootNavigator: true).pop();
                         if (onNegative != null) {
                           onNegative!();
                         }
-                        Navigator.pop(context);
                       },
                       child: Text(negativeText ?? "Không")),
                 ),

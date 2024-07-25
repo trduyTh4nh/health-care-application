@@ -197,6 +197,22 @@ class _DeveloperScreenState extends State<DeveloperScreen> {
                   ),
                   InkWell(
                     onTap: () {
+                      SecureStorage.clearToken();
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(Icons.delete_forever_outlined),
+                          SizedBox(width: 16),
+                          Text("Xoá JWT token"),
+                        ],
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
                       showCustomSnackBar(context, "test");
                     },
                     child: const Padding(

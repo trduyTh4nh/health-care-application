@@ -42,7 +42,7 @@ dependencies:
   barcode: ^2.2.8
   flutter_paypal_checkout: ^1.0.1
   lottie: ^3.1.2
-
+  notification_listener_service: ^0.3.3
  
 
 flutter_launcher_icons:
