@@ -136,7 +136,7 @@ class _HomeState extends State<Home> {
                       Text("Xin chào,",
                           style: Theme.of(context).textTheme.titleLarge!),
                       Text(userName ?? "User",
-                          style: Theme.of(context).textTheme.bodyMedium!)
+                          style: Theme.of(context).textTheme.bodyMedium!),
                     ],
                   )
                 ],
@@ -312,7 +312,6 @@ class _HomeState extends State<Home> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        
                                         Text(
                                           "Mùa này là mùa cảm cúm",
                                           style: Theme.of(context)
