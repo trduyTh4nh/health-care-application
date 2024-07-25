@@ -41,14 +41,14 @@ PrescriptionModel? getPrescriptionModel(int preId) {
 
 
 //[GET]
-HospitalModel? getHospital(int idHospital) {
-  List<HospitalModel> _listHospital = generateSampleHospital();
-  try {
-    HospitalModel hos =
-        _listHospital.firstWhere((hospital) => hospital.idHospital == idHospital)
-            as HospitalModel;
-    return hos;
-  } catch (e) {
-    return null;
-  }
-}
+// HospitalModel? getHospital(int idHospital) {
+//   List<HospitalModel> _listHospital = generateSampleHospital();
+//   try {
+//     HospitalModel hos =
+//         _listHospital.firstWhere((hospital) => hospital.idHospital == idHospital)
+//             as HospitalModel;
+//     return hos;
+//   } catch (e) {
+//     return null;
+//   }
+// }
