@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:app_well_mate/api/notification/notification_repo.dart';
 import 'package:app_well_mate/api/payment/payment_repo.dart';
+import 'package:app_well_mate/components/custom_dialog.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/drug_cart_detail_model.dart';
@@ -16,6 +18,7 @@ import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:app_well_mate/utils/util.dart';
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/widget_prescriptionstatus_medicine.dart';
@@ -261,7 +264,7 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                                                 // Print the id
                                                 print('id_paypal: $idPaypal');
 
-                                                bool isPay =
+                                                int? isPay =
                                                     await paymentRepo.payment(
                                                         idAddress,
                                                         idUser,
@@ -269,18 +272,26 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                                                         drugCartList,
                                                         token,
                                                         idPaypal);
-
-                                                if (isPay) {
-                                                  showCustomSnackBar(context,
-                                                      "Thanh toán thành công!");
+                                                if (isPay != -1 &&
+                                                    context.mounted) {
+                                                  int idUser =
+                                                      await SecureStorage
+                                                          .getUserId();
                                                   value.removeCart();
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            AppPage(),
-                                                      ));
-                                                  value.removeCart();
+                                                  await NotificationRepo()
+                                                      .insertNotification({
+                                                    "content":
+                                                        "Bạn đã thanh toán thành công đơn hàng số $idPaypal",
+                                                    "time": DateTime.now()
+                                                        .toString(),
+                                                    "id_user": idUser,
+                                                    "isconfirmed": false,
+                                                    "priority": 2,
+                                                    "id_order": isPay,
+                                                    "id_schedule_detail": null
+                                                  });
+                                                  showCustomSnackBar(navigatorKey.currentContext!,
+                                                      "Thanh toán thành công");
                                                 } else {
                                                   showCustomSnackBar(context,
                                                       "Thanh toán thất bại!");

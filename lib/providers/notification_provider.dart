@@ -198,8 +198,9 @@ class NotificationProvider extends ChangeNotifier {
           "time": DateTime.now().toString(),
           "id_user": idUser,
           "isconfirmed": false,
+          "id_invoice": null,
           "priority": 1,
-          "id_schedule_detail": event.id ?? -1
+          "id_schedule_detail": (event.id ?? 0).abs()
         });
         updateNotifRequests();
       }
@@ -292,6 +293,25 @@ class NotificationProvider extends ChangeNotifier {
                 ),
               ));
     }
+    await updateNotifRequests();
+  }
+
+  showNotificationWithContent(String title, String content, int idPreDetail) async {
+    const AndroidNotificationDetails details = AndroidNotificationDetails(
+        "c1", "notif test",
+        channelDescription: "channel notif chay suon",
+        importance: Importance.high,
+        priority: Priority.high,
+        ticker: 'ticker');
+    const NotificationDetails notifDetails =
+        NotificationDetails(android: details);
+    await plugin.show(
+      0,
+      title,
+      content,
+      notifDetails,
+      payload: idPreDetail.toString()
+    );
     await updateNotifRequests();
   }
 

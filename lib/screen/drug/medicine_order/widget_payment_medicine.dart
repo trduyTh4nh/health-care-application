@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:app_well_mate/components/auto_complete_widget.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/notification_model.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
@@ -45,28 +46,20 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
     _loadAddresses();
   }
 
-  void filterProvinces(String query) {
-    final filteredProvinces = vietNemprovince.where((province) {
-      final nameLower = province['name']!.toLowerCase();
-      final queryLower = query.toLowerCase();
-      return nameLower.contains(queryLower);
-    }).toList();
-
-    setState(() {
-      _filteredProvinces = filteredProvinces;
-    });
-  }
-
-//set textcontroller tu chon thanh pho
   void onProvinceSelected(Map<String, dynamic> province) {
-    _postalController.text = province['postal_code'];
-    _coundtryCodeController.text = province['area_code'];
+    print("set state cho ");
+    setState(() {
+      _postalController.text = province['postal_code'];
+      _coundtryCodeController.text = province['area_code'].toString();
+      _cityNameController.text = province['name'];
+    });
   }
 
   String? validatorPhoneNumber(String? value) {
     if (value == null) {
       return 'Vui lòng nhập số điện thoại';
-    } else if (int.parse(value) != 10) {
+    } else if (value.length != 10 || value.contains(".")) {
+      // Changed to check length of the phone number
       return 'Số điện thoại không hợp lệ';
     }
     return null;
@@ -125,6 +118,16 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
     _coundtryCodeController.dispose();
     _postalController.dispose();
     _phoneNumberressController.dispose();
+  }
+
+  void destroyDataAddress() {
+    setState(() {
+      _nameStreetController.clear();
+      _cityNameController.clear();
+      _coundtryCodeController.clear();
+      _postalController.clear();
+      _phoneNumberressController.clear();
+    });
   }
 
   @override
@@ -205,7 +208,12 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                       _phoneNumberressController.text =
                                           splitString[4];
                                       newMethod(
-                                          context, sizeHeight, isAdd, address);
+                                        context,
+                                        sizeHeight,
+                                        isAdd,
+                                        onProvinceSelected,
+                                        address,
+                                      );
                                     },
                                   ),
                                 ),
@@ -223,12 +231,8 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                 child: InkWell(
                   onTap: () {
                     isAdd = true;
-                    // _nameStreetController.clear();
-                    // _cityNameController.clear();
-                    // _coundtryCodeController.clear();
-                    // _postalController.clear();
-                    // _phoneNumberressController.clear();
-                    newMethod(context, sizeHeight, isAdd);
+                    destroyDataAddress();
+                    newMethod(context, sizeHeight, isAdd, onProvinceSelected);
                   },
                   child: Row(
                     children: [
@@ -247,6 +251,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
   }
 
   Future<dynamic> newMethod(BuildContext context, double sizeHeight, bool isAdd,
+      void Function(Map<String, dynamic> province) onProvinceSelected,
       [AddressModel? addressA]) {
     return showModalBottomSheet(
       isScrollControlled: true,
@@ -262,7 +267,6 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
               top: 12,
             ),
             child: SizedBox(
-              height: 0.51 * sizeHeight,
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -284,28 +288,27 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                         TextFormField(
                           validator: (nameAddress) => nameAddress!.isEmpty
                               ? "Vui lòng nhập tên đường!"
-                              : "",
+                              : null,
                           controller: _nameStreetController,
                           decoration: const InputDecoration(
                               labelText: "Nhập tên đường"),
                         ),
-                        TextFormField(
-                          validator: (nameCity) => nameCity!.isEmpty
-                              ? "Vui lòng nhập tên thành phố!"
-                              : "",
-                          controller: _cityNameController,
-                          onChanged: filterProvinces,
-                          decoration: const InputDecoration(
-                              labelText: "Nhập thành phố"),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Chọn khu vực'),
+                            AutocompleteBasicExample(
+                              onProvinceSelected: onProvinceSelected,
+                              isAdd: isAdd,
+                              coundTryController: _cityNameController,
+                            ),
+                          ],
                         ),
                         Row(
                           children: [
                             Expanded(
                               child: TextFormField(
-                                validator: (coundtryCode) =>
-                                    coundtryCode!.isEmpty
-                                        ? "Vui lòng nhập mã vùng!"
-                                        : "",
+                                readOnly: true,
                                 controller: _coundtryCodeController,
                                 decoration:
                                     const InputDecoration(labelText: "Mã vùng"),
@@ -316,9 +319,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                             ),
                             Expanded(
                               child: TextFormField(
-                                validator: (postalCode) => postalCode!.isEmpty
-                                    ? "Vui lòng nhập postal code!"
-                                    : "",
+                                readOnly: true,
                                 controller: _postalController,
                                 decoration: const InputDecoration(
                                     labelText: "Postal code"),
@@ -327,6 +328,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                           ],
                         ),
                         TextFormField(
+                          keyboardType: TextInputType.phone,
                           validator: validatorPhoneNumber,
                           controller: _phoneNumberressController,
                           decoration:
@@ -339,10 +341,9 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                             child: ElevatedButton(
                               onPressed: isAdd
                                   ? () {
-                                      print("dang vo add");
                                       if (_formKey.currentState!.validate()) {
-                                        print("dang vo ham");
                                         String allinFo = getAddress();
+                                        print("ten day du: $allinFo");
                                         _addAddress(allinFo);
                                         Navigator.pop(context);
 
@@ -363,6 +364,7 @@ class _WidgetPaymentMedicine extends State<WidgetPaymentMedicine> {
                                       _coundtryCodeController.clear();
                                       _postalController.clear();
                                       _phoneNumberressController.clear();
+
                                       Navigator.pop(context);
                                     },
                               child: const Text("Xong"),

@@ -42,7 +42,7 @@ class CustomDialog extends StatelessWidget {
                   child: ElevatedButton(
                       onPressed: () async {
                         if (context.mounted) {
-                          Navigator.pop(context);
+                          Navigator.of(context, rootNavigator: true).pop();
                         }
                         onPositive();
                       },
@@ -60,10 +60,10 @@ class CustomDialog extends StatelessWidget {
                 Expanded(
                   child: FilledButton(
                       onPressed: () {
+                        Navigator.of(context, rootNavigator: true).pop();
                         if (onNegative != null) {
                           onNegative!();
                         }
-                        Navigator.pop(context);
                       },
                       child: Text(negativeText ?? "Không")),
                 ),

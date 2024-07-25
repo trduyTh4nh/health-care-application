@@ -104,8 +104,8 @@ class _TestcrawlTileState extends State<TestcrawlTile> {
                                   children: [
                                     SizedBox(
                                       width: MediaQuery.of(context).size.width *
-                                          2 /
-                                          3,
+                                          3 /
+                                          5,
                                       child: Text(
                                         disease['title'] ?? '',
                                         maxLines: 2,

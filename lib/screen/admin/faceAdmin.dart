@@ -1,4 +1,4 @@
-import 'package:app_well_mate/screen/changeRePassword.dart';
+import 'package:app_well_mate/screen/changePassword.dart';
 import 'package:app_well_mate/screen/info.dart';
 import 'package:app_well_mate/screen/language.dart';
 import 'package:app_well_mate/screen/login.dart';
@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_symbols_icons/symbols.dart';
+
 class FaceAdmin extends StatefulWidget {
   const FaceAdmin({super.key});
 
@@ -17,11 +18,11 @@ class FaceAdmin extends StatefulWidget {
 
 class _FaceAdminState extends State<FaceAdmin> {
   @override
- Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-          title: Row(children: [
+        title: Row(children: [
           Hero(
             tag: "01",
             child: const CircleAvatar(
@@ -34,10 +35,10 @@ class _FaceAdminState extends State<FaceAdmin> {
             width: 12,
           ),
           Hero(
-                tag: "02",
-                child: Text("Nguyễn Duy",
-                    style: Theme.of(context).textTheme.titleMedium),
-              ),
+            tag: "02",
+            child: Text("Nguyễn Duy",
+                style: Theme.of(context).textTheme.titleMedium),
+          ),
         ]),
         actions: [
           //KHÔNG ĐƯỢC CONST!!!!!
@@ -53,8 +54,8 @@ class _FaceAdminState extends State<FaceAdmin> {
                 size: 24,
               ))
         ],
-        ),
-        body: SingleChildScrollView(
+      ),
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(15),
           child:
@@ -85,7 +86,7 @@ class _FaceAdminState extends State<FaceAdmin> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const Changerepassword()));
+                        builder: (context) => const ChangePassword()));
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -123,7 +124,11 @@ class _FaceAdminState extends State<FaceAdmin> {
             const Divider(),
             InkWell(
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const InfoPage(),));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const InfoPage(),
+                    ));
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),

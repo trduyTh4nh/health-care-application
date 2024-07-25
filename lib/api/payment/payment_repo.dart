@@ -9,7 +9,7 @@ import 'package:intl/intl.dart';
 class PaymentRepo {
   API api = API();
 
-  Future<bool> payment(
+  Future<int?> payment(
       id_address, id_user, total_price, listDrugCart, token, id_paypal) async {
     Map<String, dynamic> body = {
       'id_address': id_address,
@@ -18,13 +18,11 @@ class PaymentRepo {
       'listDrugCart': listDrugCart,
       'id_paypal': id_paypal
     };
-
     log(body.toString());
-
     Response res = await api.sendRequest.post('/payment/addPayment',
         options: Options(headers: header(token)), data: body);
-
-    return res.statusCode == 200;
+    log(res.data["metadata"][["id_invoice"]].toString());
+    return res.statusCode == 200 ? res.data["metadata"]["id_invoice"] : -1;
   }
 
   Future<List<HistoryStransactionModel>> getAllInvoices(

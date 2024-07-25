@@ -45,12 +45,7 @@ List<Map<String, dynamic>> vietNemprovince = [
   {"id": 27, "name": "Hải Phòng", "postal_code": "180000", "area_code": 225},
   {"id": 28, "name": "Hậu Giang", "postal_code": "910000", "area_code": 293},
   {"id": 29, "name": "Hòa Bình", "postal_code": "350000", "area_code": 218},
-  {
-    "id": 30,
-    "name": "TP. Hồ Chí Minh",
-    "postal_code": "700000",
-    "area_code": 28
-  },
+  {"id": 30, "name": "Hồ Chí Minh", "postal_code": "700000", "area_code": 28},
   {"id": 31, "name": "Hưng Yên", "postal_code": "160000", "area_code": 221},
   {"id": 32, "name": "Khánh Hoà", "postal_code": "650000", "area_code": 258},
   {"id": 33, "name": "Kiên Giang", "postal_code": "920000", "area_code": 297},

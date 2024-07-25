@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:app_well_mate/api/notification/notification_repo.dart';
 import 'package:app_well_mate/components/notification_item.dart';
+import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/notification_model.dart';
-import 'package:app_well_mate/screen/search/component_crawl.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -19,7 +22,6 @@ class _NotificationPageState extends State<NotificationPage> {
   NotificationRepo repo = NotificationRepo();
   getData() async {
     notifications = await repo.getNotifications();
-    log(notifications);
   }
 
   Future<void>? future;
@@ -53,15 +55,18 @@ class _NotificationPageState extends State<NotificationPage> {
           future: future,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Center(
+                child: LoadingAnimationWidget.flickr(
+                    leftDotColor: colorScheme.primary,
+                    rightDotColor: colorScheme.error,
+                    size: 48),
               );
             }
             _listRed = notifications!
                 .where((e) =>
                     (e.priority! == '1' ||
-                        e.priority! == '2' ||
-                        e.priority! == '3') &&
+                        e.priority! == '4' ||
+                        e.priority! == '5') &&
                     checkExpire(e.time!))
                 .toList();
             // sort
@@ -72,20 +77,26 @@ class _NotificationPageState extends State<NotificationPage> {
                 .toList();
             _listBlue.sort((a, b) => b.time!.compareTo(a.time!));
             return Container(
-              padding: const EdgeInsets.only(left: 24, right: 24),
               child: CustomScrollView(
                 slivers: [
                   SliverToBoxAdapter(
-                    child: Text(
-                      'Quan trọng',
-                      style: Theme.of(context).textTheme.bodyLarge,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
+                      child: Text(
+                        'Quan trọng',
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
                     ),
                   ),
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                        // var priority = _listRed[index].priority;
                         return NotifyComponent(
+                          onDelete: (idNoti) {
+                            notifications!.removeWhere((e) => e.id == idNoti);
+                            setState(() {});
+                          },
                           notifiItem: _listRed[index],
                           isImportant: true,
                         );
@@ -99,7 +110,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                        if(_listBlue.isEmpty){
+                        if (_listBlue.isEmpty) {
                           return Text("Empty");
                         }
                         var now = DateTime.now();
@@ -126,35 +137,65 @@ class _NotificationPageState extends State<NotificationPage> {
                         List<Widget> children = [];
 
                         if (arrRecently.isNotEmpty) {
-                          children.add(Text('Gần đây',
-                              style: Theme.of(context).textTheme.bodyLarge));
+                          children.add(Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            child: Text('Gần đây',
+                                style: Theme.of(context).textTheme.bodyLarge),
+                          ));
                           children.addAll(arrRecently.map((notification) {
                             return NotifyComponent(
-                                notifiItem: notification, isImportant: false);
+                                onDelete: (idNoti) {
+                                  notifications!
+                                      .removeWhere((e) => e.id == idNoti);
+                                  setState(() {});
+                                },
+                                notifiItem: notification,
+                                isImportant: false);
                           }).toList());
                         }
 
                         if (arrYesterday.isNotEmpty) {
-                          children.add(Text('Hôm qua',
-                              style: Theme.of(context).textTheme.bodyLarge));
+                          children.add(Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            child: Text('Hôm qua',
+                                style: Theme.of(context).textTheme.bodyLarge),
+                          ));
                           children.addAll(arrYesterday.map((notification) {
                             return NotifyComponent(
-                                notifiItem: notification, isImportant: false);
+                                onDelete: (idNoti) {
+                                  notifications!
+                                      .removeWhere((e) => e.id == idNoti);
+                                  setState(() {});
+                                },
+                                notifiItem: notification,
+                                isImportant: false);
                           }).toList());
                         }
 
                         if (arrFurther.isNotEmpty) {
-                          children.add(Text('Xa hơn',
-                              style: Theme.of(context).textTheme.bodyLarge));
+                          children.add(Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            child: Text('Xa hơn',
+                                style: Theme.of(context).textTheme.bodyLarge),
+                          ));
                           children.addAll(arrFurther.map((notification) {
                             return NotifyComponent(
-                                notifiItem: notification, isImportant: false);
+                                onDelete: (idNoti) {
+                                  notifications!
+                                      .removeWhere((e) => e.id == idNoti);
+                                  setState(() {});
+                                },
+                                notifiItem: notification,
+                                isImportant: false);
                           }).toList());
                         }
 
                         return Column(
-                          children: children,
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          children: children,
                         );
                       },
                       childCount: 1,
