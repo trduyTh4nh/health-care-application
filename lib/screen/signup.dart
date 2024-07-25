@@ -1,3 +1,4 @@
+import 'dart:core';
 import 'package:app_well_mate/api/auth/api_repo.dart';
 import 'package:app_well_mate/api/cart/cart_repo.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
@@ -16,6 +17,8 @@ class Signup extends StatefulWidget {
 class _SignupState extends State<Signup> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _rePasswordController = TextEditingController();
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _namePController = TextEditingController();
   final TextEditingController _userNamePController = TextEditingController();
@@ -31,12 +34,21 @@ class _SignupState extends State<Signup> {
     return null;
   }
 
+  String? validateRePass(String? repass, String pass) {
+    if (repass == null || repass.isEmpty) {
+      return 'Mật khẩu không được để trống';
+    } else if (repass != pass) {
+      return 'Mật khẩu không trùng khớp!';
+    }
+    return null;
+  }
+
   String? validatePassWord(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Mật khẩu không được để trống';
+      return 'Vui lòng nhập mật khẩu!';
     } else if (!RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$')
         .hasMatch(value)) {
-      return 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ cái và số';
+      return 'Mật khẩu phải có ít nhất 8 ký tự,\n bao gồm chữ cái và số';
     }
     return null;
   }
@@ -54,6 +66,11 @@ class _SignupState extends State<Signup> {
       await CartRepo().createCart(response);
 
       showCustomSnackBar(context, "Đăng ký thành công");
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Login(),
+          ));
     } else {
       showCustomSnackBar(context, "Đăng ký thất bại");
     }
@@ -213,6 +230,33 @@ class _SignupState extends State<Signup> {
                           obscureText: true,
                           decoration: const InputDecoration(
                               hintText: 'Mật khẩu',
+                              hintStyle: TextStyle(
+                                  fontSize: 16,
+                                  color: Color.fromARGB(255, 167, 167, 167)),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              border: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(width: 3, color: Colors.grey)),
+                              prefixIcon: Icon(Icons.password),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 3, color: AppColors.primaryColor)),
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 2, color: AppColors.greyColor))),
+                        ),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        TextFormField(
+                          validator: (value) =>
+                              validateRePass(value, _passwordController.text),
+                          onChanged: (value) {},
+                          controller: _rePasswordController,
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                              hintText: 'Nhập lại mật khẩu',
                               hintStyle: TextStyle(
                                   fontSize: 16,
                                   color: Color.fromARGB(255, 167, 167, 167)),

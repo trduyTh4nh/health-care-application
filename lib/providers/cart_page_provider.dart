@@ -28,6 +28,7 @@ class CartPageProvider extends ChangeNotifier {
   double get totalPrice => _totalPrice;
 
   Future<void> fetchDrugCart() async {
+    print("dang fetch data cartpage");
     removeAddress();
     listChecked = [];
     _totalPrice = 0;
@@ -97,9 +98,12 @@ class CartPageProvider extends ChangeNotifier {
 
   void calculateTotalPrice() {
     _totalPrice = 0.0;
-    for (int i = 0; i < listDrugCart.length; i++) {
-      if (_isChecked[i]) {
-        _totalPrice += listDrugCart[i].drug!.price! * listDrugCart[i].quantity!;
+    if (listDrugCart.isNotEmpty) {
+      for (int i = 0; i < listDrugCart.length; i++) {
+        if (_isChecked[i]) {
+          _totalPrice +=
+              listDrugCart[i].drug!.price! * listDrugCart[i].quantity!;
+        }
       }
     }
   }

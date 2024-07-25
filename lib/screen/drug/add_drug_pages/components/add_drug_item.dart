@@ -30,13 +30,12 @@ class _AddDrugItemState extends State<AddDrugItem> {
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
           child: Row(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                    color: colorScheme.primary,
-                    borderRadius: const BorderRadius.all(Radius.circular(50))),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Icon(Symbols.pill, color: colorScheme.surface),
+              SizedBox(
+                width: 36,
+                height: 36,
+                child: CircleAvatar(
+                  backgroundColor: colorScheme.surface,
+                  backgroundImage: NetworkImage(widget.drug.drugImage ?? ""),
                 ),
               ),
               const SizedBox(

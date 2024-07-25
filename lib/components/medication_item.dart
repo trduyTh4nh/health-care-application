@@ -1,4 +1,5 @@
 import 'package:app_well_mate/api/drug/drug_repo.dart';
+import 'package:app_well_mate/api/notification/notification_repo.dart';
 import 'package:app_well_mate/components/custom_dialog.dart';
 import 'package:app_well_mate/components/custom_elevated_button.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
@@ -9,11 +10,15 @@ import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/providers/cart_page_provider.dart';
 import 'package:app_well_mate/providers/notification_provider.dart';
 import 'package:app_well_mate/screen/drug_info.dart';
+import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 
 enum MedicationItemAction { delete, edit, snooze, buy, confirm }
+
+Duration delayDuration = const Duration(minutes: 10);
 
 class MedicationItem extends StatefulWidget {
   const MedicationItem(
@@ -25,7 +30,7 @@ class MedicationItem extends StatefulWidget {
   final ScheduleDetailModel prescription;
   final String? titleText;
   final Function(int preDetailId)? onDelete;
-  final Function(int scheid)? onUpdate;
+  final Function(int scheid, int idPreDetail)? onUpdate;
   @override
   State<MedicationItem> createState() => _MedicationItemState();
 }
@@ -33,6 +38,7 @@ class MedicationItem extends StatefulWidget {
 class _MedicationItemState extends State<MedicationItem> {
   bool showWarning = true;
   DrugRepo repo = DrugRepo();
+  NotificationRepo notifRepo = NotificationRepo();
   Future<void>? future;
   deleteDrug(BuildContext context) async {
     try {
@@ -53,30 +59,59 @@ class _MedicationItemState extends State<MedicationItem> {
     if (widget.prescription.detail!.quantity! -
             widget.prescription.detail!.quantityUsed! ==
         0) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text("Bạn đã hết thuốc"),
-        action: SnackBarAction(
-          label: "Mua thêm",
-          onPressed: () {},
-        ),
-      ));
+      showDialog(
+          context: context,
+          builder: (context) => Consumer<CartPageProvider>(
+            builder: (context, value, child) {
+              return CustomDialog(
+                    title: "Bạn đã hết thuốc",
+                    subtitle: "Hãy ấn 'thêm thuốc vào giỏ' để mua thêm",
+                    onPositive: () {
+                      value.addDrugtoCart(widget.prescription.detail!.drug!, context);
+                    },
+                    positiveText: "Thêm vào giỏ",
+                    negativeText: "Không, cảm ơn",
+                    icon: Symbols.pill_off,
+                  );
+            }
+          ));
       return;
     }
     int res =
         await repo.updateSchedule(widget.prescription.idScheduleDetail ?? -1);
     if (widget.onUpdate != null && res == 1 && context.mounted) {
-      int timeDiffSec = widget.prescription.timeOfUse != null
-          ? (toSecond(TimeOfDay.now()) -
-              toSecond(widget.prescription.timeOfUse!))
-          : -1;
-      if (timeDiffSec < 0) {
-        await Provider.of<NotificationProvider>(context, listen: false)
-            .scheduleNotification(
-                widget.prescription,
-                widget.prescription.detail!.drug!,
-                widget.prescription.idPreDetail!);
+      if (widget.prescription.detail!.quantityUsed! + 1 ==
+          widget.prescription.detail!.quantity) {
+        int idUser = await SecureStorage.getUserId();
+        Provider.of<NotificationProvider>(context, listen: false)
+            .showNotificationWithContent(
+                "Đã hết thuốc ${widget.prescription.detail!.drug!.name}",
+                "Ấn vào đây để xem thêm",
+                widget.prescription.detail!.idPreDetail ?? -1);
+        NotificationRepo().insertNotification({
+          "content": "Đã hết thuốc ${widget.prescription.detail!.drug!.name}",
+          "time": DateTime.now().toString(),
+          "id_user": idUser,
+          "isconfirmed": false,
+          "id_invoice": null,
+          "priority": 4,
+          "id_schedule_detail":
+              (widget.prescription.idScheduleDetail ?? 0).abs()
+        });
       }
-      widget.onUpdate!(widget.prescription.idScheduleDetail ?? -1);
+      widget.onUpdate!(widget.prescription.idScheduleDetail ?? -1,
+          widget.prescription.detail!.idPreDetail ?? -1);
+      int idUser = await SecureStorage.getUserId();
+      await notifRepo.insertNotification({
+        "content":
+            "Bạn đã ghi nhận uống thuốc ${widget.prescription.detail!.drug!.name}",
+        "time": DateTime.now().toString(),
+        "id_user": idUser,
+        "isconfirmed": false,
+        "id_invoice": null,
+        "priority": 3,
+        "id_schedule_detail": (widget.prescription.idScheduleDetail ?? 0).abs()
+      });
       showCustomSnackBar(context, "Đã ghi nhận uống thuốc này.");
     } else if (context.mounted) {
       showCustomSnackBar(context, "Lỗi khi cập nhật đơn thuốc");
@@ -247,8 +282,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                                                               .prescription
                                                                               .detail!
                                                                               .idPreDetail!,
-                                                                          const Duration(
-                                                                              seconds: 1));
+                                                                          delayDuration);
                                                                       if (context
                                                                           .mounted) {
                                                                         showCustomSnackBar(
@@ -361,8 +395,7 @@ class _MedicationItemState extends State<MedicationItem> {
                                                             .prescription
                                                             .detail!
                                                             .idPreDetail!,
-                                                        const Duration(
-                                                            minutes: 10));
+                                                        delayDuration);
                                                 if (context.mounted) {
                                                   showCustomSnackBar(context,
                                                       "Hệ thống sẽ thông báo lại sau 10 phút về giờ uống thuốc của thuốc này.");

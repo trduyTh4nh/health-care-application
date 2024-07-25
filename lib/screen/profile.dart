@@ -7,7 +7,7 @@ import 'package:app_well_mate/components/shotcut.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/user_info_model.dart';
 import 'package:app_well_mate/providers/notification_provider.dart';
-import 'package:app_well_mate/screen/changeRePassword.dart';
+import 'package:app_well_mate/screen/changePassword.dart';
 import 'package:app_well_mate/screen/developer.dart';
 import 'package:app_well_mate/screen/drug_manage.dart';
 import 'package:app_well_mate/screen/edit_infomation_user.dart';
@@ -334,7 +334,7 @@ class _ThongtincanhanState extends State<Thongtincanhan> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const Changerepassword(),
+                              builder: (context) => const ChangePassword(),
                             ),
                           );
                         },

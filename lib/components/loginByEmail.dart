@@ -27,10 +27,23 @@ class _LoginByEmailState extends State<LoginByEmail> {
     log("dang kiem tra");
     RegExp emailRegex = RegExp(r'^[\w\.-]+@gmail\.com$');
     final isEmailValid = emailRegex.hasMatch(email ?? '');
-    if (!isEmailValid) {
-      return "Vui lòng nhập email hợp lệ";
+    if (email!.isNotEmpty) {
+      if (!isEmailValid) {
+        return "Vui lòng nhập email hợp lệ";
+      }
+    } else {
+      return "Vui lòng điền email";
     }
     return null;
+  }
+
+  String? validatePass(String? pass) {
+    log("dang kiem tra");
+    if (pass!.isNotEmpty) {
+      return null;
+    } else {
+      return "vui lòng nhập email";
+    }
   }
 
   late User user;
@@ -39,33 +52,73 @@ class _LoginByEmailState extends State<LoginByEmail> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   ApiRepo repo = ApiRepo();
+  // login(BuildContext context) async {
+  //   if (_formKey.currentState!.validate()) {
+  //     setState(() {
+  //       isLoading = true;
+  //     });
+  //     String msg = "";
+  //     bool r =
+  //         await repo.login(_emailController.text, _passwordController.text);
+  //     msg = r ? "Đăng nhập thành công" : "Email hoặc mật khẩu không khớp";
+  //     // lụm nó cho thầy
+  //     if (r) {
+  //       currentPassword = _passwordController.text;
+  //       print("lấy pass ra cho thầy: $currentPassword");
+
+  //     }
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+
+  //     int role = await SecureStorage.getUserRole();
+  //     if (role == 2) {
+  //       Navigator.push(context,
+  //           MaterialPageRoute(builder: (context) => const AdminPage()));
+  //       return;
+  //     }
+  //     if (context.mounted) {
+  //       ScaffoldMessenger.of(context)
+  //           .showSnackBar(SnackBar(content: Text(msg)));
+  //       if (r) {
+  //         Navigator.push(
+  //             context, MaterialPageRoute(builder: (context) => currentpage));
+  //       }
+  //     }
+  //   }
+  // }
+
   login(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         isLoading = true;
       });
-      String msg = "";
+
       bool r =
           await repo.login(_emailController.text, _passwordController.text);
-      msg = r ? "Đăng nhập thành công" : "Email hoặc mật khẩu không khớp";
-      // lụm nó cho thầy
-      if (r) {
-        currentPassword = _passwordController.text;
-        print("lấy pass ra cho thầy: $currentPassword");
-      }
+      String msg =
+          r ? "Đăng nhập thành công" : "Email hoặc mật khẩu không khớp";
+
       setState(() {
         isLoading = false;
       });
-      int role = await SecureStorage.getUserRole();
-      if (role == 2) {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const AdminPage()));
-        return;
-      }
+
+      // Hiển thị SnackBar ngay cả khi không đăng nhập thành công
       if (context.mounted) {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(msg)));
-        if (r) {
+      }
+
+      // Điều hướng nếu đăng nhập thành công
+      if (r) {
+        currentPassword = _passwordController.text;
+        print("lấy pass ra cho thầy: $currentPassword");
+
+        int role = await SecureStorage.getUserRole();
+        if (role == 2) {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const AdminPage()));
+        } else {
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => currentpage));
         }
@@ -136,11 +189,10 @@ class _LoginByEmailState extends State<LoginByEmail> {
                       const SizedBox(
                         height: 32,
                       ),
-                      TextField(
+                      TextFormField(
+                        validator: validatePass,
                         obscureText: _isSecurePassword,
-                        onChanged: (value) {
-                          print(value);
-                        },
+                        onChanged: (value) {},
                         controller: _passwordController,
                         decoration: InputDecoration(
                             suffixIcon: tooglePassword(),

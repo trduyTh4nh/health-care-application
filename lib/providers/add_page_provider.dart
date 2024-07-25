@@ -53,7 +53,11 @@ class AddPageProvider extends ChangeNotifier {
       }
     }
   }
-  
+  editSchedule(int index, TimeOfDay time){
+    _scheduleDetailModel[index]!.timeOfUse = time;
+    habit = 0;
+    notifyListeners();
+  }
   List<DrugModel> _drugModelList = [];
   set drugModelList(List<DrugModel> newVal) {
     _drugModelList = newVal;
