@@ -188,7 +188,6 @@ List<PrescriptionModel> generateSamplePrescriptions() {
           address: "413, Điện Biên Phủ, Phường 10, Quận 3",
           phone: "0988362384",
           createdDate: DateTime.now(),
-          contactInformation: "bsdhyd@gmail.com",
           avatars:
               "https://upload.wikimedia.org/wikipedia/vi/thumb/4/42/Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_Y_D%C6%B0%E1%BB%A3c%2C_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_Hu%E1%BA%BF.svg/1024px-Logo_Tr%C6%B0%E1%BB%9Dng_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_Y_D%C6%B0%E1%BB%A3c%2C_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_Hu%E1%BA%BF.svg.png"),
       prescriptionDetails: [

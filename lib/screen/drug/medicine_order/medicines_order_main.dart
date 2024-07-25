@@ -278,31 +278,6 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                                                       await SecureStorage
                                                           .getUserId();
                                                   value.removeCart();
-
-                                                  showDialog(
-                                                      context: context,
-                                                      builder: (context) =>
-                                                          CustomDialog(
-                                                            title:
-                                                                "Thanh toán thành công",
-                                                            subtitle:
-                                                                "Bạn đã thanh toán thành công đơn hàng $idPaypal gồm ${value.listChecked.length} sản phẩm. Hãy ấn vào 'Xem đơn mua' để xem lại đơn mua mà mình đã thanh toán.",
-                                                            icon: Symbols
-                                                                .check_circle,
-                                                            onPositive: () {},
-                                                            positiveText:
-                                                                "Xem đơn mua",
-                                                            negativeText:
-                                                                "Không, cảm ơn",
-                                                            onNegative: () {
-                                                              Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              const AppPage()));
-                                                            },
-                                                          ));
                                                   await NotificationRepo()
                                                       .insertNotification({
                                                     "content":
@@ -315,6 +290,8 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                                                     "id_order": isPay,
                                                     "id_schedule_detail": null
                                                   });
+                                                  showCustomSnackBar(navigatorKey.currentContext!,
+                                                      "Thanh toán thành công");
                                                 } else {
                                                   showCustomSnackBar(context,
                                                       "Thanh toán thất bại!");

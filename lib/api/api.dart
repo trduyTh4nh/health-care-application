@@ -15,15 +15,14 @@ class API {
 }
 
 Map<String, dynamic> header(String token) {
-  return {
-    "Access-Control-Allow-Origin": "*",
-    'Content-Type': 'application/json',
-    'Accept': '*/*',
-    'Authorization': 'Bearer $token'
-  };
+    return {
+      "Access-Control-Allow-Origin": "*",
+      'Content-Type': 'application/json',
+      'Accept': '*/*',
+      'Authorization': 'Bearer $token'
+    };
 }
-
-Map<String, dynamic> adminHeader(String token, String adminToken) {
+Map<String, dynamic> adminHeader(String token, String adminToken){
   return {
     "Access-Control-Allow-Origin": "*",
     'Content-Type': 'application/json',
@@ -32,4 +31,3 @@ Map<String, dynamic> adminHeader(String token, String adminToken) {
     'x-admin-key': adminToken
   };
 }
-
