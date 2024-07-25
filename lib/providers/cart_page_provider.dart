@@ -9,6 +9,7 @@ import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:flutter/material.dart';
 
 class CartPageProvider extends ChangeNotifier {
+  int quantityMedicine = 0;
   List<DrugCartDetailModel> listDrugCart = [];
   List<DrugCartDetailModel> listChecked = [];
   List<bool> _isChecked = [];
@@ -19,6 +20,7 @@ class CartPageProvider extends ChangeNotifier {
   }
 
   void removeAddress() {
+    print("da remove address");
     selectedAddress = null;
   }
 
@@ -40,14 +42,13 @@ class CartPageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void refeshAddress() async {
+    print("dang vao ham refesh page");
+    selectedAddress = null;
+    notifyListeners();
+  }
+
   void removeCart() async {
-    // final checkedSet = Set.from(listChecked);
-
-    // final drugsToRemove =
-    //     listDrugCart.where((drug) => checkedSet.contains(drug)).toList();
-
-    // await Future.wait(drugsToRemove
-    //     .map((drug) => CartRepo().deleteDrugFromCart(drug.idCart!)));
     for (var element in listChecked) {
       String result =
           await CartRepo().deleteDrugFromCart(element.idDrugCartDetail!);
@@ -64,11 +65,20 @@ class CartPageProvider extends ChangeNotifier {
     await fetchDrugCart();
   }
 
+  void refeshCart() async {
+    int userId = await SecureStorage.getUserId();
+    List<DrugCartDetailModel> items =
+        await CartRepo().getAllDrugInCartttt(userId);
+    listDrugCart = items;
+  }
+
   void addDrugtoCart(DrugModel drug, BuildContext context) async {
     int res = await CartRepo().insertDrugToCart(drug);
     if (res == 200) {
+      quantityMedicine += 1;
       log("Day la thuoc da duc them: ${drug.name}");
       fetchDrugCart();
+      // refeshCart();
     }
     if (res == 403) {
       log("item already exsists");

@@ -103,16 +103,21 @@ class _WidgetCompleteMedicine extends State<WidgetCompleteMedicine> {
                     color: Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: value.selectedAddress != null ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text("Địa chỉ giao hàng"),
-                          Text(
-                            getAdress(value.selectedAddress!.address!),
-                            style: Theme.of(context).textTheme.titleMedium,
-                          )
-                        ],
-                      ) : const SizedBox(),
+                      child: value.selectedAddress != null
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text("Địa chỉ giao hàng"),
+                                Text(
+                                  getAdress(value.selectedAddress!.address!),
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                )
+                              ],
+                            )
+                          : const SizedBox(),
                     ),
                   ),
                 ),
