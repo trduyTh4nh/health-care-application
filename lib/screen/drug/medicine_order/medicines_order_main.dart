@@ -191,7 +191,8 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                                             return {
                                               "id_drug": item.drug!.idDrug,
                                               "quantity": item.quantity,
-                                              "id_app_detail": item.idAppDetail ?? -1,
+                                              "id_app_detail":
+                                                  item.idAppDetail ?? -1,
                                             };
                                           }).toList();
 
@@ -290,7 +291,9 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                                                     "id_order": isPay,
                                                     "id_schedule_detail": null
                                                   });
-                                                  showCustomSnackBar(navigatorKey.currentContext!,
+                                                  showCustomSnackBar(
+                                                      navigatorKey
+                                                          .currentContext!,
                                                       "Thanh toán thành công");
                                                 } else {
                                                   showCustomSnackBar(context,
