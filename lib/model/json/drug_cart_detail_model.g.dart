@@ -18,6 +18,7 @@ DrugCartDetailModel _$DrugCartDetailModelFromJson(Map<String, dynamic> json) =>
       drug: json['drug'] == null
           ? null
           : DrugModel.fromJson(json['drug'] as Map<String, dynamic>),
+      idAppDetail: json["id_app_detail"] ?? -1
     );
 
 Map<String, dynamic> _$DrugCartDetailModelToJson(

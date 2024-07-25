@@ -124,10 +124,9 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
   deleteDrug(BuildContext context) async {
     try {
       await drugRepo.deletePrescriptionDetail(prescriptionDetail!.idPreDetail!);
-      if (context.mounted) {
-        showCustomSnackBar(context, "Xoá thành công");
-        Navigator.pop(context);
-      }
+        showCustomSnackBar(navigatorKey.currentContext!, "Xoá thành công");
+        Navigator.pop(navigatorKey.currentContext!);
+      
     } catch (ex) {
       if (context.mounted) {
         showCustomSnackBar(context, "Lỗi khi xoá thuốc");
@@ -374,217 +373,231 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                                           if (prescriptionDetail!
                                                   .quantityUsed !=
                                               prescriptionDetail!.quantity)
-                                          SliverList.separated(
-                                            itemCount: _timesMorning1.length,
-                                            itemBuilder: (context, index) {
-                                              return _timesMorning1.isNotEmpty
-                                                  ? TimeItem(
-                                                      deleteScheduleById: (id) {
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (context) =>
-                                                              CustomDialog(
-                                                            icon: Icons
-                                                                .warning_rounded,
-                                                            title:
-                                                                "Xoá lịch uống thuốc",
-                                                            subtitle:
-                                                                "Bạn có chắc là muốn xoá lịch uống thuốc này không?",
-                                                            onPositive:
-                                                                () async {
-                                                              await deleteSchedule(
-                                                                  id, context);
-                                                              listScheduleDetail
-                                                                  ?.removeWhere(
-                                                                      (e) =>
-                                                                          e.idScheduleDetail ==
-                                                                          id);
-                                                              renderListSchedule();
-                                                              setState(() {});
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                          ),
-                                                        );
-                                                      },
-                                                      scheDetail:
-                                                          _timesMorning1[index],
-                                                      onDataChanged: (index) {
-                                                        setState(() {
-                                                          idScheSelected =
-                                                              index;
-                                                        });
-                                                      },
-                                                      isSelected: idScheSelected ==
-                                                          _timesMorning1[index]
-                                                              .idScheduleDetail,
-                                                      time:
-                                                          _timesMorning1[index]
-                                                              .timeOfUse!,
-                                                      title: index == 0
-                                                          ? Text(
-                                                              'Sáng',
-                                                              style: GoogleFonts.inter(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            )
-                                                          : null,
-                                                      sIndex:
-                                                          _timesMorning1[index]
-                                                              .idScheduleDetail,
-                                                    )
-                                                  : null;
-                                            },
-                                            separatorBuilder:
-                                                (context, index) =>
-                                                    const SizedBox(
-                                              height: 10,
+                                            SliverList.separated(
+                                              itemCount: _timesMorning1.length,
+                                              itemBuilder: (context, index) {
+                                                return _timesMorning1.isNotEmpty
+                                                    ? TimeItem(
+                                                        deleteScheduleById:
+                                                            (id) {
+                                                          showDialog(
+                                                            context: context,
+                                                            builder: (context) =>
+                                                                CustomDialog(
+                                                              icon: Icons
+                                                                  .warning_rounded,
+                                                              title:
+                                                                  "Xoá lịch uống thuốc",
+                                                              subtitle:
+                                                                  "Bạn có chắc là muốn xoá lịch uống thuốc này không?",
+                                                              onPositive:
+                                                                  () async {
+                                                                await deleteSchedule(
+                                                                    id,
+                                                                    context);
+                                                                listScheduleDetail
+                                                                    ?.removeWhere(
+                                                                        (e) =>
+                                                                            e.idScheduleDetail ==
+                                                                            id);
+                                                                renderListSchedule();
+                                                                setState(() {});
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                            ),
+                                                          );
+                                                        },
+                                                        scheDetail:
+                                                            _timesMorning1[
+                                                                index],
+                                                        onDataChanged: (index) {
+                                                          setState(() {
+                                                            idScheSelected =
+                                                                index;
+                                                          });
+                                                        },
+                                                        isSelected:
+                                                            idScheSelected ==
+                                                                _timesMorning1[
+                                                                        index]
+                                                                    .idScheduleDetail,
+                                                        time: _timesMorning1[
+                                                                index]
+                                                            .timeOfUse!,
+                                                        title: index == 0
+                                                            ? Text(
+                                                                'Sáng',
+                                                                style: GoogleFonts.inter(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              )
+                                                            : null,
+                                                        sIndex: _timesMorning1[
+                                                                index]
+                                                            .idScheduleDetail,
+                                                      )
+                                                    : null;
+                                              },
+                                              separatorBuilder:
+                                                  (context, index) =>
+                                                      const SizedBox(
+                                                height: 10,
+                                              ),
                                             ),
-                                          ),
                                           if (prescriptionDetail!
                                                   .quantityUsed !=
                                               prescriptionDetail!.quantity)
-                                          SliverList.separated(
-                                            itemCount: _timesAfternoon1.length,
-                                            itemBuilder: (context, index) {
-                                              //print(_timesMorning1[index].idScheduleDetail == _timesMorning1[idScheSelected].idScheduleDetail);
-                                              return _timesAfternoon1.isNotEmpty
-                                                  ? TimeItem(
-                                                      deleteScheduleById: (id) {
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (context) =>
-                                                              CustomDialog(
-                                                            icon: Icons
-                                                                .warning_rounded,
-                                                            title:
-                                                                "Xoá lịch uống thuốc",
-                                                            subtitle:
-                                                                "Bạn có chắc là muốn xoá lịch uống thuốc này không?",
-                                                            onPositive:
-                                                                () async {
-                                                              await deleteSchedule(
-                                                                  id, context);
-                                                              listScheduleDetail
-                                                                  ?.removeWhere(
-                                                                      (e) =>
-                                                                          e.idScheduleDetail ==
-                                                                          id);
-                                                              renderListSchedule();
-                                                              setState(() {});
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                          ),
-                                                        );
-                                                      },
-                                                      scheDetail:
-                                                          _timesAfternoon1[
-                                                              index],
-                                                      onDataChanged: (id) {
-                                                        setState(() {
-                                                          idScheSelected = id;
-                                                        });
-                                                      },
-                                                      isSelected: idScheSelected ==
-                                                          _timesAfternoon1[
-                                                                  index]
-                                                              .idScheduleDetail,
-                                                      time: _timesAfternoon1[
-                                                              index]
-                                                          .timeOfUse!,
-                                                      title: index == 0
-                                                          ? Text(
-                                                              'Chiều',
-                                                              style: GoogleFonts.inter(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            )
-                                                          : null,
-                                                      sIndex: _timesAfternoon1[
-                                                              index]
-                                                          .idScheduleDetail,
-                                                    )
-                                                  : null;
-                                            },
-                                            separatorBuilder:
-                                                (context, index) =>
-                                                    const SizedBox(
-                                              height: 10,
+                                            SliverList.separated(
+                                              itemCount:
+                                                  _timesAfternoon1.length,
+                                              itemBuilder: (context, index) {
+                                                //print(_timesMorning1[index].idScheduleDetail == _timesMorning1[idScheSelected].idScheduleDetail);
+                                                return _timesAfternoon1
+                                                        .isNotEmpty
+                                                    ? TimeItem(
+                                                        deleteScheduleById:
+                                                            (id) {
+                                                          showDialog(
+                                                            context: context,
+                                                            builder: (context) =>
+                                                                CustomDialog(
+                                                              icon: Icons
+                                                                  .warning_rounded,
+                                                              title:
+                                                                  "Xoá lịch uống thuốc",
+                                                              subtitle:
+                                                                  "Bạn có chắc là muốn xoá lịch uống thuốc này không?",
+                                                              onPositive:
+                                                                  () async {
+                                                                await deleteSchedule(
+                                                                    id,
+                                                                    context);
+                                                                listScheduleDetail
+                                                                    ?.removeWhere(
+                                                                        (e) =>
+                                                                            e.idScheduleDetail ==
+                                                                            id);
+                                                                renderListSchedule();
+                                                                setState(() {});
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                            ),
+                                                          );
+                                                        },
+                                                        scheDetail:
+                                                            _timesAfternoon1[
+                                                                index],
+                                                        onDataChanged: (id) {
+                                                          setState(() {
+                                                            idScheSelected = id;
+                                                          });
+                                                        },
+                                                        isSelected: idScheSelected ==
+                                                            _timesAfternoon1[
+                                                                    index]
+                                                                .idScheduleDetail,
+                                                        time: _timesAfternoon1[
+                                                                index]
+                                                            .timeOfUse!,
+                                                        title: index == 0
+                                                            ? Text(
+                                                                'Chiều',
+                                                                style: GoogleFonts.inter(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              )
+                                                            : null,
+                                                        sIndex: _timesAfternoon1[
+                                                                index]
+                                                            .idScheduleDetail,
+                                                      )
+                                                    : null;
+                                              },
+                                              separatorBuilder:
+                                                  (context, index) =>
+                                                      const SizedBox(
+                                                height: 10,
+                                              ),
                                             ),
-                                          ),
                                           if (prescriptionDetail!
                                                   .quantityUsed !=
                                               prescriptionDetail!.quantity)
-                                          SliverList.separated(
-                                            itemCount: _timesNight1.length,
-                                            itemBuilder: (context, index) {
-                                              return _timesNight1.isNotEmpty
-                                                  ? TimeItem(
-                                                      deleteScheduleById: (id) {
-                                                        showDialog(
-                                                          context: context,
-                                                          builder: (context) =>
-                                                              CustomDialog(
-                                                            icon: Icons
-                                                                .warning_rounded,
-                                                            title:
-                                                                "Xoá lịch uống thuốc",
-                                                            subtitle:
-                                                                "Bạn có chắc là muốn xoá lịch uống thuốc này không?",
-                                                            onPositive:
-                                                                () async {
-                                                              await deleteSchedule(
-                                                                  id, context);
-                                                              listScheduleDetail
-                                                                  ?.removeWhere(
-                                                                      (e) =>
-                                                                          e.idScheduleDetail ==
-                                                                          id);
-                                                              renderListSchedule();
-                                                              setState(() {});
-                                                              Navigator.pop(
-                                                                  context);
-                                                            },
-                                                          ),
-                                                        );
-                                                      },
-                                                      scheDetail:
-                                                          _timesNight1[index],
-                                                      onDataChanged: (index) {
-                                                        setState(() {
-                                                          idScheSelected =
-                                                              index;
-                                                        });
-                                                      },
-                                                      isSelected: idScheSelected ==
-                                                          _timesNight1[index]
-                                                              .idScheduleDetail,
-                                                      time: _timesNight1[index]
-                                                          .timeOfUse!,
-                                                      title: index == 0
-                                                          ? Text(
-                                                              'Tối',
-                                                              style: GoogleFonts.inter(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            )
-                                                          : null,
-                                                      sIndex:
-                                                          _timesNight1[index]
-                                                              .idScheduleDetail,
-                                                    )
-                                                  : null;
-                                            },
-                                            separatorBuilder:
-                                                (context, index) =>
-                                                    const SizedBox(
-                                              height: 10,
+                                            SliverList.separated(
+                                              itemCount: _timesNight1.length,
+                                              itemBuilder: (context, index) {
+                                                return _timesNight1.isNotEmpty
+                                                    ? TimeItem(
+                                                        deleteScheduleById:
+                                                            (id) {
+                                                          showDialog(
+                                                            context: context,
+                                                            builder: (context) =>
+                                                                CustomDialog(
+                                                              icon: Icons
+                                                                  .warning_rounded,
+                                                              title:
+                                                                  "Xoá lịch uống thuốc",
+                                                              subtitle:
+                                                                  "Bạn có chắc là muốn xoá lịch uống thuốc này không?",
+                                                              onPositive:
+                                                                  () async {
+                                                                await deleteSchedule(
+                                                                    id,
+                                                                    context);
+                                                                listScheduleDetail
+                                                                    ?.removeWhere(
+                                                                        (e) =>
+                                                                            e.idScheduleDetail ==
+                                                                            id);
+                                                                renderListSchedule();
+                                                                setState(() {});
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                            ),
+                                                          );
+                                                        },
+                                                        scheDetail:
+                                                            _timesNight1[index],
+                                                        onDataChanged: (index) {
+                                                          setState(() {
+                                                            idScheSelected =
+                                                                index;
+                                                          });
+                                                        },
+                                                        isSelected:
+                                                            idScheSelected ==
+                                                                _timesNight1[
+                                                                        index]
+                                                                    .idScheduleDetail,
+                                                        time:
+                                                            _timesNight1[index]
+                                                                .timeOfUse!,
+                                                        title: index == 0
+                                                            ? Text(
+                                                                'Tối',
+                                                                style: GoogleFonts.inter(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              )
+                                                            : null,
+                                                        sIndex: _timesNight1[
+                                                                index]
+                                                            .idScheduleDetail,
+                                                      )
+                                                    : null;
+                                              },
+                                              separatorBuilder:
+                                                  (context, index) =>
+                                                      const SizedBox(
+                                                height: 10,
+                                              ),
                                             ),
-                                          ),
                                           const SliverToBoxAdapter(
                                             child: SizedBox(
                                               height: 8,
@@ -596,99 +609,102 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                                           if (prescriptionDetail!
                                                   .quantityUsed !=
                                               prescriptionDetail!.quantity)
-                                          SliverToBoxAdapter(
-                                            child: InkWell(
-                                              onTap: () async {
-                                                final TimeOfDay? time =
-                                                    await showTimePicker(
-                                                  context: context,
-                                                  initialTime: TimeOfDay.now(),
-                                                  initialEntryMode: entryMode,
-                                                  orientation: orientation,
-                                                  builder:
-                                                      (BuildContext context,
-                                                          Widget? child) {
-                                                    return Theme(
-                                                      data: Theme.of(context)
-                                                          .copyWith(
-                                                              materialTapTargetSize:
-                                                                  tapTargetSize),
-                                                      child: Directionality(
-                                                        textDirection:
-                                                            textDirection,
-                                                        child: MediaQuery(
-                                                          data: MediaQuery.of(
-                                                                  context)
-                                                              .copyWith(
-                                                                  alwaysUse24HourFormat:
-                                                                      use24HourTime),
-                                                          child: child!,
+                                            SliverToBoxAdapter(
+                                              child: InkWell(
+                                                onTap: () async {
+                                                  final TimeOfDay? time =
+                                                      await showTimePicker(
+                                                    context: context,
+                                                    initialTime:
+                                                        TimeOfDay.now(),
+                                                    initialEntryMode: entryMode,
+                                                    orientation: orientation,
+                                                    builder:
+                                                        (BuildContext context,
+                                                            Widget? child) {
+                                                      return Theme(
+                                                        data: Theme.of(context)
+                                                            .copyWith(
+                                                                materialTapTargetSize:
+                                                                    tapTargetSize),
+                                                        child: Directionality(
+                                                          textDirection:
+                                                              textDirection,
+                                                          child: MediaQuery(
+                                                            data: MediaQuery.of(
+                                                                    context)
+                                                                .copyWith(
+                                                                    alwaysUse24HourFormat:
+                                                                        use24HourTime),
+                                                            child: child!,
+                                                          ),
                                                         ),
-                                                      ),
-                                                    );
-                                                  },
-                                                );
+                                                      );
+                                                    },
+                                                  );
 
-                                                if (time != null) {
-                                                  ScheduleDetailModel? res =
-                                                      await repo
-                                                          .insertScheduleDetail({
-                                                    "id_app_detail":
-                                                        prescriptionDetail!
-                                                                .idPreDetail ??
-                                                            -1,
-                                                    // ignore: prefer_null_aware_operators
-                                                    "id_schedule":
-                                                        widget.model == null
-                                                            ? null
-                                                            : widget.model!
-                                                                .idSchedule,
-                                                    "quantity_used":
-                                                        prescriptionDetail!
-                                                                .quantityUsed ??
-                                                            -1,
-                                                    "time_use":
-                                                        "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}:00"
-                                                  });
-                                                  if (res != null &&
-                                                      context.mounted) {
-                                                    showCustomSnackBar(context,
-                                                        "Thêm lịch thành công");
-                                                    setState(() {
-                                                      listScheduleDetail!
-                                                          .add(res);
+                                                  if (time != null) {
+                                                    ScheduleDetailModel? res =
+                                                        await repo
+                                                            .insertScheduleDetail({
+                                                      "id_app_detail":
+                                                          prescriptionDetail!
+                                                                  .idPreDetail ??
+                                                              -1,
+                                                      // ignore: prefer_null_aware_operators
+                                                      "id_schedule":
+                                                          widget.model == null
+                                                              ? null
+                                                              : widget.model!
+                                                                  .idSchedule,
+                                                      "quantity_used":
+                                                          prescriptionDetail!
+                                                                  .quantityUsed ??
+                                                              -1,
+                                                      "time_use":
+                                                          "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}:00"
                                                     });
-                                                  } else if (context.mounted) {
-                                                    showCustomSnackBar(context,
-                                                        "Thêm lịch không thành công");
+                                                    if (res != null &&
+                                                        context.mounted) {
+                                                      showCustomSnackBar(
+                                                          context,
+                                                          "Thêm lịch thành công");
+                                                      setState(() {
+                                                        listScheduleDetail!
+                                                            .add(res);
+                                                      });
+                                                    } else if (context
+                                                        .mounted) {
+                                                      showCustomSnackBar(
+                                                          context,
+                                                          "Thêm lịch không thành công");
+                                                    }
                                                   }
-                                                }
 
-                                                // var newSche1 = listScheduleDetail!
-                                                //     .firstWhere((e) => e.idSchedule == 9);
-                                                renderListSchedule();
-                                              },
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        vertical: 16),
-                                                child: Row(
-                                                  children: [
-                                                    const Icon(Symbols.add),
-                                                    const SizedBox(
-                                                      width: 8,
-                                                    ),
-                                                    Text(
-                                                      'Thêm thời gian',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyMedium,
-                                                    ),
-                                                  ],
+                                                  // var newSche1 = listScheduleDetail!
+                                                  //     .firstWhere((e) => e.idSchedule == 9);
+                                                  renderListSchedule();
+                                                },
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 16),
+                                                  child: Row(
+                                                    children: [
+                                                      const Icon(Symbols.add),
+                                                      const SizedBox(
+                                                        width: 8,
+                                                      ),
+                                                      Text(
+                                                        'Thêm thời gian',
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyMedium,
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
                                           const SliverToBoxAdapter(
                                             child: SizedBox(
                                               height: 8,

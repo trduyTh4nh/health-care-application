@@ -22,9 +22,9 @@ class _CartPageState extends State<CartPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<CartPageProvider>(context, listen: false).fetchDrugCart();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   Provider.of<CartPageProvider>(context, listen: false).fetchDrugCart();
+    // });
   }
 
   void setLoading(bool loading) {
