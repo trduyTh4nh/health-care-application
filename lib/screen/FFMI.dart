@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 // import 'package:animated_custom_dropdown/custom_dropdown.dart';
 class FFMIPage extends StatefulWidget {
   @override
@@ -10,6 +11,9 @@ class _FFMIPageState extends State<FFMIPage> {
   final _weightController = TextEditingController();
   final _heightController = TextEditingController();
   final _fatController = TextEditingController();
+  //globalkey
+  final _formKey = GlobalKey<FormState>();
+
   // final _genderController = TextEditingController();
 
   String _gender = 'Nam';
@@ -20,22 +24,24 @@ class _FFMIPageState extends State<FFMIPage> {
   double _ffmiNormalized = 0.0;
 
   void _calculateFFMI() {
-    final weight = double.tryParse(_weightController.text) ?? 0.0;
-    final height = double.tryParse(_heightController.text) ?? 0.0;
-    final bodyFat = double.tryParse(_fatController.text) ?? 0.0;
+    if (_formKey.currentState!.validate()) {
+      final weight = double.tryParse(_weightController.text) ?? 0.0;
+      final height = double.tryParse(_heightController.text) ?? 0.0;
+      final bodyFat = double.tryParse(_fatController.text) ?? 0.0;
 
-    // thực hiện tính toán nếu đúng
-    if (weight > 0 && height > 0) {
-      final leanBodyMass = weight * (1 - bodyFat / 100);
-      final heightInMeters = height / 100;
-      final ffmi = leanBodyMass / (heightInMeters * heightInMeters);
-      final ffmiNormalized = ffmi + 6.1 * (1.8 - heightInMeters);
+      // thực hiện tính toán nếu đúng
+      if (weight > 0 && height > 0) {
+        final leanBodyMass = weight * (1 - bodyFat / 100);
+        final heightInMeters = height / 100;
+        final ffmi = leanBodyMass / (heightInMeters * heightInMeters);
+        final ffmiNormalized = ffmi + 6.1 * (1.8 - heightInMeters);
 
-      setState(() {
-        _ffmi = ffmi;
-        _leanBodyMass = leanBodyMass;
-        _ffmiNormalized = ffmiNormalized;
-      });
+        setState(() {
+          _ffmi = ffmi;
+          _leanBodyMass = leanBodyMass;
+          _ffmiNormalized = ffmiNormalized;
+        });
+      }
     }
   }
 
@@ -57,7 +63,6 @@ class _FFMIPageState extends State<FFMIPage> {
                 padding: EdgeInsets.only(bottom: 10),
                 child: Text("Hệ đo lường",
                     style: Theme.of(context).textTheme.titleMedium)),
-
             SegmentedButton(
               style: ButtonStyle(
                   iconColor: MaterialStateProperty.all(Colors.white)),
@@ -74,13 +79,13 @@ class _FFMIPageState extends State<FFMIPage> {
                               ? Colors.white
                               : Colors.black,
                         ),
-                    ),
+                  ),
                 ),
                 ButtonSegment(
                   value: 'Hệ Mỹ',
                   label: Text(
                     'Hệ Mỹ',
-                     style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                    style: Theme.of(context).textTheme.labelMedium!.copyWith(
                           fontFamily:
                               GoogleFonts.inter(fontWeight: FontWeight.bold)
                                   .fontFamily,
@@ -98,45 +103,66 @@ class _FFMIPageState extends State<FFMIPage> {
                 });
               },
             ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _weightController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Cân nặng',
-                suffixText: _metricMeasurement == 'Hệ Mét' ? 'kg' : 'lbs',
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Vui lòng nhập cân nặng";
+                      } else if (value.contains(",") ||
+                          value.contains(".") ||
+                          value.length > 3) {
+                        return "Cân nặng không phù hợp";
+                      }
+                      return null;
+                    },
+                    controller: _weightController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: 'Cân nặng',
+                      suffixText: _metricMeasurement == 'Hệ Mét' ? 'kg' : 'lbs',
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Vui lòng nhập cân nặng";
+                      } else if (value.contains(",") || value.contains(".")) {
+                        return "Chiều cao  không phù hợp";
+                      }
+                      return null;
+                    },
+                    controller: _heightController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: 'Chiều cao',
+                      suffixText:
+                          _metricMeasurement == 'Hệ Mét' ? 'cm' : 'inches',
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Vui lòng nhập cân nặng";
+                      }
+                      return null;
+                    },
+                    controller: _fatController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      labelText: 'Lượng mỡ trong cơ thể',
+                      suffixText: '%',
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _heightController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Chiều cao',
-                suffixText: _metricMeasurement == 'Hệ Mét' ? 'cm' : 'inches',
-              ),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _fatController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Lượng mỡ trong cơ thể',
-                suffixText: '%',
-              ),
-            ),
-            SizedBox(height: 16),
-            // Container(
-            //   decoration: BoxDecoration(
-            //     border: Border.all(color: Colors.grey), // Màu viền
-            //     borderRadius: BorderRadius.circular(10), // Bo tròn góc
-            //   ),
-            //   child: CustomDropdown(
-            //     hintText: 'Chọn giới tính',
-            //     items: const ['Nam', 'Nữ'],
-            //     controller: _genderController,
-            //   ),
-            // ),
+            const SizedBox(height: 16),
             DropdownButton<String>(
               isExpanded: true,
               value: _gender,
@@ -149,18 +175,18 @@ class _FFMIPageState extends State<FFMIPage> {
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
-                  child: Text(value,
-                  
+                  child: Text(
+                    value,
                   ),
                 );
               }).toList(),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _calculateFFMI,
-              child: Text('Tính FFMI'),
+              child: const Text('Tính FFMI'),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             if (_ffmi > 0)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
