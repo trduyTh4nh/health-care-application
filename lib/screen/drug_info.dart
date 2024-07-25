@@ -832,7 +832,7 @@ class _DrugInfoPageState extends State<DrugInfoPage> {
                             int idUser = await SecureStorage.getUserId();
                             await NotificationRepo().insertNotification({
                               "content":
-                                  "Bạn đã ghi nhận uống thuốc ${drugModel != null ? drugModel!.name : widget.model!.detail!.drug!.name}",
+                                  "Bạn đã ghi nhận uống thuốc ${prescriptionDetail != null ? prescriptionDetail!.drug!.name : widget.model!.detail!.drug!.name}",
                               "time": DateTime.now().toString(),
                               "id_user": idUser,
                               "isconfirmed": false,
