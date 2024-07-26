@@ -36,20 +36,6 @@ class _NotificationPageState extends State<NotificationPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Thông báo'),
-        actions: [
-          TextButton(
-              onPressed: () {},
-              child: const Text(
-                "Xóa tất cả",
-                style: TextStyle(
-                    color: AppColors.primaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16),
-              )),
-          const SizedBox(
-            width: 16,
-          ),
-        ],
       ),
       body: FutureBuilder(
           future: future,

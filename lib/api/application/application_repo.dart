@@ -53,6 +53,38 @@ class ApplicationRepo {
     }
   }
 
+  Future<PrescriptionModel> getApplicationBy(int id) async {
+    String token = await SecureStorage.getToken();
+    try {
+      Response res = await api.sendRequest.get("/drug/getAppendHospital/$id",
+          options: Options(headers: header(token)));
+      final data = res.data["metadata"];
+      log(data.toString());
+      return PrescriptionModel.fromJson(data);
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
+  Future<String> getBestDisease(int month) async {
+    String token = await SecureStorage.getToken();
+    try {
+      Response res = await api.sendRequest.get("/user/getBestDisease",
+          data: {"month": month}, options: Options(headers: header(token)));
+      final data = res.data["metadata"];
+      if(data is List){
+        if(data.isEmpty){
+          return "";
+        }
+      }
+      return data["disease"]["disease_name"];
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
   //Ham lay thuoc cua tung user
   Future<List<PrescriptionModel>?> getPrescriptionInUser(int idUser) async {
     List<PrescriptionModel> lst = [];

@@ -8,14 +8,14 @@ part of '../hospital_model.dart';
 
 HospitalModel _$HospitalModelFromJson(Map<String, dynamic> json) =>
     HospitalModel(
-      idHospital: (json['idHospital'] as num?)?.toInt(),
+      idHospital: (json['id_hospital'] as num?)?.toInt(),
       name: json['name'] as String?,
       address: json['address'] as String?,
       phone: json['phone'] as String?,
-      createdDate: json['createdDate'] == null
+      createdDate: json['create_date'] == null
           ? null
-          : DateTime.parse(json['createdDate'] as String),
-      avatars: json['idPayment'] as String?
+          : DateTime.parse(json['create_date'] as String),
+      avatars: json['avatar'] as String?
     );
 
 Map<String, dynamic> _$HospitalModelToJson(HospitalModel instance) =>

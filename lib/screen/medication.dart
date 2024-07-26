@@ -145,8 +145,8 @@ class _MedicationPageState extends State<MedicationPage>
               if (snapshot.error is DioException) {
                 DioException excep = snapshot.error as DioException;
                 if (excep.response!.data["message"] ==
-                    "Missing authorization token" || excep.response!.data["message"] ==
-                    "Invalid token") {
+                        "Missing authorization token" ||
+                    excep.response!.data["message"] == "Invalid token") {
                   return ErrorInfo(
                     title: "Phiên đăng nhập đã hết hạn",
                     subtitle: "Vui lòng đăng nhập lại.",

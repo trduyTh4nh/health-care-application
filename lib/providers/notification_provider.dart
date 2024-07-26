@@ -67,7 +67,6 @@ class NotificationProvider extends ChangeNotifier {
   }
 
   tz.TZDateTime nextInstanceOfTime(TimeOfDay time) {
-    log("next instance of time");
     tz.initializeTimeZones();
     tz.setLocalLocation(tz.getLocation('Asia/Ho_Chi_Minh'));
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);

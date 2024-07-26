@@ -27,12 +27,14 @@ class NotificationRepo {
   Future<List<NotificationModel>?> getNotifications() async {
     String token = await SecureStorage.getToken();
     int idUser = await SecureStorage.getUserId();
+
     List<NotificationModel> lst = [];
     try {
       Response res = await api.sendRequest.get(
           "/notification/getAllNotification/$idUser",
           options: Options(headers: header(token)));
       final data = res.data["metadata"];
+      log(data.toString());
       if (data is List) {
         lst = data.map((e) => NotificationModel.fromJson(e)).toList();
       }

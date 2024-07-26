@@ -2,6 +2,7 @@ import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/providers/add_page_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 
@@ -22,8 +23,8 @@ class _AddDrugHabitPageState extends State<AddDrugHabitPage> {
         child: Column(
           children: [
             Center(
-                child: SvgPicture.asset(
-              'assets/images/undraw_time_management.svg',
+                child: Lottie.asset(
+              'assets/images/Timer.json',
               height: 125,
             )),
             const SizedBox(height: 20),

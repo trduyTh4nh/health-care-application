@@ -4,6 +4,7 @@ import 'package:app_well_mate/providers/add_page_provider.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 
@@ -26,8 +27,8 @@ class _AddDrugSchedulePageState extends State<AddDrugSchedulePage> {
             child: Column(
               children: [
                 Center(
-                    child: SvgPicture.asset(
-                  'assets/images/undraw_calendar.svg',
+                    child: Lottie.asset(
+                  'assets/images/Calendar.json',
                   height: 125,
                 )),
                 const SizedBox(height: 20),

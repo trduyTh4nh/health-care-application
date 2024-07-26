@@ -140,7 +140,7 @@ class TransactionDetail extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (c) => const WidgetPrescriptionstatusCancelMedicine()));
+                        Navigator.push(context, MaterialPageRoute(builder: (c) => WidgetPrescriptionstatusCancelMedicine()));
                       },
                       icon: const Icon(Symbols.arrow_right_alt),
                       iconSize: 24,
