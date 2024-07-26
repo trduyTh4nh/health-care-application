@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:app_well_mate/api/cart/cart_repo.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
@@ -9,13 +10,26 @@ import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:flutter/material.dart';
 
 class CartPageProvider extends ChangeNotifier {
-  int quantityMedicine = 0;
+  int countQuantity = 1;
   List<DrugCartDetailModel> listDrugCart = [];
   List<DrugCartDetailModel> listChecked = [];
   List<bool> _isChecked = [];
   AddressModel? selectedAddress;
   void setSelectedAddress(AddressModel address) {
     selectedAddress = address;
+    notifyListeners();
+  }
+
+  void increase() {
+    countQuantity += 1;
+    notifyListeners();
+  }
+
+  void decrease() {
+    if (countQuantity > 1) {
+      countQuantity -= 1;
+    }
+
     notifyListeners();
   }
 
@@ -65,8 +79,6 @@ class CartPageProvider extends ChangeNotifier {
     await fetchDrugCart();
   }
 
- 
-
   void refeshCart() async {
     int userId = await SecureStorage.getUserId();
     List<DrugCartDetailModel> items =
@@ -74,10 +86,10 @@ class CartPageProvider extends ChangeNotifier {
     listDrugCart = items;
   }
 
-  void addDrugtoCart(DrugModel drug, BuildContext context, int idAppDetail) async {
+  void addDrugtoCart(
+      DrugModel drug, BuildContext context, int idAppDetail) async {
     int res = await CartRepo().insertDrugToCart(drug, idAppDetail);
     if (res == 200) {
-      quantityMedicine += 1;
       log("Day la thuoc da duc them: ${drug.name}");
       fetchDrugCart();
       // refeshCart();
@@ -88,11 +100,30 @@ class CartPageProvider extends ChangeNotifier {
     }
   }
 
+  // void updateQuantityDetial(int drugcartDetail, int quantity) async {
+  //   String result =
+  //       await CartRepo().updateQuantityCartDetail(drugcartDetail, quantity);
+  //   print(result);
+  //   fetchDrugCart();
+  // }
   void updateQuantityDetial(int drugcartDetail, int quantity) async {
     String result =
         await CartRepo().updateQuantityCartDetail(drugcartDetail, quantity);
     print(result);
-    await fetchDrugCart();
+    if (result == "update success") {
+      updateQuantityDetailLocal(drugcartDetail, quantity);
+    }
+  }
+
+  void updateQuantityDetailLocal(int drugcartDetail, int quantity) {
+    for (var item in listDrugCart) {
+      if (item.idDrugCartDetail == drugcartDetail) {
+        item.quantity = item.quantity! + quantity;
+        break;
+      }
+    }
+    calculateTotalPrice();
+    notifyListeners();
   }
 
   void toggleCheck(int index) {

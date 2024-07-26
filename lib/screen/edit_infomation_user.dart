@@ -57,6 +57,8 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
   @override
   void initState() {
     super.initState();
+    future = fetchData();
+
     print("User Name: ${widget.infoModel.userName}");
     fullNameController.text = widget.infoModel.profile!.fullName ?? '';
     phoneController.text = widget.infoModel.profile!.phone ?? '';
@@ -69,7 +71,6 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
         widget.infoModel.profile!.avatar!.isNotEmpty) {
       avatarPath = widget.infoModel.profile!.avatar!;
     }
-    future = fetchData();
   }
 
   File? file;
@@ -82,7 +83,9 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
         avatarPath = image.path;
       });
     }
-  }
+  } 
+
+  ProfileModel? profileModel;
 
   Future<void> updateProfile() async {
     if (_formkey.currentState?.validate() ?? false) {
@@ -102,6 +105,7 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
       ApiRepo apiRepo = ApiRepo();
       bool success = await apiRepo.updateProfile(profile, avatarPath);
 
+      profileModel = profile;
       setState(() {
         isApiCallprocess = false;
       });
@@ -379,12 +383,12 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                           "Giới tính",
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
-                        DropdownButtonFormField<String>(
+                        DropdownButtonFormField<String> (
                           value: genderController.text.isNotEmpty
                               ? (['Nam', 'Nữ'].contains(genderController.text)
                                   ? genderController.text
-                                  : null)
-                              : null,
+                                  : "Nam")
+                              : "Nam",
                           onChanged: (String? newValue) {
                             setState(() {
                               genderController.text = newValue ?? '';
