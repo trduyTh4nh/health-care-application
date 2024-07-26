@@ -1,11 +1,14 @@
+import 'package:app_well_mate/model/history_stransaction_model.dart';
 import 'package:app_well_mate/screen/drug/medicine_order/widget_prescriptionstatus_cancel_medicine.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class PurchaseHistoryItem extends StatefulWidget {
-  const PurchaseHistoryItem({super.key});
-
+  const PurchaseHistoryItem({super.key, required this.model});
+  final HistoryStransactionModel model;
   @override
   State<PurchaseHistoryItem> createState() => _PurchaseHistoryItemState();
 }
@@ -13,13 +16,16 @@ class PurchaseHistoryItem extends StatefulWidget {
 class _PurchaseHistoryItemState extends State<PurchaseHistoryItem> {
   @override
   Widget build(BuildContext context) {
+    tz.TZDateTime zonedDate =
+        tz.TZDateTime.parse(tz.local, widget.model.createDate!);
     return InkWell(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    const WidgetPrescriptionstatusCancelMedicine()));
+                builder: (context) => WidgetPrescriptionstatusCancelMedicine(
+                      model: widget.model,
+                    )));
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -41,14 +47,14 @@ class _PurchaseHistoryItemState extends State<PurchaseHistoryItem> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Đơn thuốc ngày 20-05-2024',
+                  Text('${widget.model.idPayPal}',
                       style: Theme.of(context).textTheme.bodyLarge),
                   Text(
-                    '5 thuốc',
+                    '${widget.model.countDrug} thuốc • ${DateFormat("dd/MM/yyyy").format(zonedDate)}',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   Text(
-                    '505.000 đ',
+                    NumberFormat("##,###.##").format(widget.model.totalPrice),
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ],
@@ -59,7 +65,9 @@ class _PurchaseHistoryItemState extends State<PurchaseHistoryItem> {
               children: [
                 IconButton(
                   onPressed: () {},
-                  icon: const Icon(Symbols.deployed_code_history),
+                  icon: Icon(widget.model.isDestroy! ? Symbols.close : widget.model.status!
+                      ? Symbols.check_circle
+                      : Symbols.deployed_code_history),
                 ),
               ],
             ),

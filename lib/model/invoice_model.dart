@@ -18,6 +18,9 @@ class InvoiceDetail {
       createDate: DateTime.tryParse(json["create_date"]) ?? DateTime(1900),
       totalPrice: json["total_price"] ?? -1,
       status: json["status"] ?? false,
+      notes: json["notes"] ?? "",
+      idAddress: json["id_address"] ?? "",
+      idPaypal: json["id_paypal"] ?? "null"
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 import 'dart:developer' as developer;
+import 'package:app_well_mate/api/application/application_repo.dart';
 import 'package:app_well_mate/api/auth/api_repo.dart';
 import 'package:app_well_mate/api/drug/drug_repo.dart';
 import 'package:app_well_mate/components/info_component.dart';
@@ -33,6 +34,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String? disease;
   DrugRepo repo = DrugRepo();
   List<ScheduleDetailModel> data = [];
   List<ScheduleDetailModel> expiredData = [];
@@ -54,6 +56,7 @@ class _HomeState extends State<Home> {
 
   Future<void> fetchData() async {
     await getSchedule();
+    disease = await ApplicationRepo().getBestDisease(DateTime.now().month);
     var userInfo = await ApiRepo().getInfoUser();
     if (userInfo != null) {
       setState(() {
@@ -65,7 +68,6 @@ class _HomeState extends State<Home> {
 
   Future<void> getSchedule() async {
     data = await repo.getSchedule();
-
     Provider.of<NotificationProvider>(context, listen: false)
         .initNotification(data);
     print(data);
@@ -82,7 +84,6 @@ class _HomeState extends State<Home> {
     data.removeWhere((e) => e.idScheduleDetail == id);
     for (int i = 0; i < data.length; i++) {
       if (data[i].idPreDetail! == preDetailId) {
-        developer.log("true");
         data[i].detail!.quantityUsed = data[i].detail!.quantityUsed! + 1;
       }
     }
@@ -304,7 +305,7 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                             ),
-                            showBanner
+                            disease != ""
                                 ? Padding(
                                     padding:
                                         const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -313,7 +314,7 @@ class _HomeState extends State<Home> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "Mùa này là mùa cảm cúm",
+                                          "Mùa này là mùa của bệnh $disease",
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleLarge,

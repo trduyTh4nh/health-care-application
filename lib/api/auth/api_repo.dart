@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:app_well_mate/api/api.dart';
+import 'package:app_well_mate/components/custom_dialog.dart';
+import 'package:app_well_mate/components/snack_bart.dart';
+import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/profile_model.dart';
 import 'package:app_well_mate/model/user.dart';
 import 'package:app_well_mate/model/user_info_model.dart';
@@ -12,6 +15,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:provider/provider.dart';
 
 class ApiRepo {
@@ -26,6 +30,17 @@ class ApiRepo {
     };
   }
 
+  Future<bool> resendEmail(String email) async {
+    try {
+      Response res = await api.sendRequest
+          .post("/access/resendOpt", data: {"email": email});
+      return res.statusCode == 200;
+    } catch (ex) {
+      log(ex.toString());
+      rethrow;
+    }
+  }
+
   Future<bool> login(String email, String password) async {
     Map<String, dynamic> body = {"email": email, "password": password};
     try {
@@ -33,10 +48,28 @@ class ApiRepo {
           data: body, options: Options(headers: header('no_token')));
       var data = res.data;
       log(data["metadata"]["user"].toString());
-      if (res.statusCode == 200) {
-        bool r = await SecureStorage.saveUser(res.data["metadata"]["token"],
-            jsonEncode(res.data["metadata"]["user"]));
-        return r;
+      if (!data["metadata"]["user"]["verified"]) {
+        showDialog(
+            context: navigatorKey.currentContext!,
+            builder: (context) => CustomDialog(
+                  icon: Symbols.person,
+                  title: "Bạn chưa xác nhận tài khoản",
+                  subtitle:
+                      "Một email đã được gửi đến địa chỉ ${data["metadata"]["user"]["email"]} với một đường link để xác nhận tài khoản.",
+                  onPositive: () {},
+                  onNegative: () async {
+                    await resendEmail(data["metadata"]["user"]["email"]);
+                    showCustomSnackBar(navigatorKey.currentContext!, "Hệ thống đã gửi email xác nhận lần nữa, bạn hãy kiểm tra.");
+                  },
+                  positiveText: "OK",
+                  negativeText: "Gửi lại email",
+                ));
+      } else {
+        if (res.statusCode == 200) {
+          bool r = await SecureStorage.saveUser(res.data["metadata"]["token"],
+              jsonEncode(res.data["metadata"]["user"]));
+          return r;
+        }
       }
       return res.statusCode == 200;
     } catch (ex) {
@@ -136,9 +169,11 @@ class ApiRepo {
       rethrow;
     }
   }
+
   logOut(BuildContext context) async {
     await SecureStorage.storage.deleteAll();
-    await Provider.of<NotificationProvider>(context, listen: false).removeWaitList();
+    await Provider.of<NotificationProvider>(context, listen: false)
+        .removeWaitList();
     Provider.of<CartPageProvider>(context, listen: false).listDrugCart = [];
   }
 }

@@ -1,11 +1,14 @@
 import 'dart:core';
 import 'package:app_well_mate/api/auth/api_repo.dart';
 import 'package:app_well_mate/api/cart/cart_repo.dart';
+import 'package:app_well_mate/components/custom_dialog.dart';
 import 'package:app_well_mate/components/snack_bart.dart';
+import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/screen/login.dart';
 import 'package:app_well_mate/utils/app.colors.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -64,13 +67,22 @@ class _SignupState extends State<Signup> {
       );
 
       await CartRepo().createCart(response);
-
-      showCustomSnackBar(context, "Đăng ký thành công");
       Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => Login(),
           ));
+      showDialog(
+          context: navigatorKey.currentContext!,
+          builder: (context) => CustomDialog(
+                icon: Symbols.person,
+                title: "Còn một bước nữa!",
+                subtitle:
+                    "Một email đã được gửi đến địa chỉ ${_emailController.text} với một đường link để xác nhận tài khoản.",
+                onPositive: () {},
+                positiveText: "OK",
+                negativeText: "Gửi lại email",
+              ));
     } else {
       showCustomSnackBar(context, "Đăng ký thất bại");
     }
