@@ -1,6 +1,8 @@
+import 'package:app_well_mate/api/disease/disease_admin_repo.dart';
 import 'package:app_well_mate/components/bieudodichte.dart';
 import 'package:app_well_mate/components/danhsachdichbenh.dart';
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/model/disease.dart';
 import 'package:flutter/material.dart';
 
 class DiseaseManagementAdminPage extends StatefulWidget {
@@ -113,7 +115,7 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
-                  height: 150,
+                  height: 160,
                   width: sizeWidth * 2 / 5,
                   decoration: BoxDecoration(
                       color: Theme.of(context)
@@ -154,7 +156,6 @@ class _DiseaseManagementAdminPageState extends State<DiseaseManagementAdminPage>
                   ),
                 ),
                 Container(
-                  height: 150,
                   width: sizeWidth * 2 / 5,
                   decoration: BoxDecoration(
                       color: Theme.of(context)
