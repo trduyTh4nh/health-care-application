@@ -68,26 +68,6 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
       avatarPath = widget.infoModel.profile!.avatar!;
     }
     // future = fetchData();
-    // userInfoInitialData();
-  }
-
-  Future<void> userInfoInitialData() async {
-    var userInfo = await ApiRepo().getInfoUser();
-    if (userInfo != null) {
-      setState(() {
-        fullNameController.text = userInfo.profile?.fullName ?? '';
-        phoneController.text = userInfo.profile?.phone ?? '';
-        addressController.text = userInfo.profile?.address ?? '';
-        weightController.text = userInfo.profile?.weight?.toString() ?? '';
-        genderController.text = userInfo.profile?.gender ?? '';
-        heightController.text = userInfo.profile?.height?.toString() ?? '';
-        birthDayController.text = userInfo.profile?.age?.toString() ?? '';
-        if (widget.infoModel.profile!.avatar != null &&
-            widget.infoModel.profile!.avatar!.isNotEmpty) {
-          avatarPath = widget.infoModel.profile!.avatar!;
-        }
-      });
-    }
   }
 
   File? file;

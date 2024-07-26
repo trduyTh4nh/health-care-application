@@ -5,44 +5,58 @@ Widget bottomTitleWidgets(double value, TitleMeta meta) {
   const style = TextStyle(
     fontSize: 10,
   );
-  Widget text;
+
+  // Determine the text for each value
+  String text;
   switch (value.toInt()) {
     case 0:
-      text = const Text('0', style: style);
+      text = '0';
       break;
     case 1:
-      text = const Text('JAN', style: style);
+      text = '1';
       break;
     case 2:
-      text = const Text('FEB', style: style);
+      text = '2';
       break;
     case 3:
-      text = const Text("MAR", style: style);
+      text = '3';
+      break;
     case 4:
-      text = const Text("APR", style: style);
+      text = '4';
+      break;
     case 5:
-      text = const Text("MAY", style: style);
+      text = '5';
+      break;
     case 6:
-      text = const Text("JUN", style: style);
+      text = '6';
+      break;
     case 7:
-      text = const Text("JUL", style: style);
+      text = '7';
+      break;
     case 8:
-      text = const Text("AUG", style: style);
+      text = '8';
+      break;
     case 9:
-      text = const Text("SEP", style: style);
+      text = '9';
+      break;
     case 10:
-      text = const Text("OCT", style: style);
+      text = '10';
+      break;
     case 11:
-      text = const Text("NOV", style: style);
+      text = '11';
+      break;
     case 12:
-      text = const Text("DEC", style: style);
+      text = '12';
+      break;
     default:
-      text = const Text('', style: style);
+      text = '';
       break;
   }
 
   return SideTitleWidget(
     axisSide: meta.axisSide,
-    child: text,
+    child: Center(
+      child: Text(text, style: style),
+    ),
   );
 }
