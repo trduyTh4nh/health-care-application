@@ -152,10 +152,10 @@ class _BmiPageState extends State<BmiPage> {
                     // return weight!.isEmpty ? "Vui lòng điền cân nặng" : null;
                     if (weight == null || weight.isEmpty) {
                       return 'Vui lòng nhập cân nặng';
-                    } else if (weight.contains(',') ||
-                        weight.contains('.') ||
-                        weight.length > 3) {
+                    } else if (weight.length > 3) {
                       return 'Cân nặng không phù hợp';
+                    } else if (!RegExp(r'^\d+$').hasMatch(weight)) {
+                      return 'Cân nặng không chứa kí tự';
                     }
                     return null;
                   },

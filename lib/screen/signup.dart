@@ -167,10 +167,10 @@ class _SignupState extends State<Signup> {
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Số điện thoại không được để trống';
-                            } else if (value.length != 10) {
-                              return 'Số điện thoại phải có 10 chữ số';
-                            }
-                            return null;
+                            } else if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+                              return 'Số điện thoại không hợp lệ';
+                            } else
+                              return null;
                           },
                           onChanged: (value) {
                             print(value);

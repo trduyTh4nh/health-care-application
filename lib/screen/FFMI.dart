@@ -112,10 +112,10 @@ class _FFMIPageState extends State<FFMIPage> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Vui lòng nhập cân nặng";
-                      } else if (value.contains(",") ||
-                          value.contains(".") ||
-                          value.length > 3) {
+                      } else if (value.length > 3) {
                         return "Cân nặng không phù hợp";
+                      } else if (!RegExp(r'^\d+$').hasMatch(value)) {
+                        return 'Chiều cao không chứa kí tự';
                       }
                       return null;
                     },
@@ -131,8 +131,8 @@ class _FFMIPageState extends State<FFMIPage> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Vui lòng nhập cân nặng";
-                      } else if (value.contains(",") || value.contains(".")) {
-                        return "Chiều cao  không phù hợp";
+                      } else if (!RegExp(r'^\d+$').hasMatch(value)) {
+                        return 'Chiều cao không chứa kí tự';
                       }
                       return null;
                     },
@@ -149,6 +149,8 @@ class _FFMIPageState extends State<FFMIPage> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Vui lòng nhập cân nặng";
+                      } else if (!RegExp(r'^\d+$').hasMatch(value)) {
+                        return 'Lượng mỡ không chứa kí tự';
                       }
                       return null;
                     },
