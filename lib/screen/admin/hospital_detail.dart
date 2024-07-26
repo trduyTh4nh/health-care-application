@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
-// ignore: must_be_immutable
 class HospitalDetail extends StatelessWidget {
   final HospitalModel hospital;
   HospitalDetail({super.key, required this.hospital});
@@ -39,12 +38,11 @@ class HospitalDetail extends StatelessWidget {
           body: Column(
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 child: Column(
                   children: [
                     Hero(
-                      tag: hospital.idHospital ?? '', // Add a fallback value
+                      tag: hospital.idHospital ?? '',
                       child: Container(
                         height: 183,
                         width: 183,
@@ -61,12 +59,12 @@ class HospitalDetail extends StatelessWidget {
                     HeroWidget(
                       tag: hospital.name ?? '',
                       child: Text(
-                        hospital.name ?? 'N/A', 
+                        hospital.name ?? 'N/A',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                     ),
                     HeroWidget(
-                      tag: hospital.createdDate?.toString() ?? '', 
+                      tag: hospital.createdDate?.toString() ?? '',
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -75,13 +73,6 @@ class HospitalDetail extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.center,
-                    //   children: [
-                    //     const Text("Mã KCB:"),
-                    //     Text(hospital.idHospital?.toString() ?? 'N/A'), 
-                    //   ],
-                    // ),
                     const SizedBox(
                       height: 20,
                     ),
