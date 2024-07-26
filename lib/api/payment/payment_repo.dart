@@ -5,6 +5,7 @@ import 'package:app_well_mate/model/address_model.dart';
 import 'package:app_well_mate/model/drug_cart_detail_model.dart';
 import 'package:app_well_mate/model/history_stransaction_model.dart';
 import 'package:app_well_mate/model/invoice_detail_model.dart';
+import 'package:app_well_mate/model/totalmoney_admin.dart';
 import 'package:app_well_mate/storage/secure_storage.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
@@ -168,6 +169,50 @@ class PaymentRepo {
       }
     } catch (ex) {
       log('Error: $ex');
+      rethrow;
+    }
+  }
+
+  Future<List<TotalMoneyModel>> getTotalMoneyAllMonthOfYear(int year) async {
+    try {
+      final String token = await SecureStorage.getToken();
+      final String adminToken =
+          "FBZwFdSI9KOxUGkN4IKaOwwUMnTgX4i2dTcWCgo3wxSTXvKs162";
+
+      final Map<String, dynamic> body = {
+        'year': year,
+      };
+
+      // Gửi request đến endpoint
+      final Response res = await api.sendRequest.get(
+        '/user/getTotalMoneyAllMonthOfYear',
+        options: Options(headers: adminHeader(token, adminToken)),
+        data: body,
+      );
+
+      log('Response Data: ${res.data}');
+
+      if (res.statusCode == 200) {
+        final List<dynamic>? metadata = res.data['metadata'];
+        if (metadata == null) {
+          throw Exception('No data found');
+        }
+
+        final List<TotalMoneyModel> result = metadata.map((item) {
+          if (item is Map<String, dynamic>) {
+            return TotalMoneyModel.fromJson(item);
+          } else {
+            throw Exception('Data format is incorrect for item: $item');
+          }
+        }).toList();
+
+        return result;
+      } else {
+        throw Exception(
+            'Failed to load total money. Status code: ${res.statusCode}');
+      }
+    } catch (e) {
+      log('Error fetching total money: $e');
       rethrow;
     }
   }

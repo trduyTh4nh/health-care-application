@@ -17,7 +17,10 @@ class _UserInformationState extends State<UserInformation> {
   Future<InfoUserModel?>? userInfoFuture;
   final ApiRepo apiRepo = ApiRepo();
 
-  int weight = 0;
+  double calculateBMI(int weightm, int heightInCm) {
+    double heightInMeters = heightInCm / 100.0;
+    return weightm / (heightInMeters * heightInMeters);
+  }
 
   InfoUserModel? userInfomation;
 
@@ -86,8 +89,14 @@ class _UserInformationState extends State<UserInformation> {
                 return Center(child: Text('Không có thông tin người dùng'));
               } else {
                 InfoUserModel userInfo = snapshot.data!;
-
                 userInfomation = snapshot.data!;
+
+                double bmi = 0.0;
+                if (userInfo.profile?.weight != null &&
+                    userInfo.profile?.height != null) {
+                  bmi = calculateBMI(
+                      userInfo.profile!.weight!, userInfo.profile!.height!);
+                }
                 return SingleChildScrollView(
                   padding: const EdgeInsets.only(bottom: 16),
                   child: Padding(
@@ -137,8 +146,7 @@ class _UserInformationState extends State<UserInformation> {
                               Hero(
                                 tag: "02",
                                 child: Text(
-                                  // userInfo.profile!.fullName!,
-                                  userInfo.profile!.fullName!,
+                                  userInfo.profile?.fullName ?? 'N/A',
                                   style: Theme.of(context).textTheme.titleLarge,
                                 ),
                               ),
@@ -146,26 +154,11 @@ class _UserInformationState extends State<UserInformation> {
                               Hero(
                                 tag: "03",
                                 child: Text(
-                                  userInfo.userName!,
+                                  userInfo.userName ?? 'N/A',
                                   style: Theme.of(context).textTheme.titleLarge,
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              const Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  // Text(
-                                  //   "Mã người dùng:",
-                                  //   style:
-                                  //       Theme.of(context).textTheme.bodyMedium,
-                                  // ),
-                                  // Text(
-                                  //   userInfo.idUser.toString(),
-                                  //   style:
-                                  //       Theme.of(context).textTheme.bodyMedium,
-                                  // ),
-                                ],
-                              ),
                               const SizedBox(height: 16),
                               Row(
                                 children: [
@@ -198,7 +191,6 @@ class _UserInformationState extends State<UserInformation> {
                                             builder: (context) =>
                                                 EditInfomationUser(
                                               infoModel: userInfomation!,
-                                              // refeshPage: refeshPage,
                                             ),
                                           ),
                                         );
@@ -227,62 +219,6 @@ class _UserInformationState extends State<UserInformation> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Thông tin toa thuốc & thuốc",
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
-                              const SizedBox(height: 16),
-                              Row(
-                                children: [
-                                  const Icon(Symbols.pill),
-                                  const SizedBox(width: 10),
-                                  const Text("Có tổng cộng "),
-                                  Text(
-                                    "20",
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                  const Text(" thuốc trong "),
-                                  Text(
-                                    "5",
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                  const Text(" toa")
-                                ],
-                              ),
-                              const SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  const Icon(Symbols.pill),
-                                  const SizedBox(width: 10),
-                                  const Text("Đã mua "),
-                                  Text(
-                                    "10",
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                  const Text(" thuốc "),
-                                  Text(
-                                    "1.000.000 VNĐ",
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.8),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
                                 "Thông tin cá nhân",
                                 style: Theme.of(context).textTheme.titleLarge,
                               ),
@@ -292,29 +228,25 @@ class _UserInformationState extends State<UserInformation> {
                                   const Icon(Symbols.email),
                                   const SizedBox(width: 10),
                                   const Text("Email: "),
-                                  Text(userInfo.email!)
+                                  Text(userInfo.email ?? 'N/A')
                                 ],
                               ),
-                              const SizedBox(
-                                height: 16,
-                              ),
+                              const SizedBox(height: 16),
                               Row(
                                 children: [
                                   const Icon(Symbols.email),
                                   const SizedBox(width: 10),
                                   const Text("Họ Tên: "),
-                                  Text(userInfo.profile!.fullName!)
+                                  Text(userInfo.profile?.fullName ?? 'N/A')
                                 ],
                               ),
-                              const SizedBox(
-                                height: 16,
-                              ),
+                              const SizedBox(height: 16),
                               Row(
                                 children: [
                                   const Icon(Symbols.email),
                                   const SizedBox(width: 10),
                                   const Text("Số điện thoại: "),
-                                  Text(userInfo.profile!.phone!)
+                                  Text(userInfo.profile?.phone ?? 'N/A')
                                 ],
                               ),
                               const SizedBox(height: 16),
@@ -336,8 +268,7 @@ class _UserInformationState extends State<UserInformation> {
                                             const SizedBox(width: 10),
                                             const Text("Cân nặng: "),
                                             Text(
-                                              "${userInfo.profile!.weight.toString()} kg",
-                                              //     "${userInfo.profile!.weight}kg",
+                                              "${userInfo.profile?.weight ?? 'N/A'} kg",
                                             ),
                                           ],
                                         ),
@@ -348,8 +279,7 @@ class _UserInformationState extends State<UserInformation> {
                                             const SizedBox(width: 10),
                                             const Text("Chiều cao: "),
                                             Text(
-                                              // "${userInfo.profile!.height.toString()}cm",
-                                              "${userInfo.profile?.height ?? 0} cm",
+                                              "${userInfo.profile?.height ?? 'N/A'} cm",
                                             ),
                                           ],
                                         ),
@@ -358,7 +288,14 @@ class _UserInformationState extends State<UserInformation> {
                                     Row(
                                       children: [
                                         Text(
-                                          "BMI: 23.9",
+                                          "BMI: ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .displaySmall,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        Text(
+                                          bmi.toStringAsFixed(1),
                                           style: Theme.of(context)
                                               .textTheme
                                               .displaySmall,
@@ -376,8 +313,7 @@ class _UserInformationState extends State<UserInformation> {
                                   const SizedBox(width: 10),
                                   const Text("Tuổi hiện tại: "),
                                   Text(
-                                    // "(${userInfo.profile!.age.toString()} tuổi)",
-                                    "${userInfo.profile?.age ?? 0} tuổi",
+                                    "${userInfo.profile?.age ?? 'N/A'} tuổi",
                                   ),
                                 ],
                               ),
@@ -388,12 +324,27 @@ class _UserInformationState extends State<UserInformation> {
                                   const SizedBox(width: 10),
                                   const Text("Giới tính: "),
                                   Text(
-                                    "${userInfo.profile!.gender?.trim() ?? 'N/A'}",
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                    userInfo.profile?.gender?.trim() == "Nam"
+                                        ? "Nam"
+                                        : "Nữ",
                                   ),
                                 ],
                               ),
+                              const SizedBox(height: 16),
+                              Row(
+                                children: [
+                                  const Icon(Symbols.home_pin),
+                                  const SizedBox(width: 10),
+                                  const Text("Địa chỉ: "),
+                                  Flexible(
+                                    child: Text(
+                                      "${userInfo.profile?.address ?? 'N/A'}",
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
                             ],
                           ),
                         ),

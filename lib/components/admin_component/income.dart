@@ -104,7 +104,8 @@ class _IncomePageState extends State<IncomePage> {
                           width: 10,
                         ),
                         Expanded(
-                          child: Text("${checkPercent(totalUpPercent)} so với năm ngoái",
+                          child: Text(
+                              "${checkPercent(totalUpPercent)} so với năm ngoái",
                               style: Theme.of(context).textTheme.bodyMedium),
                         )
                       ],
@@ -133,7 +134,8 @@ class _IncomePageState extends State<IncomePage> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       const Icon(Symbols.calendar_today),
                                       Text(
