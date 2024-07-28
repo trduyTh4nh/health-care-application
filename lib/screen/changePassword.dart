@@ -20,6 +20,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   final TextEditingController newRepassController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isLoading = false;
+  bool _isSecurePassword = true;
 
   void _changePassword(String newPassword) async {
     if (!mounted) return;
@@ -46,11 +47,17 @@ class _ChangePasswordState extends State<ChangePassword> {
     });
   }
 
-  // void _changePassword(String newPassword) async {
-  //   String? token = await SecureStorage.getToken();
-  //   await UserRepo().changePassword(newPassword, token);
-  //   print("NewPassword: $newPassword");
-  // }
+  Widget tooglePassword() {
+    return IconButton(
+        onPressed: () {
+          setState(() {
+            _isSecurePassword = !_isSecurePassword;
+          });
+        },
+        icon: _isSecurePassword
+            ? const Icon(Icons.visibility_off_outlined)
+            : const Icon(Icons.visibility_outlined));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +83,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Thêm hình ảnh
                           Center(
                             child: SvgPicture.asset(
                               'assets/images/undraw_forgot_password.svg',
@@ -101,25 +107,28 @@ class _ChangePasswordState extends State<ChangePassword> {
                           ),
                           TextFormField(
                             controller: passCurrentController,
-                            decoration: const InputDecoration(
+                            obscureText: _isSecurePassword,
+                            onChanged: (value) {},
+                            decoration: InputDecoration(
+                              suffixIcon: tooglePassword(),
                               hintText: 'Nhập mật khẩu hiện tại',
-                              hintStyle: TextStyle(
+                              hintStyle: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w100,
                                 fontStyle: FontStyle.normal,
                                 color: Color.fromARGB(255, 216, 206, 206),
                               ),
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 10, horizontal: 16),
-                              border: UnderlineInputBorder(
+                              border: const UnderlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.grey, width: 3),
                               ),
-                              focusedBorder: UnderlineInputBorder(
+                              focusedBorder: const UnderlineInputBorder(
                                 borderSide: BorderSide(
                                     color: AppColors.primaryColor, width: 3),
                               ),
-                              enabledBorder: UnderlineInputBorder(
+                              enabledBorder: const UnderlineInputBorder(
                                 borderSide: BorderSide(
                                     color: AppColors.greyColor, width: 2),
                               ),

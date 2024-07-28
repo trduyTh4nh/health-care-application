@@ -288,13 +288,18 @@ class _MedicinesOrderState extends State<MedicinesOrder> {
                                                     "id_user": idUser,
                                                     "isconfirmed": false,
                                                     "priority": 2,
-                                                    "id_order": isPay,
+                                                    "id_invoice": isPay,
                                                     "id_schedule_detail": null
                                                   });
                                                   showCustomSnackBar(
                                                       navigatorKey
                                                           .currentContext!,
                                                       "Thanh toán thành công");
+                                                  navigatorKey.currentState!
+                                                      .push(MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const AppPage(),
+                                                  ));
                                                 } else {
                                                   showCustomSnackBar(context,
                                                       "Thanh toán thất bại!");

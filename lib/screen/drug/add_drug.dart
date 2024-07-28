@@ -20,8 +20,8 @@ class AddDrugPage extends StatefulWidget {
 
 class _AddDrugPageState extends State<AddDrugPage> {
   int _currentPageIndex = 0;
-  PageController _pageController = PageController();
-  List<Widget> pages = [
+  final PageController _pageController = PageController();
+  List<Widget> pages = const [
     AddDrugInfoPage(),
     AddDrugHabitPage(),
     AddDrugSchedulePage(),

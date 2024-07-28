@@ -7,6 +7,7 @@ import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/notification_model.dart';
+import 'package:app_well_mate/screen/drug/medicine_order/widget_prescriptionstatus_cancel_medicine.dart';
 import 'package:app_well_mate/screen/drug_info.dart';
 import 'package:app_well_mate/screen/error_page.dart';
 import 'package:app_well_mate/screen/hospital_detail.dart';
@@ -35,9 +36,7 @@ class _NotifyComponentState extends State<NotifyComponent> {
     // ignore: unnecessary_null_comparison
     if (cateWidget != null) {
       if (cateWidget == '2') {
-        return OrderStatus(
-          notifiItem: widget.notifiItem,
-        );
+        return WidgetPrescriptionstatusCancelMedicine(idInvoice: widget.notifiItem.idPayment,);
       } else if (cateWidget == 'important') {
         return HospitalDetailPage(notifiItem: widget.notifiItem);
       } else {

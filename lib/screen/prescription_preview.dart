@@ -6,6 +6,7 @@ import 'package:app_well_mate/components/snack_bart.dart';
 import 'package:app_well_mate/const/color_scheme.dart';
 import 'package:app_well_mate/main.dart';
 import 'package:app_well_mate/model/prescription_detail_model.dart';
+import 'package:app_well_mate/model/prescription_model.dart';
 import 'package:app_well_mate/model/schedule_detail_model.dart';
 import 'package:app_well_mate/providers/notification_provider.dart';
 import 'package:app_well_mate/screen/search/component_crawl.dart';
@@ -33,9 +34,11 @@ class _PrescriptionPreviewState extends State<PrescriptionPreview> {
   DrugRepo drugRepo = DrugRepo();
   Future<void>? future;
   List<ScheduleDetailModel>? data = [];
+  PrescriptionModel? model;
   Future<void>? addFuture;
   getData() async {
     data = await repo.getScheduleBy(widget.idPre);
+    model = await appRepo.getApplicationBy(widget.idPre);
     setState(() {});
   }
 
@@ -155,7 +158,7 @@ class _PrescriptionPreviewState extends State<PrescriptionPreview> {
                               rightDotColor: colorScheme.error,
                               size: 16);
                         }
-                        return const Text("Thêm");
+                        return const Text("Nhập toa thuốc");
                       })),
             ),
           ],
@@ -170,6 +173,20 @@ class _PrescriptionPreviewState extends State<PrescriptionPreview> {
                     leftDotColor: colorScheme.primary,
                     rightDotColor: colorScheme.error,
                     size: 48),
+              );
+            }
+            if (data == null) {
+              return Center(
+                child: ErrorInfo(
+                  title: "Lỗi hệ thống",
+                  subtitle: "Hệ thống đang gặp lỗi, vui lòng thử lại sau.",
+                  icon: Symbols.pill_off_rounded,
+                  action: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text("Quay lại")),
+                ),
               );
             }
             if (data!.isEmpty) {
@@ -195,6 +212,11 @@ class _PrescriptionPreviewState extends State<PrescriptionPreview> {
             return SingleChildScrollView(
               child: Column(
                 children: [
+                  Text("Sở Y Tế TP. Hồ Chí Minh".toUpperCase()),
+                  Text((model!.hospital!.name ?? "").toUpperCase()),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Center(
                     child: Text(
                       "Đơn thuốc",
@@ -206,6 +228,23 @@ class _PrescriptionPreviewState extends State<PrescriptionPreview> {
                     height: 10,
                   ),
                   SvgPicture.string(svg ?? ""),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Bác sĩ ${model!.doctorName}",
+                    style: TextStyle(
+                        fontFamily:
+                            GoogleFonts.inter(fontWeight: FontWeight.bold)
+                                .fontFamily),
+                  ),
+                  Text(
+                    "Loại bệnh: ${model!.nameDisease}",
+                    style: TextStyle(
+                        fontFamily:
+                            GoogleFonts.inter(fontWeight: FontWeight.bold)
+                                .fontFamily),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Row(

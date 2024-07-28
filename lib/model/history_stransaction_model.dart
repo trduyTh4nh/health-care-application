@@ -1,3 +1,6 @@
+import 'package:app_well_mate/model/address_model.dart';
+import 'package:app_well_mate/model/invoice_detail_model.dart';
+
 class HistoryStransactionModel {
   int? idInvoice;
   int? idUser;
@@ -8,9 +11,13 @@ class HistoryStransactionModel {
   String? notes;
   int? idAddress;
   String? idPayPal;
-
+  AddressModel? address;
+  int? countDrug;
+  bool? isDestroy;
+  List<InvoiceDetailModel>? listInvoiceDetail;
   HistoryStransactionModel({
     this.idInvoice,
+    this.isDestroy,
     this.idUser,
     this.createDate,
     this.totalPrice,
@@ -18,6 +25,7 @@ class HistoryStransactionModel {
     this.notes,
     this.idAddress,
     this.idPayPal,
+    this.countDrug
   });
 
   factory HistoryStransactionModel.fromJson(Map<String, dynamic> json) {
@@ -34,6 +42,7 @@ class HistoryStransactionModel {
       notes: json['notes'],
       idAddress: json['id_address'],
       idPayPal: json['id_paypal'],
+      isDestroy: json['isdestroy'] ?? false
     );
   }
 

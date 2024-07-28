@@ -13,7 +13,6 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 class EditInfomationUser extends StatefulWidget {
   EditInfomationUser({super.key, required this.infoModel});
   final InfoUserModel infoModel;
-  // Function? refeshPage;
   @override
   State<EditInfomationUser> createState() => _EditInfomationUserState();
 }
@@ -44,12 +43,11 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
     var userInfo = await ApiRepo().getInfoUser();
     if (userInfo != null) {
       // userInfomation = userInfo;
+      fullName = userInfo.profile?.fullName ?? '';
 
       setState(() {
         userInfomation = userInfo;
-        fullName = userInfo.profile?.fullName ?? '';
         userName = userInfo.userName;
-        print('Full Name $fullName');
       });
     }
   }
@@ -208,7 +206,10 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                         alignment: Alignment.center,
                         child: Text(
                           // 'Trần Thanh Duy',
-                          fullName ?? "Full Name",
+                          // fullName ?? "Full Name",
+                          fullNameController.text.isNotEmpty
+                              ? fullNameController.text
+                              : "Full name",
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
@@ -349,36 +350,6 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                         const SizedBox(
                           height: 16,
                         ),
-                        // Text(
-                        //   "Giới tính",
-                        //   style: Theme.of(context).textTheme.bodyLarge,
-                        // ),
-                        // TextField(
-                        //   controller: genderController,
-                        //   decoration: const InputDecoration(
-                        //     hintText: 'Nam',
-                        //     hintStyle: TextStyle(
-                        //       fontSize: 14,
-                        //       fontWeight: FontWeight.normal,
-                        //       fontStyle: FontStyle.normal,
-                        //       color: Color.fromARGB(255, 206, 206, 206),
-                        //     ),
-                        //     contentPadding: EdgeInsets.symmetric(
-                        //         vertical: 10, horizontal: 0),
-                        //     border: UnderlineInputBorder(
-                        //       borderSide: BorderSide(
-                        //         color: AppColors.primaryColor,
-                        //         width: 2,
-                        //       ),
-                        //     ),
-                        //     enabledBorder: UnderlineInputBorder(
-                        //       borderSide: BorderSide(
-                        //         color: AppColors.greyColor,
-                        //         width: 2,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
                         Text(
                           "Giới tính",
                           style: Theme.of(context).textTheme.bodyLarge,
@@ -430,7 +401,6 @@ class _EditInfomationUserState extends State<EditInfomationUser> {
                             ),
                           ),
                         ),
-
                         const SizedBox(
                           height: 16,
                         ),

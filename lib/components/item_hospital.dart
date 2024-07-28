@@ -1,10 +1,6 @@
-import 'package:app_well_mate/components/hero_widget.dart';
 import 'package:app_well_mate/model/hospital_model.dart';
-import 'package:app_well_mate/screen/admin/hospital_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-enum HospitalEditOption { delete, edit }
 
 class ItemHospital extends StatelessWidget {
   final HospitalModel hospital;
@@ -15,96 +11,66 @@ class ItemHospital extends StatelessWidget {
     String formattedDate = DateFormat('dd-MM-yyyy').format(hospital.createdDate ?? DateTime.now());
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HospitalDetail(hospital: hospital),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(0, 3),
             ),
-          );
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Row(
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 children: [
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: CircleAvatar(
-                      radius: 20,
-                      backgroundImage: (hospital.avatars != null && hospital.avatars!.isNotEmpty)
-                          ? NetworkImage(hospital.avatars!) 
-                          : const AssetImage('assets/images/quang_avt.jpeg') as ImageProvider,
-                    ),
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundImage: hospital.avatars != null &&
+                            hospital.avatars!.isNotEmpty
+                        ? NetworkImage(hospital.avatars!)
+                        : AssetImage('assets/images/quang_avt.jpeg')
+                            as ImageProvider,
                   ),
+                  const SizedBox(width: 12),
                   Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  hospital.name ?? 'N/A',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(
-                                        fontFamily: "Inter",
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                      ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                "Ký hợp đồng ngày ",
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          hospital.name ?? "N/A",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                "Ký hợp đồng ngày: $formattedDate",
                                 style: Theme.of(context).textTheme.labelMedium,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              Text(
-                                formattedDate,
-                                style: Theme.of(context).textTheme.labelMedium,
-                              ),
-                            ],
-                          ),
-                          // const Row(
-                          //   children: [
-                          //     Text("#201"),
-                          //   ],
-                          // ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
-            ),
-            // PopupMenuButton(
-            //   itemBuilder: (context) => const [
-            //     PopupMenuItem(
-            //       value: HospitalEditOption.edit,
-            //       child: Text("Chỉnh sửa"),
-            //     ),
-            //     PopupMenuItem(
-            //       value: HospitalEditOption.delete,
-            //       child: Text("Xóa"),
-            //     ),
-            //   ],
-            // ),
-          ],
+            ],
+          ),
         ),
       ),
     );

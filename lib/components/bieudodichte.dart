@@ -1,6 +1,10 @@
+import 'package:app_well_mate/api/disease/disease_admin_repo.dart';
 import 'package:app_well_mate/components/bottomTitleWidgets.dart';
 import 'package:app_well_mate/components/leftTitleWidgets.dart';
 import 'package:app_well_mate/main.dart';
+import 'package:app_well_mate/model/disease.dart';
+import 'package:app_well_mate/model/diseaseOfYear.dart';
+import 'package:app_well_mate/screen/search/component_crawl.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -13,28 +17,68 @@ class Bieudodichte extends StatefulWidget {
 
 class _BieudodichteState extends State<Bieudodichte>
     with TickerProviderStateMixin {
-  String dropdownValue01 = 'Sốt xuất huyết';
+
+  String? dropdownValue01;
+  List<String> diseaseNames = [];
   List<Color> gradientColors = [
-    colorScheme.primary,
+    Colors.blue,
     Colors.white,
   ];
+  List<Disease> allDes=[];
+    List<Diseaseofyear> diseaseDataOfYear = [];
+
+ 
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDiseaseNames();
+    getAllDisease();
+    DiseaseAdminRepo().getNumDiseaseOfYear(10, 2024);
+  }
+  Future<void> fetchDiseaseDataOfYear(int idDis, int year)async{
+    try {
+      DiseaseAdminRepo repo = DiseaseAdminRepo();
+      List<Diseaseofyear> data = await repo.getNumDiseaseOfYear(idDis, year);
+
+      setState(() {
+        diseaseDataOfYear = data; // Lưu dữ liệu bệnh của năm vào biến
+      });
+    } catch (ex) {
+      print("Error fetching disease data: $ex");
+    }
+  }
+ Future<List<Disease>> getAllDisease()async{
+     allDes=await DiseaseAdminRepo().getAllDisease();
+    setState(() {
+      if(allDes.isNotEmpty){
+         dropdownValue01 =allDes[0].disease_name; 
+      }
+    });
+    return allDes;
+  }
+  Future<void> fetchDiseaseNames() async {
+    try {
+      DiseaseAdminRepo repo = DiseaseAdminRepo();
+      List<String> names = await repo.getDiseaseNames();
+
+      setState(() {
+        if (names.isNotEmpty) {
+          diseaseNames = names;
+          dropdownValue01 = diseaseNames.first; 
+        }
+      });
+    } catch (ex) {
+      print("Error fetching disease names: $ex");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final sizeHeight = MediaQuery.of(context).size.height;
-    final sizeWidht = MediaQuery.of(context).size.width;
-    const List<String> list01 = <String>[
-      'Sốt xuất huyết',
-      'Cảm',
-      'Ngứa',
-      'Đậu Mùa'
-    ];
-
-    Map<String, List<double>> diseaseData = {
-      'Sốt xuất huyết': [0, 4, 5, 6, 2, 7, 1, 1, 4, 7, 4.2, 1, 5],
-      'Cảm': [0, 3, 4, 6, 7, 5, 3, 2, 2.1, 3, 4, 7, 3],
-      'Ngứa': [0, 3, 5, 7, 6, 4, 6, 3, 2, 5, 6, 1, 2],
-      'Đậu Mùa': [0, 6, 4, 3, 7, 3, 4.3, 2, 1, 3, 5, 6, 3],
-    };
+    final sizeWidth = MediaQuery.of(context).size.width;
 
     return Column(
       children: [
@@ -42,33 +86,40 @@ class _BieudodichteState extends State<Bieudodichte>
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: DropdownButton<String>(
             isExpanded: true,
-            value: dropdownValue01, // Sử dụng biến trạng thái ở đây
-            items: list01.map<DropdownMenuItem<String>>((String value) {
+            value: dropdownValue01,
+            items: allDes.map<DropdownMenuItem<String>>((Disease valuee) {
               return DropdownMenuItem<String>(
-                value: value,
+                value: valuee.disease_name,
                 child: Row(
                   children: [
                     const Icon(Icons.coronavirus_outlined),
                     const SizedBox(
                       width: 10,
                     ),
-                    Text(value)
+                    Text(valuee.disease_name!),
                   ],
                 ),
               );
             }).toList(),
-            onChanged: (String? value) {
+            onChanged: (String? value)async {
+              log("day la nguoi duoc chon: $value");
               setState(() {
-                dropdownValue01 = value!; // Cập nhật biến trạng thái
-                print(dropdownValue01);
+                dropdownValue01 = value;
               });
+               Disease? selectedDisease = allDes.firstWhere(
+                  (disease) => disease.disease_name == value,
+                  );
+
+              if (selectedDisease != null) {
+                await fetchDiseaseDataOfYear(selectedDisease.id_disease!, 2024); // Sửa thành đúng ID và năm
+              }
             },
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 16, left: 10, right: 10),
           child: SizedBox(
-            width: sizeWidht,
+            width: sizeWidth,
             height: sizeHeight * 0.35,
             child: LineChart(
               LineChartData(
@@ -103,7 +154,6 @@ class _BieudodichteState extends State<Bieudodichte>
                       showTitles: true,
                       reservedSize: 30,
                       interval: 1,
-                      // tilte cho bên dưới
                       getTitlesWidget: bottomTitleWidgets,
                     ),
                   ),
@@ -111,7 +161,6 @@ class _BieudodichteState extends State<Bieudodichte>
                     sideTitles: SideTitles(
                       showTitles: true,
                       interval: 1,
-                      // title cho bên trái
                       getTitlesWidget: leftTitleWidgets,
                       reservedSize: 25,
                     ),
@@ -126,16 +175,9 @@ class _BieudodichteState extends State<Bieudodichte>
                 minY: 0,
                 maxY: 8,
                 lineBarsData: [
-                  // nơi lấy dữ liệu cho biểu đồ
                   LineChartBarData(
-                    spots: List.generate(
-                        13,
-                        (index) => FlSpot(index.toDouble(),
-                            diseaseData[dropdownValue01]![index])),
+                    spots: _generateSpotsForSelectedDisease(),
                     isCurved: true,
-                    // gradient: LinearGradient(
-                    //   colors: gradientColors,
-                    // ),
                     color: colorScheme.primary,
                     barWidth: 5,
                     isStrokeCapRound: true,
@@ -157,8 +199,20 @@ class _BieudodichteState extends State<Bieudodichte>
               ),
             ),
           ),
-        )
+        ),
       ],
     );
+  }
+
+List<FlSpot> _generateSpotsForSelectedDisease() {
+    if (diseaseDataOfYear.isEmpty) {
+      return [];
+    }
+
+    return diseaseDataOfYear.map((disease) {
+      int month = int.parse(disease.month ?? '0'); // Tháng
+      double count = double.parse(disease.count ?? '0.0'); // Số lượng b  ệnh
+      return FlSpot(month.toDouble(), count);
+    }).toList();
   }
 }
